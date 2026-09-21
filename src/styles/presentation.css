@@ -1,0 +1,4 @@
+:root {
+  /* The black theme uppercases headings, which mangles Python identifiers. */
+  --r-heading-text-transform: none;
+}
