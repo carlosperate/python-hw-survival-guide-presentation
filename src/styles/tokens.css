@@ -1,0 +1,52 @@
+/*
+  Palette sampled from the board mockup. The two accent hues are the Python
+  logo colours, used here the way copper and silkscreen are used on a real
+  board: yellow carries signal, blue carries the second layer.
+*/
+:root {
+  /* Solder mask */
+  --pcb-board-deep: #001b0e;
+  --pcb-board: #002e18;
+  --pcb-board-hi: #043b20;
+  --pcb-board-panel: #06331d;
+
+  /* Silkscreen */
+  --pcb-silk: #f5f3e8;
+  --pcb-silk-dim: #a9b7a4;
+  --pcb-silk-mute: #74876f;
+
+  /* Copper, from the Python logo */
+  --pcb-gold: #fdca42;
+  --pcb-gold-deep: #c89226;
+  --pcb-blue: #3fa0f0;
+  --pcb-yellow: #ffd43b;
+  --pcb-py-blue: #4b8bbe;
+
+  /* Indicators */
+  --pcb-led-green: #3be07a;
+  --pcb-led-red: #ff6b57;
+
+  /* Deck geometry, in deck coordinates (1280x720) */
+  --pcb-pad-x: 84px;
+  --pcb-pad-y: 58px;
+  --pcb-rail-y: 34px;
+
+  /* Type. Roboto at light weights, after quarto-revealjs-clean. */
+  --pcb-font-display: "Roboto Variable", system-ui, sans-serif;
+  --pcb-font-body: "Roboto Variable", system-ui, sans-serif;
+  --pcb-font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --pcb-display-weight: 350;
+  --pcb-heading-weight: 400;
+  --pcb-body-weight: 300;
+
+  /* Motion. Everything animated in the theme reads one of these. */
+  --pcb-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --pcb-speed: 260ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --pcb-speed: 1ms;
+  }
+}

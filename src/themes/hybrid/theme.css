@@ -1,0 +1,152 @@
+/* Classic's board and palette with refined's type weights, its part-centred
+   cover, clean section dividers and quieter content components. */
+:root[data-theme="hybrid"] {
+  --pcb-display-weight: 570;
+  --pcb-heading-weight: 520;
+  --pcb-body-weight: 350;
+  --hybrid-font-title: "Oxanium Variable", var(--pcb-font-display);
+}
+
+/* ---------- Board: cover and section ---------- */
+
+/* The cover QR gets its own clearance, so the frame's QR package, and the
+   edge stub that ran under the LED block, come off. */
+[data-theme="hybrid"] .board[data-board="cover"] #qr-footprint,
+[data-theme="hybrid"] .board[data-board="cover"] #edge-stub-right {
+  display: none;
+}
+
+/* Centred in this frame's QFN body (x 1120-1212, y 587-679), 10px lower than classic's. */
+[data-theme="hybrid"] .board__qr {
+  bottom: 51px;
+}
+
+/* Clears the via left of the QFN, which sits level with the slide count. */
+[data-theme="hybrid"] .board__rail {
+  right: 294px;
+}
+
+[data-theme="hybrid"] .board[data-board="cover"] .board__qr {
+  right: 84px;
+  bottom: 58px;
+  width: 128px;
+}
+
+/* The bus would run through the ghosted part number. */
+[data-theme="hybrid"] .board[data-board="section"] .board__art {
+  opacity: 0;
+}
+
+/* J1: pads at x 1136 on a 36px pitch, matching the fan-out in cover.svg. */
+[data-theme="hybrid"] .board__pins {
+  top: 189px;
+  right: auto;
+  left: 1125px;
+  grid-template-columns: 22px auto;
+  justify-items: start;
+  gap: 14px 16px;
+}
+
+[data-theme="hybrid"] .board__pin-pad {
+  background: var(--pcb-board-deep);
+}
+
+[data-theme="hybrid"] .board__pin-pad--first {
+  border-radius: 3px;
+}
+
+.hybrid__silk {
+  position: absolute;
+  font-family: var(--pcb-font-mono);
+  font-weight: 500;
+  color: var(--pcb-silk-mute);
+}
+
+.hybrid__silk--u1 {
+  left: 918px;
+  top: 206px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.hybrid__silk--j1 {
+  left: 1124px;
+  top: 370px;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+}
+
+/* The mark sits inside U1's body (x 896-1040, y 200-344), under its label. */
+[data-theme="hybrid"] .reveal .cover__mark {
+  left: 924px;
+  top: 228px;
+  right: auto;
+  width: 88px;
+  height: 88px;
+}
+
+/* ---------- Type ---------- */
+
+/* Oxanium's chamfered corners echo the 45° traces. Titles and numerals only:
+   quotes and body copy stay on Roboto. */
+[data-theme="hybrid"] .reveal :is(h1, h2, h3, h4),
+[data-theme="hybrid"] .reveal .section-slide::before,
+[data-theme="hybrid"] .reveal .spec__value {
+  font-family: var(--hybrid-font-title);
+}
+
+[data-theme="hybrid"] .reveal h2 {
+  letter-spacing: -0.005em;
+}
+
+[data-theme="hybrid"] .reveal .cover h1 {
+  letter-spacing: -0.015em;
+}
+
+/* ---------- Components ---------- */
+
+[data-theme="hybrid"] .reveal ol {
+  max-width: 34em;
+}
+
+[data-theme="hybrid"] .reveal ol li {
+  padding-left: 2.6em;
+  margin-bottom: 0.8em;
+  padding-bottom: 0.55em;
+  border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk) 10%, transparent);
+}
+
+[data-theme="hybrid"] .reveal ol li::before {
+  top: 0.15em;
+  font-size: 0.7em;
+  font-weight: 500;
+}
+
+[data-theme="hybrid"] .reveal .specs {
+  gap: 32px;
+}
+
+[data-theme="hybrid"] .reveal .specs > div {
+  padding-top: 25px;
+  border-top: 2px solid var(--pcb-blue);
+}
+
+[data-theme="hybrid"] .reveal .spec__value {
+  font-weight: 520;
+  letter-spacing: -0.015em;
+}
+
+[data-theme="hybrid"] .reveal pre {
+  font-size: 24px;
+  line-height: 1.48;
+}
+
+/* Lines outside the current step stay readable. */
+[data-theme="hybrid"] .reveal .hljs.has-highlights tr:not(.highlight-line) {
+  opacity: 0.6;
+}
+
+/* Gold arrows on top of the QR's gold escapes read as more copper. */
+[data-theme="hybrid"] .reveal .controls {
+  color: var(--pcb-silk-mute);
+}

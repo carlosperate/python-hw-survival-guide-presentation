@@ -1,4 +1,4 @@
-:root {
-  /* The black theme uppercases headings, which mangles Python identifiers. */
-  --r-heading-text-transform: none;
-}
+@import "./tokens.css";
+@import "./theme.css";
+@import "./board.css";
+@import "./components.css";

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" fill="none" role="presentation">
+  <!-- Board edge, mounting holes, and a quiet routing detail in the top gutter
+       of content slides; theme.css hides that detail on the cover. -->
+  <defs>
+    <g id="refined-hole" stroke="var(--pcb-silk)" stroke-opacity=".24">
+      <circle r="10"/><circle r="5" stroke-opacity=".4"/>
+    </g>
+  </defs>
+
+  <path d="M44 28H1236L1252 44V676L1236 692H44L28 676V44Z"
+    stroke="var(--pcb-silk)" stroke-opacity=".13"/>
+  <use href="#refined-hole" x="52" y="52"/>
+  <use href="#refined-hole" x="1228" y="52"/>
+  <use href="#refined-hole" x="52" y="668"/>
+  <use href="#refined-hole" x="1228" y="668"/>
+
+  <!-- Quiet routing detail in the top gutter of content slides. -->
+  <g class="refined__content-routing" stroke="var(--pcb-blue)" stroke-opacity=".45" stroke-width="1.4">
+    <path d="M1044 65H1124L1148 89H1200"/>
+    <path d="M1044 75H1120L1144 99H1184"/>
+    <path d="M1044 85H1116L1140 109H1168"/>
+    <g fill="var(--pcb-board)" stroke="var(--pcb-gold)" stroke-opacity=".75">
+      <circle cx="1044" cy="65" r="3"/><circle cx="1044" cy="75" r="3"/><circle cx="1044" cy="85" r="3"/>
+      <circle cx="1200" cy="89" r="3"/><circle cx="1184" cy="99" r="3"/><circle cx="1168" cy="109" r="3"/>
+    </g>
+  </g>
+</svg>

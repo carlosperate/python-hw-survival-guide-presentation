@@ -1,0 +1,430 @@
+/*
+  Slide-level building blocks. Each one is a class you add in index.html; none
+  of them need JavaScript.
+*/
+
+/* ---------- Rules ---------- */
+
+.reveal .trace-rule {
+  display: block;
+  width: 190px;
+  height: 4px;
+  margin: 0 0 24px;
+  border-radius: 2px;
+  background: linear-gradient(to right, var(--pcb-blue) 0 46%, var(--pcb-gold) 46% 100%);
+}
+
+/* Title block: the blue-to-gold trace under the heading ties every slide to
+   the cover. */
+.reveal .slide-head {
+  position: relative;
+  flex: none;
+  margin: 0 0 34px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid color-mix(in srgb, var(--pcb-gold) 18%, transparent);
+}
+
+.reveal .slide-head::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 150px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(to right, var(--pcb-blue), var(--pcb-gold));
+}
+
+.reveal .slide-head > :last-child {
+  margin-bottom: 0;
+}
+
+.reveal .lede {
+  font-size: 1.16em;
+  line-height: 1.45;
+  color: var(--pcb-silk-dim);
+  max-width: 22em;
+}
+
+.reveal .tagline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 34px;
+  max-width: none;
+  margin: 0;
+  font-family: var(--pcb-font-mono);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--pcb-silk-dim);
+}
+
+/* Inline net / signal name. */
+.reveal .net {
+  font-family: var(--pcb-font-mono);
+  font-size: 0.88em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--pcb-gold);
+}
+
+/* Rotated silkscreen stamp, e.g. a revision marker. */
+.reveal .stamp {
+  position: absolute;
+  right: calc(var(--pcb-pad-x) - 26px);
+  top: 50%;
+  transform: rotate(90deg);
+  transform-origin: right center;
+  margin: 0;
+  font-family: var(--pcb-font-mono);
+  font-size: 13px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--pcb-silk-mute) 70%, transparent);
+}
+
+/* ---------- Cover ---------- */
+
+.reveal .cover {
+  position: relative;
+  justify-content: center;
+}
+
+.reveal .cover__main {
+  max-width: 830px;
+}
+
+.reveal .cover h1 {
+  font-size: 83px;
+  margin-bottom: 30px;
+}
+
+.reveal .cover .tagline {
+  margin-top: 26px;
+}
+
+.reveal .cover__sub {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin: 0;
+  max-width: none;
+  font-family: var(--pcb-font-mono);
+  font-size: 30px;
+  font-weight: 400;
+  color: var(--pcb-silk);
+}
+
+.reveal .trace-rule--inline {
+  flex: none;
+  width: 160px;
+  margin: 0;
+}
+
+/* Sits in the gap between the title column and the pin header. */
+.reveal .cover__mark {
+  position: absolute;
+  right: 246px;
+  top: 196px;
+  width: 128px;
+  height: 128px;
+}
+
+.reveal .cover__corner {
+  position: absolute;
+  margin: 0;
+  max-width: 16em;
+  font-family: var(--pcb-font-mono);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.7;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--pcb-silk-dim);
+}
+
+.reveal .cover__corner--tl {
+  top: var(--pcb-pad-y);
+  left: var(--pcb-pad-x);
+}
+
+.reveal .cover__corner--bl {
+  bottom: var(--pcb-pad-y);
+  left: var(--pcb-pad-x);
+}
+
+.reveal .cover__corner::after {
+  content: "";
+  display: block;
+  width: 34px;
+  height: 2px;
+  margin-top: 14px;
+  background: color-mix(in srgb, var(--pcb-gold) 60%, transparent);
+}
+
+/* Board names along the bottom edge, the way a footprint library is listed. */
+.reveal .chip-list {
+  position: absolute;
+  left: 50%;
+  bottom: 38px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+  max-width: none;
+  font-family: var(--pcb-font-mono);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pcb-silk-mute);
+}
+
+.reveal .chip-list li {
+  margin: 0;
+  padding: 0;
+}
+
+.reveal .chip-list li::before {
+  content: none;
+}
+
+.reveal .chip-list li + li::after {
+  content: "";
+}
+
+.reveal .chip-list li:not(:last-child) {
+  padding-right: 16px;
+  border-right: 1px solid color-mix(in srgb, var(--pcb-silk-mute) 55%, transparent);
+}
+
+/* ---------- Section divider ---------- */
+
+.reveal .section-slide {
+  position: relative;
+  justify-content: center;
+}
+
+.reveal .section-slide::before {
+  content: attr(data-part);
+  position: absolute;
+  right: var(--pcb-pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--pcb-font-display);
+  font-size: 318px;
+  font-weight: var(--pcb-display-weight);
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 2px color-mix(in srgb, var(--pcb-gold) 28%, transparent);
+  pointer-events: none;
+}
+
+.reveal .section-slide h2 {
+  font-size: 81px;
+}
+
+/* ---------- Layout helpers ---------- */
+
+.reveal .cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 52px;
+  align-items: start;
+  flex: 1;
+  min-height: 0;
+}
+
+.reveal .is-centered .cols {
+  align-items: center;
+}
+
+.reveal .cols--wide-left {
+  grid-template-columns: 1.35fr 1fr;
+}
+
+.reveal .cols--wide-right {
+  grid-template-columns: 1fr 1.35fr;
+}
+
+.reveal .cols > * {
+  min-width: 0;
+}
+
+/* Raised board area for a diagram or a code listing. */
+.reveal .panel {
+  position: relative;
+  padding: 30px 32px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--pcb-board-panel) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--pcb-gold) 20%, transparent);
+}
+
+.reveal .panel[data-label]::before {
+  content: attr(data-label);
+  position: absolute;
+  top: -9px;
+  left: 22px;
+  padding: 0 10px;
+  background: var(--pcb-board);
+  font-family: var(--pcb-font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--pcb-silk-dim);
+}
+
+.reveal .panel > :last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Callouts ---------- */
+
+.reveal .callout {
+  position: relative;
+  max-width: 34em;
+  margin: 0 0 22px;
+  padding: 22px 28px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--pcb-callout-hue);
+  border-left-width: 4px;
+  background: color-mix(in srgb, var(--pcb-callout-hue) 9%, transparent);
+  font-size: 0.94em;
+  --pcb-callout-hue: var(--pcb-blue);
+}
+
+.reveal .callout--warn {
+  --pcb-callout-hue: var(--pcb-gold);
+}
+
+.reveal .callout--danger {
+  --pcb-callout-hue: var(--pcb-led-red);
+}
+
+.reveal .callout[data-label]::before {
+  content: attr(data-label);
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--pcb-font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--pcb-callout-hue);
+}
+
+.reveal .callout > :last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Numbers ---------- */
+
+.reveal .specs {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 40px;
+  margin: 0 0 22px;
+}
+
+.reveal .spec__value {
+  font-family: var(--pcb-font-display);
+  font-size: 55px;
+  white-space: nowrap;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--pcb-gold);
+}
+
+.reveal .spec__label {
+  margin-top: 12px;
+  font-family: var(--pcb-font-mono);
+  font-size: 15px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pcb-silk-dim);
+}
+
+/* ---------- Pinout ---------- */
+
+.reveal .pinout {
+  max-width: none;
+  font-family: var(--pcb-font-mono);
+  font-size: 0.82em;
+}
+
+.reveal .pinout li {
+  display: grid;
+  grid-template-columns: 6.5em 1fr;
+  gap: 18px;
+  align-items: baseline;
+  margin: 0;
+  padding: 0.5em 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk-mute) 30%, transparent);
+}
+
+.reveal .pinout li::before {
+  content: none;
+}
+
+.reveal .pinout__pin {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--pcb-gold);
+}
+
+.reveal .pinout__net {
+  color: var(--pcb-silk-dim);
+}
+
+/* ---------- Quote ---------- */
+
+.reveal .quote {
+  margin: 0;
+  padding: 0 0 0 34px;
+  border-left: 4px solid var(--pcb-gold);
+  background: none;
+  box-shadow: none;
+  font-family: var(--pcb-font-display);
+  font-size: 42px;
+  font-weight: var(--pcb-heading-weight);
+  line-height: 1.26;
+  font-style: normal;
+  color: var(--pcb-silk);
+}
+
+.reveal .quote cite {
+  display: block;
+  margin-top: 22px;
+  font-family: var(--pcb-font-mono);
+  font-size: 16px;
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--pcb-silk-dim);
+}
+
+/* ---------- Fragments ---------- */
+
+/* Same idea as reveal's highlight-red / highlight-blue, on this palette. */
+.reveal .fragment.highlight-trace.visible,
+.reveal .fragment.highlight-current-trace.current-fragment {
+  color: var(--pcb-gold);
+}
+
+/* Dimmed steps stay legible instead of vanishing: useful when a list is a
+   walkthrough rather than a reveal. */
+.reveal .slides section .fragment.dim-past {
+  opacity: 1;
+  visibility: inherit;
+  color: var(--pcb-silk-mute);
+  transition: color var(--pcb-speed) var(--pcb-ease);
+}
+
+.reveal .fragment.dim-past.current-fragment {
+  color: var(--pcb-silk);
+}

@@ -1,0 +1,17 @@
+<!-- Labelled parts are HTML, not SVG <text>: Chrome drops webfont SVG text in
+     the scaled chrome layer. The LED classes are pulsed by board/chrome.js. -->
+<div class="board__leds">
+  <div class="board__led board__led--pwr"><i></i><span>PWR</span></div>
+  <div class="board__led board__led--tx"><i></i><span>TX</span></div>
+  <div class="board__led board__led--rx"><i></i><span>RX</span></div>
+</div>
+<!-- Pads first: in this theme the header's traces arrive from the left. -->
+<div class="board__pins">
+  <i class="board__pin-pad board__pin-pad--first"></i><span class="board__pin-net">3V3</span>
+  <i class="board__pin-pad"></i><span class="board__pin-net">GND</span>
+  <i class="board__pin-pad"></i><span class="board__pin-net">SDA</span>
+  <i class="board__pin-pad"></i><span class="board__pin-net">SCL</span>
+  <i class="board__pin-pad"></i><span class="board__pin-net">GPIO</span>
+</div>
+<span class="hybrid__silk hybrid__silk--u1">U1 · MICROPYTHON</span>
+<span class="hybrid__silk hybrid__silk--j1">J1</span>

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" fill="none" role="presentation">
+  <!-- A QFN20 wired to a 5-pin header. H/V/45 routing, every trace ends on a
+       pad or via. Blue is the second copper layer; gold is the first. -->
+  <defs>
+    <g id="refined-via" fill="var(--pcb-board)">
+      <circle r="4" stroke="var(--pcb-gold)" stroke-width="2"/>
+      <circle r="1.4" fill="var(--pcb-board-deep)"/>
+    </g>
+    <g id="refined-header-pad" stroke="var(--pcb-gold)" stroke-width="4">
+      <circle r="7" fill="var(--pcb-board-deep)"/>
+    </g>
+  </defs>
+
+  <g class="refined__cover-routing">
+    <!-- Five top-layer routes from the package to a regular 5-pin header. -->
+    <g stroke="var(--pcb-gold)" stroke-width="1.7" stroke-opacity=".65" stroke-linejoin="round">
+      <path d="M1106 270H1148M1106 294H1148M1106 318H1148M1106 342H1148M1106 366H1148"/>
+      <!-- West escape. Each route has a separate, spaced via endpoint. -->
+      <path d="M934 270H904L872 238V170"/>
+      <path d="M934 294H894L860 260V188"/>
+      <path d="M934 318H884L848 282V206"/>
+      <path d="M934 342H874L836 380V454"/>
+      <path d="M934 366H886L848 404V472"/>
+      <!-- North escape, five vias on a regular pitch. -->
+      <path d="M972 232V190L944 162V132"/>
+      <path d="M996 232V180L968 152V132"/>
+      <path d="M1020 232V132"/>
+      <path d="M1044 232V180L1072 152V132"/>
+      <path d="M1068 232V190L1096 162V132"/>
+      <!-- South escape; the right-hand QR keep-out begins below this. -->
+      <path d="M972 404V440L936 476V504"/>
+      <path d="M996 404V450L960 486V522"/>
+      <path d="M1020 404V540"/>
+      <path d="M1044 404V446L1080 482H1124"/>
+      <path d="M1068 404V438L1100 470H1148"/>
+    </g>
+
+    <!-- Back-layer continuation from actual vias, with shorter local routes. -->
+    <g stroke="var(--pcb-blue)" stroke-width="1.5" stroke-opacity=".6" stroke-linejoin="round">
+      <path d="M872 170V120L898 94H1138L1164 120V178"/>
+      <path d="M860 188V114L892 82H1144L1176 114V198"/>
+      <path d="M848 206V108L886 70H1150L1188 108V218"/>
+      <path d="M836 454V540L866 570H980L996 554V526"/>
+      <path d="M848 472V534L872 558H968L980 546V514"/>
+      <path d="M936 504H898L878 484V436"/>
+    </g>
+
+    <g>
+      <use href="#refined-via" x="872" y="170"/><use href="#refined-via" x="860" y="188"/>
+      <use href="#refined-via" x="848" y="206"/><use href="#refined-via" x="836" y="454"/>
+      <use href="#refined-via" x="848" y="472"/>
+      <use href="#refined-via" x="944" y="132"/><use href="#refined-via" x="968" y="132"/>
+      <use href="#refined-via" x="1020" y="132"/><use href="#refined-via" x="1072" y="132"/>
+      <use href="#refined-via" x="1096" y="132"/>
+      <use href="#refined-via" x="936" y="504"/><use href="#refined-via" x="960" y="522"/>
+      <use href="#refined-via" x="1020" y="540"/><use href="#refined-via" x="1124" y="482"/>
+      <use href="#refined-via" x="1148" y="470"/>
+      <use href="#refined-via" x="1164" y="178"/><use href="#refined-via" x="1176" y="198"/>
+      <use href="#refined-via" x="1188" y="218"/><use href="#refined-via" x="996" y="526"/>
+      <use href="#refined-via" x="980" y="514"/><use href="#refined-via" x="878" y="436"/>
+    </g>
+
+    <!-- QFN20 pads: package and traces deliberately share pin centres. -->
+    <g fill="var(--pcb-gold)" fill-opacity=".76">
+      <path d="M968 232h8v14h-8zM992 232h8v14h-8zM1016 232h8v14h-8zM1040 232h8v14h-8zM1064 232h8v14h-8z"/>
+      <path d="M968 390h8v14h-8zM992 390h8v14h-8zM1016 390h8v14h-8zM1040 390h8v14h-8zM1064 390h8v14h-8z"/>
+      <path d="M934 266h14v8h-14zM934 290h14v8h-14zM934 314h14v8h-14zM934 338h14v8h-14zM934 362h14v8h-14z"/>
+      <path d="M1092 266h14v8h-14zM1092 290h14v8h-14zM1092 314h14v8h-14zM1092 338h14v8h-14zM1092 362h14v8h-14z"/>
+    </g>
+    <rect x="948" y="246" width="144" height="144" rx="4" fill="var(--pcb-board-deep)" stroke="var(--pcb-silk)" stroke-opacity=".3"/>
+    <path d="M950 240H942V258M1098 378V396H1080" stroke="var(--pcb-silk)" stroke-opacity=".55"/>
+    <circle cx="960" cy="258" r="3" fill="var(--pcb-silk)" fill-opacity=".45"/>
+
+    <path d="M1134 250H1162V386H1134Z" stroke="var(--pcb-silk)" stroke-opacity=".26"/>
+    <rect x="1141" y="263" width="14" height="14" rx="1" fill="var(--pcb-board-deep)" stroke="var(--pcb-gold)" stroke-width="4"/>
+    <use href="#refined-header-pad" x="1148" y="294"/><use href="#refined-header-pad" x="1148" y="318"/>
+    <use href="#refined-header-pad" x="1148" y="342"/><use href="#refined-header-pad" x="1148" y="366"/>
+  </g>
+</svg>

@@ -1,0 +1,284 @@
+/* Heavier type, a cooler mask, a QFN-and-header cover and a quiet margin
+   detail on content slides. */
+:root[data-theme="refined"] {
+  --pcb-board-deep: #071b18;
+  --pcb-board: #0b2923;
+  --pcb-board-hi: #10382e;
+  --pcb-board-panel: #10332b;
+  --pcb-silk: #f2f4e9;
+  --pcb-silk-dim: #bccdc3;
+  --pcb-silk-mute: #819e90;
+  --pcb-gold: #ffd34e;
+  --pcb-blue: #4b9bd3;
+  --pcb-display-weight: 570;
+  --pcb-heading-weight: 520;
+  --pcb-body-weight: 380;
+  --pcb-pad-x: 88px;
+  --pcb-pad-y: 64px;
+}
+
+[data-theme="refined"] .reveal-viewport,
+[data-theme="refined"].reveal-viewport {
+  background-color: var(--pcb-board-deep);
+  background-image: radial-gradient(ellipse at 70% 28%, #0c2c25, #071b18 85%);
+  background-size: cover;
+}
+
+/* The package art is for the cover only; section dividers stay clean. */
+[data-theme="refined"] .board[data-board="section"] .board__art { opacity: 0; }
+[data-theme="refined"] .board[data-board="cover"] .refined__content-routing { display: none; }
+
+.refined__labels {
+  font: 500 11px var(--pcb-font-mono);
+  letter-spacing: .1em;
+  color: var(--pcb-silk-mute);
+}
+.refined__chip-label {
+  position: absolute;
+  left: 974px;
+  top: 256px;
+  font-size: 8px;
+  letter-spacing: .08em;
+}
+.refined__header-label { position: absolute; left: 1138px; top: 229px; }
+.refined__nets {
+  position: absolute;
+  left: 1170px;
+  top: 262px;
+  display: grid;
+  grid-auto-rows: 24px;
+  font-size: 12px;
+  color: var(--pcb-silk-dim);
+}
+
+/* A steady left edge and fewer competing accents. */
+[data-theme="refined"] .reveal { font-size: 27px; letter-spacing: 0; }
+[data-theme="refined"] .reveal h2 { font-size: 54px; letter-spacing: -.025em; }
+[data-theme="refined"] .reveal .slide-head {
+  margin-bottom: 38px;
+  padding-bottom: 23px;
+  border-bottom-color: color-mix(in srgb, var(--pcb-silk) 16%, transparent);
+}
+[data-theme="refined"] .reveal .slide-head::after {
+  width: 64px;
+  height: 3px;
+  border-radius: 0;
+  background: linear-gradient(to right, var(--pcb-blue) 0 50%, var(--pcb-gold) 50%);
+}
+[data-theme="refined"] .reveal .lede {
+  font-size: 29px;
+  line-height: 1.45;
+  color: var(--pcb-silk-dim);
+}
+[data-theme="refined"] .reveal ul li { padding-left: 1.25em; }
+[data-theme="refined"] .reveal ul li::before {
+  width: 7px;
+  height: 7px;
+  top: .55em;
+  border-width: 2px;
+}
+[data-theme="refined"] .reveal ol { max-width: 34em; }
+[data-theme="refined"] .reveal ol li {
+  padding-left: 2.6em;
+  margin-bottom: .8em;
+  padding-bottom: .55em;
+  border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk) 10%, transparent);
+}
+[data-theme="refined"] .reveal ol li::before {
+  top: .15em;
+  font-size: .7em;
+  font-weight: 500;
+}
+
+/* Cover: typography owns the left two thirds; the package owns the right. */
+[data-theme="refined"] .reveal .cover__main { max-width: 720px; }
+[data-theme="refined"] .reveal .cover h1 {
+  font-size: 84px;
+  line-height: 1.04;
+  letter-spacing: -.035em;
+  margin-bottom: 28px;
+}
+[data-theme="refined"] .reveal .cover__sub {
+  font-family: var(--pcb-font-body);
+  font-size: 24px;
+  font-weight: 380;
+  gap: 18px;
+  color: var(--pcb-silk-dim);
+}
+[data-theme="refined"] .reveal .trace-rule--inline { width: 56px; height: 3px; }
+[data-theme="refined"] .reveal .cover .tagline {
+  font-size: 12px;
+  letter-spacing: .17em;
+  gap: 22px;
+  margin-top: 25px;
+  color: var(--pcb-silk-mute);
+}
+[data-theme="refined"] .reveal .cover__corner {
+  font-size: 12px;
+  letter-spacing: .18em;
+  color: var(--pcb-silk-mute);
+}
+[data-theme="refined"] .reveal .cover__corner::after { display: none; }
+[data-theme="refined"] .reveal .cover__mark {
+  left: 974px;
+  top: 272px;
+  right: auto;
+  width: 92px;
+  height: 92px;
+  margin: 0;
+}
+[data-theme="refined"] .reveal .chip-list {
+  left: var(--pcb-pad-x);
+  bottom: 52px;
+  transform: none;
+  font-size: 11px;
+  letter-spacing: .11em;
+  gap: 13px;
+  color: var(--pcb-silk-mute);
+}
+[data-theme="refined"] .reveal .chip-list li { padding-left: 0; }
+[data-theme="refined"] .reveal .chip-list li:not(:last-child) { padding-right: 13px; }
+
+/* The QR is no longer superimposed on a chip or signal traces. */
+[data-theme="refined"] .board .board__qr {
+  right: 86px;
+  bottom: 52px;
+  width: 56px;
+  transition: none;
+}
+[data-theme="refined"] .board[data-board="cover"] .board__qr {
+  right: 92px;
+  bottom: 56px;
+  width: 100px;
+}
+[data-theme="refined"] .board[data-board="cover"] .board__qr-label {
+  font-size: 10px;
+  letter-spacing: .05em;
+  margin-top: 10px;
+  white-space: nowrap;
+  position: relative;
+  left: 50%;
+  width: max-content;
+  transform: translateX(-50%);
+}
+[data-theme="refined"] .board .board__rail {
+  right: 184px;
+  bottom: 42px;
+  font-size: 10px;
+  letter-spacing: .13em;
+  gap: 12px;
+}
+[data-theme="refined"] .board__rail-led {
+  width: 5px;
+  height: 5px;
+  box-shadow: none;
+  opacity: .7;
+}
+[data-theme="refined"] .board__rail-trace {
+  margin-left: 16px;
+  background: color-mix(in srgb, var(--pcb-silk) 12%, transparent);
+}
+
+/* Section and quote slides keep the same alignment as the content slides. */
+[data-theme="refined"] .reveal .section-slide h2 {
+  max-width: 820px;
+  font-size: 78px;
+  margin-bottom: 28px;
+}
+[data-theme="refined"] .reveal .section-slide::before {
+  right: 98px;
+  font-size: 244px;
+  font-weight: 300;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--pcb-silk) 24%, transparent);
+}
+[data-theme="refined"] .reveal .section-slide .trace-rule { width: 64px; height: 3px; }
+[data-theme="refined"] .reveal .section-slide .lede { max-width: 680px; }
+[data-theme="refined"] .reveal .quote {
+  max-width: 990px;
+  padding-left: 32px;
+  border-left-width: 3px;
+  font-size: 49px;
+  line-height: 1.22;
+  letter-spacing: -.02em;
+}
+[data-theme="refined"] .reveal .quote cite { font-size: 12px; margin-top: 30px; }
+
+/* Flat component styling, with silkscreen-like labels and restrained rules. */
+[data-theme="refined"] .reveal .cols { gap: 56px; }
+[data-theme="refined"] .reveal .panel {
+  border-radius: 2px;
+  border-color: color-mix(in srgb, var(--pcb-silk) 18%, transparent);
+  background: color-mix(in srgb, var(--pcb-board-panel) 45%, transparent);
+  padding: 28px;
+}
+[data-theme="refined"] .reveal .panel[data-label]::before {
+  font-size: 12px;
+  letter-spacing: .13em;
+  top: -9px;
+  background: var(--pcb-board);
+}
+[data-theme="refined"] .reveal .pinout { font-size: 22px; }
+[data-theme="refined"] .reveal .pinout li {
+  grid-template-columns: 4.5em 1fr;
+  padding: .58em 0;
+}
+[data-theme="refined"] .reveal .pinout li:last-child { border-bottom: 0; }
+[data-theme="refined"] .reveal .callout {
+  border: 0;
+  border-left: 3px solid var(--pcb-callout-hue);
+  border-radius: 0;
+  padding: 17px 24px;
+  margin-bottom: 20px;
+  background: color-mix(in srgb, var(--pcb-callout-hue) 5%, transparent);
+}
+[data-theme="refined"] .reveal .callout[data-label]::before {
+  font-size: 12px;
+  letter-spacing: .12em;
+  margin-bottom: 5px;
+}
+[data-theme="refined"] .reveal .specs { gap: 32px; margin-top: 12px; }
+[data-theme="refined"] .reveal .specs > div {
+  border-top: 2px solid var(--pcb-blue);
+  padding-top: 25px;
+}
+[data-theme="refined"] .reveal .spec__value { font-size: 56px; font-weight: 520; letter-spacing: -.035em; }
+[data-theme="refined"] .reveal .spec__label { font-size: 12px; letter-spacing: .12em; margin-top: 18px; }
+
+/* Larger code and readable inactive lines retain the native line fragments. */
+[data-theme="refined"] .reveal pre { font-size: 24px; line-height: 1.48; }
+[data-theme="refined"] .reveal pre code {
+  border-radius: 3px;
+  border-color: color-mix(in srgb, var(--pcb-silk) 16%, transparent);
+  padding: 27px 30px;
+  background: #061813;
+}
+[data-theme="refined"] .reveal .hljs-keyword,
+[data-theme="refined"] .reveal .hljs-built_in { color: #78b9e6; }
+[data-theme="refined"] .reveal .hljs-string { color: #a6d7ad; }
+[data-theme="refined"] .reveal .hljs .highlight-line {
+  background: color-mix(in srgb, var(--pcb-blue) 17%, transparent);
+}
+[data-theme="refined"] .reveal .hljs.has-highlights tr:not(.highlight-line) { opacity: .6; }
+[data-theme="refined"] .reveal .controls { color: var(--pcb-silk-mute); font-size: 8px; }
+[data-theme="refined"] .reveal .progress { height: 2px; }
+
+/* The screen chrome is one global object. Print pages get a quiet edge of
+   their own, so cover art cannot repeat behind unrelated content pages. */
+.reveal-print[data-theme="refined"] .board { display: none; }
+.reveal-print[data-theme="refined"] .reveal .pdf-page {
+  background: var(--pcb-board-deep) !important;
+}
+.reveal-print[data-theme="refined"] .reveal .slides section {
+  /* Reveal removes slide padding and wraps sections in .pdf-page. Restore
+     the fixed canvas and flex layout after that change in hierarchy. */
+  display: flex !important;
+  flex-direction: column;
+  height: 720px;
+  padding: var(--pcb-pad-y) var(--pcb-pad-x) calc(var(--pcb-pad-y) + 18px) !important;
+  line-height: 1.4;
+  background: var(--pcb-board-deep);
+  box-shadow: inset 0 0 0 1px #30483e;
+}
+.reveal-print[data-theme="refined"] .reveal .slides section.is-centered {
+  justify-content: center;
+}

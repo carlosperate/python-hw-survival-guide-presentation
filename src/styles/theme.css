@@ -1,0 +1,337 @@
+/*
+  Replaces a stock reveal.js theme rather than patching one, so every colour
+  and size below is the only place it is decided.
+*/
+
+.reveal-viewport {
+  background-color: var(--pcb-board-deep);
+  /* Grain sits on top of the vignette; the tile carries its own alpha. */
+  background-image:
+    var(--pcb-mask-texture, none),
+    radial-gradient(120% 90% at 50% 40%, var(--pcb-board) 0%, var(--pcb-board-deep) 78%);
+  background-size: 180px 180px, cover;
+}
+
+.reveal {
+  font-family: var(--pcb-font-body);
+  font-size: 27px;
+  font-weight: var(--pcb-body-weight);
+  color: var(--pcb-silk);
+  letter-spacing: 0.005em;
+}
+
+.reveal ::selection {
+  background: var(--pcb-gold);
+  color: var(--pcb-board-deep);
+}
+
+/* Slide layout leans on padding and absolute corners, both of which need the
+   section's declared height to include its gutter. */
+.reveal .slides,
+.reveal .slides *,
+.reveal .slides *::before,
+.reveal .slides *::after,
+.board,
+.board * {
+  box-sizing: border-box;
+}
+
+/* Slides are top-aligned frames with a fixed gutter; `center: false` in the
+   deck config keeps reveal from fighting this. */
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal .slides > section,
+.reveal .slides > section > section {
+  flex-direction: column;
+  height: 100%;
+  padding: var(--pcb-pad-y) var(--pcb-pad-x) calc(var(--pcb-pad-y) + 18px);
+  line-height: 1.4;
+}
+
+/* Export wraps every slide in a .pdf-page, so the `> section` rules above no
+   longer match, and reveal zeroes slide padding inline. Restore both. */
+.reveal-print .reveal .slides .pdf-page > section {
+  display: flex !important;
+  flex-direction: column;
+  height: 720px;
+  padding: var(--pcb-pad-y) var(--pcb-pad-x) calc(var(--pcb-pad-y) + 18px) !important;
+  line-height: 1.4;
+}
+
+.reveal-print .reveal .slides .pdf-page > section.is-centered {
+  justify-content: center;
+}
+
+/* Opt-in vertical centring for cover, section and closing slides. */
+.reveal .slides > section.is-centered,
+.reveal .slides > section > section.is-centered {
+  justify-content: center;
+}
+
+/* ---------- Headings ---------- */
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4 {
+  font-family: var(--pcb-font-display);
+  color: var(--pcb-silk);
+  text-transform: none;
+  text-shadow: none;
+  margin: 0 0 0.4em;
+  text-wrap: balance;
+}
+
+.reveal h1 {
+  font-size: 98px;
+  font-weight: var(--pcb-display-weight);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+
+.reveal h2 {
+  font-size: 57px;
+  font-weight: var(--pcb-heading-weight);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+}
+
+.reveal h3 {
+  font-size: 36px;
+  font-weight: var(--pcb-heading-weight);
+  line-height: 1.15;
+}
+
+.reveal h4 {
+  font-size: 26px;
+  font-weight: var(--pcb-heading-weight);
+}
+
+/* ---------- Body copy ---------- */
+
+.reveal p {
+  margin: 0 0 0.75em;
+  max-width: 24em;
+}
+
+.reveal strong,
+.reveal b {
+  color: var(--pcb-gold);
+  font-weight: 700;
+}
+
+.reveal em {
+  color: var(--pcb-silk);
+  font-style: italic;
+}
+
+.reveal small {
+  font-size: 0.72em;
+  color: var(--pcb-silk-dim);
+}
+
+.reveal a {
+  color: var(--pcb-gold);
+  text-decoration: none;
+  border-bottom: 1px dashed color-mix(in srgb, var(--pcb-gold) 55%, transparent);
+  transition: color var(--pcb-speed) var(--pcb-ease);
+}
+
+.reveal a:hover {
+  color: var(--pcb-yellow);
+  border-bottom-color: var(--pcb-yellow);
+}
+
+/* ---------- Lists: markers are surface-mount pads ---------- */
+
+.reveal ul,
+.reveal ol {
+  display: block;
+  margin: 0 0 0.6em;
+  padding: 0;
+  list-style: none;
+  max-width: 26em;
+}
+
+.reveal ul li,
+.reveal ol li {
+  position: relative;
+  margin: 0 0 0.62em;
+  padding-left: 1.5em;
+}
+
+.reveal ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.52em;
+  width: 11px;
+  height: 11px;
+  border: 3px solid var(--pcb-gold);
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.reveal ol {
+  counter-reset: pcb-step;
+}
+
+.reveal ol li {
+  counter-increment: pcb-step;
+}
+
+.reveal ol li::before {
+  content: counter(pcb-step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.18em;
+  font-family: var(--pcb-font-mono);
+  font-size: 0.66em;
+  font-weight: 600;
+  color: var(--pcb-gold);
+}
+
+.reveal li ul,
+.reveal li ol {
+  margin: 0.5em 0 0;
+}
+
+.reveal li ul li::before {
+  border-color: var(--pcb-silk-mute);
+  border-width: 2px;
+  width: 9px;
+  height: 9px;
+}
+
+/* ---------- Code ---------- */
+
+.reveal code,
+.reveal kbd {
+  font-family: var(--pcb-font-mono);
+  font-size: 0.86em;
+  font-variant-ligatures: none;
+}
+
+.reveal :not(pre) > code {
+  color: var(--pcb-yellow);
+  background: color-mix(in srgb, var(--pcb-board-deep) 70%, transparent);
+  border: 1px solid color-mix(in srgb, var(--pcb-gold) 22%, transparent);
+  border-radius: 4px;
+  padding: 0.08em 0.34em;
+}
+
+.reveal pre {
+  /* Multi-step `data-line-numbers` stacks its extra listings absolutely; they
+     need this <pre> as their containing block, not the slide. */
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0 0 0.6em;
+  font-size: 22px;
+  line-height: 1.5;
+  box-shadow: none;
+}
+
+.reveal pre code {
+  display: block;
+  padding: 26px 30px;
+  max-height: none;
+  border-radius: 10px;
+  background: var(--pcb-board-deep);
+  border: 1px solid color-mix(in srgb, var(--pcb-gold) 22%, transparent);
+  color: var(--pcb-silk);
+  font-size: inherit;
+  tab-size: 4;
+}
+
+/* reveal gives .hljs `min-height: 100%`, which inside a flex slide grows the
+   listing to the full slide and buries everything behind it. */
+.reveal pre code.hljs {
+  min-height: 0;
+}
+
+.reveal .hljs-keyword,
+.reveal .hljs-literal,
+.reveal .hljs-built_in {
+  color: var(--pcb-blue);
+}
+
+.reveal .hljs-string,
+.reveal .hljs-meta .hljs-string {
+  color: var(--pcb-led-green);
+}
+
+.reveal .hljs-number,
+.reveal .hljs-symbol {
+  color: var(--pcb-yellow);
+}
+
+.reveal .hljs-title,
+.reveal .hljs-title.function_,
+.reveal .hljs-attr,
+.reveal .hljs-params {
+  color: var(--pcb-gold);
+}
+
+.reveal .hljs-comment {
+  color: var(--pcb-silk-mute);
+  font-style: italic;
+}
+
+.reveal .hljs-meta,
+.reveal .hljs-decorator {
+  color: var(--pcb-py-blue);
+}
+
+/* Highlight plugin line focus, restated on the board palette. */
+.reveal .hljs .highlight-line {
+  background: color-mix(in srgb, var(--pcb-gold) 12%, transparent);
+}
+
+/* ---------- Tables ---------- */
+
+.reveal table {
+  border-collapse: collapse;
+  font-size: 0.82em;
+  margin: 0 0 0.6em;
+}
+
+.reveal table th,
+.reveal table td {
+  padding: 0.44em 1em 0.44em 0;
+  text-align: left;
+  border: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk-mute) 40%, transparent);
+}
+
+.reveal table th {
+  font-family: var(--pcb-font-mono);
+  font-size: 0.76em;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pcb-silk-dim);
+  border-bottom-color: color-mix(in srgb, var(--pcb-gold) 45%, transparent);
+}
+
+/* ---------- Reveal furniture ---------- */
+
+.reveal .progress {
+  height: 3px;
+  color: var(--pcb-gold);
+  background: color-mix(in srgb, var(--pcb-gold) 14%, transparent);
+}
+
+.reveal .controls {
+  color: var(--pcb-gold);
+}
+
+.reveal .slide-number {
+  display: none; /* replaced by the board rail */
+}
+
+.reveal .backgrounds {
+  background: transparent;
+}

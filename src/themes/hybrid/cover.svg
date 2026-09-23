@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" fill="none" role="presentation">
+  <!--
+    Classic's routing with a part at its centre: the gold bus lands on U1's
+    north pads, leaves by the south pads onto vias and returns on the blue
+    layer; the east pads fan out to the J1 header. The Python mark is slide
+    markup placed inside U1 by theme.css.
+    U1 body 896-1040 x 200-344, pads on a 24px pitch; J1 pads x 1136, 36px pitch.
+  -->
+  <defs>
+    <symbol id="via-gold" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="12" fill="var(--pcb-gold, #FDCA42)" />
+      <circle cx="12" cy="12" r="5.2" fill="var(--pcb-board, #002E18)" />
+    </symbol>
+    <symbol id="via-blue" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="12" fill="var(--pcb-blue, #3FA0F0)" />
+      <circle cx="12" cy="12" r="5.2" fill="var(--pcb-board, #002E18)" />
+    </symbol>
+  </defs>
+
+  <!-- Top-layer bus, fanned onto U1's north pads: outermost to the farthest pad. -->
+  <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="2.6" stroke-opacity="0.82"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 500 19.5 V 36 L 528 64 H 964 L 992 92 V 186" />
+    <path d="M 487 19.5 V 49 L 515 77 H 940 L 968 105 V 186" />
+    <path d="M 474 19.5 V 62 L 502 90 H 916 L 944 118 V 186" />
+  </g>
+
+  <!-- South pads onto a via fence; three nets carry on down on the blue layer. -->
+  <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="2" stroke-opacity="0.82" stroke-linecap="round">
+    <path d="M 920 358 V 384 M 944 358 V 384 M 968 358 V 384 M 992 358 V 384 M 1016 358 V 384" />
+  </g>
+  <g stroke="var(--pcb-blue, #3FA0F0)" stroke-width="2.6" stroke-opacity="0.82"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 992 384 V 572 L 964 600 H 150" />
+    <path d="M 968 384 V 559 L 940 587 H 178" />
+    <path d="M 944 384 V 546 L 916 574 H 206" />
+  </g>
+
+  <!-- East pads fanned out to J1; the middle net runs straight. -->
+  <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="2" stroke-opacity="0.82"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 1054 224 H 1070 L 1094 200 H 1136" />
+    <path d="M 1054 248 H 1082 L 1094 236 H 1136" />
+    <path d="M 1054 272 H 1136" />
+    <path d="M 1054 296 H 1082 L 1094 308 H 1136" />
+    <path d="M 1054 320 H 1070 L 1094 344 H 1136" />
+  </g>
+
+  <!-- West and spare north pads stitched to vias, staggered to keep clearance. -->
+  <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="2" stroke-opacity="0.82" stroke-linecap="round">
+    <path d="M 882 224 H 862 M 882 248 H 846 M 882 272 H 862 M 882 296 H 846 M 882 320 H 862" />
+    <path d="M 920 186 V 164 M 1016 186 V 164" />
+  </g>
+
+  <!-- Power pair, as in classic. -->
+  <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="5" stroke-opacity="0.82"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 37.5 690 H 212.5 L 240 662.5 H 240 L 267.5 635 H 960" />
+    <path d="M 24.5 677 H 199.5 L 227 649.5 H 227 L 254.5 622 H 934" />
+  </g>
+
+  <!-- U1: pads, body and silkscreen corner marks. -->
+  <g fill="var(--pcb-gold, #FDCA42)" fill-opacity="0.85">
+    <path d="M 916 186 h 8 v 14 h -8 z M 940 186 h 8 v 14 h -8 z M 964 186 h 8 v 14 h -8 z M 988 186 h 8 v 14 h -8 z M 1012 186 h 8 v 14 h -8 z" />
+    <path d="M 916 344 h 8 v 14 h -8 z M 940 344 h 8 v 14 h -8 z M 964 344 h 8 v 14 h -8 z M 988 344 h 8 v 14 h -8 z M 1012 344 h 8 v 14 h -8 z" />
+    <path d="M 882 220 h 14 v 8 h -14 z M 882 244 h 14 v 8 h -14 z M 882 268 h 14 v 8 h -14 z M 882 292 h 14 v 8 h -14 z M 882 316 h 14 v 8 h -14 z" />
+    <path d="M 1040 220 h 14 v 8 h -14 z M 1040 244 h 14 v 8 h -14 z M 1040 268 h 14 v 8 h -14 z M 1040 292 h 14 v 8 h -14 z M 1040 316 h 14 v 8 h -14 z" />
+  </g>
+  <rect x="896" y="200" width="144" height="144" rx="4"
+        fill="var(--pcb-board-deep, #001B0E)" stroke="var(--pcb-silk, #F5F3E8)" stroke-opacity="0.3" stroke-width="1.5" />
+  <circle cx="908" cy="212" r="3" fill="var(--pcb-silk, #F5F3E8)" fill-opacity="0.45" />
+  <path d="M 902 190 H 886 V 206 M 1050 338 V 354 H 1034"
+        stroke="var(--pcb-silk, #F5F3E8)" stroke-opacity="0.5" stroke-width="1.5" />
+
+  <!-- J1 outline; the pads and labels are HTML in parts.html. -->
+  <rect x="1116" y="180" width="40" height="184" rx="3"
+        stroke="var(--pcb-silk, #F5F3E8)" stroke-opacity="0.26" stroke-width="1.5" />
+
+  <g>
+    <use href="#via-gold" x="912.8" y="376.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="936.8" y="376.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="960.8" y="376.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="984.8" y="376.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="1008.8" y="376.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="854.8" y="216.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="838.8" y="240.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="854.8" y="264.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="838.8" y="288.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="854.8" y="312.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="912.8" y="156.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="1008.8" y="156.8" width="14.3" height="14.3" />
+    <use href="#via-blue" x="142.8" y="592.8" width="14.3" height="14.3" />
+    <use href="#via-blue" x="170.8" y="579.8" width="14.3" height="14.3" />
+    <use href="#via-blue" x="198.8" y="566.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="949" y="624" width="22" height="22" />
+    <use href="#via-gold" x="923" y="611" width="22" height="22" />
+  </g>
+</svg>

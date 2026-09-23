@@ -1,0 +1,312 @@
+/*
+  The board chrome: everything drawn behind the slides. `.board` is positioned
+  and scaled onto reveal's slide rectangle by src/board/chrome.js, so px inside
+  it are deck px and line up with slide content.
+*/
+
+:root {
+  --pcb-mask-texture: url("../assets/solder-mask.svg");
+}
+
+.board {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1280px;
+  height: 720px;
+  transform-origin: 0 0;
+  pointer-events: none;
+  z-index: 0;
+  /* Stays hidden until chrome.js has measured the slide rect, so it never
+     flashes in the wrong place on first paint. */
+  opacity: 0;
+  transition: opacity 180ms linear;
+}
+
+.board.is-placed {
+  opacity: 1;
+}
+
+.board.is-hidden {
+  opacity: 0;
+}
+
+.board__frame,
+.board__art,
+.board__traces,
+.board__parts {
+  position: absolute;
+  inset: 0;
+}
+
+.board__frame svg,
+.board__traces svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Keep reveal above the chrome. */
+.reveal {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Board modes ---------- */
+
+/* Set per slide with data-board="cover" / "section"; anything else is plain. */
+.board__art {
+  opacity: 0;
+  transition: opacity 420ms var(--pcb-ease);
+}
+
+.board[data-board="cover"] .board__art {
+  opacity: 1;
+}
+
+.board[data-board="section"] .board__art {
+  opacity: 0.45;
+}
+
+/* Section dividers carry a large ghosted number on the right, so the parts
+   that live there come off. */
+.board[data-board="section"] .board__pins,
+.board[data-board="section"] .board__leds {
+  display: none;
+}
+
+/* The cover's LED block occupies the fiducial's corner. */
+.board[data-board="cover"] #fiducial {
+  display: none;
+}
+
+/* ---------- Pin header ---------- */
+
+/* Positioned in deck coordinates: pad centres on a 42px pitch at x 1222,
+   matching the trace that runs down to them in board-cover.svg. */
+.board__pins {
+  position: absolute;
+  top: 289px;
+  right: 47px;
+  display: grid;
+  grid-template-columns: auto 22px;
+  align-items: center;
+  justify-items: end;
+  gap: 20px 18px;
+}
+
+.board__pin-net {
+  font-family: var(--pcb-font-mono);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--pcb-silk-dim);
+}
+
+.board__pin-pad {
+  width: 22px;
+  height: 22px;
+  border: 5px solid color-mix(in srgb, var(--pcb-gold) 85%, transparent);
+  border-radius: 50%;
+}
+
+/* ---------- Status LEDs ---------- */
+
+/* Clear of the frame's top-right chamfer. */
+.board__leds {
+  position: absolute;
+  top: 42px;
+  right: 38px;
+  width: 134px;
+  padding: 15px 0 15px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 2px solid color-mix(in srgb, var(--pcb-gold) 45%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--pcb-board-deep) 55%, transparent);
+}
+
+.board__led {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--pcb-font-mono);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--pcb-silk-dim);
+}
+
+.board__led i {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 7px currentColor;
+}
+
+.board__led--pwr i {
+  color: var(--pcb-led-green);
+}
+
+.board__led--tx i {
+  color: var(--pcb-blue);
+  opacity: 0.35;
+  transition: opacity 420ms var(--pcb-ease);
+}
+
+.board__led--rx i {
+  color: var(--pcb-gold);
+  opacity: 0.35;
+  transition: opacity 420ms var(--pcb-ease);
+}
+
+/* chrome.js flips these for one beat on fragment and slide changes. */
+.board.is-tx .board__led--tx i,
+.board.is-rx .board__led--rx i {
+  opacity: 1;
+  transition-duration: 80ms;
+}
+
+/* ---------- QR ---------- */
+
+/* Deck coordinates: centred in the QFN body drawn by frame.svg
+   (x 1120-1212, y 577-669). */
+.board__qr {
+  position: absolute;
+  right: 78px;
+  bottom: 61px;
+  width: 72px;
+  transition: width 260ms var(--pcb-ease), right 260ms var(--pcb-ease),
+    bottom 260ms var(--pcb-ease);
+}
+
+.board__qr img {
+  display: block;
+  width: 100%;
+}
+
+.board__qr-label {
+  display: none;
+}
+
+.board[data-board="cover"] .board__qr {
+  right: 84px;
+  bottom: 40px;
+  width: 160px;
+}
+
+.board[data-board="cover"] .board__qr-label {
+  display: block;
+  margin-top: 12px;
+  text-align: center;
+  font-family: var(--pcb-font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pcb-silk-dim);
+}
+
+/* ---------- Footer rail ---------- */
+
+.board__rail {
+  position: absolute;
+  left: var(--pcb-pad-x);
+  /* Stops short of the QR footprint's left-hand escapes and vias. */
+  right: 280px;
+  bottom: var(--pcb-rail-y);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--pcb-font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--pcb-silk-mute);
+  transition: opacity 260ms var(--pcb-ease);
+}
+
+.board[data-board="cover"] .board__rail,
+.board[data-board="section"] .board__rail {
+  opacity: 0;
+}
+
+.board__rail-led {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--pcb-led-green);
+  box-shadow: 0 0 8px var(--pcb-led-green);
+}
+
+.board__rail-trace {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--pcb-gold) 34%, transparent)
+  );
+}
+
+.board__rail-number {
+  flex: none;
+  color: var(--pcb-gold);
+  letter-spacing: 0.12em;
+}
+
+.board__rail-number span {
+  color: var(--pcb-silk-mute);
+}
+
+/* ---------- Style switch feedback ---------- */
+
+.board__toast {
+  position: absolute;
+  left: 50%;
+  bottom: 76px;
+  transform: translateX(-50%);
+  padding: 9px 18px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--pcb-gold) 35%, transparent);
+  background: color-mix(in srgb, var(--pcb-board-deep) 90%, transparent);
+  font-family: var(--pcb-font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pcb-silk-mute);
+  opacity: 0;
+  transition: opacity 160ms linear;
+}
+
+.board__toast.is-visible {
+  opacity: 1;
+}
+
+.board__toast b {
+  font-weight: 600;
+  color: var(--pcb-gold);
+}
+
+/* Export: reveal lays slides out as static pages under `?print-pdf`, so pin
+   the chrome to the page box instead of to a measured rectangle. */
+.reveal-print .board,
+.reveal-print .board.is-hidden {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
+  opacity: 1;
+}
+
+.reveal-print .board__rail,
+.reveal-print .board__toast {
+  display: none;
+}

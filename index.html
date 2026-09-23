@@ -3,43 +3,197 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Python HW Survival Guide | PyConES 2026</title>
+    <title>Python HW Survival Guide | PyCon ES 2026</title>
   </head>
   <body>
-    <div class="reveal">
+    <!--
+      Slide recipes
+      -------------
+      data-board="cover"   full board artwork (traces, pin header, LEDs)
+      data-board="section" dimmed artwork, no pin header, for part dividers
+      (omitted)            frame + footer rail only, for content
+
+      class="is-centered"  centre the slide content vertically
+      class="section-slide" + data-part="02"  giant ghosted part number
+    -->
+    <div class="reveal" data-deck-label="Python HW Survival Guide"
+         data-deck-url="talks.example.com">
       <div class="slides">
 
-        <!-- FIRST SLIDE -->
-        <section>
-          <h1>Python HW Survival Guide</h1>
-          <h3>Lorem ipsum dolor sit amet</h3>
-          <p><small>Speaker Name · PyCon ES 2026</small></p>
+        <!-- COVER -->
+        <section class="cover is-centered" data-board="cover">
+          <p class="cover__corner cover__corner--tl">Small computers<br />Big possibilities</p>
+
+          <div class="cover__main">
+            <h1>Python HW<br />Survival Guide</h1>
+            <p class="cover__sub">
+              <span class="trace-rule trace-rule--inline"></span>
+              Speaker Name · PyCon ES 2026
+            </p>
+            <p class="tagline">
+              <span>Code</span><span>Hardware</span><span>Real impact</span>
+            </p>
+          </div>
+
+          <img class="cover__mark" src="/images/python-mark.svg" alt="" />
+
+          <ul class="chip-list">
+            <li>Python</li><li>MicroPython</li><li>CircuitPython</li>
+          </ul>
         </section>
 
+        <!-- SECTION DIVIDER -->
+        <section class="section-slide is-centered" data-board="section" data-part="01">
+          <h2>Picking a board</h2>
+          <span class="trace-rule"></span>
+          <p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
+        </section>
+
+        <!-- LIST + FRAGMENTS -->
         <section>
-          <h2>Lorem ipsum</h2>
-          <ul>
+          <header class="slide-head">
+            <h2>Lorem ipsum dolor</h2>
+          </header>
+
+          <ol>
             <li class="fragment">Dolor sit amet, consectetur adipiscing elit</li>
             <li class="fragment">Sed do eiusmod tempor incididunt ut labore</li>
             <li class="fragment">Ut enim ad minim veniam, quis nostrud</li>
-          </ul>
+            <li class="fragment">Duis aute irure dolor in reprehenderit</li>
+          </ol>
+
           <aside class="notes">
-            Lorem ipsum dolor sit amet. Speaker notes live here; press S to open the speaker view.
+            Speaker notes live here; press S to open the speaker view.
           </aside>
         </section>
 
+        <!-- TWO COLUMNS -->
         <section>
-          <h2>Dolor sit amet</h2>
-          <pre><code class="language-python" data-trim>
-def lorem(ipsum: str) -> str:
-    dolor = ipsum.upper()
-    return f"{dolor} sit amet"
+          <header class="slide-head">
+            <h2>Consectetur adipiscing</h2>
+          </header>
+
+          <div class="cols cols--wide-left">
+            <div>
+              <p class="lede">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              <ul>
+                <li>Ut enim ad minim veniam <span class="net">GP2</span></li>
+                <li>Quis nostrud exercitation ullamco</li>
+                <li>Laboris nisi ut aliquip ex ea</li>
+              </ul>
+            </div>
+
+            <div class="panel" data-label="J1 · header">
+              <ul class="pinout">
+                <li><span class="pinout__pin">GP0</span><span class="pinout__net">UART0 TX</span></li>
+                <li><span class="pinout__pin">GP1</span><span class="pinout__net">UART0 RX</span></li>
+                <li><span class="pinout__pin">GP2</span><span class="pinout__net">I2C1 SDA</span></li>
+                <li><span class="pinout__pin">GP3</span><span class="pinout__net">I2C1 SCL</span></li>
+                <li><span class="pinout__pin">3V3</span><span class="pinout__net">Sensor rail</span></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- CALLOUTS -->
+        <section>
+          <header class="slide-head">
+            <h2>Excepteur sint occaecat</h2>
+          </header>
+
+          <aside class="callout" data-label="Note">
+            <p>Duis aute irure dolor in reprehenderit.</p>
+          </aside>
+
+          <aside class="callout callout--warn fragment" data-label="Careful">
+            <p>Cillum dolore eu fugiat nulla pariatur.</p>
+          </aside>
+
+          <aside class="callout callout--danger fragment" data-label="Magic smoke">
+            <p>Sunt in culpa qui officia deserunt.</p>
+          </aside>
+        </section>
+
+        <!-- CODE -->
+        <section>
+          <header class="slide-head">
+            <h2>Dolor sit amet</h2>
+          </header>
+
+          <pre><code class="language-python" data-trim data-line-numbers="1-3|5-8">
+from machine import I2C, Pin
+
+i2c = I2C(1, sda=Pin(2), scl=Pin(3), freq=400_000)
+
+def read_temperature(addr: int = 0x48) -> float:
+    """Lorem ipsum dolor sit amet."""
+    raw = int.from_bytes(i2c.readfrom(addr, 2), "big")
+    return (raw >> 4) * 0.0625
           </code></pre>
         </section>
 
-        <section>
-          <h2>Thank you</h2>
-          <p>Consectetur adipiscing elit</p>
+        <!-- NUMBERS -->
+        <section class="is-centered">
+          <header class="slide-head">
+            <h2>Sed ut perspiciatis</h2>
+          </header>
+
+          <dl class="specs">
+            <div><div class="spec__value">264 KB</div><div class="spec__label">Lorem ipsum</div></div>
+            <div><div class="spec__value">133 MHz</div><div class="spec__label">Dolor sit amet</div></div>
+            <div><div class="spec__value">2× M0+</div><div class="spec__label">Consectetur</div></div>
+            <div><div class="spec__value">€4</div><div class="spec__label">Adipiscing elit</div></div>
+          </dl>
+        </section>
+
+        <!-- AUTO-ANIMATE PAIR: both states are readable in the source -->
+        <section class="is-centered" data-auto-animate>
+          <header class="slide-head">
+            <h2>Nemo enim ipsam</h2>
+          </header>
+          <div class="cols">
+            <div class="panel" data-id="host" data-label="Host">
+              <p>Lorem ipsum dolor sit amet.</p>
+            </div>
+            <div class="panel" data-id="target" data-label="Target">
+              <p>Consectetur adipiscing elit.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="is-centered" data-auto-animate>
+          <header class="slide-head">
+            <h2>Nemo enim ipsam</h2>
+          </header>
+          <div class="cols cols--wide-right">
+            <div class="panel" data-id="host" data-label="Host">
+              <p>Lorem ipsum dolor sit amet.</p>
+            </div>
+            <div class="panel" data-id="target" data-label="Target" style="border-color: var(--pcb-gold);">
+              <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- QUOTE -->
+        <section class="is-centered">
+          <blockquote class="quote">
+            Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.
+            <cite>Someone, somewhere</cite>
+          </blockquote>
+        </section>
+
+        <!-- CLOSING -->
+        <section class="cover is-centered" data-board="cover">
+          <div class="cover__main">
+            <h1>Thank you</h1>
+            <p class="cover__sub">
+              <span class="trace-rule trace-rule--inline"></span>
+              Questions?
+            </p>
+          </div>
+
+          <img class="cover__mark" src="/images/python-mark.svg" alt="" />
         </section>
 
       </div>
