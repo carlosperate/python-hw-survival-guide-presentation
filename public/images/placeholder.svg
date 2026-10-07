@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <!-- Stand-in for a photo or screenshot: replace the src, keep the slide. -->
+  <rect x="2" y="2" width="1596" height="896" rx="20" fill="#06331d" stroke="#74876f" stroke-width="4" stroke-dasharray="24 16"/>
+  <path d="M2 2 L1598 898 M1598 2 L2 898" stroke="#74876f" stroke-opacity="0.35" stroke-width="3"/>
+  <rect x="560" y="400" width="480" height="100" rx="10" fill="#001b0e" stroke="#fdca42" stroke-opacity="0.5" stroke-width="3"/>
+  <text x="800" y="465" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="40" letter-spacing="10" fill="#a9b7a4">IMAGE 16:9</text>
+</svg>

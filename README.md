@@ -13,6 +13,19 @@ npm run dev
 
 Then open the URL Vite prints, usually <http://localhost:5173>.
 
+## Slides
+
+The talk is one file per part in `slides/`, and `index.html` lists them in
+running order with `<!-- @include slides/NN-name.html -->`. Each file is a
+plain run of top-level `<section>` slides, starting with the part's divider.
+A small plugin in `vite.config.js` inlines them before Vite processes the page,
+so the dev server and `dist/index.html` both see a single ordinary reveal deck.
+Editing a part reloads the browser on the same slide.
+
+To add or reorder a part, add or move its `@include` line. Keep slides as
+siblings rather than nesting a part in an outer `<section>`: reveal turns
+nesting into a vertical stack, which changes navigation.
+
 ## Themes
 
 Press **T** to cycle through the themes on the same slide and fragment, or pick
@@ -127,18 +140,25 @@ Slides lay out from the top. Add `is-centered` to centre the content
 vertically, and `section-slide` with `data-part="02"` for the large ghosted
 part number on a divider.
 
-The components are plain classes, all shown in `index.html`:
-`trace-rule`, `slide-head`, `lede`, `tagline`, `cols` (`--wide-left`,
-`--wide-right`), `panel[data-label]`, `callout` (`--warn`, `--danger`),
-`specs`/`spec__value`/`spec__label`, `pinout`, `quote`, `net`, `chip-list`,
-`qr-slot`, `stamp`.
+The components are plain classes, all shown in `slides/09-demo.html`:
+`trace-rule`, `slide-head`, `lede`, `kicker`, `caption`, `tagline`, `cols`
+(`--wide-left`, `--wide-right`), `cards`, `panel[data-label]`, `callout`
+(`--ok`, `--warn`, `--danger`), `specs`/`spec__value`/`spec__label`, `pinout`,
+`agenda` (mark the current part with `is-current`), `chain` with
+`chain__node`/`chain__link[data-net]`, `terminal[data-label]` with
+`terminal__in`/`terminal__out`, `quote`, `net`, `chip-list`, `qr-slot`, `stamp`.
+
+The demo part also shows reveal's own features in this theme: `r-fit-text`,
+`r-stretch` images, `r-stack` (add `swap` so the layers pin top-left), code line
+steps synced to notes with `data-fragment-index`, auto-animated code, table rows
+as fragments and a vertical stack for backup slides.
 
 Two extra fragment styles sit alongside reveal's own: `highlight-trace` and
 `dim-past`, which keeps a step visible but muted until it is the current one.
 
 ### Changing the deck's identity
 
-- Title and subtitle: the cover section in `index.html`.
+- Title and subtitle: the cover section in `slides/01-intro.html`.
 - Footer rail label: `data-deck-label` on `.reveal`.
 - Colours: `src/styles/tokens.css`.
 - Default theme: the first entry of `PREFERRED` in `src/themes/index.js`.

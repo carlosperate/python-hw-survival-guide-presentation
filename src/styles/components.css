@@ -69,6 +69,27 @@
   color: var(--pcb-gold);
 }
 
+.reveal .kicker {
+  margin: 0 0 18px;
+  font-family: var(--pcb-font-mono);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--pcb-gold);
+}
+
+.reveal .caption {
+  margin: 14px 0 0;
+  max-width: none;
+  text-align: center;
+  font-family: var(--pcb-font-mono);
+  font-size: 15px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pcb-silk-dim);
+}
+
 /* Rotated silkscreen stamp, e.g. a revision marker. */
 .reveal .stamp {
   position: absolute;
@@ -281,6 +302,124 @@
   margin-bottom: 0;
 }
 
+/* Equal columns, one per child. */
+.reveal .cards {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 32px;
+}
+
+.reveal .cards p {
+  font-size: 0.82em;
+  color: var(--pcb-silk-dim);
+}
+
+/* reveal sizes an r-stretch image to the leftover height; stop the flex
+   column from also stretching it to full width. */
+.reveal img.r-stretch {
+  align-self: center;
+}
+
+/* An r-stack whose layers fill the width from the top, so states of different
+   widths swap in place instead of each centring on its own. */
+.reveal .r-stack.swap > * {
+  width: 100%;
+  margin: 0;
+}
+
+/* ---------- Agenda ---------- */
+
+.reveal ol.agenda {
+  columns: 2;
+  column-gap: 96px;
+  max-width: none;
+  font-size: 1.1em;
+}
+
+.reveal ol.agenda li {
+  break-inside: avoid;
+  color: var(--pcb-silk-mute);
+}
+
+.reveal ol.agenda li::before {
+  color: var(--pcb-silk-mute);
+}
+
+.reveal ol.agenda li.is-current {
+  color: var(--pcb-silk);
+}
+
+.reveal ol.agenda li.is-current::before {
+  color: var(--pcb-gold);
+}
+
+/* ---------- Signal chain ---------- */
+
+.reveal .chain {
+  display: flex;
+  align-items: center;
+  margin: 26px 0 52px;
+}
+
+.reveal .chain__node {
+  flex: none;
+  padding: 22px 30px;
+  font-family: var(--pcb-font-mono);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.reveal .chain__link {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  margin: 0 8px;
+  background: linear-gradient(to right, var(--pcb-blue), var(--pcb-gold));
+}
+
+.reveal .chain__link::before {
+  content: attr(data-net);
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--pcb-font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pcb-silk-dim);
+}
+
+/* ---------- Terminal ---------- */
+
+.reveal pre.terminal {
+  padding: 50px 30px 26px;
+  border-radius: 10px;
+  background: var(--pcb-board-deep);
+  border: 1px solid color-mix(in srgb, var(--pcb-led-green) 30%, transparent);
+  font-family: var(--pcb-font-mono);
+  color: var(--pcb-silk-dim);
+}
+
+.reveal pre.terminal::before {
+  content: attr(data-label);
+  position: absolute;
+  top: 14px;
+  left: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--pcb-silk-mute);
+}
+
+.reveal .terminal__in {
+  color: var(--pcb-led-green);
+}
+
 /* ---------- Callouts ---------- */
 
 .reveal .callout {
@@ -302,6 +441,10 @@
 
 .reveal .callout--danger {
   --pcb-callout-hue: var(--pcb-led-red);
+}
+
+.reveal .callout--ok {
+  --pcb-callout-hue: var(--pcb-led-green);
 }
 
 .reveal .callout[data-label]::before {
@@ -410,7 +553,14 @@
 
 /* ---------- Fragments ---------- */
 
-/* Same idea as reveal's highlight-red / highlight-blue, on this palette. */
+/* Same idea as reveal's highlight-red / highlight-blue, on this palette. Reveal
+   only keeps its own highlight names visible before they trigger. */
+.reveal .slides section .fragment.highlight-trace,
+.reveal .slides section .fragment.highlight-current-trace {
+  opacity: 1;
+  visibility: inherit;
+}
+
 .reveal .fragment.highlight-trace.visible,
 .reveal .fragment.highlight-current-trace.current-fragment {
   color: var(--pcb-gold);
@@ -425,6 +575,6 @@
   transition: color var(--pcb-speed) var(--pcb-ease);
 }
 
-.reveal .fragment.dim-past.current-fragment {
+.reveal .slides section .fragment.dim-past.current-fragment {
   color: var(--pcb-silk);
 }

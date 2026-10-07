@@ -15,14 +15,19 @@
       <circle cx="12" cy="12" r="12" fill="var(--pcb-blue, #3FA0F0)" />
       <circle cx="12" cy="12" r="5.2" fill="var(--pcb-board, #002E18)" />
     </symbol>
+    <!-- Inside the outline's stroke: edge traces run off the board and are cut
+         flush with its inner edge. Keep in step with the outline path. -->
+    <mask id="cover-board-inside" maskUnits="userSpaceOnUse" x="0" y="0" width="1280" height="720">
+      <path d="M 46 18 H 1234 L 1262 46 V 674 L 1234 702 H 46 L 18 674 V 46 Z" fill="white" stroke="black" stroke-width="2" />
+    </mask>
   </defs>
 
   <!-- Top-layer bus, fanned onto U1's north pads: outermost to the farthest pad. -->
   <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="2.6" stroke-opacity="0.82"
-     stroke-linecap="round" stroke-linejoin="round">
-    <path d="M 500 19.5 V 36 L 528 64 H 964 L 992 92 V 186" />
-    <path d="M 487 19.5 V 49 L 515 77 H 940 L 968 105 V 186" />
-    <path d="M 474 19.5 V 62 L 502 90 H 916 L 944 118 V 186" />
+     stroke-linecap="round" stroke-linejoin="round" mask="url(#cover-board-inside)">
+    <path d="M 500 0 V 36 L 528 64 H 964 L 992 92 V 186" />
+    <path d="M 487 0 V 49 L 515 77 H 940 L 968 105 V 186" />
+    <path d="M 474 0 V 62 L 502 90 H 916 L 944 118 V 186" />
   </g>
 
   <!-- South pads onto a via fence; three nets carry on down on the blue layer. -->
@@ -52,11 +57,11 @@
     <path d="M 920 186 V 164 M 1016 186 V 164" />
   </g>
 
-  <!-- Power pair, as in classic. -->
+  <!-- Power pair: 18px apart along the run, so each end via clears the other trace. -->
   <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="5" stroke-opacity="0.82"
-     stroke-linecap="round" stroke-linejoin="round">
-    <path d="M 37.5 690 H 212.5 L 240 662.5 H 240 L 267.5 635 H 960" />
-    <path d="M 24.5 677 H 199.5 L 227 649.5 H 227 L 254.5 622 H 934" />
+     stroke-linecap="round" stroke-linejoin="round" mask="url(#cover-board-inside)">
+    <path d="M 0 690 H 213 L 263 640 H 960" />
+    <path d="M 0 677 H 200 L 255 622 H 934" />
   </g>
 
   <!-- U1: pads, body and silkscreen corner marks. -->
@@ -92,7 +97,7 @@
     <use href="#via-blue" x="142.8" y="592.8" width="14.3" height="14.3" />
     <use href="#via-blue" x="170.8" y="579.8" width="14.3" height="14.3" />
     <use href="#via-blue" x="198.8" y="566.8" width="14.3" height="14.3" />
-    <use href="#via-gold" x="949" y="624" width="22" height="22" />
-    <use href="#via-gold" x="923" y="611" width="22" height="22" />
+    <use href="#via-gold" x="951" y="631" width="18" height="18" />
+    <use href="#via-gold" x="925" y="613" width="18" height="18" />
   </g>
 </svg>

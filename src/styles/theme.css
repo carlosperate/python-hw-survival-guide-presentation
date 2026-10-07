@@ -50,6 +50,12 @@
   line-height: 1.4;
 }
 
+/* A vertical stack's wrapper is not a slide; reveal only zeroes its top and
+   bottom padding, which doubles the side gutter of the slides inside. */
+.reveal .slides > section.stack {
+  padding: 0;
+}
+
 /* Export wraps every slide in a .pdf-page, so the `> section` rules above no
    longer match, and reveal zeroes slide padding inline. Restore both. */
 .reveal-print .reveal .slides .pdf-page > section {

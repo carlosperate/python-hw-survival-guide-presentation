@@ -1,0 +1,400 @@
+<section class="section-slide is-centered" data-board="section" data-part="09">
+  <h2>Demo</h2>
+  <span class="trace-rule"></span>
+  <p class="lede">Reference slides: one of each component and slide recipe.</p>
+</section>
+
+<!-- AGENDA: mark the part you are in with .is-current -->
+<section>
+  <header class="slide-head">
+    <h2>Agenda</h2>
+  </header>
+
+  <ol class="agenda">
+    <li>Intro</li>
+    <li class="is-current">Python on Hardware</li>
+    <li>Resources</li>
+    <li>Drivers</li>
+    <li>Debugging</li>
+    <li>Tooling</li>
+    <li>AI</li>
+    <li>Conclusion</li>
+  </ol>
+</section>
+
+<!-- STATEMENT: r-fit-text sizes the line to the slide width -->
+<section class="is-centered">
+  <p class="kicker">Rule of thumb</p>
+  <h2 class="r-fit-text">Lorem ipsum dolor sit amet.</h2>
+  <span class="trace-rule"></span>
+  <p class="lede">Consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+</section>
+
+<!-- LIST + FRAGMENTS -->
+<section>
+  <header class="slide-head">
+    <h2>Lorem ipsum dolor</h2>
+  </header>
+
+  <ol>
+    <li class="fragment">Dolor sit amet, consectetur adipiscing elit</li>
+    <li class="fragment">Sed do eiusmod tempor incididunt ut labore</li>
+    <li class="fragment">Ut enim ad minim veniam, quis nostrud</li>
+    <li class="fragment">Duis aute irure dolor in reprehenderit</li>
+  </ol>
+
+  <aside class="notes">
+    Speaker notes live here; press S to open the speaker view.
+  </aside>
+</section>
+
+<!-- FRAGMENT STYLES: each line is its own effect, named in the code chip -->
+<section>
+  <header class="slide-head">
+    <h2>Fragment styles</h2>
+  </header>
+
+  <ul>
+    <li class="fragment fade-up"><code>fade-up</code> lorem ipsum dolor sit</li>
+    <li class="fragment fade-right"><code>fade-right</code> consectetur adipiscing</li>
+    <li class="fragment highlight-trace"><code>highlight-trace</code> visible, turns gold</li>
+    <li class="fragment strike"><code>strike</code> sed do eiusmod tempor</li>
+    <li class="fragment fade-in-then-semi-out"><code>fade-in-then-semi-out</code> ut labore</li>
+  </ul>
+</section>
+
+<!-- TWO COLUMNS -->
+<section>
+  <header class="slide-head">
+    <h2>Consectetur adipiscing</h2>
+  </header>
+
+  <div class="cols cols--wide-left">
+    <div>
+      <p class="lede">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <ul>
+        <li>Ut enim ad minim veniam <span class="net">GP2</span></li>
+        <li>Quis nostrud exercitation ullamco</li>
+        <li>Laboris nisi ut aliquip ex ea</li>
+      </ul>
+    </div>
+
+    <div class="panel" data-label="J1 · header">
+      <ul class="pinout">
+        <li><span class="pinout__pin">GP0</span><span class="pinout__net">UART0 TX</span></li>
+        <li><span class="pinout__pin">GP1</span><span class="pinout__net">UART0 RX</span></li>
+        <li><span class="pinout__pin">GP2</span><span class="pinout__net">I2C1 SDA</span></li>
+        <li><span class="pinout__pin">GP3</span><span class="pinout__net">I2C1 SCL</span></li>
+        <li><span class="pinout__pin">3V3</span><span class="pinout__net">Sensor rail</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CARDS: one column per child, any count -->
+<section>
+  <header class="slide-head">
+    <h2>Three options</h2>
+  </header>
+
+  <div class="cards">
+    <div class="panel fragment fade-up" data-label="Option A">
+      <h4>Lorem ipsum</h4>
+      <p>Dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
+    </div>
+    <div class="panel fragment fade-up" data-label="Option B">
+      <h4>Dolor sit</h4>
+      <p>Tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+    <div class="panel fragment fade-up" data-label="Option C">
+      <h4>Amet elit</h4>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CALLOUTS -->
+<section>
+  <header class="slide-head">
+    <h2>Excepteur sint occaecat</h2>
+  </header>
+
+  <aside class="callout" data-label="Note">
+    <p>Duis aute irure dolor in reprehenderit.</p>
+  </aside>
+
+  <aside class="callout callout--warn fragment" data-label="Careful">
+    <p>Cillum dolore eu fugiat nulla pariatur.</p>
+  </aside>
+
+  <aside class="callout callout--danger fragment" data-label="Magic smoke">
+    <p>Sunt in culpa qui officia deserunt.</p>
+  </aside>
+</section>
+
+<!-- DO / DON'T -->
+<section>
+  <header class="slide-head">
+    <h2>Do and don't</h2>
+  </header>
+
+  <div class="cols">
+    <aside class="callout callout--ok" data-label="Do">
+      <ul>
+        <li>Lorem ipsum dolor sit</li>
+        <li>Consectetur adipiscing</li>
+        <li>Sed do eiusmod tempor</li>
+      </ul>
+    </aside>
+
+    <aside class="callout callout--danger fragment" data-label="Don't">
+      <ul>
+        <li>Ut enim ad minim</li>
+        <li>Quis nostrud exercitation</li>
+        <li>Duis aute irure dolor</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- NUMBERS -->
+<section class="is-centered">
+  <header class="slide-head">
+    <h2>Sed ut perspiciatis</h2>
+  </header>
+
+  <dl class="specs">
+    <div><div class="spec__value">264 KB</div><div class="spec__label">Lorem ipsum</div></div>
+    <div><div class="spec__value">133 MHz</div><div class="spec__label">Dolor sit amet</div></div>
+    <div><div class="spec__value">2× M0+</div><div class="spec__label">Consectetur</div></div>
+    <div><div class="spec__value">€4</div><div class="spec__label">Adipiscing elit</div></div>
+  </dl>
+</section>
+
+<!-- TABLE: each body row is a fragment -->
+<section>
+  <header class="slide-head">
+    <h2>Comparison</h2>
+  </header>
+
+  <table>
+    <thead>
+      <tr><th>Board</th><th>Core</th><th>RAM</th><th>Radio</th><th>Price</th></tr>
+    </thead>
+    <tbody>
+      <tr class="fragment"><td>Lorem</td><td>Cortex-M0+</td><td>264 KB</td><td>—</td><td>€4</td></tr>
+      <tr class="fragment"><td>Ipsum</td><td>Xtensa LX7</td><td>512 KB</td><td>Wi-Fi, BLE</td><td>€8</td></tr>
+      <tr class="fragment"><td><strong>Dolor</strong></td><td>Cortex-M33</td><td>520 KB</td><td>Wi-Fi, BLE</td><td><strong>€6</strong></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SIGNAL CHAIN: each hop and its walkthrough step share a fragment index -->
+<section>
+  <header class="slide-head">
+    <h2>Signal chain</h2>
+  </header>
+
+  <div class="chain">
+    <div class="panel chain__node" data-label="Host">Laptop</div>
+    <div class="chain__link fragment" data-fragment-index="0" data-net="USB CDC"></div>
+    <div class="panel chain__node fragment" data-fragment-index="0" data-label="MCU">RP2040</div>
+    <div class="chain__link fragment" data-fragment-index="1" data-net="I²C · 0x76"></div>
+    <div class="panel chain__node fragment" data-fragment-index="1" data-label="Sensor">BME280</div>
+  </div>
+
+  <ol>
+    <li class="fragment dim-past" data-fragment-index="0">Lorem ipsum dolor sit amet over USB</li>
+    <li class="fragment dim-past" data-fragment-index="1">Consectetur adipiscing elit over I²C</li>
+  </ol>
+</section>
+
+<!-- FIGURE: r-stretch fills the height the heading and caption leave over -->
+<section>
+  <header class="slide-head">
+    <h2>Figure</h2>
+  </header>
+
+  <img class="r-stretch" src="/images/placeholder.svg" alt="Placeholder" />
+  <p class="caption">Fig. 1 · Lorem ipsum dolor sit amet</p>
+</section>
+
+<!-- CODE -->
+<section>
+  <header class="slide-head">
+    <h2>Dolor sit amet</h2>
+  </header>
+
+  <pre><code class="language-python" data-trim data-line-numbers="1-3|5-8">
+from machine import I2C, Pin
+
+i2c = I2C(1, sda=Pin(2), scl=Pin(3), freq=400_000)
+
+def read_temperature(addr: int = 0x48) -> float:
+    """Lorem ipsum dolor sit amet."""
+    raw = int.from_bytes(i2c.readfrom(addr, 2), "big")
+    return (raw >> 4) * 0.0625
+  </code></pre>
+</section>
+
+<!-- CODE + NOTES: data-fragment-index on <code> numbers its line steps, so
+     each note can share an index with the step it explains -->
+<section>
+  <header class="slide-head">
+    <h2>Code walkthrough</h2>
+  </header>
+
+  <div class="cols cols--wide-left">
+    <pre><code class="language-python" data-trim data-line-numbers="1-2|4|6-8" data-fragment-index="0">
+from machine import Pin
+import time
+
+led = Pin("LED", Pin.OUT)
+
+while True:
+    led.toggle()
+    time.sleep(0.5)
+    </code></pre>
+
+    <ol>
+      <li>Lorem ipsum dolor</li>
+      <li class="fragment" data-fragment-index="0">Sit amet consectetur</li>
+      <li class="fragment" data-fragment-index="1">Adipiscing elit sed</li>
+    </ol>
+  </div>
+</section>
+
+<!-- CODE AUTO-ANIMATE: same data-id on both <pre>, lines morph between them -->
+<section data-auto-animate>
+  <header class="slide-head">
+    <h2>Code that grows</h2>
+  </header>
+
+  <pre data-id="i2c-scan"><code class="language-python" data-trim data-line-numbers>
+from machine import I2C
+
+i2c = I2C(0)
+print(i2c.scan())
+  </code></pre>
+</section>
+
+<section data-auto-animate>
+  <header class="slide-head">
+    <h2>Code that grows</h2>
+  </header>
+
+  <pre data-id="i2c-scan"><code class="language-python" data-trim data-line-numbers>
+from machine import I2C, Pin
+
+i2c = I2C(0, scl=Pin(5), sda=Pin(4), freq=400_000)
+devices = i2c.scan()
+print([hex(addr) for addr in devices])
+  </code></pre>
+</section>
+
+<!-- SWAP IN PLACE: r-stack layers the states, fragments switch between them;
+     .swap pins every layer top-left -->
+<section>
+  <header class="slide-head">
+    <h2>Three ways to wait</h2>
+  </header>
+
+  <div class="r-stack swap">
+    <div class="fragment fade-out" data-fragment-index="0">
+      <p class="kicker">Blocking</p>
+      <pre><code class="language-python" data-trim>
+while True:
+    led.toggle()
+    time.sleep(0.5)
+      </code></pre>
+    </div>
+
+    <div class="fragment current-visible" data-fragment-index="0">
+      <p class="kicker">asyncio</p>
+      <pre><code class="language-python" data-trim>
+async def blink():
+    while True:
+        led.toggle()
+        await asyncio.sleep(0.5)
+      </code></pre>
+    </div>
+
+    <div class="fragment" data-fragment-index="1">
+      <p class="kicker">Timer</p>
+      <pre><code class="language-python" data-trim>
+timer = Timer(period=500, callback=lambda t: led.toggle())
+      </code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- TERMINAL: a serial console; each command and its output is one fragment -->
+<section>
+  <header class="slide-head">
+    <h2>At the REPL</h2>
+  </header>
+
+  <pre class="terminal" data-label="/dev/ttyACM0 · 115200 baud"><span class="terminal__out">MicroPython vX.Y on lorem-ipsum; Board with RP2040</span>
+<span class="fragment"><span class="terminal__in">&gt;&gt;&gt; import machine</span>
+<span class="terminal__in">&gt;&gt;&gt; machine.freq()</span>
+<span class="terminal__out">125000000</span></span>
+<span class="fragment"><span class="terminal__in">&gt;&gt;&gt; machine.I2C(0).scan()</span>
+<span class="terminal__out">[60, 118]</span></span></pre>
+</section>
+
+<!-- AUTO-ANIMATE PAIR: both states are readable in the source -->
+<section class="is-centered" data-auto-animate>
+  <header class="slide-head">
+    <h2>Nemo enim ipsam</h2>
+  </header>
+  <div class="cols">
+    <div class="panel" data-id="host" data-label="Host">
+      <p>Lorem ipsum dolor sit amet.</p>
+    </div>
+    <div class="panel" data-id="target" data-label="Target">
+      <p>Consectetur adipiscing elit.</p>
+    </div>
+  </div>
+</section>
+
+<section class="is-centered" data-auto-animate>
+  <header class="slide-head">
+    <h2>Nemo enim ipsam</h2>
+  </header>
+  <div class="cols cols--wide-right">
+    <div class="panel" data-id="host" data-label="Host">
+      <p>Lorem ipsum dolor sit amet.</p>
+    </div>
+    <div class="panel" data-id="target" data-label="Target" style="border-color: var(--pcb-gold);">
+      <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VERTICAL STACK: optional detail; down enters it, right skips it -->
+<section>
+  <section>
+    <header class="slide-head">
+      <h2>Optional detail</h2>
+    </header>
+    <p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <p class="kicker">↓ Backup slide below</p>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>Backup</h2>
+    </header>
+    <aside class="callout" data-label="If asked">
+      <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </aside>
+  </section>
+</section>
+
+<!-- QUOTE -->
+<section class="is-centered">
+  <blockquote class="quote">
+    Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.
+    <cite>Someone, somewhere</cite>
+  </blockquote>
+</section>
