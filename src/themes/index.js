@@ -18,7 +18,7 @@ for (const [path, source] of Object.entries(files)) {
 }
 
 // T cycles in this order, the first is the default; others follow alphabetically.
-const PREFERRED = ['classic', 'hybrid', 'refined', 'alternative'];
+const PREFERRED = ['hybrid', 'classic', 'refined'];
 
 const complete = (name) => themes[name]?.frame && themes[name]?.cover;
 

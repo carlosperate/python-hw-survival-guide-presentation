@@ -274,6 +274,12 @@
   min-width: 0;
 }
 
+/* Columns that keep their natural height instead of filling the slide. */
+.reveal .cols--fit {
+  flex: none;
+  margin-bottom: 28px;
+}
+
 /* Raised board area for a diagram or a code listing. */
 .reveal .panel {
   position: relative;
@@ -315,6 +321,20 @@
   color: var(--pcb-silk-dim);
 }
 
+.reveal .cards--3 {
+  grid-auto-flow: row;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px 28px;
+}
+
+.reveal .cards--3 .panel {
+  padding: 22px 24px 18px;
+}
+
+.reveal .cards--3 h4 {
+  margin-bottom: 0.3em;
+}
+
 /* reveal sizes an r-stretch image to the leftover height; stop the flex
    column from also stretching it to full width. */
 .reveal img.r-stretch {
@@ -323,6 +343,10 @@
 
 /* An r-stack whose layers fill the width from the top, so states of different
    widths swap in place instead of each centring on its own. */
+.reveal .r-stack.swap {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .reveal .r-stack.swap > * {
   width: 100%;
   margin: 0;
@@ -391,6 +415,15 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--pcb-silk-dim);
+}
+
+.reveal .chain--compact .chain__node {
+  padding: 16px 18px;
+  font-size: 17px;
+}
+
+.reveal .chain--compact .chain__link {
+  min-width: 28px;
 }
 
 /* ---------- Terminal ---------- */
@@ -492,6 +525,10 @@
 }
 
 /* ---------- Pinout ---------- */
+
+.reveal .pinout.pinout--wide li {
+  grid-template-columns: 11em 1fr;
+}
 
 .reveal .pinout {
   max-width: none;

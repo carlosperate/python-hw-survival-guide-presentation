@@ -9,6 +9,9 @@ import 'reveal.js/reveal.css';
 import './styles/presentation.css';
 
 import { mountBoardChrome } from './board/chrome.js';
+import { renderHeapMaps } from './animations/heap-map.js';
+
+renderHeapMaps(document.querySelector('.reveal .slides'));
 
 const deck = new Reveal({
   // 16:9 for the projector; reveal's default is 960x700.

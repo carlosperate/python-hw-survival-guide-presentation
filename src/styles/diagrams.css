@@ -1,0 +1,738 @@
+/*
+  Inline SVG diagrams and the heap grid. Every animated state hangs off reveal's
+  fragment classes, so backward navigation, reload and PDF export see the same
+  picture.
+*/
+
+.reveal svg.diagram {
+  display: block;
+  overflow: visible;
+  font-family: var(--pcb-font-mono);
+}
+
+/* :where() keeps this default weaker than the per-class text styles below. */
+:where(.reveal svg.diagram) text {
+  fill: var(--pcb-silk);
+  font-size: 15px;
+}
+
+.reveal svg .lane-note--start {
+  text-anchor: start;
+}
+
+.reveal svg .legend {
+  font-size: 15px;
+}
+
+.reveal svg .legend--clk {
+  fill: var(--pcb-blue);
+}
+
+.reveal svg .legend--data {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .dontcare {
+  fill: var(--pcb-board-deep);
+  stroke: var(--pcb-silk-mute);
+  stroke-dasharray: 4 4;
+}
+
+.reveal svg.diagram--spaced {
+  margin-top: 14px;
+}
+
+/* ---------- Waveform lanes ---------- */
+
+.reveal svg .lane {
+  fill: none;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.reveal svg .lane--data {
+  stroke: var(--pcb-gold);
+  stroke-width: 4;
+}
+
+.reveal svg .lane--clk {
+  stroke: var(--pcb-blue);
+  stroke-width: 2.5;
+}
+
+.reveal svg .lane--frame {
+  stroke: var(--pcb-silk-dim);
+}
+
+.reveal svg .lane--alert {
+  stroke: var(--pcb-led-red);
+}
+
+.reveal svg .lane-label {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  fill: var(--pcb-blue);
+}
+
+.reveal svg .lane-label--data {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .lane-mask {
+  fill: var(--pcb-board);
+}
+
+.reveal svg .bit {
+  font-size: 14px;
+  text-anchor: middle;
+  fill: var(--pcb-silk-dim);
+}
+
+.reveal svg .bit--big {
+  font-size: 22px;
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .hex,
+.reveal svg .lane-note,
+.reveal svg .slot {
+  font-size: 14px;
+  text-anchor: middle;
+  fill: var(--pcb-silk-dim);
+}
+
+.reveal svg .slot--frame {
+  fill: var(--pcb-gold);
+  font-weight: 600;
+}
+
+.reveal svg .lane-note--alert,
+.reveal svg .axis-label--alert {
+  fill: var(--pcb-led-red);
+}
+
+.reveal svg .tick {
+  stroke: var(--pcb-led-green);
+  stroke-width: 2;
+  stroke-dasharray: 3 3;
+}
+
+/* Cursor column for the current step only. */
+.reveal svg .wave-cursor {
+  fill: color-mix(in srgb, var(--pcb-gold) 9%, transparent);
+}
+
+/* Draw-on: each path has pathLength="1", so one dash is the whole path. */
+.reveal .slides section svg .fragment.draw {
+  opacity: 1;
+  visibility: inherit;
+}
+
+.reveal svg .draw path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset calc(var(--pcb-speed) * 3) linear;
+}
+
+.reveal svg .draw.visible path {
+  stroke-dashoffset: 0;
+}
+
+.reveal svg .draw text {
+  opacity: 0;
+  transition: opacity var(--pcb-speed) var(--pcb-ease);
+}
+
+.reveal svg .draw.visible text {
+  opacity: 1;
+}
+
+/* ---------- Packet strip ---------- */
+
+.reveal svg .pkt rect {
+  fill: var(--pcb-board-deep);
+  stroke: color-mix(in srgb, var(--pcb-gold) 45%, transparent);
+  stroke-width: 1.5;
+}
+
+.reveal svg .pkt text {
+  font-size: 14px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+.reveal svg .pkt .pkt__who {
+  font-size: 11px;
+  font-weight: 500;
+  fill: var(--pcb-silk-mute);
+}
+
+.reveal svg .pkt--ack rect {
+  stroke: var(--pcb-led-green);
+}
+
+.reveal svg .pkt--ack text:first-of-type {
+  fill: var(--pcb-led-green);
+}
+
+/* A NACK that ends a read is not an error: neutral, never red. */
+.reveal svg .pkt--nack text:first-of-type {
+  fill: var(--pcb-silk-dim);
+}
+
+.reveal svg .pkt.current-fragment rect {
+  stroke: var(--pcb-gold);
+  stroke-width: 2.5;
+  fill: color-mix(in srgb, var(--pcb-gold) 16%, var(--pcb-board-deep));
+}
+
+/* ---------- Decoded capture (PulseView-style annotations) ---------- */
+
+.reveal svg .ann rect {
+  fill: color-mix(in srgb, var(--pcb-led-green) 22%, var(--pcb-board-deep));
+  stroke: var(--pcb-led-green);
+}
+
+.reveal svg .ann--addr rect,
+.reveal svg .ann--data rect {
+  fill: color-mix(in srgb, var(--pcb-blue) 22%, var(--pcb-board-deep));
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg .ann--nack rect {
+  fill: color-mix(in srgb, var(--pcb-silk-dim) 18%, var(--pcb-board-deep));
+  stroke: var(--pcb-silk-dim);
+}
+
+.reveal svg .ann--nack-bad rect {
+  fill: color-mix(in srgb, var(--pcb-led-red) 25%, var(--pcb-board-deep));
+  stroke: var(--pcb-led-red);
+  stroke-width: 2.5;
+}
+
+.reveal svg .ann text {
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+/* ---------- Charts ---------- */
+
+.reveal svg .axis {
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 1.5;
+}
+
+.reveal svg .axis-label {
+  font-size: 13px;
+  fill: var(--pcb-silk-dim);
+}
+
+.reveal svg .threshold {
+  stroke: var(--pcb-led-red);
+  stroke-width: 1.5;
+  stroke-dasharray: 8 6;
+}
+
+.reveal svg .limit {
+  stroke: var(--pcb-silk-dim);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 5;
+}
+
+.reveal svg .marker {
+  stroke: var(--pcb-silk-dim);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 4;
+}
+
+.reveal svg .cross {
+  font-size: 26px;
+  font-weight: 700;
+  text-anchor: middle;
+  fill: var(--pcb-led-red);
+}
+
+.reveal svg .console {
+  font-size: 15px;
+  fill: var(--pcb-led-red);
+}
+
+.reveal svg .console--ok {
+  fill: var(--pcb-silk);
+}
+
+/* ---------- Schematic bits (open-drain, feedback loop) ---------- */
+
+.reveal svg .wire {
+  fill: none;
+  stroke: var(--pcb-silk-dim);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.reveal svg .wire--high {
+  stroke: var(--pcb-gold);
+  stroke-width: 6;
+}
+
+.reveal svg .wire--low {
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 6;
+}
+
+.reveal svg .wire--float {
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 6;
+  stroke-dasharray: 4 10;
+}
+
+.reveal svg .chip rect {
+  fill: var(--pcb-board-panel);
+  stroke: color-mix(in srgb, var(--pcb-gold) 45%, transparent);
+  stroke-width: 1.5;
+}
+
+.reveal svg .chip text {
+  font-size: 17px;
+  text-anchor: middle;
+}
+
+.reveal svg .chip--you rect {
+  stroke: var(--pcb-gold);
+  stroke-width: 2.5;
+  fill: color-mix(in srgb, var(--pcb-gold) 14%, var(--pcb-board-panel));
+}
+
+.reveal svg .chip--danger rect {
+  stroke: var(--pcb-led-red);
+  stroke-dasharray: 6 5;
+}
+
+.reveal svg .caption-svg {
+  font-size: 18px;
+  text-anchor: middle;
+  fill: var(--pcb-silk);
+}
+
+.reveal svg .arrow {
+  fill: none;
+  stroke: var(--pcb-silk-dim);
+  stroke-width: 2.5;
+  marker-end: url(#arrowhead);
+}
+
+.reveal svg .arrowhead {
+  fill: var(--pcb-silk-dim);
+}
+
+/* ---------- Heap grid (rendered from .heap-map text) ---------- */
+
+.reveal .heap {
+  --cell: 14px;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--cell));
+  gap: 2px;
+  width: max-content;
+}
+
+.reveal .heap--small {
+  --cell: 20px;
+  gap: 3px;
+}
+
+.reveal .heap__cell {
+  width: var(--cell);
+  height: var(--cell);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--pcb-silk-mute) 22%, var(--pcb-board-deep));
+}
+
+.reveal .heap__cell--array {
+  background: var(--pcb-gold);
+}
+
+.reveal .heap__cell--float {
+  background: var(--pcb-blue);
+}
+
+.reveal .heap__cell--str {
+  background: var(--pcb-silk-dim);
+}
+
+.reveal .heap__cell--other {
+  background: var(--pcb-py-blue);
+}
+
+/* Hatched as well as grey, so "garbage" never relies on colour alone. */
+.reveal .heap__cell--garbage {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--pcb-silk-mute) 0 2px,
+    color-mix(in srgb, var(--pcb-silk-mute) 30%, var(--pcb-board-deep)) 2px 5px
+  );
+}
+
+/* Stacked heap states: each layer is opaque, so the newest covers the rest. */
+.reveal .heap-stack {
+  display: grid;
+}
+
+.reveal .heap-stack > * {
+  grid-area: 1 / 1;
+  background: var(--pcb-board);
+}
+
+.reveal .heap-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  max-width: none;
+  margin: 14px 0 0;
+  font-family: var(--pcb-font-mono);
+  font-size: 14px;
+  color: var(--pcb-silk-dim);
+}
+
+.reveal .heap-legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.reveal .heap-legend li::before {
+  content: none;
+}
+
+.reveal .heap-legend .heap__cell {
+  display: inline-block;
+  --cell: 14px;
+}
+
+/* ---------- Slide-level helpers for dense diagrams ---------- */
+
+.reveal .slides pre.compact {
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.reveal .slides pre.compact code {
+  padding: 18px 22px;
+}
+
+/* Swapped counter readouts sit on one line under a diagram. */
+.reveal .readout {
+  margin: 0;
+  max-width: none;
+  font-family: var(--pcb-font-mono);
+  font-size: 17px;
+  color: var(--pcb-silk-dim);
+}
+
+.reveal .readout b {
+  color: var(--pcb-gold);
+}
+
+.reveal .readout--alert {
+  color: var(--pcb-led-red);
+}
+
+/* A glyph column for verdict tables, so meaning never rests on colour. */
+.reveal .verdict {
+  font-family: var(--pcb-font-mono);
+  font-weight: 700;
+  text-align: center;
+}
+
+.reveal .verdict--ok {
+  color: var(--pcb-led-green);
+}
+
+.reveal .verdict--warn {
+  color: var(--pcb-gold);
+}
+
+.reveal .verdict--bad {
+  color: var(--pcb-led-red);
+}
+
+/* Layered stack boxes for the desktop-vs-MCU comparison. */
+.reveal .stack-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 520px;
+}
+
+.reveal .stack-layers > div {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--pcb-gold) 35%, transparent);
+  background: var(--pcb-board-panel);
+  font-family: var(--pcb-font-mono);
+  font-size: 19px;
+  line-height: 1.35;
+  overflow: hidden;
+}
+
+.reveal .stack-layers .is-you {
+  border-color: var(--pcb-gold);
+  color: var(--pcb-gold);
+}
+
+.reveal .stack-layers .is-os {
+  border-style: dashed;
+  color: var(--pcb-silk-dim);
+}
+
+.reveal .stack-layers .is-chip {
+  border-color: var(--pcb-blue);
+  color: var(--pcb-blue);
+}
+
+/* Matched by data-id on the next slide, so Auto-Animate collapses it. */
+.reveal .stack-layers .is-gone {
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: -8px;
+  border-width: 0;
+  opacity: 0;
+}
+
+/* ---------- LEDs ---------- */
+
+.reveal .led {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 3px solid color-mix(in srgb, var(--pcb-led-green) 45%, transparent);
+  background: color-mix(in srgb, var(--pcb-led-green) 12%, var(--pcb-board-deep));
+  transition: background var(--pcb-speed) var(--pcb-ease), box-shadow var(--pcb-speed) var(--pcb-ease);
+}
+
+/* Shown dark before its step, lit after: a fragment that never hides. */
+.reveal .slides section .fragment.led {
+  opacity: 1;
+  visibility: inherit;
+}
+
+.reveal .led.visible {
+  background: var(--pcb-led-green);
+  box-shadow: 0 0 48px color-mix(in srgb, var(--pcb-led-green) 70%, transparent);
+}
+
+.reveal svg .led-blink {
+  fill: color-mix(in srgb, var(--pcb-led-green) 15%, var(--pcb-board-deep));
+  animation: led-blink 1s steps(1) infinite;
+}
+
+@keyframes led-blink {
+  50% {
+    fill: var(--pcb-led-green);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal svg .led-blink {
+    animation: none;
+    fill: var(--pcb-led-green);
+  }
+}
+
+.reveal svg .led-frozen {
+  fill: color-mix(in srgb, var(--pcb-led-green) 15%, var(--pcb-board-deep));
+  stroke: var(--pcb-led-red);
+  stroke-width: 2;
+}
+
+/* ---------- I2C side panel ---------- */
+
+.reveal svg .driver {
+  fill: none;
+  stroke: var(--pcb-gold);
+  stroke-width: 3;
+}
+
+.reveal svg .step-note {
+  font-size: 16px;
+  fill: var(--pcb-silk);
+}
+
+/* ---------- RAM scale (areas, not bars) ---------- */
+
+.reveal .ram-scale {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 56px;
+}
+
+.reveal .ram-scale__laptop {
+  flex: none;
+  width: 380px;
+  height: 380px;
+  padding: 14px 16px;
+  border: 2px solid var(--pcb-gold);
+  background: color-mix(in srgb, var(--pcb-gold) 10%, transparent);
+  font-family: var(--pcb-font-mono);
+  font-size: 16px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pcb-gold);
+}
+
+/* True area: 380 px / 362 ≈ 1 px. The ring is only there to find it. */
+.reveal .ram-scale__mcu {
+  position: absolute;
+  left: 350px;
+  top: 350px;
+  width: 1px;
+  height: 1px;
+  background: var(--pcb-led-green);
+  border-radius: 50%;
+  outline: 3px solid var(--pcb-led-green);
+  outline-offset: 14px;
+}
+
+.reveal .ram-scale__note {
+  max-width: 20em;
+  font-size: 1.1em;
+}
+
+.reveal .ram-bar {
+  display: flex;
+  width: 100%;
+  height: 92px;
+  margin-top: 30px;
+  border: 2px solid var(--pcb-led-green);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.reveal .ram-bar + .caption {
+  margin-bottom: 40px;
+}
+
+.reveal .ram-bar__part {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--pcb-font-mono);
+  font-size: 16px;
+  text-align: center;
+}
+
+.reveal .ram-bar__part--heap {
+  background: var(--pcb-gold);
+  color: var(--pcb-board-deep);
+}
+
+.reveal .ram-bar__part--stack {
+  background: var(--pcb-blue);
+  color: var(--pcb-board-deep);
+}
+
+.reveal .ram-bar__part--rest {
+  background: color-mix(in srgb, var(--pcb-silk-mute) 45%, var(--pcb-board-deep));
+}
+
+/* ---------- Tables and cards for dense slides ---------- */
+
+.reveal .readouts {
+  margin-top: 14px;
+}
+
+.reveal table.habits,
+.reveal table.buses,
+.reveal table.matrix {
+  width: 100%;
+  font-size: 0.74em;
+}
+
+.reveal table.buses {
+  margin-bottom: 26px;
+}
+
+.reveal table.matrix td:first-child,
+.reveal table.buses td:first-child {
+  color: var(--pcb-silk-dim);
+}
+
+.reveal table.matrix th,
+.reveal table.matrix .verdict {
+  text-align: center;
+}
+
+.reveal table.mapping {
+  font-size: 1.15em;
+}
+
+.reveal table.mapping td {
+  padding-right: 1.4em;
+}
+
+.reveal .cards--4 {
+  grid-auto-flow: row;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px 22px;
+  margin-bottom: 24px;
+}
+
+.reveal .cards--4 .panel {
+  padding: 20px 20px 12px;
+}
+
+.reveal .cards--4 h4 {
+  font-size: 22px;
+  margin-bottom: 0.2em;
+}
+
+.reveal .cards--4 p,
+.reveal .rules p {
+  font-size: 0.72em;
+}
+
+.reveal .rules .panel {
+  padding: 24px 20px 18px;
+}
+
+.reveal .rules-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 28px;
+  margin-bottom: 24px;
+}
+
+.reveal .rules-list .panel {
+  padding: 20px 26px 14px;
+}
+
+.reveal .rules-list p {
+  font-size: 0.86em;
+}
+
+.reveal .cards .readout {
+  font-size: 15px;
+}
+
+.reveal .chain--compact {
+  margin: 14px 0 22px;
+}
+
+.reveal .chain--compact .chain__node small {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pcb-silk-dim);
+}
+
+.reveal .lane-gap {
+  margin-top: 26px;
+}
