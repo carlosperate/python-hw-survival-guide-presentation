@@ -72,9 +72,9 @@
 .reveal .kicker {
   margin: 0 0 18px;
   font-family: var(--pcb-font-mono);
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--pcb-gold);
 }
@@ -84,8 +84,8 @@
   max-width: none;
   text-align: center;
   font-family: var(--pcb-font-mono);
-  font-size: 15px;
-  letter-spacing: 0.16em;
+  font-size: 18px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--pcb-silk-dim);
 }
@@ -292,14 +292,14 @@
 .reveal .panel[data-label]::before {
   content: attr(data-label);
   position: absolute;
-  top: -9px;
+  top: -12.5px;
   left: 22px;
   padding: 0 10px;
   background: var(--pcb-board);
   font-family: var(--pcb-font-mono);
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--pcb-silk-dim);
 }
@@ -410,9 +410,9 @@
   transform: translateX(-50%);
   white-space: nowrap;
   font-family: var(--pcb-font-mono);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--pcb-silk-dim);
 }
@@ -429,7 +429,7 @@
 /* ---------- Terminal ---------- */
 
 .reveal pre.terminal {
-  padding: 50px 30px 26px;
+  padding: 56px 30px 26px;
   border-radius: 10px;
   background: var(--pcb-board-deep);
   border: 1px solid color-mix(in srgb, var(--pcb-led-green) 30%, transparent);
@@ -442,9 +442,9 @@
   position: absolute;
   top: 14px;
   left: 30px;
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--pcb-silk-mute);
 }
@@ -462,8 +462,14 @@
   padding: 22px 28px 20px;
   border-radius: 10px;
   border: 1px solid var(--pcb-callout-hue);
-  border-left-width: 4px;
-  background: color-mix(in srgb, var(--pcb-callout-hue) 9%, transparent);
+  /* A plated mounting hole in each corner, ringed in the callout's colour. */
+  --hole: radial-gradient(circle, var(--pcb-board-deep) 0 2.5px, var(--pcb-callout-hue) 3px 5px, transparent 5.5px);
+  background:
+    var(--hole) left 7px top 7px / 12px 12px no-repeat,
+    var(--hole) right 7px top 7px / 12px 12px no-repeat,
+    var(--hole) left 7px bottom 7px / 12px 12px no-repeat,
+    var(--hole) right 7px bottom 7px / 12px 12px no-repeat,
+    color-mix(in srgb, var(--pcb-callout-hue) 9%, transparent);
   font-size: 0.94em;
   --pcb-callout-hue: var(--pcb-blue);
 }
@@ -485,9 +491,9 @@
   display: block;
   margin-bottom: 8px;
   font-family: var(--pcb-font-mono);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--pcb-callout-hue);
 }
@@ -518,8 +524,8 @@
 .reveal .spec__label {
   margin-top: 12px;
   font-family: var(--pcb-font-mono);
-  font-size: 15px;
-  letter-spacing: 0.16em;
+  font-size: 18px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--pcb-silk-dim);
 }
@@ -563,6 +569,7 @@
 /* ---------- Quote ---------- */
 
 .reveal .quote {
+  max-width: 19em;
   margin: 0;
   padding: 0 0 0 34px;
   border-left: 4px solid var(--pcb-gold);
@@ -571,7 +578,8 @@
   font-family: var(--pcb-font-display);
   font-size: 42px;
   font-weight: var(--pcb-heading-weight);
-  line-height: 1.26;
+  line-height: 1.3;
+  text-wrap: balance;
   font-style: normal;
   color: var(--pcb-silk);
 }
@@ -601,6 +609,18 @@
 .reveal .fragment.highlight-trace.visible,
 .reveal .fragment.highlight-current-trace.current-fragment {
   color: var(--pcb-gold);
+}
+
+/* A gold trace draws under the line too, so the step isn't colour alone. */
+.reveal .slides section .fragment.highlight-trace {
+  width: fit-content;
+  padding-bottom: 6px;
+  background: linear-gradient(var(--pcb-gold), var(--pcb-gold)) no-repeat left bottom / 0 3px;
+  transition: color var(--pcb-speed) var(--pcb-ease), background-size calc(var(--pcb-speed) * 2) var(--pcb-ease);
+}
+
+.reveal .slides section .fragment.highlight-trace.visible {
+  background-size: 100% 3px;
 }
 
 /* Dimmed steps stay legible instead of vanishing: useful when a list is a

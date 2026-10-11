@@ -21,9 +21,10 @@ are in AGENTS.md, "Testing in browsers". To try it on your own phone, open
 (landscape, no margins, background graphics on). Each fragment state becomes a
 page.
 
-**Reviewing design changes:** <http://localhost:5173/review.html> shows each
+**Reviewing design changes:** <http://localhost:5173/review/> shows each
 change before and after, with a link to the live slide. Mark each one and
-"Copy feedback" puts your notes on the clipboard to paste into the chat.
+"Copy feedback" puts your notes on the clipboard to paste into the chat. The
+`review/` folder is local only (ignored by git).
 
 **On phones:** in portrait the deck asks to be turned sideways, with a Full
 screen button on Android (iPhones can't go full screen from a web page). In

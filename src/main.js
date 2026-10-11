@@ -10,6 +10,7 @@ import './styles/presentation.css';
 
 import { mountBoardChrome } from './board/chrome.js';
 import { renderHeapMaps } from './animations/heap-map.js';
+import { mountPhoneView } from './phone.js';
 
 renderHeapMaps(document.querySelector('.reveal .slides'));
 
@@ -30,6 +31,9 @@ const deck = new Reveal({
   backgroundTransition: 'fade',
   autoAnimateDuration: 0.55,
   autoAnimateUnmatched: false,
+  // Phones keep the slides; portrait gets the turn-sideways card instead of
+  // reveal's scroll view, which shrinks text to 7-9px.
+  scrollActivationWidth: null,
   plugins: [Notes, Highlight],
 });
 
@@ -40,5 +44,6 @@ await deck.initialize();
 // LED labels. Inserting the chrome once fonts have settled avoids the race.
 await document.fonts.ready;
 mountBoardChrome(deck);
+mountPhoneView();
 
 export { deck };

@@ -105,6 +105,21 @@
 
 /* ---------- Components ---------- */
 
+[data-theme="hybrid"] .reveal .panel[data-label]::before {
+  top: -12.5px;
+  font-size: 18px;
+  letter-spacing: 0.14em;
+}
+
+[data-theme="hybrid"] .reveal .slide-head::after {
+  background: linear-gradient(to right, var(--pcb-blue) 0 46%, var(--pcb-gold) 46% 100%);
+}
+
+/* Follow wide comparison rows without striping the Highlight plugin's tables. */
+[data-theme="hybrid"] .reveal table:not(.hljs-ln) > tbody > tr:nth-child(even) {
+  background: color-mix(in srgb, var(--pcb-silk) 4%, transparent);
+}
+
 [data-theme="hybrid"] .reveal ol {
   max-width: 34em;
 }
@@ -144,6 +159,23 @@
 /* Lines outside the current step stay readable. */
 [data-theme="hybrid"] .reveal .hljs.has-highlights tr:not(.highlight-line) {
   opacity: 0.6;
+}
+
+/* The rail stays in the code well's padding, clear of the line numbers. */
+[data-theme="hybrid"] .reveal .hljs .highlight-line .hljs-ln-numbers {
+  position: relative;
+  color: var(--pcb-gold);
+  opacity: 1;
+}
+
+[data-theme="hybrid"] .reveal .hljs .highlight-line .hljs-ln-numbers::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--pcb-gold);
 }
 
 /* Gold arrows on top of the QR's gold escapes read as more copper. */

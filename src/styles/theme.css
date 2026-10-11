@@ -296,6 +296,11 @@
   background: color-mix(in srgb, var(--pcb-gold) 12%, transparent);
 }
 
+/* The band spans the code well, not just the longest highlighted line. */
+.reveal pre code table.hljs-ln {
+  width: 100%;
+}
+
 /* ---------- Tables ---------- */
 
 .reveal table {
@@ -314,7 +319,7 @@
 
 .reveal table th {
   font-family: var(--pcb-font-mono);
-  font-size: 0.76em;
+  font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;

@@ -1,0 +1,115 @@
+/*
+ * Phone viewing, driven by src/phone.js: the turn-sideways card in portrait
+ * and the full-screen corner button in landscape on touch screens.
+ */
+
+.phone-card,
+.fullscreen-corner {
+  display: none;
+}
+
+@media (orientation: portrait) and (max-width: 600px) {
+  :root:not(.portrait-dismissed) .phone-card {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 32px;
+    text-align: center;
+    background: color-mix(in srgb, var(--pcb-board-deep) 95%, transparent);
+    font-family: var(--pcb-font-body);
+    color: var(--pcb-silk);
+  }
+}
+
+.phone-card svg {
+  width: 96px;
+  height: 96px;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.phone-card__before {
+  stroke: var(--pcb-silk-dim);
+}
+
+.phone-card__after {
+  stroke: var(--pcb-gold);
+}
+
+.phone-card__arrow {
+  stroke: var(--pcb-blue);
+}
+
+.phone-card p {
+  max-width: 15em;
+  margin: 0 0 8px;
+  font-size: 21px;
+  line-height: 1.4;
+}
+
+.phone-card button {
+  min-width: 200px;
+  min-height: 48px;
+  border-radius: 6px;
+  font: 500 17px var(--pcb-font-mono);
+  cursor: pointer;
+}
+
+.phone-card__fullscreen {
+  display: none;
+  border: none;
+  background: var(--pcb-gold);
+  color: var(--pcb-board-deep);
+}
+
+.can-fullscreen:not(.is-fullscreen) .phone-card__fullscreen {
+  display: block;
+}
+
+.phone-card__anyway {
+  border: 1px solid color-mix(in srgb, var(--pcb-gold) 40%, transparent);
+  background: none;
+  color: var(--pcb-silk-dim);
+}
+
+.phone-card button:focus-visible,
+.fullscreen-corner:focus-visible {
+  outline: 2px solid var(--pcb-gold);
+  outline-offset: 3px;
+}
+
+/* Sits in the letterbox margin beside the slide, clear of the content. */
+@media (orientation: landscape) and (pointer: coarse) {
+  .can-fullscreen:not(.is-fullscreen) .fullscreen-corner {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 30;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid color-mix(in srgb, var(--pcb-gold) 35%, transparent);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--pcb-board-deep) 70%, transparent);
+    color: var(--pcb-silk-dim);
+  }
+}
+
+.fullscreen-corner svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
