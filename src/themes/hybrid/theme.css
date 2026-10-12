@@ -37,6 +37,93 @@
   opacity: 0;
 }
 
+/* LEDs are drawn as footprints in deck coordinates; only the labels are HTML. */
+[data-theme="hybrid"] .board__leds {
+  inset: 0;
+  width: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  display: block;
+}
+
+[data-theme="hybrid"] .board__leds svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hybrid__led-trace {
+  stroke: var(--pcb-gold);
+  stroke-opacity: 0.82;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.hybrid__led-pad {
+  fill: color-mix(in srgb, var(--pcb-gold) 85%, transparent);
+}
+
+.hybrid__led-silk {
+  fill: none;
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 1.5;
+}
+
+.hybrid__led-mark {
+  fill: var(--pcb-silk-mute);
+}
+
+.hybrid__led-resistor,
+.hybrid__led-body {
+  fill: var(--pcb-board-deep);
+}
+
+.hybrid__led-lens {
+  fill: currentColor;
+  opacity: 0.35;
+  transition: opacity 420ms var(--pcb-ease);
+}
+
+.hybrid__led-lens--pwr {
+  color: var(--pcb-led-green);
+  opacity: 1;
+  filter: drop-shadow(0 0 4px currentColor);
+}
+
+.hybrid__led-lens--tx {
+  color: var(--pcb-blue);
+}
+
+.hybrid__led-lens--rx {
+  color: var(--pcb-gold);
+}
+
+/* chrome.js flips these for one beat on fragment and slide changes. */
+.board.is-tx .hybrid__led-lens--tx,
+.board.is-rx .hybrid__led-lens--rx {
+  opacity: 1;
+  filter: drop-shadow(0 0 4px currentColor);
+  transition-duration: 80ms;
+}
+
+/* Lines up with J1's net names; 18px lines plus 18px gaps keep the 36px pitch. */
+.hybrid__led-labels {
+  position: absolute;
+  left: 1163px;
+  top: 63px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-family: var(--pcb-font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.14em;
+  color: var(--pcb-silk-dim);
+}
+
 /* J1: pads at x 1136 on a 36px pitch, matching the fan-out in cover.svg. */
 [data-theme="hybrid"] .board__pins {
   top: 189px;

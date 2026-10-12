@@ -1,17 +1,56 @@
 <!-- Labelled parts are HTML, not SVG <text>: Chrome drops webfont SVG text in
-     the scaled chrome layer. The LED classes are pulsed by board/chrome.js. -->
+     the scaled chrome layer. The LED lenses are pulsed by board/chrome.js. -->
+<!-- Each LED row: via, series resistor, LED, on J1's 36px pitch and column.
+     #via-gold is the symbol frame.svg defines. -->
 <div class="board__leds">
-  <div class="board__led board__led--pwr"><i></i><span>PWR</span></div>
-  <div class="board__led board__led--tx"><i></i><span>TX</span></div>
-  <div class="board__led board__led--rx"><i></i><span>RX</span></div>
+  <svg viewBox="0 0 1280 720">
+    <path class="hybrid__led-trace" d="M 1046 72 H 1066 M 1090 72 H 1124" />
+    <use href="#via-gold" x="1039" y="65" width="14" height="14" />
+    <rect class="hybrid__led-pad" x="1062" y="66" width="8" height="12" />
+    <rect class="hybrid__led-pad" x="1086" y="66" width="8" height="12" />
+    <rect class="hybrid__led-resistor" x="1070" y="67" width="16" height="10" />
+    <rect class="hybrid__led-silk" x="1116" y="61" width="42" height="22" />
+    <rect class="hybrid__led-mark" x="1154" y="61" width="4" height="22" />
+    <rect class="hybrid__led-pad" x="1122" y="66" width="8" height="12" />
+    <rect class="hybrid__led-pad" x="1144" y="66" width="8" height="12" />
+    <rect class="hybrid__led-body" x="1130" y="67" width="14" height="10" />
+    <rect class="hybrid__led-lens hybrid__led-lens--pwr" x="1131" y="68" width="12" height="8" rx="1.5" />
+    <path class="hybrid__led-trace" d="M 1046 108 H 1066 M 1090 108 H 1124" />
+    <use href="#via-gold" x="1039" y="101" width="14" height="14" />
+    <rect class="hybrid__led-pad" x="1062" y="102" width="8" height="12" />
+    <rect class="hybrid__led-pad" x="1086" y="102" width="8" height="12" />
+    <rect class="hybrid__led-resistor" x="1070" y="103" width="16" height="10" />
+    <rect class="hybrid__led-silk" x="1116" y="97" width="42" height="22" />
+    <rect class="hybrid__led-mark" x="1154" y="97" width="4" height="22" />
+    <rect class="hybrid__led-pad" x="1122" y="102" width="8" height="12" />
+    <rect class="hybrid__led-pad" x="1144" y="102" width="8" height="12" />
+    <rect class="hybrid__led-body" x="1130" y="103" width="14" height="10" />
+    <rect class="hybrid__led-lens hybrid__led-lens--tx" x="1131" y="104" width="12" height="8" rx="1.5" />
+    <path class="hybrid__led-trace" d="M 1046 144 H 1066 M 1090 144 H 1124" />
+    <use href="#via-gold" x="1039" y="137" width="14" height="14" />
+    <rect class="hybrid__led-pad" x="1062" y="138" width="8" height="12" />
+    <rect class="hybrid__led-pad" x="1086" y="138" width="8" height="12" />
+    <rect class="hybrid__led-resistor" x="1070" y="139" width="16" height="10" />
+    <rect class="hybrid__led-silk" x="1116" y="133" width="42" height="22" />
+    <rect class="hybrid__led-mark" x="1154" y="133" width="4" height="22" />
+    <rect class="hybrid__led-pad" x="1122" y="138" width="8" height="12" />
+    <rect class="hybrid__led-pad" x="1144" y="138" width="8" height="12" />
+    <rect class="hybrid__led-body" x="1130" y="139" width="14" height="10" />
+    <rect class="hybrid__led-lens hybrid__led-lens--rx" x="1131" y="140" width="12" height="8" rx="1.5" />
+  </svg>
+  <div class="hybrid__led-labels">
+    <span>PWR</span>
+    <span>TX</span>
+    <span>RX</span>
+  </div>
 </div>
 <!-- Pads first: in this theme the header's traces arrive from the left. -->
 <div class="board__pins">
-  <i class="board__pin-pad board__pin-pad--first"></i><span class="board__pin-net">3V3</span>
+  <i class="board__pin-pad board__pin-pad--first"></i><span class="board__pin-net">VREF</span>
   <i class="board__pin-pad"></i><span class="board__pin-net">GND</span>
-  <i class="board__pin-pad"></i><span class="board__pin-net">SDA</span>
-  <i class="board__pin-pad"></i><span class="board__pin-net">SCL</span>
-  <i class="board__pin-pad"></i><span class="board__pin-net">GPIO</span>
+  <i class="board__pin-pad"></i><span class="board__pin-net">SWDIO</span>
+  <i class="board__pin-pad"></i><span class="board__pin-net">SWCLK</span>
+  <i class="board__pin-pad"></i><span class="board__pin-net">nRESET</span>
 </div>
 <span class="hybrid__silk hybrid__silk--u1">U1 · MICROPYTHON</span>
 <span class="hybrid__silk hybrid__silk--j1">J1</span>

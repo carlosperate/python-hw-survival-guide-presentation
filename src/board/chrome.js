@@ -14,13 +14,17 @@ const PULSE_MS = 240;
 const TOAST_MS = 1800;
 
 /* Chrome rather than slide markup, so every slide carries it: large on the
-   cover, small in the corner everywhere else. Replace public/images/qr.svg. */
+   cover, small in the corner everywhere else. public/images/qr.svg must encode
+   data-deck-url; regenerate it if the URL changes. */
 function qr(revealEl) {
   const url = revealEl.dataset.deckUrl ?? '';
+  // "https://" opens the first line and the second starts with a dot, so both read as one URL.
+  const [head, ...rest] = url.split('.');
+  const tail = rest.length ? `<br>.${rest.join('.')}` : '';
   return `
     <div class="board__qr">
       <img src="/images/qr.svg" alt="" />
-      <span class="board__qr-label">${url}</span>
+      <span class="board__qr-label">${head}${tail}</span>
     </div>`;
 }
 
