@@ -170,6 +170,14 @@
   transition-duration: 80ms;
 }
 
+/* A bright run along one cover trace; ambient.js drives the motion. */
+.trace-pulse {
+  fill: none;
+  stroke-opacity: 1;
+  stroke-width: 3.4;
+  stroke-linecap: round;
+}
+
 /* ---------- QR ---------- */
 
 /* Deck coordinates: centred in the QFN body drawn by frame.svg
@@ -238,15 +246,6 @@
   opacity: 0;
 }
 
-.board__rail-led {
-  width: 8px;
-  height: 8px;
-  flex: none;
-  border-radius: 50%;
-  background: var(--pcb-led-green);
-  box-shadow: 0 0 8px var(--pcb-led-green);
-}
-
 .board__rail-trace {
   flex: 1;
   height: 1px;
@@ -255,6 +254,41 @@
     transparent,
     color-mix(in srgb, var(--pcb-gold) 34%, transparent)
   );
+}
+
+/* A short gold pulse runs the way the deck moved between slides. */
+.board__rail-trace {
+  position: relative;
+}
+
+.board__rail-trace::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  width: 90px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(to right, transparent, var(--pcb-gold), transparent);
+  opacity: 0;
+}
+
+.board.is-step-fwd .board__rail-trace::after {
+  animation: rail-pulse 460ms var(--pcb-ease) both;
+}
+
+.board.is-step-back .board__rail-trace::after {
+  animation: rail-pulse 460ms var(--pcb-ease) reverse both;
+}
+
+@keyframes rail-pulse {
+  from { left: 0; opacity: 1; }
+  to { left: calc(100% - 90px); opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .board__rail-trace::after {
+    display: none;
+  }
 }
 
 .board__rail-number {

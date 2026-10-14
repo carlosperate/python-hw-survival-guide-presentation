@@ -1,4 +1,5 @@
 import { THEMES, themeLayers } from '../themes/index.js';
+import { startAmbient } from './ambient.js';
 
 /*
  * Draws the PCB chrome behind the deck and keeps it registered with reveal's
@@ -11,6 +12,7 @@ import { THEMES, themeLayers } from '../themes/index.js';
  */
 
 const PULSE_MS = 240;
+const RAIL_PULSE_MS = 460;
 const TOAST_MS = 1800;
 
 /* Chrome rather than slide markup, so every slide carries it: large on the
@@ -66,8 +68,6 @@ export function mountBoardChrome(deck) {
     </div>
     ${qr(revealEl)}
     <div class="board__rail">
-      <span class="board__rail-led"></span>
-      <span class="board__rail-label">${revealEl.dataset.deckLabel ?? ''}</span>
       <span class="board__rail-trace"></span>
       <span class="board__rail-number"></span>
     </div>
@@ -136,6 +136,16 @@ export function mountBoardChrome(deck) {
     numberEl.innerHTML = `${number}<span> / ${total}</span>`;
   }
 
+  // Restarts the rail pulse; `dir` is the way the deck just moved between slides.
+  let pulseTimer;
+  function railPulse(dir) {
+    board.classList.remove('is-step-fwd', 'is-step-back');
+    void board.offsetWidth;
+    board.classList.add(`is-step-${dir}`);
+    clearTimeout(pulseTimer);
+    pulseTimer = setTimeout(() => board.classList.remove(`is-step-${dir}`), RAIL_PULSE_MS);
+  }
+
   function pulse(state) {
     board.classList.add(state);
     clearTimeout(pulses.get(state));
@@ -143,9 +153,11 @@ export function mountBoardChrome(deck) {
   }
 
   deck.on('resize', place);
-  deck.on('slidechanged', () => {
+  deck.on('slidechanged', (event) => {
     sync();
     pulse('is-rx');
+    const was = event.previousSlide ? deck.getIndices(event.previousSlide) : null;
+    if (was) railPulse(event.indexh > was.h || (event.indexh === was.h && event.indexv > was.v) ? 'fwd' : 'back');
   });
   deck.on('fragmentshown', () => pulse('is-tx'));
   deck.on('fragmenthidden', () => pulse('is-rx'));
@@ -162,4 +174,5 @@ export function mountBoardChrome(deck) {
   applyTheme(current.theme);
   place();
   sync();
+  startAmbient(deck, board);
 }

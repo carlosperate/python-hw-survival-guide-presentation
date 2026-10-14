@@ -106,19 +106,6 @@
   color: var(--pcb-silk-dim);
 }
 [data-theme="refined"] .reveal .trace-rule--inline { width: 56px; height: 3px; }
-[data-theme="refined"] .reveal .cover .tagline {
-  font-size: 12px;
-  letter-spacing: .17em;
-  gap: 22px;
-  margin-top: 25px;
-  color: var(--pcb-silk-mute);
-}
-[data-theme="refined"] .reveal .cover__corner {
-  font-size: 12px;
-  letter-spacing: .18em;
-  color: var(--pcb-silk-mute);
-}
-[data-theme="refined"] .reveal .cover__corner::after { display: none; }
 [data-theme="refined"] .reveal .cover__mark {
   left: 974px;
   top: 272px;
@@ -167,12 +154,6 @@
   font-size: 10px;
   letter-spacing: .13em;
   gap: 12px;
-}
-[data-theme="refined"] .board__rail-led {
-  width: 5px;
-  height: 5px;
-  box-shadow: none;
-  opacity: .7;
 }
 [data-theme="refined"] .board__rail-trace {
   margin-left: 16px;

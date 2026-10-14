@@ -10,10 +10,17 @@
 /* ---------- Board: cover and section ---------- */
 
 /* The cover QR gets its own clearance, so the frame's QR package, and the
-   edge stub that ran under the LED block, come off. */
+   edge stub that ran under the LED block, come off; the full artwork leaves
+   no room for the corner dots. */
 [data-theme="hybrid"] .board[data-board="cover"] #qr-footprint,
-[data-theme="hybrid"] .board[data-board="cover"] #edge-stub-right {
+[data-theme="hybrid"] .board[data-board="cover"] #edge-stub-right,
+[data-theme="hybrid"] .board[data-board="cover"] #corner-dots {
   display: none;
+}
+
+/* Behind content, the frame's traces step back; the QR image is not in them. */
+[data-theme="hybrid"] .board:not([data-board="cover"]) :is(#edge-stub-left, #edge-stub-right, #qr-footprint) {
+  opacity: 0.7;
 }
 
 /* Centred in this frame's QFN body (x 1120-1212, y 587-679), 10px lower than classic's. */
@@ -100,9 +107,36 @@
   color: var(--pcb-gold);
 }
 
+/* The cover stays up for minutes: TX and RX breathe on cycles of different
+   lengths, so the combined pattern keeps changing. PWR stays steady. */
+@media (prefers-reduced-motion: no-preference) {
+  .board[data-board="cover"] .hybrid__led-lens--tx {
+    animation: hybrid-breathe-tx 13s ease-in-out infinite;
+  }
+
+  .board[data-board="cover"] .hybrid__led-lens--rx {
+    animation: hybrid-breathe-rx 19s ease-in-out infinite;
+  }
+}
+
+@keyframes hybrid-breathe-tx {
+  0%, 24%, 40%, 46%, 52%, 70%, 92%, 100% { opacity: 0.35; }
+  12% { opacity: 0.75; }
+  43%, 49% { opacity: 0.8; }
+  80% { opacity: 0.6; }
+}
+
+@keyframes hybrid-breathe-rx {
+  0%, 8%, 30%, 55%, 61%, 75%, 100% { opacity: 0.35; }
+  18% { opacity: 0.7; }
+  58% { opacity: 0.75; }
+  88% { opacity: 0.65; }
+}
+
 /* chrome.js flips these for one beat on fragment and slide changes. */
 .board.is-tx .hybrid__led-lens--tx,
 .board.is-rx .hybrid__led-lens--rx {
+  animation: none;
   opacity: 1;
   filter: drop-shadow(0 0 4px currentColor);
   transition-duration: 80ms;
@@ -190,6 +224,13 @@
   letter-spacing: -0.015em;
 }
 
+/* The speaker block shares the title's left edge; the rule sits above it. */
+[data-theme="hybrid"] .reveal .cover__sub {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+}
+
 /* ---------- Components ---------- */
 
 [data-theme="hybrid"] .reveal .panel[data-label]::before {
@@ -215,7 +256,7 @@
   padding-left: 2.6em;
   margin-bottom: 0.8em;
   padding-bottom: 0.55em;
-  border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk) 10%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk) 18%, transparent);
 }
 
 [data-theme="hybrid"] .reveal ol li::before {

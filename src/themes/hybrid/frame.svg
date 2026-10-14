@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" fill="none" role="presentation">
   <!--
-    Classic's frame, grouped so theme.css can clear the cover: the QR's QFN
-    and its escapes are one group, and the right-edge stub is its own.
+    Classic's frame, grouped so theme.css can clear or dim parts: the QR's QFN
+    and its escapes are one group, and each edge stub is its own.
   -->
   <defs>
     <symbol id="via-gold" viewBox="0 0 24 24">
@@ -22,11 +22,11 @@
   <path d="M 46 18 H 1234 L 1262 46 V 674 L 1234 702 H 46 L 18 674 V 46 Z"
         stroke="var(--pcb-gold, #FDCA42)" stroke-opacity="0.2" stroke-width="2" />
 
-  <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="2.6" stroke-opacity="0.82"
-    stroke-linejoin="round" mask="url(#frame-board-inside)">
-    <path d="M 0 108 H 36 L 52 124 V 286" />
+  <g id="edge-stub-left">
+    <path d="M 0 108 H 36 L 52 124 V 286" stroke="var(--pcb-gold, #FDCA42)" stroke-width="2.6"
+          stroke-opacity="0.82" stroke-linejoin="round" mask="url(#frame-board-inside)" />
+    <use href="#via-gold" x="45" y="279" width="14" height="14" />
   </g>
-  <use href="#via-gold" x="45" y="279" width="14" height="14" />
 
   <g id="edge-stub-right">
     <path d="M 1280 250 H 1234 L 1214 230 V 150" stroke="var(--pcb-gold, #FDCA42)"
@@ -117,7 +117,7 @@
     <path d="M 1222 46 v 10 M 1222 72 v 10 M 1204 64 h 10 M 1230 64 h 10" />
   </g>
 
-  <g fill="var(--pcb-gold, #FDCA42)" fill-opacity="0.22">
+  <g id="corner-dots" fill="var(--pcb-gold, #FDCA42)" fill-opacity="0.22">
     <circle cx="58" cy="628" r="3" /><circle cx="76" cy="628" r="3" /><circle cx="94" cy="628" r="3" />
     <circle cx="58" cy="646" r="3" /><circle cx="76" cy="646" r="3" /><circle cx="94" cy="646" r="3" />
     <circle cx="58" cy="664" r="3" /><circle cx="76" cy="664" r="3" /><circle cx="94" cy="664" r="3" />

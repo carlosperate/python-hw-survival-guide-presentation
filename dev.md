@@ -48,7 +48,7 @@ landscape a small full-screen button sits in the top-right corner.
 | A slide | `slides/NN-part.html` |
 | Order of parts | the `@include` lines in `index.html` |
 | Title, name, event | the cover in `slides/01-intro.html` |
-| Footer label, QR caption | `data-deck-label` and `data-deck-url` on `.reveal` in `index.html` |
+| Deck URL (QR caption) | `data-deck-url` on `.reveal` in `index.html` |
 | QR code | regenerate `public/images/qr.svg` if the URL changes (square viewBox, same name) |
 | Colours | `src/styles/tokens.css` |
 | Pin header and LED labels | `src/themes/<name>/parts.html` |

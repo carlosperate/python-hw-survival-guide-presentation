@@ -246,7 +246,7 @@
   max-height: none;
   border-radius: 10px;
   background: var(--pcb-board-deep);
-  border: 1px solid color-mix(in srgb, var(--pcb-gold) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--pcb-gold) 34%, transparent);
   color: var(--pcb-silk);
   font-size: inherit;
   tab-size: 4;
@@ -314,7 +314,7 @@
   padding: 0.44em 1em 0.44em 0;
   text-align: left;
   border: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk-mute) 40%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk-mute) 60%, transparent);
 }
 
 .reveal table th {
