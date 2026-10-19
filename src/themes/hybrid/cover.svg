@@ -15,16 +15,17 @@
       <circle cx="12" cy="12" r="12" fill="var(--pcb-blue, #3FA0F0)" />
       <circle cx="12" cy="12" r="5.2" fill="var(--pcb-board, #002E18)" />
     </symbol>
-    <!-- Inside the outline's stroke: edge traces run off the board and are cut
-         flush with its inner edge. Keep in step with the outline path. -->
-    <mask id="cover-board-inside" maskUnits="userSpaceOnUse" x="0" y="0" width="1280" height="720">
-      <path d="M 46 18 H 1234 L 1262 46 V 674 L 1234 702 H 46 L 18 674 V 46 Z" fill="white" stroke="black" stroke-width="2" />
-    </mask>
+    <!-- Edge traces run off the board and are cut flush with the outline's inner
+         edge: the outline path inset by 1px, so keep the two in step. A clip, not
+         a mask, because Chrome rasterises masks onto every PDF page. -->
+    <clipPath id="cover-board-inside">
+      <path d="M 46.4 19 H 1233.6 L 1261 46.4 V 673.6 L 1233.6 701 H 46.4 L 19 673.6 V 46.4 Z" />
+    </clipPath>
   </defs>
 
   <!-- Top-layer bus, fanned onto U1's north pads: outermost to the farthest pad. -->
   <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="2.6" stroke-opacity="0.82"
-     stroke-linecap="round" stroke-linejoin="round" mask="url(#cover-board-inside)">
+     stroke-linecap="round" stroke-linejoin="round" clip-path="url(#cover-board-inside)">
     <path d="M 500 0 V 36 L 528 64 H 964 L 992 92 V 186" />
     <path d="M 487 0 V 49 L 515 77 H 940 L 968 105 V 186" />
     <path d="M 474 0 V 62 L 502 90 H 916 L 944 118 V 186" />
@@ -59,7 +60,7 @@
 
   <!-- Power pair: 18px apart along the run, so each end via clears the other trace. -->
   <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="5" stroke-opacity="0.82"
-     stroke-linecap="round" stroke-linejoin="round" mask="url(#cover-board-inside)">
+     stroke-linecap="round" stroke-linejoin="round" clip-path="url(#cover-board-inside)">
     <path d="M 0 690 H 213 L 263 640 H 960" />
     <path d="M 0 677 H 200 L 255 622 H 934" />
   </g>

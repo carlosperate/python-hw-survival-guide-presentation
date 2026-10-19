@@ -12,11 +12,12 @@
       <circle cx="12" cy="12" r="12" fill="var(--pcb-blue, #3FA0F0)" />
       <circle cx="12" cy="12" r="5.2" fill="var(--pcb-board, #002E18)" />
     </symbol>
-    <!-- Inside the outline's stroke: edge traces run off the board and are cut
-         flush with its inner edge. Keep in step with the outline path. -->
-    <mask id="frame-board-inside" maskUnits="userSpaceOnUse" x="0" y="0" width="1280" height="720">
-      <path d="M 46 18 H 1234 L 1262 46 V 674 L 1234 702 H 46 L 18 674 V 46 Z" fill="white" stroke="black" stroke-width="2" />
-    </mask>
+    <!-- Edge traces run off the board and are cut flush with the outline's inner
+         edge: the outline path inset by 1px, so keep the two in step. A clip, not
+         a mask, because Chrome rasterises masks onto every PDF page. -->
+    <clipPath id="frame-board-inside">
+      <path d="M 46.4 19 H 1233.6 L 1261 46.4 V 673.6 L 1233.6 701 H 46.4 L 19 673.6 V 46.4 Z" />
+    </clipPath>
   </defs>
 
   <path d="M 46 18 H 1234 L 1262 46 V 674 L 1234 702 H 46 L 18 674 V 46 Z"
@@ -24,13 +25,13 @@
 
   <g id="edge-stub-left">
     <path d="M 0 108 H 36 L 52 124 V 286" stroke="var(--pcb-gold, #FDCA42)" stroke-width="2.6"
-          stroke-opacity="0.82" stroke-linejoin="round" mask="url(#frame-board-inside)" />
+          stroke-opacity="0.82" stroke-linejoin="round" clip-path="url(#frame-board-inside)" />
     <use href="#via-gold" x="45" y="279" width="14" height="14" />
   </g>
 
   <g id="edge-stub-right">
     <path d="M 1280 250 H 1234 L 1214 230 V 150" stroke="var(--pcb-gold, #FDCA42)"
-          stroke-width="2.6" stroke-opacity="0.82" stroke-linejoin="round" mask="url(#frame-board-inside)" />
+          stroke-width="2.6" stroke-opacity="0.82" stroke-linejoin="round" clip-path="url(#frame-board-inside)" />
     <use href="#via-gold" x="1207" y="143" width="14" height="14" />
   </g>
 
@@ -68,7 +69,7 @@
     <!-- Escapes: right and bottom run out to the board outline, left and
          top stop on vias. -->
     <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="1.5" stroke-opacity="0.85"
-       stroke-linecap="round" stroke-linejoin="round" mask="url(#frame-board-inside)">
+       stroke-linecap="round" stroke-linejoin="round" clip-path="url(#frame-board-inside)">
       <path d="M 1222 598 H 1230 L 1244 584 H 1280" />
       <path d="M 1222 612 H 1230 L 1244 598 H 1280" />
       <path d="M 1222 626 H 1230 L 1244 612 H 1280" />

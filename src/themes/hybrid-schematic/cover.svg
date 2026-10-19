@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" fill="none" role="presentation">
+  <!-- The talk's circuit: U1 reads the BME280 (U2) over I2C, with 4k7
+       pull-ups on SDA and SCL. Labels are HTML in parts.html. -->
+  <g stroke="var(--schem-frame, #840000)" stroke-width="2">
+    <rect x="860" y="190" width="140" height="180" fill="var(--schem-body, #FFFFC2)" />
+    <rect x="1110" y="210" width="90" height="120" fill="var(--schem-body, #FFFFC2)" />
+    <rect x="1034" y="130" width="12" height="50" fill="var(--schem-body, #FFFFC2)" />
+    <rect x="1062" y="130" width="12" height="50" fill="var(--schem-body, #FFFFC2)" />
+    <path d="M 1000 240 H 1020 M 1000 280 H 1020 M 960 170 V 190 M 960 370 V 390
+             M 1090 240 H 1110 M 1090 280 H 1110 M 1170 190 V 210 M 1170 330 V 350" />
+  </g>
+  <g stroke="var(--schem-wire, #009600)" stroke-width="2" stroke-linecap="square">
+    <path d="M 900 110 H 1170 V 190 M 960 110 V 170 M 960 390 V 400 M 1170 350 V 400
+             M 1040 110 V 130 M 1068 110 V 130 M 1040 180 V 240 M 1068 180 V 280
+             M 1020 240 H 1090 M 1020 280 H 1090 M 900 96 V 110 M 890 96 H 910" />
+    <path d="M 948 400 H 972 M 953 405 H 967 M 957 410 H 963 M 1158 400 H 1182 M 1163 405 H 1177 M 1167 410 H 1173" stroke-linecap="butt" />
+  </g>
+  <g fill="var(--schem-wire, #009600)">
+    <circle cx="960" cy="110" r="4" /><circle cx="1040" cy="110" r="4" /><circle cx="1068" cy="110" r="4" />
+    <circle cx="1040" cy="240" r="4" /><circle cx="1068" cy="280" r="4" />
+  </g>
+</svg>

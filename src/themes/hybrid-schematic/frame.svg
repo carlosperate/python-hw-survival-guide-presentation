@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" fill="none" role="presentation">
+  <!-- A KiCad sheet: double border with zone ticks (labels are HTML in
+       parts.html) and a title block with the title, revision, sheet number and QR.
+       The grid is drawn here so it scales with the slides, not the window. -->
+  <defs>
+    <pattern id="schem-grid" x="30" y="30" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="1" fill="var(--pcb-silk, #15202B)" fill-opacity="0.13" />
+    </pattern>
+  </defs>
+  <rect x="30" y="30" width="1220" height="660" fill="url(#schem-grid)" />
+  <g stroke="var(--schem-frame, #840000)" stroke-width="1.5">
+    <rect x="10" y="10" width="1260" height="700" />
+    <rect x="30" y="30" width="1220" height="660" />
+    <path d="M 233 10 V 30 M 233 690 V 710 M 437 10 V 30 M 437 690 V 710 M 640 10 V 30 M 640 690 V 710 M 843 10 V 30 M 843 690 V 710 M 1047 10 V 30 M 1047 690 V 710 M 10 195 H 30 M 1250 195 H 1270 M 10 360 H 30 M 1250 360 H 1270 M 10 525 H 30 M 1250 525 H 1270" />
+  </g>
+  <!-- Along the bottom edge, below the content area (y 644), with the QR cell
+       rising at the right where hybrid's QR keep-out already is. -->
+  <g id="title-block" stroke="var(--schem-frame, #840000)" stroke-width="1.5">
+    <path d="M 740 690 V 650 H 1172 V 606 H 1250 V 690 Z" fill="var(--pcb-board, #F5F4EF)" />
+    <path d="M 1010 650 V 690 M 1080 650 V 690 M 1172 650 V 690" />
+  </g>
+</svg>

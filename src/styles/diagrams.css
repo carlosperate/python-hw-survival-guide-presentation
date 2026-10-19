@@ -324,7 +324,11 @@
   marker-end: url(#arrowhead);
 }
 
-.reveal svg .arrowhead {
+.svg-defs {
+  position: absolute;
+}
+
+.svg-defs .arrowhead {
   fill: var(--pcb-silk-dim);
 }
 

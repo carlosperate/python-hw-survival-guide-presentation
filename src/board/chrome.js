@@ -30,6 +30,28 @@ function qr(revealEl) {
     </div>`;
 }
 
+const railNumber = (number, total) =>
+  `${String(number).padStart(2, '0')}<span> / ${String(total).padStart(2, '0')}</span>`;
+
+/* Export lays every slide out as a page at once, so each page gets a board of
+   its own, between the page's background and its slide. */
+function printBoards(board) {
+  const pages = [...document.querySelectorAll('.pdf-page')];
+  // Reveal follows each slide's page with a copy per fragment step; only the first shows none.
+  let count = 0;
+  const numbers = pages.map((page) => (page.querySelector('.fragment.visible') ? count : ++count));
+  pages.forEach((page, i) => {
+    const slide = page.querySelector(':scope > section');
+    const copy = board.cloneNode(true);
+    copy.dataset.board = slide.dataset.board ?? 'plain';
+    copy.style.left = slide.style.left;
+    copy.style.top = slide.style.top;
+    copy.querySelector('.board__rail-number').innerHTML = railNumber(numbers[i], count);
+    page.insertBefore(copy, slide);
+  });
+  board.remove();
+}
+
 function stored(key) {
   try {
     return localStorage.getItem(key);
@@ -53,6 +75,10 @@ function initial(param, options) {
   const saved = stored(`pcb:${param}`);
   return options.includes(saved) ? saved : options[0];
 }
+
+// Set before reveal's first layout, which gives the print pages their background.
+const startTheme = initial('theme', THEMES);
+document.documentElement.dataset.theme = startTheme;
 
 export function mountBoardChrome(deck) {
   const revealEl = deck.getRevealElement();
@@ -83,7 +109,7 @@ export function mountBoardChrome(deck) {
   const pulses = new Map();
   let toastTimer;
 
-  const current = { theme: initial('theme', THEMES) };
+  const current = { theme: startTheme };
 
   function applyTheme(name) {
     const { frame, cover, parts } = themeLayers(name);
@@ -131,9 +157,7 @@ export function mountBoardChrome(deck) {
     const slide = deck.getCurrentSlide();
     board.dataset.board = slide?.dataset.board ?? 'plain';
 
-    const number = String(deck.getSlidePastCount() + 1).padStart(2, '0');
-    const total = String(deck.getTotalSlides()).padStart(2, '0');
-    numberEl.innerHTML = `${number}<span> / ${total}</span>`;
+    numberEl.innerHTML = railNumber(deck.getSlidePastCount() + 1, deck.getTotalSlides());
   }
 
   // Restarts the rail pulse; `dir` is the way the deck just moved between slides.
@@ -150,6 +174,14 @@ export function mountBoardChrome(deck) {
     board.classList.add(state);
     clearTimeout(pulses.get(state));
     pulses.set(state, setTimeout(() => board.classList.remove(state), PULSE_MS));
+  }
+
+  applyTheme(current.theme);
+  if (deck.isPrintView()) {
+    // The pages exist only once reveal has laid the export out.
+    if (document.querySelector('.pdf-page')) printBoards(board);
+    else deck.on('pdf-ready', () => printBoards(board));
+    return;
   }
 
   deck.on('resize', place);
@@ -171,7 +203,6 @@ export function mountBoardChrome(deck) {
     () => cycle('theme', THEMES, applyTheme)
   );
 
-  applyTheme(current.theme);
   place();
   sync();
   startAmbient(deck, board);

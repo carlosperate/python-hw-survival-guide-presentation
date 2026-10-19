@@ -17,6 +17,9 @@
   transform-origin: 0 0;
   pointer-events: none;
   z-index: 0;
+  /* Set, not inherited: print mounts the board inside the slides. */
+  text-align: start;
+  letter-spacing: normal;
   /* Stays hidden until chrome.js has measured the slide rect, so it never
      flashes in the wrong place on first paint. */
   opacity: 0;
@@ -331,19 +334,8 @@
   color: var(--pcb-gold);
 }
 
-/* Export: reveal lays slides out as static pages under `?print-pdf`, so pin
-   the chrome to the page box instead of to a measured rectangle. */
-.reveal-print .board,
-.reveal-print .board.is-hidden {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  transform: none;
+/* Export: chrome.js puts a board in each page, where the page puts its slide. */
+.reveal-print .board {
+  position: absolute;
   opacity: 1;
-}
-
-.reveal-print .board__rail,
-.reveal-print .board__toast {
-  display: none;
 }

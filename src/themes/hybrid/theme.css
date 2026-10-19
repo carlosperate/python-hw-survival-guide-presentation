@@ -1,6 +1,6 @@
 /* Classic's board and palette with refined's type weights, its part-centred
    cover, clean section dividers and quieter content components. */
-:root[data-theme="hybrid"] {
+:root[data-theme|="hybrid"] {
   --pcb-display-weight: 570;
   --pcb-heading-weight: 520;
   --pcb-body-weight: 350;
@@ -12,40 +12,40 @@
 /* The cover QR gets its own clearance, so the frame's QR package, and the
    edge stub that ran under the LED block, come off; the full artwork leaves
    no room for the corner dots. */
-[data-theme="hybrid"] .board[data-board="cover"] #qr-footprint,
-[data-theme="hybrid"] .board[data-board="cover"] #edge-stub-right,
-[data-theme="hybrid"] .board[data-board="cover"] #corner-dots {
+[data-theme|="hybrid"] .board[data-board="cover"] #qr-footprint,
+[data-theme|="hybrid"] .board[data-board="cover"] #edge-stub-right,
+[data-theme|="hybrid"] .board[data-board="cover"] #corner-dots {
   display: none;
 }
 
 /* Behind content, the frame's traces step back; the QR image is not in them. */
-[data-theme="hybrid"] .board:not([data-board="cover"]) :is(#edge-stub-left, #edge-stub-right, #qr-footprint) {
+[data-theme|="hybrid"] .board:not([data-board="cover"]) :is(#edge-stub-left, #edge-stub-right, #qr-footprint) {
   opacity: 0.7;
 }
 
 /* Centred in this frame's QFN body (x 1120-1212, y 587-679), 10px lower than classic's. */
-[data-theme="hybrid"] .board__qr {
+[data-theme|="hybrid"] .board__qr {
   bottom: 51px;
 }
 
 /* Clears the via left of the QFN, which sits level with the slide count. */
-[data-theme="hybrid"] .board__rail {
+[data-theme|="hybrid"] .board__rail {
   right: 294px;
 }
 
-[data-theme="hybrid"] .board[data-board="cover"] .board__qr {
+[data-theme|="hybrid"] .board[data-board="cover"] .board__qr {
   right: 84px;
   bottom: 58px;
   width: 128px;
 }
 
 /* The bus would run through the ghosted part number. */
-[data-theme="hybrid"] .board[data-board="section"] .board__art {
+[data-theme|="hybrid"] .board[data-board="section"] .board__art {
   opacity: 0;
 }
 
 /* LEDs are drawn as footprints in deck coordinates; only the labels are HTML. */
-[data-theme="hybrid"] .board__leds {
+[data-theme|="hybrid"] .board__leds {
   inset: 0;
   width: auto;
   padding: 0;
@@ -54,7 +54,7 @@
   display: block;
 }
 
-[data-theme="hybrid"] .board__leds svg {
+[data-theme|="hybrid"] .board__leds svg {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -159,7 +159,7 @@
 }
 
 /* J1: pads at x 1136 on a 36px pitch, matching the fan-out in cover.svg. */
-[data-theme="hybrid"] .board__pins {
+[data-theme|="hybrid"] .board__pins {
   top: 189px;
   right: auto;
   left: 1125px;
@@ -168,11 +168,11 @@
   gap: 14px 16px;
 }
 
-[data-theme="hybrid"] .board__pin-pad {
+[data-theme|="hybrid"] .board__pin-pad {
   background: var(--pcb-board-deep);
 }
 
-[data-theme="hybrid"] .board__pin-pad--first {
+[data-theme|="hybrid"] .board__pin-pad--first {
   border-radius: 3px;
 }
 
@@ -198,7 +198,7 @@
 }
 
 /* The mark sits inside U1's body (x 896-1040, y 200-344), under its label. */
-[data-theme="hybrid"] .reveal .cover__mark {
+[data-theme|="hybrid"] .reveal .cover__mark {
   left: 924px;
   top: 228px;
   right: auto;
@@ -210,22 +210,22 @@
 
 /* Oxanium's chamfered corners echo the 45° traces. Titles and numerals only:
    quotes and body copy stay on Roboto. */
-[data-theme="hybrid"] .reveal :is(h1, h2, h3, h4),
-[data-theme="hybrid"] .reveal .section-slide::before,
-[data-theme="hybrid"] .reveal .spec__value {
+[data-theme|="hybrid"] .reveal :is(h1, h2, h3, h4),
+[data-theme|="hybrid"] .reveal .section-slide::before,
+[data-theme|="hybrid"] .reveal .spec__value {
   font-family: var(--hybrid-font-title);
 }
 
-[data-theme="hybrid"] .reveal h2 {
+[data-theme|="hybrid"] .reveal h2 {
   letter-spacing: -0.005em;
 }
 
-[data-theme="hybrid"] .reveal .cover h1 {
+[data-theme|="hybrid"] .reveal .cover h1 {
   letter-spacing: -0.015em;
 }
 
 /* The speaker block shares the title's left edge; the rule sits above it. */
-[data-theme="hybrid"] .reveal .cover__sub {
+[data-theme|="hybrid"] .reveal .cover__sub {
   flex-direction: column;
   align-items: flex-start;
   gap: 22px;
@@ -233,70 +233,70 @@
 
 /* ---------- Components ---------- */
 
-[data-theme="hybrid"] .reveal .panel[data-label]::before {
+[data-theme|="hybrid"] .reveal .panel[data-label]::before {
   top: -12.5px;
   font-size: 18px;
   letter-spacing: 0.14em;
 }
 
-[data-theme="hybrid"] .reveal .slide-head::after {
+[data-theme|="hybrid"] .reveal .slide-head::after {
   background: linear-gradient(to right, var(--pcb-blue) 0 46%, var(--pcb-gold) 46% 100%);
 }
 
 /* Follow wide comparison rows without striping the Highlight plugin's tables. */
-[data-theme="hybrid"] .reveal table:not(.hljs-ln) > tbody > tr:nth-child(even) {
+[data-theme|="hybrid"] .reveal table:not(.hljs-ln) > tbody > tr:nth-child(even) {
   background: color-mix(in srgb, var(--pcb-silk) 4%, transparent);
 }
 
-[data-theme="hybrid"] .reveal ol {
+[data-theme|="hybrid"] .reveal ol {
   max-width: 34em;
 }
 
-[data-theme="hybrid"] .reveal ol li {
+[data-theme|="hybrid"] .reveal ol li {
   padding-left: 2.6em;
   margin-bottom: 0.8em;
   padding-bottom: 0.55em;
   border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk) 18%, transparent);
 }
 
-[data-theme="hybrid"] .reveal ol li::before {
+[data-theme|="hybrid"] .reveal ol li::before {
   top: 0.15em;
   font-size: 0.7em;
   font-weight: 500;
 }
 
-[data-theme="hybrid"] .reveal .specs {
+[data-theme|="hybrid"] .reveal .specs {
   gap: 32px;
 }
 
-[data-theme="hybrid"] .reveal .specs > div {
+[data-theme|="hybrid"] .reveal .specs > div {
   padding-top: 25px;
   border-top: 2px solid var(--pcb-blue);
 }
 
-[data-theme="hybrid"] .reveal .spec__value {
+[data-theme|="hybrid"] .reveal .spec__value {
   font-weight: 520;
   letter-spacing: -0.015em;
 }
 
-[data-theme="hybrid"] .reveal pre {
+[data-theme|="hybrid"] .reveal pre {
   font-size: 24px;
   line-height: 1.48;
 }
 
 /* Lines outside the current step stay readable. */
-[data-theme="hybrid"] .reveal .hljs.has-highlights tr:not(.highlight-line) {
+[data-theme|="hybrid"] .reveal .hljs.has-highlights tr:not(.highlight-line) {
   opacity: 0.6;
 }
 
 /* The rail stays in the code well's padding, clear of the line numbers. */
-[data-theme="hybrid"] .reveal .hljs .highlight-line .hljs-ln-numbers {
+[data-theme|="hybrid"] .reveal .hljs .highlight-line .hljs-ln-numbers {
   position: relative;
   color: var(--pcb-gold);
   opacity: 1;
 }
 
-[data-theme="hybrid"] .reveal .hljs .highlight-line .hljs-ln-numbers::before {
+[data-theme|="hybrid"] .reveal .hljs .highlight-line .hljs-ln-numbers::before {
   content: "";
   position: absolute;
   left: -7px;
@@ -307,6 +307,6 @@
 }
 
 /* Gold arrows on top of the QR's gold escapes read as more copper. */
-[data-theme="hybrid"] .reveal .controls {
+[data-theme|="hybrid"] .reveal .controls {
   color: var(--pcb-silk-mute);
 }

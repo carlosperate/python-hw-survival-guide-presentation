@@ -1,0 +1,113 @@
+/* Hybrid as a real board under a flat lamp, not a lit screen: no vignette,
+   traces tented under the mask, metal only where pads and vias are exposed.
+   The cover is the exception: its copper shows, in the Python logo's colours. */
+:root[data-theme="hybrid-matte"] {
+  /* A saturated green, a step darker than hybrid's: about 16:1 for body text,
+     since projectors lift dark tones. Copper and LEDs are hybrid's; silk is whiter. */
+  --pcb-board-deep: #011709;
+  --pcb-board: #021f10;
+  --pcb-board-hi: #052817;
+  --pcb-board-panel: #042514;
+  --pcb-silk: #fafaf6;
+  --pcb-silk-dim: #c6d1c3;
+  --pcb-silk-mute: #8fa48b;
+  --matte-tent: #2f7d47;
+  --matte-tent-low: #1f6150;
+}
+
+:root[data-theme="hybrid-matte"] .reveal-viewport {
+  background-color: var(--pcb-board);
+  background-image: var(--pcb-mask-texture);
+  background-size: 180px 180px;
+}
+
+/* Copper under the mask reads as a lighter green ridge, not as metal. */
+:root[data-theme="hybrid-matte"] .board [stroke^="var(--pcb-gold"] {
+  stroke: var(--matte-tent);
+  stroke-opacity: 1;
+}
+
+:root[data-theme="hybrid-matte"] .board [stroke^="var(--pcb-blue"] {
+  stroke: var(--matte-tent-low);
+  stroke-opacity: 1;
+}
+
+/* The cover's copper is the Python logo's own yellow and blue, at full strength;
+   the blue LED keeps hybrid's brighter blue. */
+:root[data-theme="hybrid-matte"] .board[data-board="cover"] {
+  --pcb-gold: #ffd43b;
+}
+
+:root[data-theme="hybrid-matte"] .board[data-board="cover"] .board__traces {
+  --pcb-blue: #387eb8;
+}
+
+:root[data-theme="hybrid-matte"] .board[data-board="cover"] :is(.board__traces, #edge-stub-left) [stroke^="var(--pcb-gold"] {
+  stroke: var(--pcb-gold);
+}
+
+:root[data-theme="hybrid-matte"] .board[data-board="cover"] .board__traces [stroke^="var(--pcb-blue"] {
+  stroke: var(--pcb-blue);
+}
+
+:root[data-theme="hybrid-matte"] .board[data-board="cover"] .board__traces [fill^="var(--pcb-gold"] {
+  fill-opacity: 1;
+}
+
+:root[data-theme="hybrid-matte"] .board[data-board="cover"] .hybrid__led-pad {
+  fill: var(--pcb-gold);
+}
+
+:root[data-theme="hybrid-matte"] .board[data-board="cover"] .board__pin-pad {
+  border-color: var(--pcb-gold);
+}
+
+:root[data-theme="hybrid-matte"] .hybrid__led-trace,
+:root[data-theme="hybrid-matte"] .board__rail-trace {
+  stroke: var(--matte-tent);
+  background: var(--matte-tent);
+}
+
+/* Panels are copper outlines with no fill; the label is the gold accent. */
+:root[data-theme="hybrid-matte"] .reveal .panel {
+  background: none;
+  border: 1.5px solid color-mix(in srgb, var(--pcb-gold) 45%, transparent);
+  border-radius: 4px;
+}
+
+:root[data-theme="hybrid-matte"] .reveal .panel[data-label]::before {
+  color: var(--pcb-gold);
+}
+
+:root[data-theme="hybrid-matte"] .reveal :is(pre code, pre.terminal, .callout) {
+  border-radius: 4px;
+}
+
+/* A copper pour under the mask: a lighter fill with a ridge where the mask thins.
+   Filled, it can't sit behind a title, so it shrinks to clear "Python on Hardware". */
+:root[data-theme="hybrid-matte"] .reveal .section-slide::before {
+  font-size: 270px;
+  color: color-mix(in srgb, var(--matte-tent) 40%, transparent);
+  -webkit-text-stroke: 2px var(--matte-tent);
+}
+
+/* Gold over this green mixes to olive, so tints are tented copper instead. */
+:root[data-theme="hybrid-matte"] .reveal .ram-scale__laptop {
+  background: color-mix(in srgb, var(--matte-tent) 28%, transparent);
+}
+
+:root[data-theme="hybrid-matte"] .reveal .hljs .highlight-line {
+  background: color-mix(in srgb, var(--matte-tent) 32%, transparent);
+}
+
+:root[data-theme="hybrid-matte"] .reveal svg .chip--you rect {
+  fill: color-mix(in srgb, var(--matte-tent) 30%, var(--pcb-board-panel));
+}
+
+:root[data-theme="hybrid-matte"] .reveal svg .pkt.current-fragment rect {
+  fill: color-mix(in srgb, var(--matte-tent) 40%, var(--pcb-board-deep));
+}
+
+:root[data-theme="hybrid-matte"] .reveal svg .wave-cursor {
+  fill: color-mix(in srgb, var(--matte-tent) 22%, transparent);
+}
