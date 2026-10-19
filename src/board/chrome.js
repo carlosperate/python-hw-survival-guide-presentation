@@ -6,9 +6,9 @@ import { startAmbient } from './ambient.js';
  * slide rectangle, so the artwork's 1280x720 coordinates and the slides'
  * coordinates are the same coordinates.
  *
- * Also owns the theme switch: T cycles through src/themes. It reads ?theme=
- * too, so two windows can be opened side by side, and it remembers the last
- * choice.
+ * Also owns the theme switch: T cycles through src/themes and 1-9 pick one.
+ * It reads ?theme= too, so two windows can be opened side by side, and it
+ * remembers the last choice.
  */
 
 const PULSE_MS = 240;
@@ -109,7 +109,7 @@ export function mountBoardChrome(deck) {
   const pulses = new Map();
   let toastTimer;
 
-  const current = { theme: startTheme };
+  let theme = startTheme;
 
   function applyTheme(name) {
     const { frame, cover, parts } = themeLayers(name);
@@ -123,20 +123,19 @@ export function mountBoardChrome(deck) {
   }
 
   function toast() {
-    toastEl.innerHTML = `theme <b>${current.theme}</b>`;
+    toastEl.innerHTML = `theme <b>${theme}</b>`;
     toastEl.classList.add('is-visible');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => toastEl.classList.remove('is-visible'), TOAST_MS);
   }
 
-  function cycle(axis, options, apply) {
-    const next = options[(options.indexOf(current[axis]) + 1) % options.length];
-    current[axis] = next;
-    apply(next);
+  function switchTheme(name) {
+    theme = name;
+    applyTheme(name);
     toast();
     // Keep the URL shareable: reloading or copying it keeps the theme.
     const url = new URL(location.href);
-    url.searchParams.set(axis, next);
+    url.searchParams.set('theme', name);
     history.replaceState(history.state, '', url);
   }
 
@@ -176,7 +175,7 @@ export function mountBoardChrome(deck) {
     pulses.set(state, setTimeout(() => board.classList.remove(state), PULSE_MS));
   }
 
-  applyTheme(current.theme);
+  applyTheme(theme);
   if (deck.isPrintView()) {
     // The pages exist only once reveal has laid the export out.
     if (document.querySelector('.pdf-page')) printBoards(board);
@@ -200,8 +199,15 @@ export function mountBoardChrome(deck) {
 
   deck.addKeyBinding(
     { keyCode: 84, key: 'T', description: 'Next theme' },
-    () => cycle('theme', THEMES, applyTheme)
+    () => switchTheme(THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length])
   );
+  // In T's order, so the numbers follow PREFERRED in src/themes/index.js.
+  THEMES.slice(0, 9).forEach((name, i) => {
+    deck.addKeyBinding(
+      { keyCode: 49 + i, key: String(i + 1), description: `Theme: ${name}` },
+      () => switchTheme(name)
+    );
+  });
 
   place();
   sync();
