@@ -225,6 +225,22 @@
   background: var(--schem-wire);
 }
 
+:root[data-theme="hybrid-schematic"] .reveal .bio__photo {
+  --cut: 0px;
+  background: color-mix(in srgb, var(--schem-frame) 80%, transparent);
+}
+
+/* The corner arrow is a wire from a junction. */
+:root[data-theme="hybrid-schematic"] .reveal .corner-arrow {
+  stroke: var(--schem-wire);
+  stroke-width: 4;
+}
+
+:root[data-theme="hybrid-schematic"] .reveal .corner-arrow .via {
+  fill: var(--schem-wire);
+  stroke: none;
+}
+
 /* Opacity washes coloured code out on paper, so lines outside the step go grey instead. */
 :root[data-theme="hybrid-schematic"] .reveal .hljs.has-highlights tr:not(.highlight-line) {
   opacity: 1;

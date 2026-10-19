@@ -574,6 +574,93 @@
   color: var(--pcb-silk-dim);
 }
 
+/* ---------- Speaker bio ---------- */
+
+.reveal .bio {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 56px;
+}
+
+.reveal .bio ul {
+  max-width: none;
+}
+
+.reveal .bio__photo,
+.reveal .bio__photo img {
+  clip-path: polygon(var(--c) 0, calc(100% - var(--c)) 0, 100% var(--c), 100% calc(100% - var(--c)), calc(100% - var(--c)) 100%, var(--c) 100%, 0 calc(100% - var(--c)), 0 var(--c));
+}
+
+/* The frame's chamfered corners; the gold behind the photo shows as its hairline. */
+.reveal .bio__photo {
+  --cut: 24px;
+  --c: var(--cut);
+  width: 300px;
+  padding: 2px;
+  background: color-mix(in srgb, var(--pcb-gold) 45%, transparent);
+}
+
+.reveal .bio__photo img {
+  /* Cut a little less, so the hairline keeps its width along the diagonals. */
+  --c: max(0px, var(--cut) - 1.2px);
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+/* An image used like an emoji; taller than the text so a picture of a board still reads. */
+.reveal img.inline-icon {
+  display: inline;
+  height: 2em;
+  /* Overhangs the line instead of growing it, so list pads stay level with the text. */
+  margin: -0.3em 0 -0.3em 0.1em;
+  vertical-align: middle;
+}
+
+/* ---------- Corner arrow ---------- */
+
+/* A trace to the speaker beside the screen, drawn on as a fragment. */
+.reveal .corner-arrow {
+  position: absolute;
+  bottom: 94px;
+  width: 240px;
+  height: 120px;
+  overflow: visible;
+  fill: none;
+  stroke: var(--pcb-gold);
+  stroke-width: 5;
+  stroke-linejoin: miter;
+}
+
+.reveal .corner-arrow--left {
+  left: calc(var(--pcb-pad-x) + 42px);
+}
+
+/* Mirrored, and short of the QR's escape traces. */
+.reveal .corner-arrow--right {
+  right: 306px;
+  transform: scaleX(-1);
+}
+
+.reveal .corner-arrow .via {
+  fill: var(--pcb-board-deep);
+  stroke-width: 3;
+  opacity: 0;
+  transition: opacity var(--pcb-speed) var(--pcb-ease);
+}
+
+.reveal .corner-arrow .visible .via {
+  opacity: 1;
+}
+
+/* Its own path, since Chrome restarts the dash on each subpath; it draws once the trace arrives. */
+.reveal .corner-arrow .visible .head {
+  transition-duration: var(--pcb-speed);
+  transition-delay: calc(var(--pcb-speed) * 3);
+}
+
 /* ---------- Fragments ---------- */
 
 /* Same idea as reveal's highlight-red / highlight-blue, on this palette. Reveal
