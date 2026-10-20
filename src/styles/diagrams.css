@@ -535,9 +535,10 @@
   animation: led-blink 1s steps(1) infinite;
 }
 
+/* Both ends a color-mix(): Chromium garbles a step from color-mix() to a plain colour and draws red. */
 @keyframes led-blink {
   50% {
-    fill: var(--pcb-led-green);
+    fill: color-mix(in srgb, var(--pcb-led-green) 100%, var(--pcb-board-deep));
   }
 }
 
@@ -739,4 +740,631 @@
 
 .reveal .lane-gap {
   margin-top: 26px;
+}
+
+/* ---------- Breadboard drawings (the owl slide) ---------- */
+
+/* Short enough to clear the QR's escape trace at the bottom right. */
+.reveal .owl {
+  margin-bottom: 26px;
+}
+
+.reveal .owl .panel {
+  padding: 18px 24px 18px;
+}
+
+.reveal .owl h4 {
+  margin-bottom: 10px;
+}
+
+.reveal .owl svg {
+  width: 100%;
+  height: 254px;
+}
+
+/* Second click: both steps shrink up together to make room for the topics below. */
+.reveal .owl {
+  transform-origin: top center;
+  transition: transform calc(var(--pcb-speed) * 2) var(--pcb-ease);
+}
+
+.reveal .slides section:has(> .owl-topics.visible) > .owl {
+  transform: scale(0.75);
+}
+
+/* Just under the shrunk panels: they end at 175 + 0.75 × 338 ≈ 429. */
+/* Two columns, read top to bottom. */
+.reveal .owl-topics {
+  position: absolute;
+  top: 452px;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  grid-auto-flow: column;
+  justify-content: center;
+  gap: 6px 120px;
+  max-width: none;
+  margin: 0;
+  font-size: 1.25em;
+}
+
+.reveal .owl-topics li {
+  margin: 0;
+}
+
+.reveal .slides section .owl-topics.fragment.visible {
+  transition-delay: var(--pcb-speed);
+}
+
+/* Step 1 blinks like the classic example: a second on, a second off. */
+.reveal svg.breadboard :is(.led-blink, .bb-halo) {
+  animation-duration: 2s;
+}
+
+/* The breadboard: a pale board with square holes, as breadboard diagrams draw it. */
+.reveal svg .bb {
+  fill: color-mix(in srgb, var(--pcb-silk) 30%, var(--pcb-board-deep));
+  stroke: color-mix(in srgb, var(--pcb-silk) 45%, var(--pcb-board-deep));
+  stroke-width: 1.5;
+}
+
+.reveal svg .bb-hole {
+  fill: var(--pcb-board-deep);
+}
+
+.reveal svg .bb-channel {
+  fill: color-mix(in srgb, var(--pcb-board-deep) 65%, transparent);
+}
+
+.reveal svg .bb-rail {
+  fill: none;
+  stroke: var(--pcb-blue);
+  stroke-width: 1.5;
+}
+
+.reveal svg .bb-rail--pos {
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg .bb-label {
+  font-size: 4.5px;
+  fill: var(--pcb-board-deep);
+  opacity: 0.7;
+}
+
+.reveal svg .bb-sign {
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.reveal svg .bb-sign--pos {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .bb-sign--neg {
+  fill: var(--pcb-blue);
+}
+
+.reveal svg .bb-pico {
+  stroke: color-mix(in srgb, var(--pcb-board-deep) 60%, var(--op-mask));
+  stroke-width: 1;
+}
+
+.reveal svg .bb-key {
+  fill: var(--pcb-silk);
+}
+
+.reveal svg .bb-onboard-led {
+  fill: color-mix(in srgb, var(--pcb-led-green) 40%, var(--pcb-board-deep));
+}
+
+.reveal svg .bb-cable {
+  fill: none;
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+
+.reveal svg .bb-cable-in {
+  stop-color: color-mix(in srgb, var(--pcb-silk-mute) 70%, var(--pcb-board-deep));
+}
+
+.reveal svg .bb-cable-out {
+  stop-color: color-mix(in srgb, var(--pcb-silk-mute) 70%, var(--pcb-board-deep));
+  stop-opacity: 0;
+}
+
+.reveal svg .bb-plug {
+  fill: color-mix(in srgb, var(--pcb-silk-mute) 45%, var(--pcb-board-deep));
+}
+
+.reveal svg :is(.bb-plug-grip, .bb-lead, .bb-band, .bb-led-shine) {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.reveal svg .bb-plug-grip {
+  stroke: color-mix(in srgb, var(--pcb-silk-mute) 25%, var(--pcb-board-deep));
+  stroke-width: 1.2;
+}
+
+.reveal svg .bb-lead {
+  stroke: var(--pcb-silk-dim);
+  stroke-width: 1.8;
+}
+
+.reveal svg .bb-res {
+  fill: color-mix(in srgb, var(--pcb-gold) 30%, var(--pcb-silk));
+}
+
+.reveal svg .bb-band {
+  stroke-width: 2.6;
+  stroke-linecap: butt;
+}
+
+/* 220 Ω: red, red, brown, gold. */
+.reveal svg .bb-band--red {
+  stroke: color-mix(in srgb, var(--pcb-led-red) 75%, var(--pcb-board-deep));
+}
+
+.reveal svg .bb-band--brown {
+  stroke: color-mix(in srgb, var(--pcb-gold-deep) 45%, var(--pcb-board-deep));
+}
+
+.reveal svg .bb-band--gold {
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg .bb-led-flange {
+  fill: color-mix(in srgb, var(--pcb-led-green) 30%, var(--pcb-board-deep));
+}
+
+.reveal svg .bb-led-shine {
+  stroke: color-mix(in srgb, var(--pcb-silk) 60%, transparent);
+  stroke-width: 2;
+}
+
+.reveal svg .bb-wire-edge {
+  fill: none;
+  stroke: var(--pcb-board-deep);
+  stroke-width: 6.5;
+  stroke-linecap: round;
+}
+
+.reveal svg .bb-wire {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.reveal svg .bb-wire--gold {
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg .bb-wire--blue {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg .bb-pin {
+  fill: var(--pcb-silk-dim);
+}
+
+/* The LED's glow, lit on the same half-second as .led-blink. */
+.reveal svg .bb-glow-in {
+  stop-color: var(--pcb-led-green);
+  stop-opacity: 0.55;
+}
+
+.reveal svg .bb-glow-out {
+  stop-color: var(--pcb-led-green);
+  stop-opacity: 0;
+}
+
+.reveal svg .bb-halo {
+  opacity: 0;
+  animation: bb-halo 1s steps(1) infinite;
+}
+
+@keyframes bb-halo {
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal svg .bb-halo {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* A page can't blink, so the export shows the LEDs lit. */
+.print-pdf .reveal svg .led-blink {
+  animation: none;
+  fill: var(--pcb-led-green);
+}
+
+.print-pdf .reveal svg .bb-halo {
+  animation: none;
+  opacity: 1;
+}
+
+/* ---------- Deck map ---------- */
+
+.reveal svg.deck-map {
+  margin: 8px 0 34px;
+}
+
+.reveal svg .map-slide {
+  fill: color-mix(in srgb, var(--pcb-board-panel) 82%, transparent);
+  stroke: var(--pcb-gold);
+  stroke-width: 2;
+}
+
+.reveal svg .map-slide--detail {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg :is(.map-title, .map-link) {
+  fill: none;
+  stroke: var(--pcb-gold);
+  stroke-width: 3;
+}
+
+.reveal svg :is(.map-title--detail, .map-link--detail) {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg .map-label {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .map-label--detail {
+  fill: var(--pcb-blue);
+}
+
+/* Thumbnail content: just enough to tell a waveform slide from a code slide. */
+.reveal svg :is(.map-text, .map-wave, .map-code, .map-axis, .map-rule-text, .map-link-text, .map-link-icon) {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.reveal svg .map-text {
+  stroke: color-mix(in srgb, var(--pcb-silk-mute) 75%, transparent);
+}
+
+.reveal svg .map-wave {
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg .map-wave--clk {
+  stroke: var(--pcb-blue);
+  stroke-width: 1.5;
+}
+
+.reveal svg .map-well {
+  fill: var(--pcb-board-deep);
+}
+
+.reveal svg .map-code {
+  stroke: var(--pcb-silk-dim);
+}
+
+.reveal svg .map-code--kw {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg .map-code--str {
+  stroke: var(--pcb-led-green);
+}
+
+.reveal svg .map-cell {
+  fill: color-mix(in srgb, var(--pcb-silk-mute) 30%, transparent);
+}
+
+.reveal svg .map-cell--a {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .map-cell--f {
+  fill: var(--pcb-blue);
+}
+
+.reveal svg .map-cell--x {
+  fill: var(--pcb-silk-mute);
+}
+
+.reveal svg .map-axis {
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 1.5;
+}
+
+.reveal svg .map-bar {
+  fill: color-mix(in srgb, var(--pcb-blue) 70%, transparent);
+}
+
+.reveal svg .map-bar--hi {
+  fill: var(--pcb-gold);
+}
+
+/* The survival-rule card, as on the slides that close each part. */
+.reveal svg .map-rule {
+  fill: color-mix(in srgb, var(--pcb-led-green) 12%, transparent);
+  stroke: var(--pcb-led-green);
+  stroke-width: 1.2;
+}
+
+.reveal svg .map-rule-text {
+  stroke: color-mix(in srgb, var(--pcb-silk) 70%, transparent);
+}
+
+.reveal svg :is(.map-link-text, .map-link-icon) {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg .map-dot {
+  fill: var(--pcb-blue);
+}
+
+/* Where a stack hangs from a talk slide, the net drops to the blue layer. */
+.reveal svg .map-via {
+  fill: var(--pcb-board-deep);
+  stroke: var(--pcb-gold);
+  stroke-width: 2;
+}
+
+/* Lights each talk slide as the build passes it, the way the talk will. */
+.reveal svg .map-current {
+  fill: var(--pcb-gold);
+  opacity: 0;
+}
+
+.reveal .slides section.present svg.build .b-flash {
+  animation: map-current calc(var(--pcb-speed) * 3) var(--pcb-ease) both;
+  animation-delay: calc(var(--d, 0) * var(--pcb-speed) / 4);
+}
+
+@keyframes map-current {
+  30% {
+    opacity: 0.3;
+  }
+}
+
+.reveal .deck-url {
+  display: block;
+  margin-top: 12px;
+  font-family: var(--pcb-font-mono);
+  font-size: 30px;
+  color: var(--pcb-gold);
+}
+
+/* ---------- Owl PCB (step 2 of the owl slide) ---------- */
+
+/* Traces are copper under the mask: the mask's own colour, lighter. */
+.reveal :is(svg.owl-pcb--green, svg .op-green) {
+  --op-mask: color-mix(in srgb, var(--pcb-led-green) 16%, var(--pcb-board-hi));
+  --op-trace: color-mix(in srgb, var(--pcb-led-green) 34%, var(--pcb-board-hi));
+}
+
+.reveal svg .op-edge {
+  fill: none;
+  stroke: color-mix(in srgb, var(--pcb-silk-mute) 80%, transparent);
+  stroke-width: 3;
+}
+
+.reveal svg .op-mask {
+  fill: var(--op-mask);
+}
+
+.reveal svg .op-trace {
+  fill: none;
+  stroke: var(--op-trace);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.reveal svg .op-trace--power {
+  stroke-width: 3.2;
+}
+
+.reveal svg .op-gold {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .op-hole {
+  fill: var(--pcb-board-deep);
+}
+
+.reveal svg .op-via {
+  fill: var(--pcb-board-deep);
+  stroke: color-mix(in srgb, var(--pcb-gold) 70%, var(--op-mask));
+  stroke-width: 1.1;
+}
+
+.reveal svg .op-silk {
+  fill: none;
+  stroke: color-mix(in srgb, var(--pcb-silk) 85%, transparent);
+  stroke-width: 1;
+}
+
+.reveal svg :is(.op-text, .op-title, .op-silk-dot) {
+  fill: color-mix(in srgb, var(--pcb-silk) 85%, transparent);
+}
+
+.reveal svg .op-text {
+  font-size: 5.5px;
+  letter-spacing: 0.04em;
+}
+
+.reveal svg .op-title {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.reveal svg .op-ic {
+  fill: var(--pcb-board-deep);
+  stroke: color-mix(in srgb, var(--pcb-silk-mute) 55%, transparent);
+  stroke-width: 0.8;
+}
+
+.reveal svg .op-tin {
+  fill: var(--pcb-silk-dim);
+}
+
+.reveal svg .op-metal {
+  fill: var(--pcb-silk-dim);
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 0.8;
+}
+
+.reveal svg .op-res {
+  fill: var(--pcb-board-deep);
+}
+
+.reveal svg .op-cap {
+  fill: color-mix(in srgb, var(--pcb-gold) 40%, var(--pcb-silk-mute));
+}
+
+.reveal svg .op-led {
+  fill: color-mix(in srgb, var(--pcb-silk) 80%, var(--op-mask));
+}
+
+.reveal svg .op-led-on {
+  fill: var(--pcb-yellow);
+}
+
+.reveal svg .op-glow {
+  fill: var(--pcb-yellow);
+  opacity: 0.14;
+}
+
+.reveal svg .op-lcd {
+  fill: var(--pcb-board-deep);
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 1;
+}
+
+.reveal svg .op-iris {
+  fill: var(--pcb-yellow);
+}
+
+.reveal svg .op-shine {
+  fill: var(--pcb-silk);
+}
+
+.reveal svg .op-clear {
+  fill: color-mix(in srgb, var(--pcb-board-deep) 70%, var(--op-mask));
+}
+
+/* Stainless steel: a darker rim, a lighter top face, stamped edges. */
+.reveal svg .op-metal-top {
+  fill: color-mix(in srgb, var(--pcb-silk) 72%, var(--pcb-silk-dim));
+}
+
+.reveal svg .op-metal-edge {
+  fill: none;
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 0.9;
+}
+
+.reveal svg .op-usb-mouth {
+  fill: var(--pcb-board-deep);
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 0.8;
+}
+
+/* The mask opening round an exposed pad. */
+.reveal svg .op-clear-ring {
+  fill: none;
+  stroke: color-mix(in srgb, var(--pcb-board-deep) 70%, var(--op-mask));
+  stroke-width: 3;
+}
+
+/* ---------- Drawings that build themselves ---------- */
+
+/* An svg.build assembles when its slide arrives, or when the fragment holding it shows.
+   The resting state is the finished drawing, so the PDF and reduced motion show it whole.
+   --d on each part is its start, in quarter beats. */
+.reveal svg .b-draw {
+  stroke-dasharray: 1;
+}
+
+.reveal svg :is(.b-place, .b-drop, .b-rise) {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.reveal .slides section.present svg.build .b-draw {
+  animation: b-draw calc(var(--pcb-speed) * 3) var(--pcb-ease) both;
+}
+
+.reveal .slides section.present svg.build .b-fade {
+  animation: b-fade calc(var(--pcb-speed) * 2) var(--pcb-ease) both;
+}
+
+.reveal .slides section.present svg.build .b-place {
+  animation: b-place calc(var(--pcb-speed) * 1.5) var(--pcb-ease) both;
+}
+
+.reveal .slides section.present svg.build .b-drop {
+  animation: b-drop calc(var(--pcb-speed) * 2) var(--pcb-ease) both;
+}
+
+.reveal .slides section.present svg.build .b-rise {
+  animation: b-rise calc(var(--pcb-speed) * 2) var(--pcb-ease) both;
+}
+
+.reveal .slides section.present svg.build .b-glow {
+  animation: b-fade var(--pcb-speed) var(--pcb-ease) both;
+}
+
+.reveal .slides section.present svg.build :is(.b-draw, .b-fade, .b-place, .b-drop, .b-rise, .b-glow, .led-blink, .bb-halo) {
+  animation-delay: calc(var(--d, 0) * var(--pcb-speed) / 4);
+}
+
+.reveal .slides section.present .fragment:not(.visible) svg.build :is(.b-draw, .b-fade, .b-place, .b-drop, .b-rise, .b-glow),
+.print-pdf .reveal svg.build :is(.b-draw, .b-fade, .b-place, .b-drop, .b-rise, .b-glow) {
+  animation: none;
+}
+
+@keyframes b-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes b-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Set down from just above, like a pick-and-place head. */
+@keyframes b-place {
+  from {
+    opacity: 0;
+    transform: translateY(-3px) scale(1.12);
+  }
+}
+
+/* Pushed into the breadboard from above. */
+@keyframes b-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes b-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
 }

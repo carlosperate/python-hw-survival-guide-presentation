@@ -644,6 +644,15 @@
   transform: scaleX(-1);
 }
 
+/* Ends up-left of the QR footprint and its escapes, aimed at the code. */
+.reveal .corner-arrow--qr {
+  left: 692px;
+  top: 441px;
+  bottom: auto;
+  width: 400px;
+  height: 108px;
+}
+
 .reveal .corner-arrow .via {
   fill: var(--pcb-board-deep);
   stroke-width: 3;
@@ -656,9 +665,18 @@
 }
 
 /* Its own path, since Chrome restarts the dash on each subpath; it draws once the trace arrives. */
-.reveal .corner-arrow .visible .head {
+.reveal .corner-arrow .draw.visible .head {
   transition-duration: var(--pcb-speed);
   transition-delay: calc(var(--pcb-speed) * 3);
+}
+
+/* The QR arrow draws in half the time: it points the way, the slide shouldn't wait for it. */
+.reveal .corner-arrow--qr .draw path {
+  transition-duration: calc(var(--pcb-speed) * 1.5);
+}
+
+.reveal .corner-arrow--qr .draw.visible .head {
+  transition-delay: calc(var(--pcb-speed) * 1.5);
 }
 
 /* ---------- Fragments ---------- */

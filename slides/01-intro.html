@@ -35,14 +35,14 @@
       <ul>
         <li>Embedded Software in Aerospace, Telecoms and EdTech</li>
         <li>Embedded Lead @ Micro:bit Educational Foundation</li>
-        <li>10 years of BBC micro:bit + MicroPython <img class="inline-icon" src="/images/microbit-heart.png" alt="heart" />❤️🐍</li>
+        <li>10 years of BBC micro:bit + MicroPython <img class="inline-icon" src="/images/microbit-heart.png" alt="microbit" />❤️🐍</li>
       </ul>
     </div>
   </div>
 
   <!-- Swap --left for --right to point at whichever side of the screen you stand on. -->
   <svg class="corner-arrow corner-arrow--right" viewBox="0 0 160 120" aria-hidden="true">
-    <g class="draw fragment" data-fragment-index="0">
+    <g class="fragment" data-fragment-index="0">
       <circle class="via" cx="226" cy="14" r="7" />
       <path pathLength="1" d="M219 14 H118 L14 118" />
       <path class="head" pathLength="1" d="M14 84 V118 H48" />
@@ -54,5 +54,70 @@
     now at Micro:bit Educational Foundation, where we work with Damien George to
     bring MicroPython on the micro:bit.
     Which has been now more than 10 years.... I need to finish this.
+  </aside>
+</section>
+
+<!-- THE OWL: the meme's two steps, on a breadboard -->
+<section>
+  <header class="slide-head">
+    <h2>What to expect from this talk?</h2>
+  </header>
+
+  <div class="cards owl">
+    <div class="panel">
+      <h4>1. Blink an LED</h4>
+      <!-- @include slides/art/breadboard-blink.svg -->
+    </div>
+
+    <div class="panel fragment" data-fragment-index="0">
+      <h4>2. Build the rest of the owl</h4>
+      <!-- @include slides/art/owl-pcb.svg -->
+    </div>
+  </div>
+
+  <!-- Second click: both steps shrink up and the topics appear under them. -->
+  <ul class="owl-topics fragment" data-fragment-index="1">
+    <li>Resources</li>
+    <li>Drivers</li>
+    <li>Debugging</li>
+    <li>Tooling</li>
+    <li>AI</li>
+  </ul>
+
+  <aside class="notes">
+    The "how to draw an owl" meme: step 1, two circles; step 2, the rest of
+    the owl. Hardware is the same. The first blink is a great moment, code
+    moving something physical, and then everything else is unclear.
+    Second click: the two steps shrink up and what this talk covers appears
+    below: memory, drivers and buses, debugging, tools, and a word on AI.
+  </aside>
+</section>
+
+<!-- DECK MAP: → is the talk, ↓ is detail to read later -->
+<section>
+  <header class="slide-head">
+    <h2>But there is a lot more!</h2>
+  </header>
+
+  <!-- @include slides/art/deck-map.svg -->
+
+  <p class="lede fragment" data-fragment-index="1">
+    Scan the QR to follow along during the talk,<br />or at your own pace.
+    <span class="deck-url">https://pycones2026.embeddedlog.com</span>
+  </p>
+
+  <svg class="corner-arrow corner-arrow--qr" viewBox="0 0 400 108" aria-hidden="true">
+    <g class="draw fragment" data-fragment-index="1">
+      <circle class="via" cx="14" cy="14" r="7" />
+      <path pathLength="1" d="M21 14 H306 L386 94" />
+      <path class="head" pathLength="1" d="M386 60 V94 H352" />
+    </g>
+  </svg>
+
+  <aside class="notes">
+    I'll go left to right, one slide at a time. Under some slides there is a
+    stack of detail slides, with sources and links: I skip them live.
+    The QR (bottom right, on every slide) opens this deck:
+    pycones2026.embeddedlog.com.
   </aside>
 </section>
