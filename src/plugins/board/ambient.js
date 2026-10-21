@@ -4,10 +4,10 @@
   The LED breathing is CSS in the theme. Off under reduced motion and in print.
 */
 
-const FIRST_MS = 4000;
-const EVERY_MS = 5000;
+const FIRST_MS = 3000;
+const EVERY_MS = 3000;
 const SPEED = 520; // deck px per second
-const DASH = 70;
+const DASH = 110;
 const MIN_LENGTH = 160;
 
 function shuffled(items) {
@@ -30,27 +30,53 @@ function traces(board) {
   );
 }
 
+// Stacked runs centred on one point: the glow widens as it shortens, the core whitens as it
+// shortens, so the pulse tapers to the trace's own width and colour at both ends.
+const LAYERS = [
+  { length: 0.95, grow: 1.5, glow: true },
+  { length: 0.85, grow: 3, glow: true },
+  { length: 0.74, grow: 4.5, glow: true },
+  { length: 0.62, grow: 6, glow: true },
+  { length: 0.5, grow: 7.5, glow: true },
+  { length: 0.38, grow: 9, glow: true },
+  { length: 1, grow: 0, mix: 75 },
+  { length: 0.85, grow: 0.3, mix: 62 },
+  { length: 0.7, grow: 0.6, mix: 50 },
+  { length: 0.56, grow: 0.9, mix: 38 },
+  { length: 0.43, grow: 1.2, mix: 26 },
+  { length: 0.3, grow: 1.6, mix: 15 },
+];
+
 function run(path) {
   const length = path.getTotalLength();
   const stroke = path.closest('[stroke]').getAttribute('stroke');
-  const spark = path.cloneNode();
-  spark.classList.add('trace-pulse');
-  spark.style.stroke = `color-mix(in srgb, ${stroke} 45%, var(--pcb-silk))`;
-  spark.setAttribute('stroke-dasharray', `${DASH} ${length + DASH}`);
-  path.after(spark);
+  const width = parseFloat(getComputedStyle(path).strokeWidth);
+  const duration = Math.max(1000, (length / SPEED) * 1000);
 
-  const at = (t) => DASH - t * (length + DASH);
-  spark
-    .animate(
+  let last = path;
+  for (const layer of LAYERS) {
+    const dash = DASH * layer.length;
+    const el = path.cloneNode();
+    el.classList.add('trace-pulse');
+    if (layer.glow) el.classList.add('trace-pulse--glow');
+    el.style.stroke = layer.glow ? stroke : `color-mix(in srgb, ${stroke} ${layer.mix}%, var(--pcb-silk))`;
+    el.style.strokeWidth = `${width + layer.grow}px`;
+    el.setAttribute('stroke-dasharray', `${dash} ${length + DASH}`);
+    last.after(el);
+    last = el;
+
+    // The dash's centre runs from DASH / 2 before the start to DASH / 2 past the end.
+    const at = (t) => (DASH + dash) / 2 - t * (length + DASH);
+    el.animate(
       [
         { strokeDashoffset: at(0), opacity: 0 },
         { strokeDashoffset: at(0.1), opacity: 1, offset: 0.1 },
         { strokeDashoffset: at(0.85), opacity: 1, offset: 0.85 },
         { strokeDashoffset: at(1), opacity: 0 },
       ],
-      { duration: Math.max(1000, (length / SPEED) * 1000) }
-    )
-    .finished.then(() => spark.remove(), () => spark.remove());
+      { duration }
+    ).finished.then(() => el.remove(), () => el.remove());
+  }
 }
 
 export function startAmbient(deck, board) {

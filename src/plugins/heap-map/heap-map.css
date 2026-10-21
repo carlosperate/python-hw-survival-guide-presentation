@@ -1,0 +1,87 @@
+/*
+  Heap grids, rendered by plugin.js from <pre class="heap-map"> text: one cell
+  per 16-byte block, coloured by what holds it.
+*/
+
+.reveal .heap {
+  --cell: 14px;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--cell));
+  gap: 2px;
+  width: max-content;
+}
+
+.reveal .heap--small {
+  --cell: 20px;
+  gap: 3px;
+}
+
+.reveal .heap__cell {
+  width: var(--cell);
+  height: var(--cell);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--pcb-silk-mute) 22%, var(--pcb-board-deep));
+}
+
+.reveal .heap__cell--array {
+  background: var(--pcb-gold);
+}
+
+.reveal .heap__cell--float {
+  background: var(--pcb-blue);
+}
+
+.reveal .heap__cell--str {
+  background: var(--pcb-silk-dim);
+}
+
+.reveal .heap__cell--other {
+  background: var(--pcb-py-blue);
+}
+
+/* Hatched as well as grey, so "garbage" never relies on colour alone. */
+.reveal .heap__cell--garbage {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--pcb-silk-mute) 0 2px,
+    color-mix(in srgb, var(--pcb-silk-mute) 30%, var(--pcb-board-deep)) 2px 5px
+  );
+}
+
+/* Stacked heap states: each layer is opaque, so the newest covers the rest. */
+.reveal .heap-stack {
+  display: grid;
+}
+
+.reveal .heap-stack > * {
+  grid-area: 1 / 1;
+  background: var(--pcb-board);
+}
+
+.reveal .heap-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  max-width: none;
+  margin: 14px 0 0;
+  font-family: var(--pcb-font-mono);
+  font-size: 14px;
+  color: var(--pcb-silk-dim);
+}
+
+.reveal .heap-legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.reveal .heap-legend li::before {
+  content: none;
+}
+
+.reveal .heap-legend .heap__cell {
+  display: inline-block;
+  --cell: 14px;
+}

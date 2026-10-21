@@ -8,11 +8,11 @@ import 'reveal.js/reset.css';
 import 'reveal.js/reveal.css';
 import './styles/presentation.css';
 
-import { mountBoardChrome } from './board/chrome.js';
-import { renderHeapMaps } from './animations/heap-map.js';
-import { mountPhoneView } from './phone.js';
-
-renderHeapMaps(document.querySelector('.reveal .slides'));
+// The deck's own plugins, each a folder bringing its CSS after the shared
+// styles. Board comes last: it loads the themes, whose CSS overrides the rest.
+import HeapMap from './plugins/heap-map/plugin.js';
+import Phone from './plugins/phone/plugin.js';
+import Board from './plugins/board/plugin.js';
 
 const deck = new Reveal({
   // 16:9 for the projector; reveal's default is 960x700.
@@ -34,16 +34,7 @@ const deck = new Reveal({
   // Phones keep the slides; portrait gets the turn-sideways card instead of
   // reveal's scroll view, which shrinks text to 7-9px.
   scrollActivationWidth: null,
-  plugins: [Notes, Highlight],
+  plugins: [Notes, Highlight, HeapMap, Phone, Board],
 });
 
-await deck.initialize();
-
-// Chrome does not reliably repaint inline SVG <text> when a webfont arrives
-// after the SVG was first rasterised, which silently blanks the pin-header and
-// LED labels. Inserting the chrome once fonts have settled avoids the race.
-await document.fonts.ready;
-mountBoardChrome(deck);
-mountPhoneView();
-
-export { deck };
+deck.initialize();

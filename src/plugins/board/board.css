@@ -1,11 +1,16 @@
 /*
   The board chrome: everything drawn behind the slides. `.board` is positioned
-  and scaled onto reveal's slide rectangle by src/board/chrome.js, so px inside
-  it are deck px and line up with slide content.
+  and scaled onto reveal's slide rectangle by chrome.js, so px inside it are
+  deck px and line up with slide content.
 */
 
 :root {
-  --pcb-mask-texture: url("../assets/solder-mask.svg");
+  --pcb-mask-texture: url("../../assets/solder-mask.svg");
+}
+
+.board,
+.board * {
+  box-sizing: border-box;
 }
 
 .board {
@@ -177,8 +182,12 @@
 .trace-pulse {
   fill: none;
   stroke-opacity: 1;
-  stroke-width: 3.4;
   stroke-linecap: round;
+}
+
+/* Faint on its own: six glow layers overlap in the middle and add up. */
+.trace-pulse--glow {
+  stroke-opacity: 0.07;
 }
 
 /* ---------- QR ---------- */

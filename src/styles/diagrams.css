@@ -1,7 +1,6 @@
 /*
-  Inline SVG diagrams and the heap grid. Every animated state hangs off reveal's
-  fragment classes, so backward navigation, reload and PDF export see the same
-  picture.
+  Inline SVG diagrams. Every animated state hangs off reveal's fragment
+  classes, so backward navigation, reload and PDF export see the same picture.
 */
 
 .reveal svg.diagram {
@@ -330,91 +329,6 @@
 
 .svg-defs .arrowhead {
   fill: var(--pcb-silk-dim);
-}
-
-/* ---------- Heap grid (rendered from .heap-map text) ---------- */
-
-.reveal .heap {
-  --cell: 14px;
-  display: grid;
-  grid-template-columns: repeat(var(--cols), var(--cell));
-  gap: 2px;
-  width: max-content;
-}
-
-.reveal .heap--small {
-  --cell: 20px;
-  gap: 3px;
-}
-
-.reveal .heap__cell {
-  width: var(--cell);
-  height: var(--cell);
-  border-radius: 2px;
-  background: color-mix(in srgb, var(--pcb-silk-mute) 22%, var(--pcb-board-deep));
-}
-
-.reveal .heap__cell--array {
-  background: var(--pcb-gold);
-}
-
-.reveal .heap__cell--float {
-  background: var(--pcb-blue);
-}
-
-.reveal .heap__cell--str {
-  background: var(--pcb-silk-dim);
-}
-
-.reveal .heap__cell--other {
-  background: var(--pcb-py-blue);
-}
-
-/* Hatched as well as grey, so "garbage" never relies on colour alone. */
-.reveal .heap__cell--garbage {
-  background: repeating-linear-gradient(
-    45deg,
-    var(--pcb-silk-mute) 0 2px,
-    color-mix(in srgb, var(--pcb-silk-mute) 30%, var(--pcb-board-deep)) 2px 5px
-  );
-}
-
-/* Stacked heap states: each layer is opaque, so the newest covers the rest. */
-.reveal .heap-stack {
-  display: grid;
-}
-
-.reveal .heap-stack > * {
-  grid-area: 1 / 1;
-  background: var(--pcb-board);
-}
-
-.reveal .heap-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-  max-width: none;
-  margin: 14px 0 0;
-  font-family: var(--pcb-font-mono);
-  font-size: 14px;
-  color: var(--pcb-silk-dim);
-}
-
-.reveal .heap-legend li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-}
-
-.reveal .heap-legend li::before {
-  content: none;
-}
-
-.reveal .heap-legend .heap__cell {
-  display: inline-block;
-  --cell: 14px;
 }
 
 /* ---------- Slide-level helpers for dense diagrams ---------- */
@@ -802,6 +716,17 @@
   animation-duration: 2s;
 }
 
+/* Once the owl is up, step 1 is done: the LED stays lit instead of pulling the eye. */
+.reveal .owl:has(> .fragment.visible) svg.breadboard .led-blink {
+  animation: none;
+  fill: var(--pcb-led-green);
+}
+
+.reveal .owl:has(> .fragment.visible) svg.breadboard .bb-halo {
+  animation: none;
+  opacity: 1;
+}
+
 /* The breadboard: a pale board with square holes, as breadboard diagrams draw it. */
 .reveal svg .bb {
   fill: color-mix(in srgb, var(--pcb-silk) 30%, var(--pcb-board-deep));
@@ -979,12 +904,12 @@
 }
 
 /* A page can't blink, so the export shows the LEDs lit. */
-.print-pdf .reveal svg .led-blink {
+.reveal-print .reveal svg .led-blink {
   animation: none;
   fill: var(--pcb-led-green);
 }
 
-.print-pdf .reveal svg .bb-halo {
+.reveal-print .reveal svg .bb-halo {
   animation: none;
   opacity: 1;
 }
@@ -1330,7 +1255,7 @@
 }
 
 .reveal .slides section.present .fragment:not(.visible) svg.build :is(.b-draw, .b-fade, .b-place, .b-drop, .b-rise, .b-glow),
-.print-pdf .reveal svg.build :is(.b-draw, .b-fade, .b-place, .b-drop, .b-rise, .b-glow) {
+.reveal-print .reveal svg.build :is(.b-draw, .b-fade, .b-place, .b-drop, .b-rise, .b-glow) {
   animation: none;
 }
 
@@ -1367,4 +1292,153 @@
     opacity: 0;
     transform: translateY(8px);
   }
+}
+
+/* ---------- All the Pythons ---------- */
+
+/* A board cut out of its photo; --mm is the board's real width, so boards side by side keep their sizes. */
+.reveal img.board-shot {
+  display: block;
+  width: calc(var(--mm) * var(--px-per-mm, 3.2px));
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  filter: drop-shadow(0 14px 14px color-mix(in srgb, var(--pcb-board-deep) 75%, transparent));
+}
+
+/* Boards placed by RAM and by flash; the drawing is slides/art/memory-scale.svg. */
+.reveal svg.memory-scale {
+  width: 100%;
+  height: auto;
+  margin-top: 4px;
+}
+
+.reveal svg :is(.ms-axis, .ms-tick, .ms-trace, .ms-link) {
+  fill: none;
+  stroke-width: 2;
+}
+
+.reveal svg .ms-axis--ram,
+.reveal svg .ms-trace {
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg .ms-axis--flash {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg .ms-trace {
+  stroke-width: 2.6;
+  stroke-linejoin: round;
+}
+
+.reveal svg .ms-tick {
+  stroke: var(--pcb-silk-mute);
+}
+
+/* Not a trace: it only says which flash belongs to which RAM, so it may cross another. */
+.reveal svg .ms-link {
+  stroke: var(--pcb-silk-mute);
+  stroke-dasharray: 2 6;
+  stroke-linecap: round;
+}
+
+.reveal svg .ms-via {
+  fill: var(--pcb-board-deep);
+  stroke-width: 2.6;
+}
+
+.reveal svg .ms-via--ram {
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg .ms-via--flash {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg :is(.ms-name, .ms-cpu, .ms-tick-label, .ms-axis-label) {
+  font-family: var(--pcb-font-mono);
+}
+
+.reveal svg :is(.ms-name, .ms-cpu, .ms-tick-label) {
+  font-size: 14px;
+}
+
+.reveal svg .ms-name {
+  fill: var(--pcb-silk-dim);
+}
+
+.reveal svg .ms-cpu {
+  font-weight: 600;
+  fill: var(--pcb-silk);
+}
+
+.reveal svg .ms-axis-label--ram {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .ms-axis-label--flash {
+  fill: var(--pcb-blue);
+}
+
+.reveal svg .ms-tick-label {
+  letter-spacing: 0.08em;
+  fill: var(--pcb-silk-mute);
+}
+
+.reveal svg .ms-axis-label {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.reveal svg .ms-shadow {
+  flood-color: var(--pcb-board-deep);
+  flood-opacity: 0.75;
+}
+
+/* One board panel per group, shown on the slide's one click. */
+.reveal svg .ms-zone {
+  fill: color-mix(in srgb, var(--pcb-board-panel) 70%, transparent);
+  stroke: color-mix(in srgb, var(--pcb-gold) 34%, transparent);
+  stroke-width: 1;
+}
+
+/* One column per Python: board and name side by side, then the blink from its own docs. */
+.reveal .blinks {
+  --px-per-mm: 1.7px;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 0 24px;
+  justify-content: start;
+}
+
+/* Every board stands on the same line, whatever its height. */
+.reveal .blink__head {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  height: 112px;
+  margin-bottom: 14px;
+}
+
+.reveal .blink h3 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.reveal .blink .caption {
+  margin: 4px 0 0;
+  text-align: left;
+  font-size: 15px;
+}
+
+/* Smaller than .compact: the longest CircuitPython line has to fit a third of the slide. */
+.reveal .slides .blink pre.compact {
+  margin: 0;
+  font-size: 15px;
+}
+
+.reveal .slides .blink pre.compact code {
+  padding: 14px 16px;
 }

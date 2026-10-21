@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="diagram memory-scale" viewBox="0 0 1112 372" width="1112" height="372" role="img">
+  <title>Boards placed by RAM and by flash on one log scale: microcontrollers have kilobytes to megabytes, single-board computers gigabytes</title>
+  <defs><filter id="ms-shadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow class="ms-shadow" dx="0" dy="8" stdDeviation="6"/></filter><mask id="ms-label-gaps" maskUnits="userSpaceOnUse" x="0" y="0" width="1112" height="372"><rect width="1112" height="372" fill="#fff"/><g fill="#000"><rect x="67" y="264" width="58" height="20"/><rect x="202.2" y="264" width="67.6" height="20"/><rect x="351.8" y="264" width="48.4" height="20"/><rect x="487" y="264" width="58" height="20"/><rect x="622.2" y="264" width="67.6" height="20"/><rect x="771.8" y="264" width="48.4" height="20"/><rect x="907" y="264" width="58" height="20"/></g></mask></defs>
+  <g class="fragment" data-fragment-index="0"><path class="ms-zone" d="M0 0 H590 V371 H0 Z"/><path class="ms-zone" d="M688 0 H1096 V325 L1050 371 H688 Z"/></g>
+  <path class="ms-axis ms-axis--ram" d="M81.4 250 H1094.3"/>
+  <path class="ms-axis ms-axis--flash" d="M81.4 335 H1094.3"/>
+  <text class="ms-axis-label ms-axis-label--ram" x="8" y="256">RAM</text>
+  <text class="ms-axis-label ms-axis-label--flash" x="8" y="341">FLASH</text>
+  <path class="ms-tick" d="M96 256 V262 M96 341 V347 M236 256 V262 M236 341 V347 M376 256 V262 M376 341 V347 M516 256 V262 M516 341 V347 M656 256 V262 M656 341 V347 M796 256 V262 M796 341 V347 M936 256 V262 M936 341 V347 M1076 256 V262 M1076 341 V347"/>
+  <image href="/images/boards/microbit-v1.webp" x="42.3" y="63.2" width="87.4" height="64.8" filter="url(#ms-shadow)"/>
+  <text class="ms-name" x="86" y="146" text-anchor="middle">micro:bit V1</text>
+  <text class="ms-cpu" x="86" y="165" text-anchor="middle">16 MHz</text>
+  <path class="ms-trace" d="M86 176 V198 L126 238 V244"/>
+  <path class="ms-link" d="M126 256 L294.6 329" mask="url(#ms-label-gaps)"/>
+  <circle class="ms-via ms-via--ram" cx="126" cy="250" r="5"/>
+  <circle class="ms-via ms-via--flash" cx="294.6" cy="335" r="5"/>
+  <image href="/images/boards/microbit-v2.webp" x="161.3" y="60" width="87.4" height="68" filter="url(#ms-shadow)"/>
+  <text class="ms-name" x="205" y="146" text-anchor="middle">micro:bit V2</text>
+  <text class="ms-cpu" x="205" y="165" text-anchor="middle">64 MHz</text>
+  <path class="ms-trace" d="M205 176 V190.5 L252.5 238 V244"/>
+  <path class="ms-link" d="M252.5 256 L336.7 329" mask="url(#ms-label-gaps)"/>
+  <circle class="ms-via ms-via--ram" cx="252.5" cy="250" r="5"/>
+  <circle class="ms-via ms-via--flash" cx="336.7" cy="335" r="5"/>
+  <image href="/images/boards/pyboard-d.webp" x="274.2" y="79.5" width="63.6" height="48.5" filter="url(#ms-shadow)"/>
+  <text class="ms-name" x="306" y="146" text-anchor="middle">Pyboard D</text>
+  <text class="ms-cpu" x="306" y="165" text-anchor="middle">216 MHz</text>
+  <path class="ms-trace" d="M306 176 V226.6 L294.6 238 V244"/>
+  <path class="ms-link" d="M294.6 256 L470.3 329" mask="url(#ms-label-gaps)"/>
+  <circle class="ms-via ms-via--ram" cx="294.6" cy="250" r="5"/>
+  <circle class="ms-via ms-via--flash" cx="470.3" cy="335" r="5"/>
+  <image href="/images/boards/pico-2.webp" x="349.6" y="88.6" width="96.9" height="39.4" filter="url(#ms-shadow)"/>
+  <text class="ms-name" x="398" y="146" text-anchor="middle">Pico 2</text>
+  <text class="ms-cpu" x="398" y="165" text-anchor="middle">150 MHz</text>
+  <path class="ms-trace" d="M398 176 V177.7 L337.7 238 V244"/>
+  <path class="ms-link" d="M337.7 256 L463.2 329" mask="url(#ms-label-gaps)"/>
+  <circle class="ms-via ms-via--ram" cx="337.7" cy="250" r="5"/>
+  <circle class="ms-via ms-via--flash" cx="463.2" cy="335" r="5"/>
+  <image href="/images/boards/arduino-nano-esp32.webp" x="462.2" y="92.5" width="85.5" height="35.5" filter="url(#ms-shadow)"/>
+  <text class="ms-name" x="505" y="146" text-anchor="middle">Nano ESP32</text>
+  <text class="ms-cpu" x="505" y="165" text-anchor="middle">240 MHz</text>
+  <path class="ms-trace" d="M505 176 V234 L509 238 V244"/>
+  <path class="ms-link" d="M509 256 L547.5 329" mask="url(#ms-label-gaps)"/>
+  <circle class="ms-via ms-via--ram" cx="509" cy="250" r="5"/>
+  <circle class="ms-via ms-via--flash" cx="547.5" cy="335" r="5"/>
+  <image href="/images/boards/pi-zero-2-w.webp" x="696.4" y="55.3" width="123.5" height="72.7" filter="url(#ms-shadow)"/>
+  <text class="ms-name" x="758.2" y="146" text-anchor="middle">Pi Zero 2 W</text>
+  <text class="ms-cpu" x="758.2" y="165" text-anchor="middle">1 GHz</text>
+  <path class="ms-trace" d="M758.2 176 V244"/>
+  <path class="ms-link" d="M758.2 256 L1011 329" mask="url(#ms-label-gaps)"/>
+  <circle class="ms-via ms-via--ram" cx="758.2" cy="250" r="5"/>
+  <circle class="ms-via ms-via--flash" cx="1011" cy="335" r="5"/>
+  <image href="/images/boards/raspberry-pi-5.webp" x="846" y="5.1" width="161.5" height="122.9" filter="url(#ms-shadow)"/>
+  <text class="ms-name" x="926.8" y="146" text-anchor="middle">Raspberry Pi 5</text>
+  <text class="ms-cpu" x="926.8" y="165" text-anchor="middle">2.4 GHz</text>
+  <path class="ms-trace" d="M926.8 176 V244"/>
+  <path class="ms-link" d="M926.8 256 L1011 329" mask="url(#ms-label-gaps)"/>
+  <circle class="ms-via ms-via--ram" cx="926.8" cy="250" r="5"/>
+  <circle class="ms-via ms-via--flash" cx="1011" cy="335" r="5"/>
+  <text class="ms-tick-label" x="96" y="278" text-anchor="middle">10 KB</text>
+  <text class="ms-tick-label" x="96" y="363" text-anchor="middle">10 KB</text>
+  <text class="ms-tick-label" x="236" y="278" text-anchor="middle">100 KB</text>
+  <text class="ms-tick-label" x="236" y="363" text-anchor="middle">100 KB</text>
+  <text class="ms-tick-label" x="376" y="278" text-anchor="middle">1 MB</text>
+  <text class="ms-tick-label" x="376" y="363" text-anchor="middle">1 MB</text>
+  <text class="ms-tick-label" x="516" y="278" text-anchor="middle">10 MB</text>
+  <text class="ms-tick-label" x="516" y="363" text-anchor="middle">10 MB</text>
+  <text class="ms-tick-label" x="656" y="278" text-anchor="middle">100 MB</text>
+  <text class="ms-tick-label" x="656" y="363" text-anchor="middle">100 MB</text>
+  <text class="ms-tick-label" x="796" y="278" text-anchor="middle">1 GB</text>
+  <text class="ms-tick-label" x="796" y="363" text-anchor="middle">1 GB</text>
+  <text class="ms-tick-label" x="936" y="278" text-anchor="middle">10 GB</text>
+  <text class="ms-tick-label" x="936" y="363" text-anchor="middle">10 GB</text>
+</svg>

@@ -49,6 +49,11 @@
   margin-top: auto;
 }
 
+/* A title a few letters too long for one line at the full size. */
+.reveal .slide-head--long h2 {
+  font-size: 54px;
+}
+
 .reveal .slide-head > :last-child {
   margin-bottom: 0;
 }
@@ -99,8 +104,7 @@
   text-align: center;
   font-family: var(--pcb-font-mono);
   font-size: 18px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: var(--pcb-silk-dim);
 }
 
@@ -646,10 +650,10 @@
 
 /* Ends up-left of the QR footprint and its escapes, aimed at the code. */
 .reveal .corner-arrow--qr {
-  left: 692px;
+  left: 732px;
   top: 441px;
   bottom: auto;
-  width: 400px;
+  width: 360px;
   height: 108px;
 }
 

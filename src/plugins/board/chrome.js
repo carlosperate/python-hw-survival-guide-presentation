@@ -1,4 +1,4 @@
-import { THEMES, themeLayers } from '../themes/index.js';
+import { THEMES, themeLayers } from '../../themes/index.js';
 import { startAmbient } from './ambient.js';
 
 /*
@@ -76,11 +76,13 @@ function initial(param, options) {
   return options.includes(saved) ? saved : options[0];
 }
 
-// Set before reveal's first layout, which gives the print pages their background.
-const startTheme = initial('theme', THEMES);
-document.documentElement.dataset.theme = startTheme;
+export function chooseTheme() {
+  const name = initial('theme', THEMES);
+  document.documentElement.dataset.theme = name;
+  return name;
+}
 
-export function mountBoardChrome(deck) {
+export function mountBoardChrome(deck, startTheme) {
   const revealEl = deck.getRevealElement();
 
   const board = document.createElement('div');

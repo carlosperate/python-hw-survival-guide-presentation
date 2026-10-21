@@ -51,11 +51,14 @@ landscape a small full-screen button sits in the top-right corner.
 | Title, name, event | the cover in `slides/01-intro.html` |
 | Deck URL (QR caption) | `data-deck-url` on `.reveal` in `index.html` |
 | QR code | regenerate `public/images/qr.svg` if the URL changes (square viewBox, same name) |
-| Colours | `src/styles/tokens.css` |
+| Colours, code size | `src/styles/tokens.css` (a theme sets its own in its `theme.css`) |
+| A drawing's colours and line weights | `src/styles/art/<name>.css` |
 | Pin header and LED labels | `src/themes/<name>/parts.html` |
 | Default theme | first entry of `PREFERRED` in `src/themes/index.js` |
+| The board chrome, the phone view or the heap grids | that plugin's folder in `src/plugins/` |
+| A generated drawing (the owl slide's drawings, the deck map, the board scale) | its script in `scripts/art/`, then `python3 scripts/art/<name>.py` |
 
-Every component, with examples, is on the slides in `slides/09-demo.html`
+Most components, with examples, are on the slides in `slides/09-demo.html`
 (the "Demo" part at the end of the deck).
 
 ## Themes
@@ -85,4 +88,5 @@ A theme is a folder in `src/themes/` holding `frame.svg`, `cover.svg`,
 - Open the deck URL on a real Android phone and an iPhone: the turn-sideways card in
   portrait, Full screen on Android, and the slides in landscape.
 - Keep a PDF export as a fallback.
-- The timings total 35 minutes with no buffer. Slides marked "Cut-first" in their notes are the ones to drop.
+- Get permission for the Pyboard D photo, or replace it, before publishing (see `public/images/boards/CREDITS.md`).
+- The timings (33–34 minutes) leave almost no buffer in the 35-minute slot. Slides marked "Cut-first" in their notes are the ones to drop.

@@ -1,8 +1,9 @@
 /*
- * Phones: in portrait a card asks to turn the phone sideways, with a Full
- * screen button where the browser allows it. iPhone Safari has no element
- * full screen, so iPhones get the card alone. Full screen locks landscape.
+ * reveal plugin: phone viewing. Portrait gets a card asking to turn the phone,
+ * with Full screen where the browser allows it (not iPhone Safari, which has no
+ * element full screen). Full screen locks landscape.
  */
+import './phone.css';
 
 const DISMISSED = 'pcb:portrait-dismissed';
 const root = document.documentElement;
@@ -26,6 +27,24 @@ async function enterFullscreen() {
   await screen.orientation?.lock?.('landscape').catch(() => {});
 }
 
+// Blocked storage throws; the card then simply returns on the next load.
+function dismissed() {
+  try {
+    return sessionStorage.getItem(DISMISSED);
+  } catch {
+    return null;
+  }
+}
+
+function dismiss() {
+  root.classList.add('portrait-dismissed');
+  try {
+    sessionStorage.setItem(DISMISSED, '1');
+  } catch {
+    /* blocked */
+  }
+}
+
 function button(className, label, html) {
   const el = document.createElement('button');
   el.type = 'button';
@@ -35,9 +54,9 @@ function button(className, label, html) {
   return el;
 }
 
-export function mountPhoneView() {
+function mount() {
   if (canFullscreen) root.classList.add('can-fullscreen');
-  if (sessionStorage.getItem(DISMISSED)) root.classList.add('portrait-dismissed');
+  if (dismissed()) root.classList.add('portrait-dismissed');
 
   const card = document.createElement('div');
   card.className = 'phone-card';
@@ -54,10 +73,7 @@ export function mountPhoneView() {
 
   full.addEventListener('click', enterFullscreen);
   corner.addEventListener('click', enterFullscreen);
-  anyway.addEventListener('click', () => {
-    sessionStorage.setItem(DISMISSED, '1');
-    root.classList.add('portrait-dismissed');
-  });
+  anyway.addEventListener('click', dismiss);
   document.addEventListener('fullscreenchange', () => {
     root.classList.toggle('is-fullscreen', !!document.fullscreenElement);
     if (!document.fullscreenElement) screen.orientation?.unlock?.();
@@ -65,3 +81,11 @@ export function mountPhoneView() {
 
   document.body.append(card, corner);
 }
+
+// Needs nothing from reveal, so it mounts straight away: the card shows before the deck is ready.
+export default () => ({
+  id: 'phone',
+  init() {
+    mount();
+  },
+});

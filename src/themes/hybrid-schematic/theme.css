@@ -129,6 +129,11 @@
   letter-spacing: -0.02em;
 }
 
+/* The mono title runs wider, so a long one steps down further to stay on one line. */
+:root[data-theme="hybrid-schematic"] .reveal .slide-head--long h2 {
+  font-size: 44px;
+}
+
 :root[data-theme="hybrid-schematic"] .reveal .cover h1 {
   font-size: 72px;
   letter-spacing: -0.03em;
