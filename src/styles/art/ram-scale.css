@@ -1,0 +1,81 @@
+/*
+  The RAM scale on "How big is 128 KB?": a laptop's RAM and a micro:bit's as
+  true areas, then the micro:bit's split into a bar on the next slide, which
+  Auto-Animate grows out of the dot (data-id="mcu-ram").
+*/
+
+.reveal .ram-scale {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 56px;
+}
+
+.reveal .ram-scale__laptop {
+  flex: none;
+  width: 380px;
+  height: 380px;
+  padding: 14px 16px;
+  border: 2px solid var(--pcb-gold);
+  background: color-mix(in srgb, var(--pcb-gold) 10%, transparent);
+  font-family: var(--pcb-font-mono);
+  font-size: 16px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pcb-gold);
+}
+
+/* True area: 380 px / 362 ≈ 1 px. The ring is only there to find it. */
+.reveal .ram-scale__mcu {
+  position: absolute;
+  left: 350px;
+  top: 350px;
+  width: 1px;
+  height: 1px;
+  background: var(--pcb-led-green);
+  border-radius: 50%;
+  outline: 3px solid var(--pcb-led-green);
+  outline-offset: 14px;
+}
+
+.reveal .ram-scale__note {
+  max-width: 20em;
+  font-size: 1.1em;
+}
+
+.reveal .ram-bar {
+  display: flex;
+  width: 100%;
+  height: 92px;
+  margin-top: 30px;
+  border: 2px solid var(--pcb-led-green);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.reveal .ram-bar + .caption {
+  margin-bottom: 40px;
+}
+
+.reveal .ram-bar__part {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--pcb-font-mono);
+  font-size: 16px;
+  text-align: center;
+}
+
+.reveal .ram-bar__part--heap {
+  background: var(--pcb-gold);
+  color: var(--pcb-board-deep);
+}
+
+.reveal .ram-bar__part--stack {
+  background: var(--pcb-blue);
+  color: var(--pcb-board-deep);
+}
+
+.reveal .ram-bar__part--rest {
+  background: color-mix(in srgb, var(--pcb-silk-mute) 45%, var(--pcb-board-deep));
+}

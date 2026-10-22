@@ -623,6 +623,18 @@
   vertical-align: middle;
 }
 
+/* ---------- Board photos ---------- */
+
+/* A board cut out of its photo; --mm is the board's real width, so boards side by side keep their sizes. */
+.reveal img.board-shot {
+  display: block;
+  width: calc(var(--mm) * var(--px-per-mm, 3.2px));
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  filter: drop-shadow(0 14px 14px color-mix(in srgb, var(--pcb-board-deep) 75%, transparent));
+}
+
 /* ---------- Corner arrow ---------- */
 
 /* A trace to the speaker beside the screen, drawn on as a fragment. */

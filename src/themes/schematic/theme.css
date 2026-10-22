@@ -1,0 +1,362 @@
+/* Each slide is a sheet of a KiCad schematic: zoned border, a title block
+   with the title, revision, sheet number and QR, the I2C circuit on the cover. */
+:root[data-theme="schematic"] {
+  --pcb-board-deep: #ebeae2;
+  --pcb-board: #f5f4ef;
+  --pcb-board-hi: #efeee7;
+  --pcb-board-panel: #fffee8;
+  --pcb-silk: #15202b;
+  --pcb-silk-dim: #3d4954;
+  --pcb-silk-mute: #5a6570;
+  --pcb-gold: #8a5f00;
+  --pcb-gold-deep: #6e4b00;
+  --pcb-blue: #306998;
+  --pcb-yellow: #8f6300;
+  --pcb-py-blue: #4b6f99;
+  --pcb-led-green: #1d7a3e;
+  --pcb-led-red: #c62828;
+  --pcb-display-weight: 600;
+  --pcb-heading-weight: 600;
+  --pcb-body-weight: 400;
+  --pcb-code-size: 24px;
+  --schem-frame: #840000;
+  --schem-wire: #009600;
+  --schem-body: #ffffc2;
+  --schem-ref: #006464;
+  --schem-file: #724200;
+}
+
+:root[data-theme="schematic"] .reveal-viewport {
+  background: var(--pcb-board);
+}
+
+/* Zone labels and the title block live with the parts; show them everywhere. */
+:root[data-theme="schematic"] .board[data-board] .board__art {
+  opacity: 1;
+}
+
+:root[data-theme="schematic"] .board:not([data-board="cover"]) :is(.board__traces, .schem__cover),
+:root[data-theme="schematic"] .board[data-board="cover"] :is(#title-block, .schem__block) {
+  display: none;
+}
+
+.schem__zones span {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font: 500 12px var(--pcb-font-mono);
+  color: var(--schem-frame);
+}
+
+.schem__block span {
+  position: absolute;
+  top: 653px;
+  font: 500 14px/1.2 var(--pcb-font-mono);
+  color: var(--pcb-silk);
+}
+
+.schem__block i {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 9px;
+  font-style: normal;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--schem-frame);
+}
+
+.schem__cover span {
+  position: absolute;
+  font: 500 13px/1.25 var(--pcb-font-mono);
+  color: var(--schem-ref);
+}
+
+.schem__cover .schem__net {
+  font-weight: 700;
+  color: var(--pcb-silk);
+}
+
+:root[data-theme="schematic"] .reveal .cover__mark {
+  left: 872px;
+  right: auto;
+  top: 226px;
+  width: 72px;
+  height: 72px;
+}
+
+/* The QR and the sheet number sit in the title block's cells. */
+:root[data-theme="schematic"] .board__qr {
+  right: 37px;
+  bottom: 40px;
+  width: 64px;
+}
+
+/* The cover hides the title block, so its QR stays large. */
+:root[data-theme="schematic"] .board[data-board="cover"] .board__qr {
+  right: 84px;
+  bottom: 58px;
+  width: 128px;
+}
+
+:root[data-theme="schematic"] .board__qr img {
+  filter: brightness(0);
+}
+
+/* Reveal's arrows cover the QR on 16:9 screens below 1080p; a sheet's
+   bottom-left corner is empty. 10em is the width of reveal's arrow cluster. */
+:root[data-theme="schematic"] .reveal .controls {
+  color: var(--pcb-silk-mute);
+  right: auto;
+  left: calc(var(--r-controls-spacing) + 10em);
+}
+
+:root[data-theme="schematic"] .board__rail {
+  left: 1088px;
+  right: 116px;
+  bottom: 38px;
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+/* Dividers are sheets too. */
+:root[data-theme="schematic"] .board[data-board="section"] .board__rail {
+  opacity: 1;
+}
+
+:root[data-theme="schematic"] .board__rail-trace {
+  display: none;
+}
+
+:root[data-theme="schematic"] .board__rail-number,
+:root[data-theme="schematic"] .board__rail-number span {
+  color: var(--pcb-silk);
+}
+
+/* ---------- Type and components ---------- */
+
+/* Titles and numerals only: body copy stays on Roboto. */
+:root[data-theme="schematic"] .reveal :is(h1, h2, h3, h4),
+:root[data-theme="schematic"] .reveal .section-slide::before,
+:root[data-theme="schematic"] .reveal .spec__value {
+  font-family: var(--pcb-font-mono);
+}
+
+:root[data-theme="schematic"] .reveal h2 {
+  font-size: 50px;
+  letter-spacing: -0.02em;
+}
+
+/* The mono title runs wider, so a long one steps down further to stay on one line. */
+:root[data-theme="schematic"] .reveal .slide-head--long h2 {
+  font-size: 44px;
+}
+
+:root[data-theme="schematic"] .reveal .cover h1 {
+  font-size: 72px;
+  letter-spacing: -0.03em;
+}
+
+:root[data-theme="schematic"] .reveal .section-slide h2 {
+  font-size: 72px;
+}
+
+:root[data-theme="schematic"] .reveal h3 {
+  font-size: 30px;
+}
+
+:root[data-theme="schematic"] .reveal h4 {
+  font-size: 23px;
+}
+
+/* The speaker block shares the title's left edge. */
+:root[data-theme="schematic"] .reveal .cover__sub {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+}
+
+/* The heading rule is a wire, starting on a junction. */
+:root[data-theme="schematic"] .reveal .slide-head {
+  border-bottom: 2px solid var(--schem-wire);
+}
+
+:root[data-theme="schematic"] .reveal .slide-head::after {
+  left: -5px;
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--schem-wire);
+}
+
+:root[data-theme="schematic"] .reveal .trace-rule {
+  height: 2px;
+  background: var(--schem-wire);
+}
+
+/* Panels are symbol bodies; their labels are reference designators. */
+:root[data-theme="schematic"] .reveal .panel {
+  border: 2px solid color-mix(in srgb, var(--schem-frame) 80%, transparent);
+  background: var(--pcb-board-panel);
+}
+
+:root[data-theme="schematic"] .reveal .panel[data-label]::before {
+  top: -12.5px;
+  font-size: 18px;
+  letter-spacing: 0.14em;
+  color: var(--schem-ref);
+}
+
+/* Follow wide comparison rows without striping the Highlight plugin's tables. */
+:root[data-theme="schematic"] .reveal table:not(.hljs-ln) > tbody > tr:nth-child(even) {
+  background: color-mix(in srgb, var(--pcb-silk) 4%, transparent);
+}
+
+:root[data-theme="schematic"] .reveal ol {
+  max-width: 34em;
+}
+
+:root[data-theme="schematic"] .reveal ol li {
+  padding-left: 2.6em;
+  margin-bottom: 0.8em;
+  padding-bottom: 0.55em;
+  border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk) 18%, transparent);
+}
+
+:root[data-theme="schematic"] .reveal ol li::before {
+  top: 0.15em;
+  font-size: 0.7em;
+  font-weight: 500;
+}
+
+:root[data-theme="schematic"] .reveal .specs {
+  gap: 32px;
+}
+
+:root[data-theme="schematic"] .reveal .specs > div {
+  padding-top: 25px;
+  border-top: 2px solid var(--pcb-blue);
+}
+
+:root[data-theme="schematic"] .reveal .spec__value {
+  font-weight: 520;
+  letter-spacing: -0.015em;
+}
+
+/* No :root, so .compact's line-height still outranks this. */
+[data-theme="schematic"] .reveal pre {
+  line-height: 1.48;
+}
+
+:root[data-theme="schematic"] .reveal pre code {
+  border-color: color-mix(in srgb, var(--pcb-silk) 22%, transparent);
+}
+
+:root[data-theme="schematic"] .reveal .callout {
+  background: color-mix(in srgb, var(--pcb-callout-hue) 7%, transparent);
+  border-width: 1.5px;
+}
+
+:root[data-theme="schematic"] .reveal .kicker {
+  color: var(--schem-ref);
+}
+
+/* A divider is a hierarchical sheet: the part number in the sheet box, its file below. */
+:root[data-theme="schematic"] .reveal section.section-slide::before,
+:root[data-theme="schematic"] .reveal section.section-slide::after {
+  box-sizing: border-box;
+  width: 330px;
+}
+
+:root[data-theme="schematic"] .reveal section.section-slide::before {
+  padding: 30px 0 26px;
+  border: 2.5px solid var(--schem-frame);
+  text-align: center;
+  font-size: 200px;
+  color: color-mix(in srgb, var(--schem-frame) 18%, transparent);
+  -webkit-text-stroke: 0;
+}
+
+:root[data-theme="schematic"] .reveal section.section-slide::after {
+  content: "File: part" attr(data-part) ".kicad_sch";
+  position: absolute;
+  right: var(--pcb-pad-x);
+  top: calc(50% + 120px);
+  font: 500 18px var(--pcb-font-mono);
+  color: var(--schem-file);
+}
+
+/* The title's wire runs into the sheet; 330px is the sheet's width. */
+:root[data-theme="schematic"] .reveal .section-slide .trace-rule {
+  width: calc(100% - 330px);
+}
+
+/* Connections between parts are wires, touching the pins at either end. */
+:root[data-theme="schematic"] .reveal .chain__link {
+  height: 2px;
+  margin: 0;
+  background: var(--schem-wire);
+}
+
+:root[data-theme="schematic"] .reveal .bio__photo {
+  --cut: 0px;
+  background: color-mix(in srgb, var(--schem-frame) 80%, transparent);
+}
+
+/* The corner arrow is a wire from a junction. */
+:root[data-theme="schematic"] .reveal .corner-arrow {
+  stroke: var(--schem-wire);
+  stroke-width: 4;
+}
+
+:root[data-theme="schematic"] .reveal .corner-arrow .via {
+  fill: var(--schem-wire);
+  stroke: none;
+}
+
+/* Opacity washes coloured code out on paper, so lines outside the step go grey instead. */
+:root[data-theme="schematic"] .reveal .hljs.has-highlights tr:not(.highlight-line) {
+  opacity: 1;
+}
+
+:root[data-theme="schematic"] .reveal .hljs.has-highlights tr:not(.highlight-line) :is(td, span) {
+  color: var(--pcb-silk-mute);
+}
+
+/* The rail stays in the code well's padding, clear of the line numbers. */
+:root[data-theme="schematic"] .reveal .hljs .highlight-line .hljs-ln-numbers {
+  position: relative;
+  color: var(--pcb-gold);
+  opacity: 1;
+}
+
+:root[data-theme="schematic"] .reveal .hljs .highlight-line .hljs-ln-numbers::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--pcb-gold);
+}
+
+:root[data-theme="schematic"] .reveal :is(pre code, pre.terminal) {
+  --pcb-blue: #1f4e79;
+  --pcb-led-green: #14632f;
+  --pcb-yellow: #6b4800;
+  --pcb-gold: #6b4800;
+  --pcb-py-blue: #3d5a80;
+}
+
+:root[data-theme="schematic"] .reveal :not(pre) > code {
+  color: var(--pcb-gold-deep);
+}
+
+/* KiCad draws every box square. */
+:root[data-theme="schematic"] .reveal :is(.panel, pre code, pre.terminal, .callout, .stack-layers > div, .ram-bar, :not(pre) > code) {
+  border-radius: 0;
+}
+
+:root[data-theme="schematic"] .reveal .progress {
+  color: var(--schem-frame);
+  background: color-mix(in srgb, var(--schem-frame) 12%, transparent);
+}

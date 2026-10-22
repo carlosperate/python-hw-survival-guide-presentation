@@ -76,9 +76,15 @@ function initial(param, options) {
   return options.includes(saved) ? saved : options[0];
 }
 
+// A base theme's CSS is scoped by data-base-theme, so it also styles the themes built on it.
+function markTheme(name) {
+  document.documentElement.dataset.theme = name;
+  document.documentElement.dataset.baseTheme = themeLayers(name).base;
+}
+
 export function chooseTheme() {
   const name = initial('theme', THEMES);
-  document.documentElement.dataset.theme = name;
+  markTheme(name);
   return name;
 }
 
@@ -118,7 +124,7 @@ export function mountBoardChrome(deck, startTheme) {
     frameEl.innerHTML = frame;
     tracesEl.innerHTML = cover;
     partsEl.innerHTML = parts;
-    document.documentElement.dataset.theme = name;
+    markTheme(name);
     store('pcb:theme', name);
     // Themes change type sizes and gutters; let reveal re-measure.
     deck.layout();

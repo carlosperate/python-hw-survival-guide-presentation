@@ -72,12 +72,14 @@ choice. If a browser still opens in an old theme, press 1 or add
 |---|---|---|
 | 1 | [hybrid](http://localhost:5173/?theme=hybrid) | Default. Classic's board and palette, Oxanium titles, heavier type, a chip wired to the pin header on the cover, clean part dividers |
 | 2 | [hybrid-matte](http://localhost:5173/?theme=hybrid-matte) | Hybrid on a flat, darker mask with the traces tented under it; the cover's traces are the Python logo's yellow and blue |
-| 3 | [hybrid-schematic](http://localhost:5173/?theme=hybrid-schematic) | Each slide is a KiCad schematic sheet on paper, with a title block and the I2C circuit on the cover |
+| 3 | [schematic](http://localhost:5173/?theme=schematic) | Each slide is a KiCad schematic sheet on paper, with a title block and the I2C circuit on the cover |
 | 4 | [classic](http://localhost:5173/?theme=classic) | The original board from `reports/mockup/mockup1.png`, light Roboto throughout |
 | 5 | [refined](http://localhost:5173/?theme=refined) | Cooler, bluer solder mask, heavier type, a QFN wired to a header on the cover, a small routing detail on content slides |
 
 A theme is a folder in `src/themes/` holding `frame.svg`, `cover.svg`,
 `parts.html` and an optional `theme.css`. Copy a folder to start a new one.
+A theme inside another's folder builds on it and borrows the files it lacks:
+hybrid-matte and schematic live in `src/themes/hybrid/`.
 
 ## Before the talk
 

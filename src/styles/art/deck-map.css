@@ -1,0 +1,148 @@
+/*
+  The deck map in the intro, slides/art/deck-map.svg: the talk's slides left
+  to right as thumbnails, with the detail stacks that hang below them.
+*/
+
+.reveal svg.deck-map {
+  margin: 8px 0 34px;
+}
+
+.reveal svg .map-slide {
+  fill: color-mix(in srgb, var(--pcb-board-panel) 82%, transparent);
+  stroke: var(--pcb-gold);
+  stroke-width: 2;
+}
+
+.reveal svg .map-slide--detail {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg :is(.map-title, .map-link) {
+  fill: none;
+  stroke: var(--pcb-gold);
+  stroke-width: 3;
+}
+
+.reveal svg :is(.map-title--detail, .map-link--detail) {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg .map-label {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .map-label--detail {
+  fill: var(--pcb-blue);
+}
+
+/* Thumbnail content: just enough to tell a waveform slide from a code slide. */
+.reveal svg :is(.map-text, .map-wave, .map-code, .map-axis, .map-rule-text, .map-link-text, .map-link-icon) {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.reveal svg .map-text {
+  stroke: color-mix(in srgb, var(--pcb-silk-mute) 75%, transparent);
+}
+
+.reveal svg .map-wave {
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg .map-wave--clk {
+  stroke: var(--pcb-blue);
+  stroke-width: 1.5;
+}
+
+.reveal svg .map-well {
+  fill: var(--pcb-board-deep);
+}
+
+.reveal svg .map-code {
+  stroke: var(--pcb-silk-dim);
+}
+
+.reveal svg .map-code--kw {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg .map-code--str {
+  stroke: var(--pcb-led-green);
+}
+
+.reveal svg .map-cell {
+  fill: color-mix(in srgb, var(--pcb-silk-mute) 30%, transparent);
+}
+
+.reveal svg .map-cell--a {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .map-cell--f {
+  fill: var(--pcb-blue);
+}
+
+.reveal svg .map-cell--x {
+  fill: var(--pcb-silk-mute);
+}
+
+.reveal svg .map-axis {
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 1.5;
+}
+
+.reveal svg .map-bar {
+  fill: color-mix(in srgb, var(--pcb-blue) 70%, transparent);
+}
+
+.reveal svg .map-bar--hi {
+  fill: var(--pcb-gold);
+}
+
+/* The survival-rule card, as on the slides that close each part. */
+.reveal svg .map-rule {
+  fill: color-mix(in srgb, var(--pcb-led-green) 12%, transparent);
+  stroke: var(--pcb-led-green);
+  stroke-width: 1.2;
+}
+
+.reveal svg .map-rule-text {
+  stroke: color-mix(in srgb, var(--pcb-silk) 70%, transparent);
+}
+
+.reveal svg :is(.map-link-text, .map-link-icon) {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg .map-dot {
+  fill: var(--pcb-blue);
+}
+
+/* Where a stack hangs from a talk slide, the net drops to the blue layer. */
+.reveal svg .map-via {
+  fill: var(--pcb-board-deep);
+  stroke: var(--pcb-gold);
+  stroke-width: 2;
+}
+
+/* Lights each talk slide as the build passes it, the way the talk will. */
+.reveal svg .map-current {
+  fill: var(--pcb-gold);
+  opacity: 0;
+}
+
+.reveal .slides section.present svg.build .b-flash {
+  animation: map-current calc(var(--pcb-speed) * 3) var(--pcb-ease) both;
+  animation-delay: calc(var(--d, 0) * var(--pcb-speed) / 4);
+}
+
+@keyframes map-current {
+  30% {
+    opacity: 0.3;
+  }
+}

@@ -1,0 +1,146 @@
+/*
+  Step 2 of the owl slide, slides/art/owl-pcb.svg: an owl-shaped board perched
+  on a pin header. breadboard-blink.svg draws its Pico with these classes too.
+*/
+
+/* Traces are copper under the mask: the mask's own colour, lighter. */
+.reveal :is(svg.owl-pcb--green, svg .op-green) {
+  --op-mask: color-mix(in srgb, var(--pcb-led-green) 16%, var(--pcb-board-hi));
+  --op-trace: color-mix(in srgb, var(--pcb-led-green) 34%, var(--pcb-board-hi));
+}
+
+.reveal svg .op-edge {
+  fill: none;
+  stroke: color-mix(in srgb, var(--pcb-silk-mute) 80%, transparent);
+  stroke-width: 3;
+}
+
+.reveal svg .op-mask {
+  fill: var(--op-mask);
+}
+
+.reveal svg .op-trace {
+  fill: none;
+  stroke: var(--op-trace);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.reveal svg .op-trace--power {
+  stroke-width: 3.2;
+}
+
+.reveal svg .op-gold {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .op-hole {
+  fill: var(--pcb-board-deep);
+}
+
+.reveal svg .op-via {
+  fill: var(--pcb-board-deep);
+  stroke: color-mix(in srgb, var(--pcb-gold) 70%, var(--op-mask));
+  stroke-width: 1.1;
+}
+
+.reveal svg .op-silk {
+  fill: none;
+  stroke: color-mix(in srgb, var(--pcb-silk) 85%, transparent);
+  stroke-width: 1;
+}
+
+.reveal svg :is(.op-text, .op-title, .op-silk-dot) {
+  fill: color-mix(in srgb, var(--pcb-silk) 85%, transparent);
+}
+
+.reveal svg .op-text {
+  font-size: 5.5px;
+  letter-spacing: 0.04em;
+}
+
+.reveal svg .op-title {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.reveal svg .op-ic {
+  fill: var(--pcb-board-deep);
+  stroke: color-mix(in srgb, var(--pcb-silk-mute) 55%, transparent);
+  stroke-width: 0.8;
+}
+
+.reveal svg .op-tin {
+  fill: var(--pcb-silk-dim);
+}
+
+.reveal svg .op-metal {
+  fill: var(--pcb-silk-dim);
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 0.8;
+}
+
+.reveal svg .op-res {
+  fill: var(--pcb-board-deep);
+}
+
+.reveal svg .op-cap {
+  fill: color-mix(in srgb, var(--pcb-gold) 40%, var(--pcb-silk-mute));
+}
+
+.reveal svg .op-led {
+  fill: color-mix(in srgb, var(--pcb-silk) 80%, var(--op-mask));
+}
+
+.reveal svg .op-led-on {
+  fill: var(--pcb-yellow);
+}
+
+.reveal svg .op-glow {
+  fill: var(--pcb-yellow);
+  opacity: 0.14;
+}
+
+.reveal svg .op-lcd {
+  fill: var(--pcb-board-deep);
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 1;
+}
+
+.reveal svg .op-iris {
+  fill: var(--pcb-yellow);
+}
+
+.reveal svg .op-shine {
+  fill: var(--pcb-silk);
+}
+
+.reveal svg .op-clear {
+  fill: color-mix(in srgb, var(--pcb-board-deep) 70%, var(--op-mask));
+}
+
+/* Stainless steel: a darker rim, a lighter top face, stamped edges. */
+.reveal svg .op-metal-top {
+  fill: color-mix(in srgb, var(--pcb-silk) 72%, var(--pcb-silk-dim));
+}
+
+.reveal svg .op-metal-edge {
+  fill: none;
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 0.9;
+}
+
+.reveal svg .op-usb-mouth {
+  fill: var(--pcb-board-deep);
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 0.8;
+}
+
+/* The mask opening round an exposed pad. */
+.reveal svg .op-clear-ring {
+  fill: none;
+  stroke: color-mix(in srgb, var(--pcb-board-deep) 70%, var(--op-mask));
+  stroke-width: 3;
+}

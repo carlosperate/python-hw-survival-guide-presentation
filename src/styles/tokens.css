@@ -40,6 +40,12 @@
   --pcb-heading-weight: 400;
   --pcb-body-weight: 300;
 
+  /* Code listings, and the .compact ones on dense slides: type size and the well's padding. */
+  --pcb-code-size: 22px;
+  --pcb-code-pad: 26px 30px;
+  --pcb-code-size-compact: 18px;
+  --pcb-code-pad-compact: 18px 22px;
+
   /* Motion. Everything animated in the theme reads one of these. */
   --pcb-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --pcb-speed: 260ms;

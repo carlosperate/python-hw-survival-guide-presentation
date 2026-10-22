@@ -1,0 +1,101 @@
+/*
+  The boards placed by RAM and by flash on one log scale, on the first "all
+  the Pythons" slide: slides/art/memory-scale.svg.
+*/
+
+.reveal svg.memory-scale {
+  width: 100%;
+  height: auto;
+  margin-top: 4px;
+}
+
+.reveal svg :is(.ms-axis, .ms-tick, .ms-trace, .ms-link) {
+  fill: none;
+  stroke-width: 2;
+}
+
+.reveal svg .ms-axis--ram,
+.reveal svg .ms-trace {
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg .ms-axis--flash {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg .ms-trace {
+  stroke-width: 2.6;
+  stroke-linejoin: round;
+}
+
+.reveal svg .ms-tick {
+  stroke: var(--pcb-silk-mute);
+}
+
+/* Not a trace: it only says which flash belongs to which RAM, so it may cross another. */
+.reveal svg .ms-link {
+  stroke: var(--pcb-silk-mute);
+  stroke-dasharray: 2 6;
+  stroke-linecap: round;
+}
+
+.reveal svg .ms-via {
+  fill: var(--pcb-board-deep);
+  stroke-width: 2.6;
+}
+
+.reveal svg .ms-via--ram {
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg .ms-via--flash {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg :is(.ms-name, .ms-cpu, .ms-tick-label, .ms-axis-label) {
+  font-family: var(--pcb-font-mono);
+}
+
+.reveal svg :is(.ms-name, .ms-cpu, .ms-tick-label) {
+  font-size: 14px;
+}
+
+.reveal svg .ms-name {
+  fill: var(--pcb-silk-dim);
+}
+
+.reveal svg .ms-cpu {
+  font-weight: 600;
+  fill: var(--pcb-silk);
+}
+
+.reveal svg .ms-axis-label--ram {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .ms-axis-label--flash {
+  fill: var(--pcb-blue);
+}
+
+.reveal svg .ms-tick-label {
+  letter-spacing: 0.08em;
+  fill: var(--pcb-silk-mute);
+}
+
+.reveal svg .ms-axis-label {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.reveal svg .ms-shadow {
+  flood-color: var(--pcb-board-deep);
+  flood-opacity: 0.75;
+}
+
+/* One board panel per group, shown on the slide's one click. */
+.reveal svg .ms-zone {
+  fill: color-mix(in srgb, var(--pcb-board-panel) 70%, transparent);
+  stroke: color-mix(in srgb, var(--pcb-gold) 34%, transparent);
+  stroke-width: 1;
+}

@@ -1,35 +1,42 @@
 /*
  * Themes, discovered from src/themes/<name>/: frame.svg, cover.svg and
  * parts.html are inlined into the board chrome; theme.css, if present, is
- * bundled and scoped to :root[data-theme="<name>"]. A "<base>-<variant>"
- * folder borrows any of those files it lacks from <base>.
+ * bundled. A theme in another's folder (src/themes/<base>/<name>/) builds on
+ * it, borrowing any of those files it lacks.
  */
 
-const files = import.meta.glob('./*/{frame.svg,cover.svg,parts.html}', {
+const files = import.meta.glob('./**/{frame.svg,cover.svg,parts.html}', {
   query: '?raw',
   import: 'default',
   eager: true,
 });
 
 // Bases first, so a variant's rules override its base's at equal specificity.
-import.meta.glob(['./*/theme.css', '!./*-*/theme.css'], { eager: true });
-const variantStyles = import.meta.glob('./*-*/theme.css', { eager: true });
+import.meta.glob('./*/theme.css', { eager: true });
+const variantStyles = import.meta.glob('./*/*/theme.css', { eager: true });
 
 const themes = {};
-for (const [path, source] of Object.entries(files)) {
-  const [, name, file] = path.match(/^\.\/([^/]+)\/(\w+)\./);
-  (themes[name] ??= {})[file] = source;
+const bases = {};
+
+// './hybrid/hybrid-matte/theme.css' belongs to hybrid-matte, which is built on hybrid.
+function layersOf(path) {
+  const folders = path.split('/').slice(1, -1);
+  const name = folders.at(-1);
+  if (folders.length > 1) bases[name] = folders[0];
+  return (themes[name] ??= {});
 }
+
+for (const [path, source] of Object.entries(files)) layersOf(path)[path.match(/(\w+)\.\w+$/)[1]] = source;
 // A variant with only a theme.css still borrows all its art.
-for (const path in variantStyles) themes[path.split('/')[1]] ??= {};
+for (const path in variantStyles) layersOf(path);
 
 for (const [name, layers] of Object.entries(themes)) {
-  const [base, variant] = name.split('-');
-  themes[name] = { parts: '', ...(variant && themes[base]), ...layers };
+  const base = bases[name];
+  themes[name] = { parts: '', ...(base && themes[base]), ...layers, base: base ?? name };
 }
 
 // T cycles in this order, the first is the default; others follow alphabetically.
-const PREFERRED = ['hybrid', 'hybrid-matte', 'hybrid-schematic', 'classic', 'refined'];
+const PREFERRED = ['hybrid', 'hybrid-matte', 'schematic', 'classic', 'refined'];
 
 const complete = (name) => themes[name]?.frame && themes[name]?.cover;
 

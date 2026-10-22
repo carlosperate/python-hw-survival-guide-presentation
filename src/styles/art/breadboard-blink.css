@@ -1,0 +1,192 @@
+/*
+  Step 1 of the owl slide, slides/art/breadboard-blink.svg: a Pico on a
+  breadboard blinking one LED. The Pico reuses owl-pcb.css's op-* classes, so
+  the two boards share a mask.
+*/
+
+/* Step 1 blinks like the classic example: a second on, a second off. */
+.reveal svg.breadboard :is(.led-blink, .bb-halo) {
+  animation-duration: 2s;
+}
+
+/* The breadboard: a pale board with square holes, as breadboard diagrams draw it. */
+.reveal svg .bb {
+  fill: color-mix(in srgb, var(--pcb-silk) 30%, var(--pcb-board-deep));
+  stroke: color-mix(in srgb, var(--pcb-silk) 45%, var(--pcb-board-deep));
+  stroke-width: 1.5;
+}
+
+.reveal svg .bb-hole {
+  fill: var(--pcb-board-deep);
+}
+
+.reveal svg .bb-channel {
+  fill: color-mix(in srgb, var(--pcb-board-deep) 65%, transparent);
+}
+
+.reveal svg .bb-rail {
+  fill: none;
+  stroke: var(--pcb-blue);
+  stroke-width: 1.5;
+}
+
+.reveal svg .bb-rail--pos {
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg .bb-label {
+  font-size: 4.5px;
+  fill: var(--pcb-board-deep);
+  opacity: 0.7;
+}
+
+.reveal svg .bb-sign {
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.reveal svg .bb-sign--pos {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .bb-sign--neg {
+  fill: var(--pcb-blue);
+}
+
+.reveal svg .bb-pico {
+  stroke: color-mix(in srgb, var(--pcb-board-deep) 60%, var(--op-mask));
+  stroke-width: 1;
+}
+
+.reveal svg .bb-key {
+  fill: var(--pcb-silk);
+}
+
+.reveal svg .bb-onboard-led {
+  fill: color-mix(in srgb, var(--pcb-led-green) 40%, var(--pcb-board-deep));
+}
+
+.reveal svg .bb-cable {
+  fill: none;
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+
+.reveal svg .bb-cable-in {
+  stop-color: color-mix(in srgb, var(--pcb-silk-mute) 70%, var(--pcb-board-deep));
+}
+
+.reveal svg .bb-cable-out {
+  stop-color: color-mix(in srgb, var(--pcb-silk-mute) 70%, var(--pcb-board-deep));
+  stop-opacity: 0;
+}
+
+.reveal svg .bb-plug {
+  fill: color-mix(in srgb, var(--pcb-silk-mute) 45%, var(--pcb-board-deep));
+}
+
+.reveal svg :is(.bb-plug-grip, .bb-lead, .bb-band, .bb-led-shine) {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.reveal svg .bb-plug-grip {
+  stroke: color-mix(in srgb, var(--pcb-silk-mute) 25%, var(--pcb-board-deep));
+  stroke-width: 1.2;
+}
+
+.reveal svg .bb-lead {
+  stroke: var(--pcb-silk-dim);
+  stroke-width: 1.8;
+}
+
+.reveal svg .bb-res {
+  fill: color-mix(in srgb, var(--pcb-gold) 30%, var(--pcb-silk));
+}
+
+.reveal svg .bb-band {
+  stroke-width: 2.6;
+  stroke-linecap: butt;
+}
+
+/* 220 Ω: red, red, brown, gold. */
+.reveal svg .bb-band--red {
+  stroke: color-mix(in srgb, var(--pcb-led-red) 75%, var(--pcb-board-deep));
+}
+
+.reveal svg .bb-band--brown {
+  stroke: color-mix(in srgb, var(--pcb-gold-deep) 45%, var(--pcb-board-deep));
+}
+
+.reveal svg .bb-band--gold {
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg .bb-led-flange {
+  fill: color-mix(in srgb, var(--pcb-led-green) 30%, var(--pcb-board-deep));
+}
+
+.reveal svg .bb-led-shine {
+  stroke: color-mix(in srgb, var(--pcb-silk) 60%, transparent);
+  stroke-width: 2;
+}
+
+.reveal svg .bb-wire-edge {
+  fill: none;
+  stroke: var(--pcb-board-deep);
+  stroke-width: 6.5;
+  stroke-linecap: round;
+}
+
+.reveal svg .bb-wire {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.reveal svg .bb-wire--gold {
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg .bb-wire--blue {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg .bb-pin {
+  fill: var(--pcb-silk-dim);
+}
+
+/* The LED's glow, lit on the same half-second as .led-blink. */
+.reveal svg .bb-glow-in {
+  stop-color: var(--pcb-led-green);
+  stop-opacity: 0.55;
+}
+
+.reveal svg .bb-glow-out {
+  stop-color: var(--pcb-led-green);
+  stop-opacity: 0;
+}
+
+.reveal svg .bb-halo {
+  opacity: 0;
+  animation: bb-halo 1s steps(1) infinite;
+}
+
+@keyframes bb-halo {
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal svg .bb-halo {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* A page can't blink, so the export shows the glow lit. */
+.reveal-print .reveal svg .bb-halo {
+  animation: none;
+  opacity: 1;
+}

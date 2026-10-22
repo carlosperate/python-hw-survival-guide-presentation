@@ -13,6 +13,8 @@
   --pcb-display-weight: 570;
   --pcb-heading-weight: 520;
   --pcb-body-weight: 380;
+  --pcb-code-size: 24px;
+  --pcb-code-pad: 27px 30px;
   --pcb-pad-x: 88px;
   --pcb-pad-y: 64px;
 }
@@ -226,11 +228,10 @@
 [data-theme="refined"] .reveal .spec__label { font-size: 12px; letter-spacing: .12em; margin-top: 18px; }
 
 /* Larger code and readable inactive lines retain the native line fragments. */
-[data-theme="refined"] .reveal pre { font-size: 24px; line-height: 1.48; }
+[data-theme="refined"] .reveal pre { line-height: 1.48; }
 [data-theme="refined"] .reveal pre code {
   border-radius: 3px;
   border-color: color-mix(in srgb, var(--pcb-silk) 16%, transparent);
-  padding: 27px 30px;
   background: #061813;
 }
 [data-theme="refined"] .reveal .hljs-keyword,
