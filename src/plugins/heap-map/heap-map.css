@@ -16,6 +16,13 @@
   gap: 3px;
 }
 
+/* One row across the slide: holes are easiest to see when nothing wraps. */
+.reveal .heap--strip {
+  --cell: 34px;
+  gap: 5px;
+  margin: 22px 0 12px;
+}
+
 .reveal .heap__cell {
   width: var(--cell);
   height: var(--cell);

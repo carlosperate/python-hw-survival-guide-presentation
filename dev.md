@@ -39,6 +39,7 @@ landscape a small full-screen button sits in the top-right corner.
 | 1–5 | A theme, in the order of the table under Themes |
 | O or Esc | Overview of every slide |
 | F | Fullscreen |
+| M (hold) | Magnifier: zooms in where the mouse is, in the window with focus (so not the speaker view) |
 | B | Black screen |
 | ? | All shortcuts |
 

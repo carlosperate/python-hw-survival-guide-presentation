@@ -148,14 +148,15 @@ export function mountBoardChrome(deck, startTheme) {
   }
 
   /* Reveal centres the slide rectangle in the viewport, so deriving the
-     position from the scale is independent of how `.slides` is boxed. */
+     position from the scale is independent of how `.slides` is boxed.
+     Layout sizes, as reveal uses: the magnifier scales the viewport, board and all. */
   function place() {
     const { width, height } = deck.getConfig();
-    const viewport = deck.getViewportElement().getBoundingClientRect();
+    const viewport = deck.getViewportElement();
     const scale = deck.getScale() || 1;
 
-    board.style.left = `${viewport.left + (viewport.width - width * scale) / 2}px`;
-    board.style.top = `${viewport.top + (viewport.height - height * scale) / 2}px`;
+    board.style.left = `${(viewport.offsetWidth - width * scale) / 2}px`;
+    board.style.top = `${(viewport.offsetHeight - height * scale) / 2}px`;
     board.style.transform = `scale(${scale})`;
     board.classList.add('is-placed');
   }

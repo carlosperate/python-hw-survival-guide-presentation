@@ -12,6 +12,7 @@ import './styles/presentation.css';
 // styles. Board comes last: it loads the themes, whose CSS overrides the rest.
 import HeapMap from './plugins/heap-map/plugin.js';
 import Phone from './plugins/phone/plugin.js';
+import Magnifier from './plugins/magnifier/plugin.js';
 import Board from './plugins/board/plugin.js';
 
 const deck = new Reveal({
@@ -34,7 +35,7 @@ const deck = new Reveal({
   // Phones keep the slides; portrait gets the turn-sideways card instead of
   // reveal's scroll view, which shrinks text to 7-9px.
   scrollActivationWidth: null,
-  plugins: [Notes, Highlight, HeapMap, Phone, Board],
+  plugins: [Notes, Highlight, HeapMap, Phone, Magnifier, Board],
 });
 
 deck.initialize();

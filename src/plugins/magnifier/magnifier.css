@@ -1,0 +1,46 @@
+/*
+ * The magnifier, driven by plugin.js: while M is held the body zooms about the
+ * pointer, whose position plugin.js writes as the body's transform-origin.
+ */
+
+:root {
+  --magnifier-zoom: 1.5;
+}
+
+/* `scale`, not `transform`, so the zoom eases while the origin follows the pointer at once. */
+body {
+  transition: scale var(--pcb-speed) var(--pcb-ease);
+}
+
+:root.is-magnifying body {
+  scale: var(--magnifier-zoom);
+}
+
+:root.is-magnifying,
+:root.is-magnifying * {
+  cursor: none;
+}
+
+/* The ring, and a shadow wide enough to dim the screen around it. It sits in
+   the zoomed body, so it scales back down to keep its size on screen. */
+.magnifier {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  width: var(--magnifier-diameter);
+  height: var(--magnifier-diameter);
+  margin: calc(var(--magnifier-diameter) / -2) 0 0 calc(var(--magnifier-diameter) / -2);
+  border-radius: 50%;
+  scale: calc(1 / var(--magnifier-zoom));
+  box-shadow:
+    0 0 0 2px var(--pcb-gold),
+    0 0 0 300vmax color-mix(in srgb, var(--pcb-board-deep) 45%, transparent);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--pcb-speed) var(--pcb-ease);
+}
+
+:root.is-magnifying .magnifier {
+  opacity: 1;
+}
