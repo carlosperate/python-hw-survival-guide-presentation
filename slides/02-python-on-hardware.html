@@ -1,16 +1,357 @@
 <section class="section-slide is-centered" data-board="section" data-part="02">
-  <h2>Python on Hardware</h2>
+  <h2>Python<br />on Hardware</h2>
   <span class="trace-rule"></span>
-  <p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
+  <p class="lede">What is it?<br />How is it different than normal Python?</p>
 </section>
 
+<!-- -------------------------------------------------- -->
+<!-- ALL THE PYTHONS: boards placed by RAM and by flash -->
+<!-- -------------------------------------------------- -->
 <section>
-  <header class="slide-head">
-    <h2>Lorem ipsum dolor</h2>
+  <header class="slide-head slide-head--long">
+    <h2>MicroPython, CircuitPython, all the Pythons</h2>
   </header>
 
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua.
-  </p>
+  <!-- @include slides/art/memory-scale.svg -->
+
+  <aside class="notes">
+  </aside>
+</section>
+
+<!-- STACK: the blink on top, the rest of the part below it -->
+<section>
+  <!-- --------------------------------------------- -->
+  <!-- ALL THE PYTHONS: the same blink on each board -->
+  <!-- --------------------------------------------- -->
+  <section>
+    <header class="slide-head slide-head--long">
+      <h2>MicroPython, CircuitPython, all the Pythons</h2>
+    </header>
+
+    <div class="blinks">
+      <div class="blink">
+        <div class="blink__head">
+          <img class="board-shot" style="--mm: 50" src="/images/boards/pyboard-d.webp" alt="Pyboard D" />
+          <div>
+            <h3>MicroPython</h3>
+            <p class="caption">Pyboard D<br />microcontroller</p>
+          </div>
+        </div>
+        <pre class="compact"><code class="language-python" data-trim>
+  import pyb
+
+  # On board green LED on pin 2
+  led = pyb.LED(2)
+  while True:
+      led.toggle()
+      pyb.delay(500)
+        </code></pre>
+      </div>
+
+      <div class="blink">
+        <div class="blink__head">
+          <img class="board-shot" style="--mm: 60" src="/images/boards/adafruit-feather-rp2040.webp" alt="Adafruit Feather RP2040" />
+          <div>
+            <h3>CircuitPython</h3>
+            <p class="caption">Feather RP2040<br />microcontroller</p>
+          </div>
+        </div>
+        <pre class="compact"><code class="language-python" data-trim>
+  import time
+  import board
+  import digitalio
+
+  led = digitalio.DigitalInOut(board.LED)
+  led.direction = digitalio.Direction.OUTPUT
+  while True:
+      led.value = True
+      time.sleep(0.5)
+      led.value = False
+      time.sleep(0.5)
+        </code></pre>
+      </div>
+
+      <div class="blink">
+        <div class="blink__head">
+          <img class="board-shot" style="--mm: 80" src="/images/boards/raspberry-pi-5.webp" alt="Raspberry Pi 5" />
+          <div>
+            <h3>CPython + gpiozero</h3>
+            <p class="caption">Raspberry Pi 5<br />Single Board Computer</p>
+          </div>
+        </div>
+        <pre class="compact"><code class="language-python" data-trim>
+  from time import sleep
+  from gpiozero import LED
+
+  # External LED connected to pin 17
+  led = LED(17)
+  while True:
+      led.toggle()
+      sleep(0.5)
+        </code></pre>
+      </div>
+    </div>
+
+    <aside class="notes">
+      The same blink in each Python, each written the way its own docs teach it.
+      MicroPython on the Pyboard D: the pyboard tutorial's loop, pyb.LED(n).toggle()
+      and pyb.delay() (docs.micropython.org, pyboard/tutorial/leds); LED(2) is green
+      on the D-series (pybd.io: 1 red, 2 green, 3 blue). Not machine.Pin here: the
+      Pyboard D's LEDs are active-low (MICROPY_HW_LED_INVERTED in
+      ports/stm32/boards/PYBD_SF2), so Pin.on() would turn one off, and Pin.toggle()
+      isn't available on the stm32 port.
+      CircuitPython on the Feather RP2040: Adafruit's blink template, "the
+      CircuitPython 'Hello, World!'" (Adafruit_Learning_System_Guides,
+      CircuitPython_Templates/blink), less its docstring and the blank line before the loop.
+      direction and value are how Adafruit teaches it; switch_to_output() also
+      works. No toggle method, so it sets value True and False. board.LED is GPIO13.
+      CPython on the Pi 5: gpiozero's first recipe (gpiozero.readthedocs.io,
+      recipes, LED), comes with Raspberry Pi OS; LED(17) is an LED wired to GPIO17.
+      The recipe's alternative is led.blink() and signal.pause(). Blinka would run
+      the CircuitPython version on the Pi too.
+      Photos: Pyboard D, the MicroPython store's product photo, not openly
+      licensed; Feather RP2040, Adafruit, CC BY-SA 3.0; Pi 5, SparkFun Electronics,
+      CC BY 2.0. Details in public/images/boards/CREDITS.md.
+      The rest of this part is below: press down for it, right to skip it.
+    </aside>
+  </section>
+
+  <!-- THE TWO PYTHONS: what each one is and what it puts first -->
+  <section>
+    <header class="slide-head">
+      <h2>MicroPython and CircuitPython</h2>
+    </header>
+
+    <div class="cards">
+      <div class="panel" data-label="Since 2014">
+        <h4><a href="https://micropython.org/" target="_blank" rel="noopener">MicroPython</a></h4>
+        <p>A lean Python 3 for microcontrollers, by Damien George.</p>
+        <p>
+          <strong>The best of each chip.</strong> <code>machine</code> is the
+          portable core, and each port adds modules for what only its chip can do.
+        </p>
+      </div>
+      <div class="panel" data-label="Since 2017">
+        <h4><a href="https://circuitpython.org/" target="_blank" rel="noopener">CircuitPython</a></h4>
+        <p>Adafruit's fork of MicroPython, for beginners and education.</p>
+        <p>
+          <strong>The same code everywhere.</strong> One API on every board; a
+          board that can't support a module leaves it out.
+        </p>
+        <p>
+          <a href="https://github.com/adafruit/Adafruit_Blinka" target="_blank" rel="noopener">Blinka</a>
+          brings that API and Adafruit's drivers to CPython on a Raspberry Pi.
+        </p>
+      </div>
+    </div>
+
+    <p class="caption">
+      Sources:
+      <a href="https://docs.micropython.org/en/latest/library/index.html#port-specific-libraries" target="_blank" rel="noopener">MicroPython libraries</a> ·
+      <a href="https://docs.circuitpython.org/en/latest/shared-bindings/index.html" target="_blank" rel="noopener">CircuitPython core modules</a>
+    </p>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live.
+      MicroPython: "a lean and efficient implementation of the Python 3 programming
+      language that includes a small subset of the Python standard library"
+      (micropython.org); aims at Python 3.4 with selected later features. Damien
+      George, Kickstarter 2013, first release 3 May 2014. MIT licence.
+      Its priority, from the library docs: port-specific libraries expose
+      "hardware functionality unique to that platform. To write portable code use
+      functions and classes from the machine module." Even machine varies by port:
+      Pin ids "are port-specific", and "Not all ports implement" open-drain.
+      CircuitPython: "a beginner friendly, open source version of Python for tiny,
+      inexpensive computers called microcontrollers" (README); a fork of
+      MicroPython, 1.0.0 announced 19 July 2017. MIT licence. Its priority, from
+      the core modules page: "These core modules are intended on being consistent
+      across ports and boards. A module may not exist on a port/board if no
+      underlying hardware support is present", e.g. no analogio without analog
+      hardware. Chip extras live in separate modules (rp2pio, espidf, espnow).
+      It keeps merging MicroPython: the 10.4.0 alpha notes list "Merge from
+      MicroPython v1.28 and v1.29".
+      Blinka: "Add CircuitPython hardware API and libraries to MicroPython &amp;
+      CPython devices" (github.com/adafruit/Adafruit_Blinka); also Jetson boards.
+    </aside>
+  </section>
+
+  <!-- WHERE THEY DIFFER: each row is the two priorities meeting one task -->
+  <section>
+    <header class="slide-head">
+      <h2>Where they differ</h2>
+    </header>
+
+    <table>
+      <thead>
+        <tr><th></th><th>MicroPython <small>1.29</small></th><th>CircuitPython <small>10.3</small></th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Hardware</td><td><code>machine</code>, plus a module per port</td><td><code>board</code>, <code>digitalio</code>, <code>busio</code> on every board</td></tr>
+        <tr><td>Pins</td><td>The port's ids: <code>Pin(15)</code>, <code>Pin("GP15")</code></td><td>The board's labels: <code>board.D5</code>, <code>board.LED</code></td></tr>
+        <tr><td>Concurrency</td><td>Pin interrupts, timers, <code>_thread</code>, asyncio</td><td>No interrupts or threads; asyncio</td></tr>
+        <tr><td>Workflow</td><td>Copy files with <code>mpremote</code> or Thonny</td><td>A USB drive: save <code>code.py</code> and it reruns</td></tr>
+        <tr><td>Files</td><td>Your code reads and writes them</td><td>Read-only to code while mounted on USB</td></tr>
+        <tr><td>Libraries</td><td><code>mip</code>, from micropython-lib</td><td><code>circup</code>, from a bundle of 300+ drivers</td></tr>
+      </tbody>
+    </table>
+
+    <p class="caption">
+      Sources:
+      <a href="https://docs.circuitpython.org/en/latest/README.html#differences-from-micropython" target="_blank" rel="noopener">CircuitPython README</a>,
+      <a href="https://learn.adafruit.com/welcome-to-circuitpython/frequently-asked-questions" target="_blank" rel="noopener">FAQ</a>,
+      <a href="https://learn.adafruit.com/circuitpython-essentials/circuitpython-storage" target="_blank" rel="noopener">storage</a> ·
+      <a href="https://docs.micropython.org/en/latest/" target="_blank" rel="noopener">MicroPython docs</a>
+    </p>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live.
+      Hardware: CircuitPython README, "Unified hardware APIs", "No machine API";
+      MicroPython machine docs, plus port modules such as rp2, esp32 and pyb.
+      Pins: machine.Pin ids "are port-specific", "an integer, a string or a tuple";
+      rp2 accepts names like "GP15" and "LED". CircuitPython's board module holds
+      "board base pin names" that "vary from board to board", named as printed on
+      the board; board.I2C() returns the board's designated I2C bus.
+      Not on the slide, same idea: CircuitPython's os, time and random are strict
+      subsets of CPython's, "tick count is available as time.monotonic()", so its
+      code "is runnable on CPython but not necessarily the reverse" (README).
+      MicroPython's time has its own ticks_ms() and ticks_diff(), and no monotonic().
+      Concurrency: README, "Interrupts and threading are disabled"; FAQ, "please use
+      asyncio for multitasking", asyncio since 7.1.0. MicroPython: Pin.irq,
+      machine.Timer, _thread only on some ports (rp2, esp32, unix).
+      Workflow: README, native USB on most boards, BLE otherwise; ESP32 and
+      ESP32-C3 use the Wi-Fi workflow. MicroPython's pyboard is the exception
+      that also shows up as a USB drive.
+      Files: "CircuitPython cannot write to the filesystem at the same time as
+      your computer"; boot.py can call storage.remount() to give the code write
+      access instead (CircuitPython Essentials, Storage).
+      Libraries: mip installs from micropython-lib, GitHub, GitLab or a URL, not
+      PyPI; circup updates libraries from the Adafruit and Community bundles;
+      "300+ device libraries and drivers" (README).
+    </aside>
+  </section>
+
+  <!-- THE STACK: laptop and microcontroller side by side, layer for layer -->
+  <section>
+    <header class="slide-head">
+      <h2>What's under your code</h2>
+    </header>
+
+    <div class="cols">
+      <div>
+        <p class="kicker">On your laptop</p>
+        <div class="stack-layers">
+          <div class="is-you">your_script.py</div>
+          <div>pip + site-packages, from PyPI</div>
+          <div>CPython</div>
+          <div class="is-os">OS: processes, files, catches crashes</div>
+          <div>Kernel + drivers</div>
+          <div class="is-chip">Hardware</div>
+        </div>
+      </div>
+      <div>
+        <p class="kicker">On a microcontroller</p>
+        <div class="stack-layers">
+          <div class="is-you">main.py</div>
+          <div>mip + micropython-lib, not PyPI</div>
+          <div>MicroPython VM + <code>machine</code></div>
+          <div class="is-os">No OS: a crash resets the chip</div>
+          <div>Vendor SDK</div>
+          <div class="is-chip">The chip, its flash as the disk</div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live.
+      On a laptop, Python is a guest of the operating system: processes, virtual
+      memory, a filesystem, a package manager, a debugger. On a microcontroller
+      the interpreter effectively is the OS: one program, no process isolation,
+      no swap. mip installs precompiled .mpy packages from micropython-lib, not
+      PyPI. The filesystem lives in the chip's flash: on a 2 MB Pico the rp2 port
+      gives it 1,408 KB by default. The REPL comes over USB serial. Resets are
+      part of normal operation: when it crashes, nothing catches you; the chip
+      restarts.
+    </aside>
+  </section>
+
+  <!-- POWER-ON: the same three steps, handled differently by each Python -->
+  <section>
+    <header class="slide-head">
+      <h2>What happens at power-on</h2>
+    </header>
+
+    <table>
+      <thead>
+        <tr><th></th><th>MicroPython</th><th>CircuitPython</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 · <code>boot.py</code></td><td>Runs first, and should exit</td><td>Runs once, before USB starts</td></tr>
+        <tr><td>2 · your code</td><td><code>main.py</code>; it may loop forever</td><td><code>code.py</code> in a fresh VM; reruns on save</td></tr>
+        <tr><td>3 · when it ends</td><td>The REPL, with <code>main.py</code>'s variables</td><td>The REPL, in another fresh VM</td></tr>
+        <tr><td>Ctrl-D</td><td>Soft reset: <code>boot.py</code>, then <code>main.py</code></td><td>Reload: <code>code.py</code> again</td></tr>
+        <tr><td>Brownout</td><td>Hard reset, back to the start</td><td>Safe mode: your code is skipped</td></tr>
+      </tbody>
+    </table>
+
+    <p class="caption">
+      CircuitPython's status LED: 1 green blink, done · 2 red, an exception · 3 yellow, safe mode<br />
+      Sources:
+      <a href="https://docs.micropython.org/en/latest/reference/reset_boot.html" target="_blank" rel="noopener">MicroPython reset and boot</a> ·
+      <a href="https://docs.circuitpython.org/en/latest/README.html#behavior" target="_blank" rel="noopener">CircuitPython README</a>
+    </p>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live.
+      MicroPython (docs, reset_boot): the frozen _boot.py runs first and formats
+      the filesystem on first boot; boot.py should "always exit and not run
+      indefinitely"; main.py may loop; the REPL starts if main.py is missing or
+      exits, and "Any global variables that were set in boot.py and main.py will
+      still be set in the global context of the REPL". Ctrl-D or
+      machine.soft_reset() "clears the Python interpreter, frees all Python
+      memory", then boot.py and main.py run again. Hard reset: power-up, reset
+      button, machine.reset(), deep-sleep wake, watchdog, brown-out.
+      Recovery: Ctrl-C, then os.remove('main.py'); safe mode on some ports; a
+      factory reset erases the filesystem. This is the beginner "soft brick":
+      main.py loops forever and you can't get the REPL back. Foreshadows the
+      defensive main.py in Debugging.
+      CircuitPython (README, Behavior): boot.py "runs only once on start up before
+      workflows are initialized", output in boot_out.txt; code.py "is run after
+      every reload", then "the vm and hardware is reinitialized", so "the REPL is
+      a fresh vm"; a write to the drive reruns code.py. Safe mode "does not run
+      user code after a hard crash or brown out"; pressing reset in the 1 s boot
+      window also enters it. Status LED as on the slide.
+    </aside>
+  </section>
+
+  <!-- THREE LOSSES, each pointing at a later section -->
+  <section class="is-body-centered">
+    <header class="slide-head">
+      <h2>Three things you just lost</h2>
+    </header>
+
+    <div class="cards">
+      <div class="panel" data-label="→ Resources">
+        <h4>No OS</h4>
+        <p>A micro:bit V2 has 128 KB of RAM. Total.</p>
+      </div>
+      <div class="panel" data-label="→ Drivers · Debugging">
+        <h4>No safety net</h4>
+        <p>5 V on a 3.3 V pin is out of spec. Interrupt handlers can't allocate.</p>
+      </div>
+      <div class="panel" data-label="→ Debugging · Tooling">
+        <h4>No familiar tools</h4>
+        <p>No step debugger in the firmware you flashed.</p>
+      </div>
+    </div>
+
+    <aside class="notes">
+      micro:bit V2: 128 KB RAM (tech.microbit.org). RP2040 absolute maximum IO
+      voltage is IOVDD + 0.5 V, 3.8 V on a 3.3 V Pico (RP2040 datasheet 5.5).
+      A hard ISR cannot allocate (MicroPython ISR rules). sys.settrace "is
+      typically not present in pre-built firmware" (sys docs).
+      Optional: in MicroPython GitHub Discussions, asyncio, mpremote, boot.py,
+      mip and MemoryError are among the most common topics after the blink
+      (rough keyword counts).
+    </aside>
+  </section>
 </section>
