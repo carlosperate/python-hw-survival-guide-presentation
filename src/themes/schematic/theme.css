@@ -352,7 +352,7 @@
 }
 
 /* KiCad draws every box square. */
-:root[data-theme="schematic"] .reveal :is(.panel, pre code, pre.terminal, .callout, .stack-layers > div, .ram-bar, :not(pre) > code) {
+:root[data-theme="schematic"] .reveal :is(.panel, pre code, pre.terminal, .callout, .stack-layers > div, :not(pre) > code) {
   border-radius: 0;
 }
 

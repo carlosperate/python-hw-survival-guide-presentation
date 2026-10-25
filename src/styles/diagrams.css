@@ -263,6 +263,29 @@
   fill: var(--pcb-silk);
 }
 
+/* Bars: a wide stroke from the bar's start to its value. */
+.reveal svg .bar {
+  fill: none;
+  stroke-width: 30;
+}
+
+.reveal svg .bar--dim {
+  stroke: var(--pcb-silk-mute);
+}
+
+.reveal svg .bar--blue {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg .bar--gold {
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg .bar-name {
+  font-size: 20px;
+  font-weight: 600;
+}
+
 /* ---------- Schematic bits (open-drain, feedback loop) ---------- */
 
 .reveal svg .wire {
@@ -579,6 +602,22 @@
   margin-bottom: 26px;
 }
 
+/* Tighter rows: room for code under a habits table, or for a long one. */
+.reveal table.habits--tight {
+  font-size: 0.68em;
+  margin-bottom: 18px;
+}
+
+.reveal table.habits--tight td {
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}
+
+/* A full-width block low on the slide stops short of the QR footprint and its escapes. */
+.reveal .qr-clear {
+  width: 960px;
+}
+
 .reveal table.matrix td:first-child,
 .reveal table.buses td:first-child {
   color: var(--pcb-silk-dim);
@@ -652,6 +691,18 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--pcb-silk-dim);
+}
+
+/* "Free is not usable": the object that didn't fit, beside its error. */
+.reveal .strip-need {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 14px 0 6px;
+}
+
+.reveal .strip-need .heap--strip {
+  margin: 0;
 }
 
 .reveal .lane-gap {
@@ -770,4 +821,32 @@
 
 .reveal .blink pre {
   margin: 0;
+}
+
+/* ---------- The import slide ---------- */
+
+/* The line being imported sits in the chart's empty top-left, so the curve reads as that line's trace. */
+.reveal .import-chart {
+  position: relative;
+}
+
+.reveal .slides .import-chart > pre {
+  position: absolute;
+  left: 104px;
+  top: 4px;
+  width: auto;
+  margin: 0;
+}
+
+/* ---------- The "What's different" slide ---------- */
+
+/* The box is gone before the second bullet shows, so the bullets take the full width and the box sits over the right. */
+.reveal .ram-points {
+  position: relative;
+}
+
+.reveal .ram-points__box {
+  position: absolute;
+  top: 0;
+  left: 661px;
 }

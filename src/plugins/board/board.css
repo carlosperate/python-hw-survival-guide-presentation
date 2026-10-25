@@ -348,3 +348,36 @@
   position: absolute;
   opacity: 1;
 }
+
+/* ---------- More below ---------- */
+
+.board__more-branch {
+  position: absolute;
+  inset: 0;
+}
+
+.board__more-branch path {
+  fill: none;
+  stroke: var(--pcb-gold);
+  stroke-width: 2;
+}
+
+.board__more-branch circle {
+  fill: var(--pcb-board-deep);
+  stroke: var(--pcb-gold);
+  stroke-width: 3;
+}
+
+.board__more-branch circle.is-here {
+  fill: var(--pcb-gold);
+}
+
+.board__more-count {
+  position: absolute;
+  top: 694px;
+  transform: translateY(-50%);
+  font: 600 14px/1 var(--pcb-font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pcb-gold);
+}

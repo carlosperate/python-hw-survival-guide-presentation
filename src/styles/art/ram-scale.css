@@ -1,7 +1,7 @@
 /*
-  The RAM scale on "How big is 128 KB?": a laptop's RAM and a micro:bit's as
-  true areas, then the micro:bit's split into a bar on the next slide, which
-  Auto-Animate grows out of the dot (data-id="mcu-ram").
+  The RAM box on "What's different": a laptop's RAM and 16 MB of PSRAM as
+  true areas, then a zoom into the 16 MB square beside the chip RAM of
+  popular boards.
 */
 
 .reveal .ram-scale {
@@ -25,17 +25,162 @@
   color: var(--pcb-gold);
 }
 
-/* True area: 380 px / 362 ≈ 1 px. The ring is only there to find it. */
-.reveal .ram-scale__mcu {
+.reveal .ram-scale--stacked {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.reveal .ram-scale--stacked .ram-scale__laptop {
+  width: 300px;
+  height: 300px;
+}
+
+.reveal .ram-scale__window {
+  position: relative;
+  width: 300px;
+  height: 300px;
+}
+
+.reveal .ram-scale__far {
   position: absolute;
-  left: 350px;
-  top: 350px;
-  width: 1px;
-  height: 1px;
+  inset: 0;
+  /* The PSRAM square's corner: scaled about it by 32, the laptop keeps pace with the square growing. */
+  transform-origin: 284.9px 284.9px;
+}
+
+/* True area: 300 px / √1024 ≈ 9.4 px. On the zoom it grows into the 16 MB box itself. */
+.reveal .ram-scale__psram {
+  position: absolute;
+  left: 276px;
+  top: 276px;
+  width: 9.4px;
+  height: 9.4px;
+  border: 2px solid var(--pcb-led-green);
   background: var(--pcb-led-green);
-  border-radius: 50%;
-  outline: 3px solid var(--pcb-led-green);
-  outline-offset: 14px;
+}
+
+/* Only there to find the square: it starts as the laptop box and shrinks into the corner around it. */
+.reveal .ram-scale__ring {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 39px;
+  height: 39px;
+  border: 3px solid var(--pcb-led-green);
+  transition: width calc(var(--pcb-speed) * 4) var(--pcb-ease) var(--pcb-speed), height calc(var(--pcb-speed) * 4) var(--pcb-ease) var(--pcb-speed);
+}
+
+.reveal .ram-scale.fragment:not(.visible) .ram-scale__ring {
+  width: 300px;
+  height: 300px;
+}
+
+/* The zoom plays forward only; going back snaps, so the 32× laptop never shows unclipped. */
+.reveal .ram-ladder.visible ~ .ram-scale__window {
+  overflow: hidden;
+}
+
+.reveal .ram-ladder.visible ~ .ram-scale__window .ram-scale__far {
+  opacity: 0;
+  transform: scale(32);
+  transition: transform calc(var(--pcb-speed) * 3) var(--pcb-ease), opacity calc(var(--pcb-speed) * 2) linear;
+}
+
+/* Width and position on the laptop's curve: the square's edge tracks the zoom, and its border stays 2px. */
+.reveal .ram-ladder.visible ~ .ram-scale__window .ram-scale__psram {
+  left: 0;
+  top: 0;
+  width: 300px;
+  height: 300px;
+  background: color-mix(in srgb, var(--pcb-led-green) 10%, transparent);
+  transition-property: left, top, width, height, background-color;
+  transition-duration: calc(var(--pcb-speed) * 3);
+  transition-timing-function: var(--pcb-ease);
+}
+
+/* A board with this much PSRAM, inside the box; its name goes below, as for the others. */
+.reveal .ram-scale__board {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  --px-per-mm: 2px;
+}
+
+.reveal .ram-ladder.visible ~ .ram-scale__window .ram-scale__board {
+  opacity: 1;
+  transition: opacity var(--pcb-speed) linear calc(var(--pcb-speed) * 2);
+}
+
+.reveal .ram-ladder.visible ~ .ram-scale__window .ram-scale__ring {
+  opacity: 0;
+  transition: opacity var(--pcb-speed) linear;
+}
+
+/* Boards on one baseline with the 16 MB box; it runs left over the bullets still hidden. */
+.reveal .ram-ladder {
+  position: absolute;
+  top: 0;
+  right: 100%;
+  width: 650px;
+  height: 300px;
+  padding-right: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  border-bottom: 1.5px dashed var(--pcb-silk-mute);
+}
+
+.reveal .ram-ladder__board {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(16px);
+  --px-per-mm: 2px;
+}
+
+.reveal .ram-ladder.visible .ram-ladder__board {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--pcb-speed) var(--pcb-ease), transform var(--pcb-speed) var(--pcb-ease);
+  transition-delay: calc(var(--pcb-speed) * (3 + var(--i)));
+}
+
+/* Drawn like the 16 MB box, so a big square doesn't outweigh it; one big enough holds its board. */
+.reveal .ram-ladder i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--side);
+  height: var(--side);
+  border: 2px solid var(--pcb-led-green);
+  background: color-mix(in srgb, var(--pcb-led-green) 22%, transparent);
+}
+
+.reveal .ram-ladder span {
+  position: absolute;
+  top: calc(100% + 12px);
+}
+
+.reveal :is(.ram-ladder span, .ram-scale__label) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+  line-height: 1.3;
+  white-space: nowrap;
+  color: var(--pcb-silk-dim);
+}
+
+.reveal :is(.ram-ladder, .ram-scale__label) b {
+  font-family: var(--pcb-font-mono);
+  font-weight: 600;
+  color: var(--pcb-silk);
 }
 
 .reveal .ram-scale__note {
@@ -43,39 +188,11 @@
   font-size: 1.1em;
 }
 
-.reveal .ram-bar {
-  display: flex;
-  width: 100%;
-  height: 92px;
-  margin-top: 30px;
-  border: 2px solid var(--pcb-led-green);
-  border-radius: 8px;
-  overflow: hidden;
+/* As wide as the box, so the board's label centres under it. */
+.reveal .ram-scale__notes {
+  width: 300px;
 }
 
-.reveal .ram-bar + .caption {
-  margin-bottom: 40px;
-}
-
-.reveal .ram-bar__part {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--pcb-font-mono);
-  font-size: 16px;
-  text-align: center;
-}
-
-.reveal .ram-bar__part--heap {
-  background: var(--pcb-gold);
-  color: var(--pcb-board-deep);
-}
-
-.reveal .ram-bar__part--stack {
-  background: var(--pcb-blue);
-  color: var(--pcb-board-deep);
-}
-
-.reveal .ram-bar__part--rest {
-  background: color-mix(in srgb, var(--pcb-silk-mute) 45%, var(--pcb-board-deep));
+.reveal .ram-scale__label {
+  margin: 0;
 }

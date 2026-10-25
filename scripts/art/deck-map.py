@@ -8,7 +8,7 @@ INSET = 40  # labels start this far in from the content edge
 X0 = INSET + LABEL_W + 20
 XS = [X0 + k * (W + GAP) for k in range(6)]
 STACKS = {1: ['links', 'sources'], 3: ['code'], 4: ['sources', 'links']}
-STEP = 4  # quarter beats between one talk slide and the next
+STEP = 4  # quarter beats between one horizontal slide and the next
 
 
 def n(v):
@@ -99,7 +99,7 @@ def build():
 if __name__ == '__main__':
     inner = '\n'.join('  ' + line for line in build())
     svg = ('<svg xmlns="http://www.w3.org/2000/svg" class="diagram deck-map build" viewBox="0 0 1112 218" width="1112" height="218" role="img">\n'
-           '  <title>The talk runs left to right, one slide at a time; some slides have a stack of detail slides below them</title>\n'
+           '  <title>The talk runs left to right along the horizontal slides; some have vertical slides below them</title>\n'
            f'{inner}\n</svg>\n')
     (ART / 'deck-map.svg').write_text(svg, encoding='utf-8')
     print('slides/art/deck-map.svg', len(svg), 'bytes')

@@ -307,6 +307,7 @@
   grid-auto-flow: row;
   grid-template-columns: repeat(3, 1fr);
   gap: 26px 28px;
+  margin-bottom: 24px;
 }
 
 .reveal .cards--3 .panel {

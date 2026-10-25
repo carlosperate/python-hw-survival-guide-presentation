@@ -123,14 +123,14 @@
   fill: var(--pcb-blue);
 }
 
-/* Where a stack hangs from a talk slide, the net drops to the blue layer. */
+/* Where vertical slides hang from a horizontal slide, the net drops to the blue layer. */
 .reveal svg .map-via {
   fill: var(--pcb-board-deep);
   stroke: var(--pcb-gold);
   stroke-width: 2;
 }
 
-/* Lights each talk slide as the build passes it, the way the talk will. */
+/* Lights each horizontal slide as the build passes it, the way the talk will. */
 .reveal svg .map-current {
   fill: var(--pcb-gold);
   opacity: 0;

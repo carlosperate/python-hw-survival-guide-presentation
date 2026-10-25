@@ -48,7 +48,7 @@
   line-height: 1.4;
 }
 
-/* A vertical stack's wrapper is not a slide; reveal only zeroes its top and
+/* The wrapper round vertical slides is not a slide; reveal only zeroes its top and
    bottom padding, which doubles the side gutter of the slides inside. */
 .reveal .slides > section.stack {
   padding: 0;
@@ -207,6 +207,11 @@
   border-width: 2px;
   width: 9px;
   height: 9px;
+}
+
+/* Statements that read better on one line than wrapped at the usual measure. */
+.reveal ul.list--wide {
+  max-width: none;
 }
 
 /* ---------- Code ---------- */

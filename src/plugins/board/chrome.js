@@ -33,6 +33,20 @@ function qr(revealEl) {
 const railNumber = (number, total) =>
   `${String(number).padStart(2, '0')}<span> / ${String(total).padStart(2, '0')}</span>`;
 
+// Marks the vertical slides: `stack` is the horizontal slide and its verticals, `v` the one showing.
+function moreMark(stack, v) {
+  const n = stack.length - 1;
+  if (n < 1) return '';
+  // The rail forks 45° down to one via per vertical slide, ending on the last.
+  const x = (i) => 820 + 22 * i;
+  const vias = stack.slice(1).map((_, i) =>
+    `<circle cx="${x(i)}" cy="694" r="6" class="${i + 1 === v ? 'is-here' : ''}" />`).join('');
+  return `<svg class="board__more-branch" viewBox="0 0 1280 720" width="1280" height="720">
+      <path d="M 780 679 L 795 694 H ${x(n - 1)}" />${vias}
+    </svg>
+    <span class="board__more-count" style="left:${x(n - 1) + 16}px">${v ? `${v} of ${n}` : `${n} below`}</span>`;
+}
+
 /* Export lays every slide out as a page at once, so each page gets a board of
    its own, between the page's background and its slide. */
 function printBoards(board) {
@@ -105,6 +119,7 @@ export function mountBoardChrome(deck, startTheme) {
       <span class="board__rail-trace"></span>
       <span class="board__rail-number"></span>
     </div>
+    <div class="board__more"></div>
     <div class="board__toast"></div>`;
   revealEl.before(board);
 
@@ -112,6 +127,7 @@ export function mountBoardChrome(deck, startTheme) {
   const tracesEl = board.querySelector('.board__traces');
   const partsEl = board.querySelector('.board__parts');
   const numberEl = board.querySelector('.board__rail-number');
+  const moreEl = board.querySelector('.board__more');
   const toastEl = board.querySelector('.board__toast');
 
   const pulses = new Map();
@@ -166,6 +182,10 @@ export function mountBoardChrome(deck, startTheme) {
     board.dataset.board = slide?.dataset.board ?? 'plain';
 
     numberEl.innerHTML = railNumber(deck.getSlidePastCount() + 1, deck.getTotalSlides());
+
+    const parent = slide?.parentElement;
+    const stack = parent?.classList.contains('stack') ? [...parent.querySelectorAll(':scope > section')] : [];
+    moreEl.innerHTML = moreMark(stack, deck.getIndices().v);
   }
 
   // Restarts the rail pulse; `dir` is the way the deck just moved between slides.
