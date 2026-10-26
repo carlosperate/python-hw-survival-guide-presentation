@@ -119,6 +119,42 @@
   stroke-dasharray: 3 3;
 }
 
+/* A band behind each part of a frame, kept once drawn; framing is hatched, not just tinted. */
+.reveal svg .band--ctl {
+  fill: url(#hatch);
+}
+
+.svg-defs .hatch-line {
+  stroke: color-mix(in srgb, var(--pcb-silk-mute) 45%, transparent);
+  stroke-width: 3;
+}
+
+.reveal svg .band--addr {
+  fill: color-mix(in srgb, var(--pcb-blue) 14%, transparent);
+}
+
+.reveal svg .band--rw {
+  fill: color-mix(in srgb, var(--pcb-blue) 26%, transparent);
+}
+
+.reveal svg .band--data {
+  fill: color-mix(in srgb, var(--pcb-gold) 11%, transparent);
+}
+
+.reveal svg .band--ack {
+  fill: color-mix(in srgb, var(--pcb-led-green) 18%, transparent);
+}
+
+.reveal svg .band--nack {
+  fill: color-mix(in srgb, var(--pcb-silk-mute) 20%, transparent);
+}
+
+.reveal svg .lane-label--who {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  fill: var(--pcb-silk-dim);
+}
+
 /* Cursor column for the current step only. */
 .reveal svg .wave-cursor {
   fill: color-mix(in srgb, var(--pcb-gold) 9%, transparent);
@@ -163,14 +199,29 @@
   text-anchor: middle;
 }
 
-.reveal svg .pkt .pkt__who {
-  font-size: 11px;
-  font-weight: 500;
-  fill: var(--pcb-silk-mute);
+/* Each cell takes its band's colour, so the strip is the waveform's key. */
+.reveal svg .pkt--ctl rect {
+  fill: color-mix(in srgb, var(--pcb-silk-mute) 22%, var(--pcb-board-deep));
+  stroke: var(--pcb-silk-mute);
+}
+
+.reveal svg :is(.pkt--addr, .pkt--rw) rect {
+  fill: color-mix(in srgb, var(--pcb-blue) 24%, var(--pcb-board-deep));
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg .pkt--data rect {
+  fill: color-mix(in srgb, var(--pcb-gold) 18%, var(--pcb-board-deep));
 }
 
 .reveal svg .pkt--ack rect {
+  fill: color-mix(in srgb, var(--pcb-led-green) 20%, var(--pcb-board-deep));
   stroke: var(--pcb-led-green);
+}
+
+.reveal svg .pkt--nack rect {
+  fill: color-mix(in srgb, var(--pcb-silk-mute) 22%, var(--pcb-board-deep));
+  stroke: var(--pcb-silk-mute);
 }
 
 .reveal svg .pkt--ack text:first-of-type {
@@ -185,7 +236,6 @@
 .reveal svg .pkt.current-fragment rect {
   stroke: var(--pcb-gold);
   stroke-width: 2.5;
-  fill: color-mix(in srgb, var(--pcb-gold) 16%, var(--pcb-board-deep));
 }
 
 /* ---------- Decoded capture (PulseView-style annotations) ---------- */
@@ -599,7 +649,18 @@
 }
 
 .reveal table.buses {
-  margin-bottom: 26px;
+  margin-bottom: 16px;
+}
+
+/* Seven rows and a panel under them, clear of the footer. */
+.reveal table.buses :is(th, td) {
+  padding-top: 0.32em;
+  padding-bottom: 0.32em;
+}
+
+/* The panel under it hugs its text, clear of the QR traces. */
+.reveal table.buses + .panel {
+  width: fit-content;
 }
 
 /* Tighter rows: room for code under a habits table, or for a long one. */
@@ -659,6 +720,19 @@
 
 .reveal .rules .panel {
   padding: 24px 20px 18px;
+}
+
+/* Cards with no heading but their label: larger, tighter, so a 21-letter label still fits a third. */
+.reveal .cards.cards--titled .panel[data-label]::before {
+  top: -15px;
+  left: 14px;
+  padding: 0 8px;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+}
+
+.reveal .cards--titled .panel {
+  padding-top: 22px;
 }
 
 .reveal .rules-list {
@@ -922,4 +996,111 @@
 [data-base-theme] .reveal .find-driver ol li {
   margin-bottom: 0.45em;
   padding-bottom: 0.4em;
+}
+
+/* ---------- I2C pull-ups: breakouts' resistors in parallel ---------- */
+
+.reveal .pullups :is(p, li) {
+  font-size: 0.72em;
+}
+
+.reveal .pullups ul {
+  max-width: none;
+  margin: 12px 0 0;
+}
+
+.reveal .pullups li {
+  margin-bottom: 0.4em;
+}
+
+.reveal svg .rail {
+  fill: none;
+  stroke: var(--pcb-silk-dim);
+  stroke-width: 3;
+}
+
+.reveal svg .resistor {
+  fill: none;
+  stroke: var(--pcb-silk);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.reveal svg .board-outline {
+  fill: color-mix(in srgb, var(--pcb-board-panel) 60%, transparent);
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 5;
+}
+
+.reveal svg .board-name {
+  font-size: 13px;
+  fill: var(--pcb-silk-mute);
+}
+
+.reveal svg .ohms {
+  font-size: 14px;
+  fill: var(--pcb-silk);
+}
+
+.reveal svg .node {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .ohms--sum {
+  font-size: 22px;
+  font-weight: 600;
+  fill: var(--pcb-gold);
+}
+
+/* ---------- Power budget ---------- */
+
+.reveal .power {
+  flex: none;
+  margin-bottom: 22px;
+}
+
+.reveal .power table {
+  width: 100%;
+  font-size: 0.68em;
+}
+
+.reveal .power td:last-child {
+  font-family: var(--pcb-font-mono);
+  color: var(--pcb-gold);
+  text-align: right;
+  padding-right: 0;
+}
+
+.reveal .power p,
+.reveal .power-check {
+  font-size: 0.68em;
+}
+
+.reveal .power .panel {
+  padding: 22px 26px 18px;
+}
+
+.reveal .power td {
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}
+
+.reveal .power p {
+  margin-top: 10px;
+}
+
+/* Clear of the QR traces, which start near x 990. */
+.reveal .power-check {
+  max-width: 860px;
+}
+
+.reveal .power-check li {
+  margin-bottom: 0.3em;
+}
+
+.reveal svg .ohms-note {
+  font-family: var(--pcb-font-body);
+  font-size: 17px;
+  fill: var(--pcb-silk-dim);
 }

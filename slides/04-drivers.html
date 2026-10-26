@@ -223,15 +223,49 @@ class BME280:
     answers 0x60.
     Only the driver is yours: MicroPython gives you machine.I2C, SPI, UART, PWM
     and Pin.
-    Next: which bus? The chip picks.
+    Next: which bus? What a bus is, and why you need to know.
   </aside>
 </section>
 
-<!-- WHICH BUS: columns reveal, then the rule of thumb; UART and SPI below -->
+<!-- WHICH BUS: a bullet per click, for people who have never wired one -->
+<section>
+  <header class="slide-head">
+    <h2>Which bus?</h2>
+  </header>
+
+  <ul class="list--wide">
+    <li>A <b>bus</b> is a few wires between chips, plus rules for sending bytes: the protocol.</li>
+    <li class="fragment" data-fragment-index="1">Microcontrollers have hardware for the three common ones built in: <b>UART</b>, <b>I²C</b> and <b>SPI</b>.</li>
+    <li class="fragment" data-fragment-index="2">You rarely choose: the part's datasheet or product page says which bus it speaks.</li>
+    <li class="fragment" data-fragment-index="3">You still need to know it: it decides which pins you wire, and the bus you hand the driver.</li>
+  </ul>
+
+  <pre class="fragment" data-fragment-index="3"><code class="language-python" data-trim>
+i2c = I2C(0, scl=Pin(5), sda=Pin(4))
+bme = bme280.BME280(i2c=i2c)
+  </code></pre>
+
+  <ul class="list--wide qr-clear">
+    <li class="fragment" data-fragment-index="4">Not every part needs a bus: buttons use a plain pin (GPIO), servos use pulses (PWM).</li>
+  </ul>
+
+  <aside class="notes">
+    Many here have never wired a bus. A bus is shared wires plus a protocol;
+    the microcontroller's I2C, SPI and UART blocks (last slide) do the
+    bit-level work. The chip's datasheet picks the bus, and some (the BME280)
+    speak two. The driver hides the protocol but not the wiring: you build
+    the bus object and pass it in, as on the install slide. Pins are the
+    Pico's I2C(0) defaults. Not a bus: GPIO, PWM, and NeoPixel, a timing
+    protocol on one GPIO pin.
+    Next: the three buses side by side.
+  </aside>
+</section>
+
+<!-- THREE BUSES: a row per click, then what all three share; a waveform per bus below -->
 <section>
   <section>
     <header class="slide-head">
-      <h2>Which bus?</h2>
+      <h2>UART, I²C and SPI side by side</h2>
     </header>
 
     <table class="buses">
@@ -239,34 +273,48 @@ class BME280:
         <tr><th></th><th>UART</th><th>I²C</th><th>SPI</th></tr>
       </thead>
       <tbody>
-        <tr><td>Wires</td><td>TX → RX, crossed</td><td>SDA, SCL + pull-ups</td><td>SCK, COPI, CIPO + CS each</td></tr>
-        <tr><td>Clock</td><td>none: agree on baud</td><td>controller drives SCL</td><td>controller drives SCK</td></tr>
-        <tr><td>Speed</td><td>9,600–115,200 baud</td><td>100 k · 400 k · 1 M</td><td>MHz</td></tr>
-        <tr><td>Who's talking</td><td>just the two ends</td><td>7-bit address</td><td>chip-select line</td></tr>
-        <tr><td>Anyone there?</td><td>no way to know</td><td>ACK + <code>scan()</code></td><td>no way to know</td></tr>
+        <tr><td>Used for</td><td>GPS, radios, another board</td><td>sensors, clocks, small OLEDs</td><td>colour screens, SD cards</td></tr>
+        <tr class="fragment" data-fragment-index="1"><td>Wires, + GND</td><td>TX → RX, crossed</td><td>SDA, SCL</td><td>SCK, COPI, CIPO + CS each</td></tr>
+        <tr class="fragment" data-fragment-index="2"><td>Devices</td><td>two, one at each end</td><td>many, each at an address</td><td>many, one CS pin each</td></tr>
+        <tr class="fragment" data-fragment-index="3"><td>Speed</td><td>9,600–115,200 baud</td><td>100 or 400 kHz</td><td>1–10+ MHz</td></tr>
+        <tr class="fragment" data-fragment-index="4"><td>Extra parts</td><td>none</td><td>pull-ups, often on the board</td><td>none</td></tr>
+        <tr class="fragment" data-fragment-index="5"><td>Anyone there?</td><td>no way to know</td><td><code>scan()</code> lists them</td><td>no: you read 0x00 or 0xFF</td></tr>
+        <tr class="fragment" data-fragment-index="6"><td>Classic mistake</td><td>wrong baud: garbage, no error</td><td>two of the same chip clash</td><td>wrong mode: wrong bits, no error</td></tr>
       </tbody>
     </table>
 
-    <div class="cards">
-      <div class="panel fragment" data-label="UART"><p>GPS, modems, another computer: anything that talks text</p></div>
-      <div class="panel fragment" data-label="I²C"><p>Sensors, RTCs, small OLEDs: many devices, two wires</p></div>
-      <div class="panel fragment" data-label="SPI"><p>Displays, SD cards, flash: when you need speed</p></div>
+    <div class="panel fragment" data-label="All three" data-fragment-index="7">
+      <p>Connect GND between boards · 5 V can kill a 3.3 V pin<br>Not every pin can do every bus · keep wires short</p>
     </div>
 
     <aside class="notes">
-      You rarely choose the bus: the chip's datasheet does, and some (the BME280)
-      speak two. Three buses cover most beginner devices. I2C is the only one of the three
-      that tells you when nobody is there. Names: controller/target (UM10204
-      Rev. 7), COPI/CIPO for SPI (OSHWA); old names MOSI/MISO, master/slave.
-      BME280 SPI runs up to 10 MHz. Footer if asked: NeoPixel is a timing
-      protocol, 1-Wire is the DS18B20 plus a 4.7 kΩ pull-up, knobs and servos are
-      ADC/PWM. Qwiic / STEMMA QT connectors make I2C plug-and-play.
-      Sources: SparkFun Serial, I2C and SPI tutorials; NXP UM10204; BME280 datasheet.
-      Press down for UART and SPI. Next: I2C, the bus the rest of this part follows.
+      A row per click. Used for: UART for modules that stream text (GPS NMEA,
+      AT-command radios) or another computer; I2C for slow sensors; SPI when
+      you move a lot of data. Wires: UART labels are "with respect to the
+      device itself", so TX goes to RX (SparkFun Serial); SPI needs one CS per
+      device, and the others held high. Devices: UART is "one serial bus, two
+      serial devices"; I2C addresses are set by the chip, with two choices at
+      best (BME280 0x76/0x77). Speed: 115,200 baud is about 11.5 kB/s, 400 kHz
+      I2C about 44 kB/s, 10 MHz SPI 1.25 MB/s (derived); a 240x240 colour
+      frame is 2.6 s over I2C, 92 ms over SPI. Pull-ups: most SparkFun and
+      Adafruit I2C boards include them. Anyone there: a missing SPI chip reads
+      a floating line, usually 0xFF or 0x00, so read an ID register. Mistakes:
+      fixes for clashes are an address pin, a TCA9548A mux or a second bus
+      (Adafruit). All three: no shared ground, no signal; RP2040 pins take
+      3.8 V at most; RP2040 buses only on set pins (rp2 quickref, SoftI2C
+      and SoftSPI work on any); SparkFun gives I2C 2-3 m, SPI a few feet.
+      Cheap SPI screens label their pins SCL/SDA: that's SCK/COPI.
+      Names: controller/target (UM10204 Rev. 7), COPI/CIPO (OSHWA); old
+      names MOSI/MISO, master/slave. Not buses: NeoPixel is a timing protocol,
+      1-Wire a DS18B20 plus 4.7 kΩ, knobs and servos ADC/PWM.
+      Sources: SparkFun Serial, I2C, SPI and Logic Levels tutorials; NXP
+      UM10204; Adafruit address conflicts; MicroPython rp2 quickref; RP2040
+      datasheet 5.5.
+      Press down for UART, I2C and SPI, a waveform each. Next: a driver is a small class.
     </aside>
   </section>
 
-  <!-- UART: no fragments, read on its own -->
+  <!-- UART: a click per part of the frame; segment, cursor and caption share an index -->
   <section class="is-body-centered">
     <header class="slide-head">
       <h2>UART: no clock, so agree in advance</h2>
@@ -279,25 +327,23 @@ class BME280:
     <svg class="diagram" viewBox="0 0 900 130" width="1112" height="161" role="img">
       <title>UART frame for the letter A: start bit, 1 0 0 0 0 0 1 0, stop bit</title>
   <text class="lane-label lane-label--data" x="0" y="63">TX</text>
-  <text class="slot" x="102" y="110">idle</text>
-  <text class="slot slot--frame" x="166" y="110">START</text>
-  <text class="slot" x="230" y="110">D0</text>
-  <text class="slot" x="294" y="110">D1</text>
-  <text class="slot" x="358" y="110">D2</text>
-  <text class="slot" x="422" y="110">D3</text>
-  <text class="slot" x="486" y="110">D4</text>
-  <text class="slot" x="550" y="110">D5</text>
-  <text class="slot" x="614" y="110">D6</text>
-  <text class="slot" x="678" y="110">D7</text>
-  <text class="slot slot--frame" x="742" y="110">STOP</text>
-  <text class="slot" x="806" y="110">idle</text>
-  <g class="wave-base"><path class="lane lane--data" pathLength="1" d="M70 40 H134 V74 H134"/></g>
-  <g><path class="lane lane--data" pathLength="1" d="M134 74 H198 V40 H198"/><path class="lane lane--data" pathLength="1" d="M710 40 H838"/></g>
-  <g><path class="lane lane--data" pathLength="1" d="M198 40 H262 V74 H582 V40 H646 V74 H710 V40 H710"/><text class="bit bit--big" x="230" y="28">1</text><text class="bit bit--big" x="294" y="28">0</text><text class="bit bit--big" x="358" y="28">0</text><text class="bit bit--big" x="422" y="28">0</text><text class="bit bit--big" x="486" y="28">0</text><text class="bit bit--big" x="550" y="28">0</text><text class="bit bit--big" x="614" y="28">1</text><text class="bit bit--big" x="678" y="28">0</text></g>
-  <g><line class="tick" x1="166" y1="36" x2="166" y2="78"/><line class="tick" x1="230" y1="36" x2="230" y2="78"/><line class="tick" x1="294" y1="36" x2="294" y2="78"/><line class="tick" x1="358" y1="36" x2="358" y2="78"/><line class="tick" x1="422" y1="36" x2="422" y2="78"/><line class="tick" x1="486" y1="36" x2="486" y2="78"/><line class="tick" x1="550" y1="36" x2="550" y2="78"/><line class="tick" x1="614" y1="36" x2="614" y2="78"/><line class="tick" x1="678" y1="36" x2="678" y2="78"/><line class="tick" x1="742" y1="36" x2="742" y2="78"/></g>
+  <g class="wave-base"><path class="lane lane--data" pathLength="1" d="M70 40 H134"/><text class="slot" x="102" y="110">idle</text></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="1" x="134" y="8" width="64" height="112"/>
+  <g class="draw fragment" data-fragment-index="1"><path class="lane lane--data" pathLength="1" d="M134 40 V74 H198"/><text class="slot slot--frame" x="166" y="110">START</text></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="2" x="198" y="8" width="512" height="112"/>
+  <g class="draw fragment" data-fragment-index="2"><path class="lane lane--data" pathLength="1" d="M198 74 V40 H262 V74 H582 V40 H646 V74 H710"/><text class="bit bit--big" x="230" y="28">1</text><text class="bit bit--big" x="294" y="28">0</text><text class="bit bit--big" x="358" y="28">0</text><text class="bit bit--big" x="422" y="28">0</text><text class="bit bit--big" x="486" y="28">0</text><text class="bit bit--big" x="550" y="28">0</text><text class="bit bit--big" x="614" y="28">1</text><text class="bit bit--big" x="678" y="28">0</text><text class="slot" x="230" y="110">D0</text><text class="slot" x="294" y="110">D1</text><text class="slot" x="358" y="110">D2</text><text class="slot" x="422" y="110">D3</text><text class="slot" x="486" y="110">D4</text><text class="slot" x="550" y="110">D5</text><text class="slot" x="614" y="110">D6</text><text class="slot" x="678" y="110">D7</text></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="3" x="710" y="8" width="64" height="112"/>
+  <g class="draw fragment" data-fragment-index="3"><path class="lane lane--data" pathLength="1" d="M710 74 V40 H838"/><text class="slot slot--frame" x="742" y="110">STOP</text><text class="slot" x="806" y="110">idle</text></g>
+  <g class="fragment" data-fragment-index="4"><line class="tick" x1="166" y1="36" x2="166" y2="78"/><line class="tick" x1="230" y1="36" x2="230" y2="78"/><line class="tick" x1="294" y1="36" x2="294" y2="78"/><line class="tick" x1="358" y1="36" x2="358" y2="78"/><line class="tick" x1="422" y1="36" x2="422" y2="78"/><line class="tick" x1="486" y1="36" x2="486" y2="78"/><line class="tick" x1="550" y1="36" x2="550" y2="78"/><line class="tick" x1="614" y1="36" x2="614" y2="78"/><line class="tick" x1="678" y1="36" x2="678" y2="78"/><line class="tick" x1="742" y1="36" x2="742" y2="78"/></g>
     </svg>
 
-    <p class="readout">The receiver samples the middle of each bit at <b>its</b> baud rate. Send at 9600, read at 19200: garbage, and no exception.</p>
+    <div class="r-stack">
+      <p class="readout fragment fade-out" data-fragment-index="1">Idle: the line sits HIGH while nothing is sent.</p>
+      <p class="readout fragment current-visible" data-fragment-index="1">START: the line drops for one bit. The receiver starts timing from this edge.</p>
+      <p class="readout fragment current-visible" data-fragment-index="2">Eight data bits, least significant first: 'A' goes out backwards.</p>
+      <p class="readout fragment current-visible" data-fragment-index="3">STOP: back to HIGH for at least one bit, ready for the next byte.</p>
+      <p class="readout fragment" data-fragment-index="4">The receiver samples the middle of each bit at <b>its</b> baud rate. Send at 9600, read at 19200: garbage, and no exception.</p>
+    </div>
 
     <p class="caption">
       <a href="https://docs.micropython.org/en/latest/library/machine.UART.html" target="_blank" rel="noopener">machine.UART</a> ·
@@ -305,16 +351,109 @@ class BME280:
     </p>
 
     <aside class="notes">
-      Vertical slide: read on its own, skipped live.
-      Line idles HIGH; START is a 1-to-0 transition; data LSB first; STOP returns
-      to 1. 8N1 is the usual framing. The default baud rate is per port: 115,200
+      Vertical slide, skipped live. A click per part: idle, START, data, STOP,
+      then where the receiver samples. Line idles HIGH; START is a 1-to-0
+      transition; data LSB first; STOP returns to 1. 8N1 is the usual framing. The default baud rate is per port: 115,200
       on rp2 and ESP32 (ports/*/machine_uart.c), and the pyboard makes you pass
       it. 104 µs per bit at 9,600, 8.68 µs at 115,200 (derived). SparkFun
       Serial; machine.UART docs.
     </aside>
   </section>
 
-  <!-- SPI: no fragments, read on its own -->
+  <!-- I2C CHIP-ID READ: waveform segment, packet cell and side note share an index -->
+  <section>
+    <header class="slide-head">
+      <h2>I²C: reading the chip ID, bit by bit</h2>
+    </header>
+
+    <p class="readout">SCL is the clock, SDA the data, both shared. The microcontroller (MCU) reads the BME280's ID:</p>
+    <p class="readout"><code>i2c.readfrom_mem(0x76, 0xD0, 1)</code> → <b>b'\x60'</b></p>
+
+    <svg class="diagram" viewBox="0 0 1112 356" width="1112" height="356" role="img">
+      <title>I2C waveform of a BME280 chip-ID read, with who sends each field: the MCU sends S, 0x76 and W, the BME280 ACKs, the MCU sends 0xD0, the BME280 ACKs, the MCU sends Sr, 0x76 and R, the BME280 ACKs and sends 0x60, the MCU sends NACK and P</title>
+  <rect class="band band--ctl fragment" data-fragment-index="1" x="104" y="4" width="40" height="170"/>
+  <rect class="band band--addr fragment" data-fragment-index="2" x="144" y="4" width="280" height="170"/>
+  <rect class="band band--rw fragment" data-fragment-index="2" x="424" y="4" width="40" height="170"/>
+  <rect class="band band--ack fragment" data-fragment-index="3" x="464" y="4" width="40" height="170"/>
+  <rect class="band band--data fragment" data-fragment-index="4" x="504" y="4" width="320" height="170"/>
+  <rect class="band band--ack fragment" data-fragment-index="4" x="824" y="4" width="40" height="170"/>
+  <rect class="band band--ctl fragment" data-fragment-index="5" x="64" y="184" width="40" height="170"/>
+  <rect class="band band--addr fragment" data-fragment-index="6" x="104" y="184" width="280" height="170"/>
+  <rect class="band band--rw fragment" data-fragment-index="6" x="384" y="184" width="40" height="170"/>
+  <rect class="band band--ack fragment" data-fragment-index="6" x="424" y="184" width="40" height="170"/>
+  <rect class="band band--data fragment" data-fragment-index="7" x="464" y="184" width="320" height="170"/>
+  <rect class="band band--nack fragment" data-fragment-index="8" x="784" y="184" width="40" height="170"/>
+  <rect class="band band--ctl fragment" data-fragment-index="9" x="824" y="184" width="40" height="170"/>
+  <text class="lane-label" x="0" y="45">SCL</text>
+  <text class="lane-label lane-label--data" x="0" y="101">SDA</text>
+  <text class="lane-label lane-label--who" x="0" y="137">MCU</text>
+  <text class="lane-label lane-label--who" x="0" y="165">BME280</text>
+  <text class="lane-label" x="0" y="225">SCL</text>
+  <text class="lane-label lane-label--data" x="0" y="281">SDA</text>
+  <text class="lane-label lane-label--who" x="0" y="317">MCU</text>
+  <text class="lane-label lane-label--who" x="0" y="345">BME280</text>
+  <g class="wave-base"><path class="lane lane--clk" pathLength="1" d="M64 22 H104"/><path class="lane lane--data" pathLength="1" d="M64 78 H104"/></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="1" x="104" y="4" width="40" height="170"/>
+  <g class="draw fragment" data-fragment-index="1"><path class="lane lane--clk" pathLength="1" d="M104 22 H144 V56 H144"/><path class="lane lane--data" pathLength="1" d="M104 78 H124 V112 H144"/></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="2" x="144" y="4" width="320" height="170"/>
+  <g class="draw fragment" data-fragment-index="2"><path class="lane lane--clk" pathLength="1" d="M144 56 H164 V22 H184 V56 H204 V22 H224 V56 H244 V22 H264 V56 H284 V22 H304 V56 H324 V22 H344 V56 H364 V22 H384 V56 H404 V22 H424 V56 H444 V22 H464 V56 H464"/><path class="lane lane--data" pathLength="1" d="M144 112 H149 V78 H269 V112 H309 V78 H389 V112 H464"/><text class="bit" x="164" y="70">1</text><text class="bit" x="204" y="70">1</text><text class="bit" x="244" y="70">1</text><text class="bit" x="284" y="70">0</text><text class="bit" x="324" y="70">1</text><text class="bit" x="364" y="70">1</text><text class="bit" x="404" y="70">0</text><text class="bit" x="444" y="70">0</text></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="3" x="464" y="4" width="40" height="170"/>
+  <g class="draw fragment" data-fragment-index="3"><path class="lane lane--clk" pathLength="1" d="M464 56 H484 V22 H504 V56 H504"/><path class="lane lane--data" pathLength="1" d="M464 112 H504"/><text class="bit" x="484" y="70">0</text></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="4" x="504" y="4" width="360" height="170"/>
+  <g class="draw fragment" data-fragment-index="4"><path class="lane lane--clk" pathLength="1" d="M504 56 H524 V22 H544 V56 H564 V22 H584 V56 H604 V22 H624 V56 H644 V22 H664 V56 H684 V22 H704 V56 H724 V22 H744 V56 H764 V22 H784 V56 H804 V22 H824 V56 H844 V22 H864 V56 H864"/><path class="lane lane--data" pathLength="1" d="M504 112 H509 V78 H589 V112 H629 V78 H669 V112 H864"/><text class="bit" x="524" y="70">1</text><text class="bit" x="564" y="70">1</text><text class="bit" x="604" y="70">0</text><text class="bit" x="644" y="70">1</text><text class="bit" x="684" y="70">0</text><text class="bit" x="724" y="70">0</text><text class="bit" x="764" y="70">0</text><text class="bit" x="804" y="70">0</text><text class="bit" x="844" y="70">0</text></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="5" x="64" y="184" width="40" height="170"/>
+  <g class="draw fragment" data-fragment-index="5"><path class="lane lane--clk" pathLength="1" d="M64 236 H74 V202 H104 V236 H104"/><path class="lane lane--data" pathLength="1" d="M64 292 H69 V258 H89 V292 H104"/></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="6" x="104" y="184" width="360" height="170"/>
+  <g class="draw fragment" data-fragment-index="6"><path class="lane lane--clk" pathLength="1" d="M104 236 H124 V202 H144 V236 H164 V202 H184 V236 H204 V202 H224 V236 H244 V202 H264 V236 H284 V202 H304 V236 H324 V202 H344 V236 H364 V202 H384 V236 H404 V202 H424 V236 H444 V202 H464 V236 H464"/><path class="lane lane--data" pathLength="1" d="M104 292 H109 V258 H229 V292 H269 V258 H349 V292 H389 V258 H429 V292 H464"/><text class="bit" x="124" y="250">1</text><text class="bit" x="164" y="250">1</text><text class="bit" x="204" y="250">1</text><text class="bit" x="244" y="250">0</text><text class="bit" x="284" y="250">1</text><text class="bit" x="324" y="250">1</text><text class="bit" x="364" y="250">0</text><text class="bit" x="404" y="250">1</text><text class="bit" x="444" y="250">0</text></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="7" x="464" y="184" width="320" height="170"/>
+  <g class="draw fragment" data-fragment-index="7"><path class="lane lane--clk" pathLength="1" d="M464 236 H484 V202 H504 V236 H524 V202 H544 V236 H564 V202 H584 V236 H604 V202 H624 V236 H644 V202 H664 V236 H684 V202 H704 V236 H724 V202 H744 V236 H764 V202 H784 V236 H784"/><path class="lane lane--data" pathLength="1" d="M464 292 H509 V258 H589 V292 H784"/><text class="bit" x="484" y="250">0</text><text class="bit" x="524" y="250">1</text><text class="bit" x="564" y="250">1</text><text class="bit" x="604" y="250">0</text><text class="bit" x="644" y="250">0</text><text class="bit" x="684" y="250">0</text><text class="bit" x="724" y="250">0</text><text class="bit" x="764" y="250">0</text></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="8" x="784" y="184" width="40" height="170"/>
+  <g class="draw fragment" data-fragment-index="8"><path class="lane lane--clk" pathLength="1" d="M784 236 H804 V202 H824 V236 H824"/><path class="lane lane--data" pathLength="1" d="M784 292 H789 V258 H824"/><text class="bit" x="804" y="250">1</text></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="9" x="824" y="184" width="80" height="170"/>
+  <g class="draw fragment" data-fragment-index="9"><path class="lane lane--clk" pathLength="1" d="M824 236 H834 V202 H904"/><path class="lane lane--data" pathLength="1" d="M824 258 H829 V292 H849 V258 H904"/></g>
+  <g class="pkt pkt--ctl fragment" data-fragment-index="1"><rect x="106" y="120" width="36" height="24" rx="4"/><text x="124" y="137">S</text></g>
+  <g class="pkt pkt--addr fragment" data-fragment-index="2"><rect x="146" y="120" width="276" height="24" rx="4"/><text x="284" y="137">0x76</text></g>
+  <g class="pkt pkt--rw fragment" data-fragment-index="2"><rect x="426" y="120" width="36" height="24" rx="4"/><text x="444" y="137">W</text></g>
+  <g class="pkt pkt--ack fragment" data-fragment-index="3"><rect x="466" y="148" width="36" height="24" rx="4"/><text x="484" y="165">A✓</text></g>
+  <g class="pkt pkt--data fragment" data-fragment-index="4"><rect x="506" y="120" width="316" height="24" rx="4"/><text x="664" y="137">0xD0  register</text></g>
+  <g class="pkt pkt--ack fragment" data-fragment-index="4"><rect x="826" y="148" width="36" height="24" rx="4"/><text x="844" y="165">A✓</text></g>
+  <g class="pkt pkt--ctl fragment" data-fragment-index="5"><rect x="66" y="300" width="36" height="24" rx="4"/><text x="84" y="317">Sr</text></g>
+  <g class="pkt pkt--addr fragment" data-fragment-index="6"><rect x="106" y="300" width="276" height="24" rx="4"/><text x="244" y="317">0x76</text></g>
+  <g class="pkt pkt--rw fragment" data-fragment-index="6"><rect x="386" y="300" width="36" height="24" rx="4"/><text x="404" y="317">R</text></g>
+  <g class="pkt pkt--ack fragment" data-fragment-index="6"><rect x="426" y="328" width="36" height="24" rx="4"/><text x="444" y="345">A✓</text></g>
+  <g class="pkt pkt--data fragment" data-fragment-index="7"><rect x="466" y="328" width="316" height="24" rx="4"/><text x="624" y="345">0x60  chip id</text></g>
+  <g class="pkt pkt--nack fragment" data-fragment-index="8"><rect x="786" y="300" width="36" height="24" rx="4"/><text x="804" y="317">N</text></g>
+  <g class="pkt pkt--ctl fragment" data-fragment-index="9"><rect x="826" y="300" width="36" height="24" rx="4"/><text x="844" y="317">P</text></g>
+  <g class="chip"><rect x="930" y="10" width="170" height="44" rx="6"/><text x="1015" y="38">MCU</text></g>
+  <g class="chip"><rect x="930" y="74" width="170" height="44" rx="6"/><text x="1015" y="102">BME280</text></g>
+  <g class="fragment fade-out" data-fragment-index="1"><text class="step-note" x="930" y="160">Idle: both lines</text><text class="step-note" x="930" y="182">pulled HIGH</text></g>
+  <g class="fragment current-visible" data-fragment-index="1"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">START: SDA falls</text><text class="step-note" x="930" y="182">while SCL is HIGH</text></g>
+  <g class="fragment current-visible" data-fragment-index="2"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Address 0x76</text><text class="step-note" x="930" y="182">+ write bit</text></g>
+  <g class="fragment current-visible" data-fragment-index="3"><rect class="driver" x="930" y="74" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Sensor pulls SDA</text><text class="step-note" x="930" y="182">LOW: ACK</text></g>
+  <g class="fragment current-visible" data-fragment-index="4"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><rect class="driver" x="930" y="74" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Register 0xD0,</text><text class="step-note" x="930" y="182">then ACK</text></g>
+  <g class="fragment current-visible" data-fragment-index="5"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Repeated START</text></g>
+  <g class="fragment current-visible" data-fragment-index="6"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><rect class="driver" x="930" y="74" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Address 0x76</text><text class="step-note" x="930" y="182">+ read bit, ACK</text></g>
+  <g class="fragment current-visible" data-fragment-index="7"><rect class="driver" x="930" y="74" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Sensor sends</text><text class="step-note" x="930" y="182">0x60</text></g>
+  <g class="fragment current-visible" data-fragment-index="8"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">NACK: that is</text><text class="step-note" x="930" y="182">all I need</text></g>
+  <g class="fragment" data-fragment-index="9"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">STOP: SDA rises</text><text class="step-note" x="930" y="182">while SCL is HIGH</text></g>
+    </svg>
+
+    <aside class="notes">
+      Vertical slide, skipped live. A click per field. Each field's band and cell share a
+      colour; the MCU row is what the microcontroller sends, the BME280 row what the sensor sends.
+      SDA may change only while SCL is LOW; START and STOP are SDA edges while
+      SCL is HIGH; bytes go MSB first, each followed by a ninth-clock ACK; a NACK
+      from a reading controller signals the end (UM10204 3.1.3-3.1.6, 3.1.10).
+      BME280: 7-bit address 0x76 with SDO to GND, chip-ID register 0xD0 = 0x60
+      (datasheet 5.4.1, 6.2). readfrom_mem() is writeto(addr, reg, stop=False)
+      then readfrom(..., stop=True) (extmod/machine_i2c.c): hence the repeated
+      START. 36 clocks: ~0.36 ms at 100 kHz.
+      The code says 0x76; the wire says 0xEC and 0xED: the 8-bit address trap
+      in "When scan() lies". Tooling replays this read live, field by field.
+    </aside>
+  </section>
+
+  <!-- SPI: a click per step; segment, cursor and caption share an index -->
   <section>
     <header class="slide-head">
       <h2>SPI: to read, you must write</h2>
@@ -331,13 +470,24 @@ class BME280:
   <text class="lane-label lane-label--data" x="0" y="135">COPI</text>
   <text class="lane-label lane-label--data" x="0" y="191">CIPO</text>
   <g class="wave-base"><path class="lane lane--frame" pathLength="1" d="M62 0 H84"/><path class="lane lane--clk" pathLength="1" d="M62 90 H84"/><path class="lane lane--data" pathLength="1" d="M62 112 H84"/><path class="lane lane--data lane--in" pathLength="1" d="M62 185 H84"/></g>
-  <g><path class="lane lane--frame" pathLength="1" d="M84 0 H104 V34 H124"/><path class="lane lane--clk" pathLength="1" d="M84 90 H124"/><path class="lane lane--data" pathLength="1" d="M84 112 H124"/><path class="lane lane--data lane--in" pathLength="1" d="M84 185 H124"/></g>
-  <g><path class="lane lane--frame" pathLength="1" d="M124 34 H444"/><path class="lane lane--clk" pathLength="1" d="M124 90 H144 V56 H164 V90 H184 V56 H204 V90 H224 V56 H244 V90 H264 V56 H284 V90 H304 V56 H324 V90 H344 V56 H364 V90 H384 V56 H404 V90 H424 V56 H444 V90 H444"/><path class="lane lane--data" pathLength="1" d="M124 112 H204 V146 H244 V112 H284 V146 H444"/><path class="lane lane--data lane--in" pathLength="1" d="M124 185 H444 V202 H444"/><rect class="dontcare" x="124" y="166" width="320" height="38"/><text class="hex" x="284" y="190">don't care</text><text class="bit" x="144" y="106">1</text><text class="bit" x="184" y="106">1</text><text class="bit" x="224" y="106">0</text><text class="bit" x="264" y="106">1</text><text class="bit" x="304" y="106">0</text><text class="bit" x="344" y="106">0</text><text class="bit" x="384" y="106">0</text><text class="bit" x="424" y="106">0</text><text class="hex" x="284" y="232">0xD0 · bit 7 = read</text></g>
-  <g><path class="lane lane--frame" pathLength="1" d="M444 34 H764"/><path class="lane lane--clk" pathLength="1" d="M444 90 H464 V56 H484 V90 H504 V56 H524 V90 H544 V56 H564 V90 H584 V56 H604 V90 H624 V56 H644 V90 H664 V56 H684 V90 H704 V56 H724 V90 H744 V56 H764 V90 H764"/><path class="lane lane--data" pathLength="1" d="M444 146 H764"/><path class="lane lane--data lane--in" pathLength="1" d="M444 202 H484 V168 H564 V202 H764"/><text class="bit" x="464" y="162">0</text><text class="bit" x="504" y="162">1</text><text class="bit" x="544" y="162">1</text><text class="bit" x="584" y="162">0</text><text class="bit" x="624" y="162">0</text><text class="bit" x="664" y="162">0</text><text class="bit" x="704" y="162">0</text><text class="bit" x="744" y="162">0</text><text class="hex" x="604" y="232">0x60 · chip id</text></g>
-  <g><path class="lane lane--frame" pathLength="1" d="M764 34 H784 V0 H804"/><path class="lane lane--clk" pathLength="1" d="M764 90 H804"/><path class="lane lane--data" pathLength="1" d="M764 146 H774 V112 H804"/><path class="lane lane--data lane--in" pathLength="1" d="M764 202 H774 V185 H804"/></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="1" x="84" y="-4" width="40" height="244"/>
+  <g class="draw fragment" data-fragment-index="1"><path class="lane lane--frame" pathLength="1" d="M84 0 H104 V34 H124"/><path class="lane lane--clk" pathLength="1" d="M84 90 H124"/><path class="lane lane--data" pathLength="1" d="M84 112 H124"/><path class="lane lane--data lane--in" pathLength="1" d="M84 185 H124"/></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="2" x="124" y="-4" width="320" height="244"/>
+  <g class="draw fragment" data-fragment-index="2"><path class="lane lane--frame" pathLength="1" d="M124 34 H444"/><path class="lane lane--clk" pathLength="1" d="M124 90 H144 V56 H164 V90 H184 V56 H204 V90 H224 V56 H244 V90 H264 V56 H284 V90 H304 V56 H324 V90 H344 V56 H364 V90 H384 V56 H404 V90 H424 V56 H444 V90 H444"/><path class="lane lane--data" pathLength="1" d="M124 112 H204 V146 H244 V112 H284 V146 H444"/><path class="lane lane--data lane--in" pathLength="1" d="M124 185 H444 V202 H444"/><text class="bit" x="144" y="106">1</text><text class="bit" x="184" y="106">1</text><text class="bit" x="224" y="106">0</text><text class="bit" x="264" y="106">1</text><text class="bit" x="304" y="106">0</text><text class="bit" x="344" y="106">0</text><text class="bit" x="384" y="106">0</text><text class="bit" x="424" y="106">0</text><text class="hex" x="284" y="232">0xD0 · bit 7 = read</text></g>
+  <g class="fragment" data-fragment-index="2"><rect class="dontcare" x="124" y="166" width="320" height="38"/><text class="hex" x="284" y="190">don't care</text></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="3" x="444" y="-4" width="320" height="244"/>
+  <g class="draw fragment" data-fragment-index="3"><path class="lane lane--frame" pathLength="1" d="M444 34 H764"/><path class="lane lane--clk" pathLength="1" d="M444 90 H464 V56 H484 V90 H504 V56 H524 V90 H544 V56 H564 V90 H584 V56 H604 V90 H624 V56 H644 V90 H664 V56 H684 V90 H704 V56 H724 V90 H744 V56 H764 V90 H764"/><path class="lane lane--data" pathLength="1" d="M444 146 H764"/><path class="lane lane--data lane--in" pathLength="1" d="M444 202 H484 V168 H564 V202 H764"/><text class="bit" x="464" y="162">0</text><text class="bit" x="504" y="162">1</text><text class="bit" x="544" y="162">1</text><text class="bit" x="584" y="162">0</text><text class="bit" x="624" y="162">0</text><text class="bit" x="664" y="162">0</text><text class="bit" x="704" y="162">0</text><text class="bit" x="744" y="162">0</text><text class="hex" x="604" y="232">0x60 · chip id</text></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="4" x="764" y="-4" width="40" height="244"/>
+  <g class="draw fragment" data-fragment-index="4"><path class="lane lane--frame" pathLength="1" d="M764 34 H784 V0 H804"/><path class="lane lane--clk" pathLength="1" d="M764 90 H804"/><path class="lane lane--data" pathLength="1" d="M764 146 H774 V112 H804"/><path class="lane lane--data lane--in" pathLength="1" d="M764 202 H774 V185 H804"/></g>
     </svg>
 
-    <p class="readout">No ACK, so no <code>scan()</code>: reading a known ID register (0xD0 → 0x60) is SPI's <code>scan()</code>.</p>
+    <div class="r-stack">
+      <p class="readout fragment fade-out" data-fragment-index="1">Idle: CS is HIGH, so the sensor ignores the bus.</p>
+      <p class="readout fragment current-visible" data-fragment-index="1"><code>cs(0)</code>: CS goes LOW and selects the BME280.</p>
+      <p class="readout fragment current-visible" data-fragment-index="2">Byte 1: the microcontroller sends 0xD0, the ID register (bit 7 = read). The reply is ignored.</p>
+      <p class="readout fragment current-visible" data-fragment-index="3">Byte 2: the microcontroller sends a dummy 0x00. Its 8 clocks shift 0x60 back on CIPO.</p>
+      <p class="readout fragment" data-fragment-index="4"><code>cs(1)</code>: done. No ACK, so no <code>scan()</code>: reading a known ID register is SPI's <code>scan()</code>.</p>
+    </div>
 
     <p class="caption qr-clear">
       COPI and CIPO were MOSI and MISO in older docs ·
@@ -346,8 +496,8 @@ class BME280:
     </p>
 
     <aside class="notes">
-      Vertical slide: read on its own, skipped live.
-      Full duplex through paired shift registers, usually MSB first. In
+      Vertical slide, skipped live. A click per step: select, register byte,
+      dummy byte, deselect. Full duplex through paired shift registers, usually MSB first. In
       MicroPython, CS is your own Pin; defaults are polarity 0, phase 0
       (machine.SPI). The BME280 supports modes 00 and 11, uses the register MSB as
       the read/write bit (1 = read), and runs up to 10 MHz (datasheet 6.3).
@@ -355,80 +505,6 @@ class BME280:
       BME280's CSB low even once disables I2C until the next power-on (6.1).
     </aside>
   </section>
-</section>
-
-<!-- CHIP-ID READ: waveform segment, packet cell and side note share an index -->
-<section>
-  <header class="slide-head">
-    <h2>Reading the chip ID, bit by bit</h2>
-  </header>
-
-  <p class="readout"><code>i2c.readfrom_mem(0x76, 0xD0, 1)</code> → <b>b'\x60'</b></p>
-
-  <svg class="diagram" viewBox="0 0 1112 336" width="1112" height="336" role="img">
-    <title>I2C waveform of a BME280 chip-ID read: S, 0xEC, ACK, 0xD0, ACK, Sr, 0xED, ACK, 0x60, NACK, P</title>
-<text class="lane-label" x="0" y="45">SCL</text>
-<text class="lane-label lane-label--data" x="0" y="101">SDA</text>
-<g class="wave-base"><path class="lane lane--clk" pathLength="1" d="M64 22 H104"/><path class="lane lane--data" pathLength="1" d="M64 78 H104"/></g>
-<rect class="wave-cursor fragment current-visible" data-fragment-index="1" x="104" y="4" width="40" height="142"/>
-<g class="draw fragment" data-fragment-index="1"><path class="lane lane--clk" pathLength="1" d="M104 22 H144 V56 H144"/><path class="lane lane--data" pathLength="1" d="M104 78 H124 V112 H144"/></g>
-<rect class="wave-cursor fragment current-visible" data-fragment-index="2" x="144" y="4" width="320" height="142"/>
-<g class="draw fragment" data-fragment-index="2"><path class="lane lane--clk" pathLength="1" d="M144 56 H164 V22 H184 V56 H204 V22 H224 V56 H244 V22 H264 V56 H284 V22 H304 V56 H324 V22 H344 V56 H364 V22 H384 V56 H404 V22 H424 V56 H444 V22 H464 V56 H464"/><path class="lane lane--data" pathLength="1" d="M144 112 H149 V78 H269 V112 H309 V78 H389 V112 H464"/><text class="bit" x="164" y="70">1</text><text class="bit" x="204" y="70">1</text><text class="bit" x="244" y="70">1</text><text class="bit" x="284" y="70">0</text><text class="bit" x="324" y="70">1</text><text class="bit" x="364" y="70">1</text><text class="bit" x="404" y="70">0</text><text class="bit" x="444" y="70">0</text></g>
-<rect class="wave-cursor fragment current-visible" data-fragment-index="3" x="464" y="4" width="40" height="142"/>
-<g class="draw fragment" data-fragment-index="3"><path class="lane lane--clk" pathLength="1" d="M464 56 H484 V22 H504 V56 H504"/><path class="lane lane--data" pathLength="1" d="M464 112 H504"/><text class="bit" x="484" y="70">0</text></g>
-<rect class="wave-cursor fragment current-visible" data-fragment-index="4" x="504" y="4" width="360" height="142"/>
-<g class="draw fragment" data-fragment-index="4"><path class="lane lane--clk" pathLength="1" d="M504 56 H524 V22 H544 V56 H564 V22 H584 V56 H604 V22 H624 V56 H644 V22 H664 V56 H684 V22 H704 V56 H724 V22 H744 V56 H764 V22 H784 V56 H804 V22 H824 V56 H844 V22 H864 V56 H864"/><path class="lane lane--data" pathLength="1" d="M504 112 H509 V78 H589 V112 H629 V78 H669 V112 H864"/><text class="bit" x="524" y="70">1</text><text class="bit" x="564" y="70">1</text><text class="bit" x="604" y="70">0</text><text class="bit" x="644" y="70">1</text><text class="bit" x="684" y="70">0</text><text class="bit" x="724" y="70">0</text><text class="bit" x="764" y="70">0</text><text class="bit" x="804" y="70">0</text><text class="bit" x="844" y="70">0</text></g>
-<text class="lane-label" x="0" y="213">SCL</text>
-<text class="lane-label lane-label--data" x="0" y="269">SDA</text>
-<rect class="wave-cursor fragment current-visible" data-fragment-index="5" x="64" y="172" width="40" height="142"/>
-<g class="draw fragment" data-fragment-index="5"><path class="lane lane--clk" pathLength="1" d="M64 224 H74 V190 H104 V224 H104"/><path class="lane lane--data" pathLength="1" d="M64 280 H69 V246 H89 V280 H104"/></g>
-<rect class="wave-cursor fragment current-visible" data-fragment-index="6" x="104" y="172" width="360" height="142"/>
-<g class="draw fragment" data-fragment-index="6"><path class="lane lane--clk" pathLength="1" d="M104 224 H124 V190 H144 V224 H164 V190 H184 V224 H204 V190 H224 V224 H244 V190 H264 V224 H284 V190 H304 V224 H324 V190 H344 V224 H364 V190 H384 V224 H404 V190 H424 V224 H444 V190 H464 V224 H464"/><path class="lane lane--data" pathLength="1" d="M104 280 H109 V246 H229 V280 H269 V246 H349 V280 H389 V246 H429 V280 H464"/><text class="bit" x="124" y="238">1</text><text class="bit" x="164" y="238">1</text><text class="bit" x="204" y="238">1</text><text class="bit" x="244" y="238">0</text><text class="bit" x="284" y="238">1</text><text class="bit" x="324" y="238">1</text><text class="bit" x="364" y="238">0</text><text class="bit" x="404" y="238">1</text><text class="bit" x="444" y="238">0</text></g>
-<rect class="wave-cursor fragment current-visible" data-fragment-index="7" x="464" y="172" width="320" height="142"/>
-<g class="draw fragment" data-fragment-index="7"><path class="lane lane--clk" pathLength="1" d="M464 224 H484 V190 H504 V224 H524 V190 H544 V224 H564 V190 H584 V224 H604 V190 H624 V224 H644 V190 H664 V224 H684 V190 H704 V224 H724 V190 H744 V224 H764 V190 H784 V224 H784"/><path class="lane lane--data" pathLength="1" d="M464 280 H509 V246 H589 V280 H784"/><text class="bit" x="484" y="238">0</text><text class="bit" x="524" y="238">1</text><text class="bit" x="564" y="238">1</text><text class="bit" x="604" y="238">0</text><text class="bit" x="644" y="238">0</text><text class="bit" x="684" y="238">0</text><text class="bit" x="724" y="238">0</text><text class="bit" x="764" y="238">0</text></g>
-<rect class="wave-cursor fragment current-visible" data-fragment-index="8" x="784" y="172" width="40" height="142"/>
-<g class="draw fragment" data-fragment-index="8"><path class="lane lane--clk" pathLength="1" d="M784 224 H804 V190 H824 V224 H824"/><path class="lane lane--data" pathLength="1" d="M784 280 H789 V246 H824"/><text class="bit" x="804" y="238">1</text></g>
-<rect class="wave-cursor fragment current-visible" data-fragment-index="9" x="824" y="172" width="80" height="142"/>
-<g class="draw fragment" data-fragment-index="9"><path class="lane lane--clk" pathLength="1" d="M824 224 H834 V190 H904"/><path class="lane lane--data" pathLength="1" d="M824 246 H829 V280 H849 V246 H904"/></g>
-<g class="pkt pkt--ctl fragment" data-fragment-index="1"><rect x="106" y="122" width="36" height="30" rx="4"/><text x="124" y="142">S</text><text class="pkt__who" x="124" y="166">C</text></g>
-<g class="pkt pkt--addr fragment" data-fragment-index="2"><rect x="146" y="122" width="276" height="30" rx="4"/><text x="284" y="142">0x76</text><text class="pkt__who" x="284" y="166">C</text></g>
-<g class="pkt pkt--rw fragment" data-fragment-index="2"><rect x="426" y="122" width="36" height="30" rx="4"/><text x="444" y="142">W</text><text class="pkt__who" x="444" y="166">C</text></g>
-<g class="pkt pkt--ack fragment" data-fragment-index="3"><rect x="466" y="122" width="36" height="30" rx="4"/><text x="484" y="142">A✓</text><text class="pkt__who" x="484" y="166">T</text></g>
-<g class="pkt pkt--data fragment" data-fragment-index="4"><rect x="506" y="122" width="316" height="30" rx="4"/><text x="664" y="142">0xD0  register</text><text class="pkt__who" x="664" y="166">C</text></g>
-<g class="pkt pkt--ack fragment" data-fragment-index="4"><rect x="826" y="122" width="36" height="30" rx="4"/><text x="844" y="142">A✓</text><text class="pkt__who" x="844" y="166">T</text></g>
-<g class="pkt pkt--ctl fragment" data-fragment-index="5"><rect x="66" y="290" width="36" height="30" rx="4"/><text x="84" y="310">Sr</text><text class="pkt__who" x="84" y="334">C</text></g>
-<g class="pkt pkt--addr fragment" data-fragment-index="6"><rect x="106" y="290" width="276" height="30" rx="4"/><text x="244" y="310">0x76</text><text class="pkt__who" x="244" y="334">C</text></g>
-<g class="pkt pkt--rw fragment" data-fragment-index="6"><rect x="386" y="290" width="36" height="30" rx="4"/><text x="404" y="310">R</text><text class="pkt__who" x="404" y="334">C</text></g>
-<g class="pkt pkt--ack fragment" data-fragment-index="6"><rect x="426" y="290" width="36" height="30" rx="4"/><text x="444" y="310">A✓</text><text class="pkt__who" x="444" y="334">T</text></g>
-<g class="pkt pkt--data fragment" data-fragment-index="7"><rect x="466" y="290" width="316" height="30" rx="4"/><text x="624" y="310">0x60  chip id</text><text class="pkt__who" x="624" y="334">T</text></g>
-<g class="pkt pkt--nack fragment" data-fragment-index="8"><rect x="786" y="290" width="36" height="30" rx="4"/><text x="804" y="310">N</text><text class="pkt__who" x="804" y="334">C</text></g>
-<g class="pkt pkt--ctl fragment" data-fragment-index="9"><rect x="826" y="290" width="36" height="30" rx="4"/><text x="844" y="310">P</text><text class="pkt__who" x="844" y="334">C</text></g>
-<g class="chip"><rect x="930" y="10" width="170" height="44" rx="6"/><text x="1015" y="38">Pico</text></g>
-<g class="chip"><rect x="930" y="74" width="170" height="44" rx="6"/><text x="1015" y="102">BME280</text></g>
-<g class="fragment fade-out" data-fragment-index="1"><text class="step-note" x="930" y="160">Idle: both lines</text><text class="step-note" x="930" y="182">pulled HIGH</text></g>
-<g class="fragment current-visible" data-fragment-index="1"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">START: SDA falls</text><text class="step-note" x="930" y="182">while SCL is HIGH</text></g>
-<g class="fragment current-visible" data-fragment-index="2"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Address 0x76</text><text class="step-note" x="930" y="182">+ write bit</text></g>
-<g class="fragment current-visible" data-fragment-index="3"><rect class="driver" x="930" y="74" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Sensor pulls SDA</text><text class="step-note" x="930" y="182">LOW: ACK</text></g>
-<g class="fragment current-visible" data-fragment-index="4"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><rect class="driver" x="930" y="74" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Register 0xD0,</text><text class="step-note" x="930" y="182">then ACK</text></g>
-<g class="fragment current-visible" data-fragment-index="5"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Repeated START</text></g>
-<g class="fragment current-visible" data-fragment-index="6"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><rect class="driver" x="930" y="74" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Address 0x76</text><text class="step-note" x="930" y="182">+ read bit, ACK</text></g>
-<g class="fragment current-visible" data-fragment-index="7"><rect class="driver" x="930" y="74" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Sensor sends</text><text class="step-note" x="930" y="182">0x60</text></g>
-<g class="fragment current-visible" data-fragment-index="8"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">NACK: that is</text><text class="step-note" x="930" y="182">all I need</text></g>
-<g class="fragment" data-fragment-index="9"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">STOP: SDA rises</text><text class="step-note" x="930" y="182">while SCL is HIGH</text></g>
-  </svg>
-
-  <aside class="notes">
-    SDA may change only while SCL is LOW; START and STOP are SDA edges while
-    SCL is HIGH; bytes go MSB first, each followed by a ninth-clock ACK; a NACK
-    from a reading controller signals the end (UM10204 3.1.3-3.1.6, 3.1.10).
-    BME280: 7-bit address 0x76 with SDO to GND, chip-ID register 0xD0 = 0x60
-    (datasheet 5.4.1, 6.2). readfrom_mem() is writeto(addr, reg, stop=False)
-    then readfrom(..., stop=True) (extmod/machine_i2c.c): hence the repeated
-    START. 36 clocks: ~0.36 ms at 100 kHz.
-    The code says 0x76; the wire says 0xEC and 0xED. Remember that: it comes
-    back when scan() lies. Tooling replays this read live, field by field.
-    Next: wrap this read in a class, and you have a driver.
-  </aside>
 </section>
 
 <!-- A DRIVER: line steps synced to the notes -->
@@ -470,7 +546,7 @@ class BME280:
   </div>
 
   <aside class="notes">
-    That read, wrapped in a class, is a driver: the layer you write when
+    The chip-ID read from the stack slide, wrapped in a class, is a driver: the layer you write when
     nobody has. Every register and value comes from the datasheet.
     API: machine.I2C readfrom_mem, writeto_mem, readfrom_mem_into. The
     preallocated buffer is the documented pattern (speed_python.html).
@@ -531,7 +607,7 @@ class BME280:
       pin number. 5 V: a breakout powered from 5 V can pull SDA and SCL up to
       5 V, over the RP2040's IOVDD + 0.5 V absolute maximum (datasheet 5.5);
       power it from 3V3 or use one with level shifting.
-      Press down for the rise-time curves. Next: Debugging, when it stops.
+      Press down for the rise-time curves. Next: before you blame the driver.
     </aside>
   </section>
 
@@ -568,6 +644,181 @@ class BME280:
       Vertical slide: read on its own, skipped live.
       Thresholds 0.3 and 0.7 VDD (UM10204 3.1.2). The ~967 Ω minimum at
       3.3 V and 3 mA is derived: five breakouts with 4.7 kΩ each go below it.
+    </aside>
+  </section>
+</section>
+
+
+<!-- WIRING TIPS: a card per click; board-specific numbers stay in the notes -->
+<section>
+  <section>
+    <header class="slide-head">
+      <h2>Before you blame the driver</h2>
+    </header>
+
+    <div class="cards cards--3 cards--titled">
+      <div class="panel fragment" data-label="Share GND">
+        <p>For every board and power supply. Signals need the common ground.</p>
+      </div>
+      <div class="panel fragment" data-label="Most pins: 3.3 V only">
+        <p>Check the part's supply range and its logic level.</p>
+      </div>
+      <div class="panel fragment" data-label="I²C pull-ups">
+        <p>Long wires add capacitance & might need stronger pull-ups (↓ resistance). Remember boards/modules might already have pulls!</p>
+      </div>
+      <div class="panel fragment" data-label="Motors: own supply">
+        <p>Servos and LED strips brown out the board. Keep GND shared.</p>
+      </div>
+      <div class="panel fragment" data-label="Level shifting">
+        <p>Shift I²C with a MOSFET. A BSS138-style shifter works on I²C. A TXB0108 doesn't.</p>
+      </div>
+      <div class="panel fragment" data-label="Some pins are taken">
+        <p>Boot, input-only, LED and button pins: read the pinout.</p>
+      </div>
+    </div>
+
+    <aside class="notes">
+      A card per click. Ground: a logic level is a voltage against GND; Adafruit,
+      "there must be a ground connection between the two" (NeoPixel best
+      practices). Voltage: Pico GPIO is "fixed at 3.3 V"; ESP32 VIH max is
+      VDD + 0.3 V; micro:bit pins VDD + 0.3 V; Pico 2 takes 5 V only while
+      powered, never on its ADC pins. Power: Pico 3V3 pin under 300 mA,
+      micro:bit 90 mA (V1). Pull-ups: rise time 0.8473 x R x C, 400 pF limit;
+      about 1 kOhm floor at 3.3 V (UM10204, TI SLVA689). Level shifting: NXP
+      AN10441; TI says the TXB0108 "should not be used" on I2C. Pins: ESP32
+      GPIO0, 2, 12 at boot, 34-39 input only. Sources: reports/wiring-tips.md.
+      Next: Debugging, when it stops.
+    </aside>
+  </section>
+
+  <!-- I2C PULL-UPS: why they add up, then the one chip that never lets go -->
+  <section>
+    <header class="slide-head">
+      <h2>I²C: resistors pull HIGH, chips pull LOW</h2>
+    </header>
+
+    <ul class="list--wide">
+      <li>Resistors "pull-ups" the SDA (data) and SCL (clock) signals to 3.3 V.</li>
+      <li>The microcontroller and I2C device pull the lines LOW to communicate.</li>
+    </ul>
+
+    <div class="cols cols--wide-left pullups">
+      <div class="panel" data-label="Pull-ups add up">
+        <svg class="diagram" viewBox="0 0 520 150" width="520" height="150" role="img">
+          <title>Three breakouts on one bus, each with a 4.7 kilo-ohm pull-up from 3V3 to SDA; together they act as 1.6 kilo-ohms</title>
+          <text class="lane-label" x="0" y="25">3V3</text>
+          <text class="lane-label lane-label--data" x="0" y="145">SDA</text>
+          <path class="rail" d="M56 20 H331"/>
+          <path class="lane lane--data" d="M56 140 H331"/>
+          <rect class="board-outline" x="67" y="30" width="84" height="100" rx="6"/>
+          <text class="board-name" x="91" y="48">board 1</text>
+          <path class="resistor" d="M85 20 V58 L76 66 L94 74 L76 82 L94 90 L76 98 L94 106 L85 114 V140"/>
+          <text class="ohms" x="96" y="91">4.7 kΩ</text>
+          <circle class="node" cx="85" cy="20" r="5"/>
+          <circle class="node" cx="85" cy="140" r="5"/>
+          <rect class="board-outline" x="157" y="30" width="84" height="100" rx="6"/>
+          <text class="board-name" x="181" y="48">board 2</text>
+          <path class="resistor" d="M175 20 V58 L166 66 L184 74 L166 82 L184 90 L166 98 L184 106 L175 114 V140"/>
+          <text class="ohms" x="186" y="91">4.7 kΩ</text>
+          <circle class="node" cx="175" cy="20" r="5"/>
+          <circle class="node" cx="175" cy="140" r="5"/>
+          <rect class="board-outline" x="247" y="30" width="84" height="100" rx="6"/>
+          <text class="board-name" x="271" y="48">board 3</text>
+          <path class="resistor" d="M265 20 V58 L256 66 L274 74 L256 82 L274 90 L256 98 L274 106 L265 114 V140"/>
+          <text class="ohms" x="276" y="91">4.7 kΩ</text>
+          <circle class="node" cx="265" cy="20" r="5"/>
+          <circle class="node" cx="265" cy="140" r="5"/>
+          <text class="ohms-note" x="348" y="56">Together, in parallel</text>
+          <text class="ohms-note" x="348" y="78">they reduce resistance:</text>
+          <text class="ohms ohms--sum" x="348" y="112">1.6 kΩ</text>
+        </svg>
+        <ul>
+          <li>Some breakouts/modules bring their own resistors.</li>
+          <li><b>Pull too strong</b> (low resistance), under ~1 kΩ at 3.3 V: chips can't pull LOW. Disable pull-ups on some boards.</li>
+          <li><b>Pull too weak</b> (or long wires): signal takes too long to rise to 3V3. Reduce total resistance, or reduce bus frequency.</li>
+        </ul>
+      </div>
+
+      <div class="panel" data-label="Stuck LOW">
+        <p>Reset the board mid-read and the sensor can keep holding SDA LOW, still waiting to finish its byte.</p>
+        <p><code>scan()</code> fails until you unplug it.</p>
+        <p><b>Fix:</b> drive GPIO to pulse SCL up to nine times, until SDA goes HIGH, then start I²C again. Or power-cycle the sensor.</p>
+      </div>
+    </div>
+
+    <aside class="notes">
+      Vertical slide, skipped live. Open drain: a chip can only pull a line LOW; the
+      resistor pulls it HIGH. Resistors in parallel: 1/R = 1/R1 + 1/R2 + ...;
+      n equal ones give R / n, so 4.7k / 3 = 1.57k. Floor: (3.3 - 0.4) V / 3 mA
+      = 967 Ohm (UM10204 7.1, TI SLVA689). SparkFun: "make sure only one board
+      has the pull-up resistors connected"; Qwiic boards use a cut-trace jumper.
+      Ceiling: rise time 0.8473 x R x C must stay under 1000 ns at 100 kHz,
+      300 ns at 400 kHz; wires and devices add C (400 pF max). Stuck bus:
+      UM10204 3.1.16, "If the data line (SDA) is stuck LOW, the controller
+      should send nine clock pulses... If not, then use the HW reset or cycle
+      power". Mid-read: the target is part-way through sending a byte and
+      still drives SDA when its bit is 0. Sources: reports/wiring-tips.md.
+    </aside>
+  </section>
+
+  <!-- POWER BUDGET: what the board gives your parts, what one pin gives, how to check -->
+  <section>
+    <header class="slide-head">
+      <h2>Power budget</h2>
+    </header>
+
+    <ul class="list--wide">
+      <li>Every part draws current, normally in milliamps (mA).</li>
+      <li>Board power supply only provides only so much; microcontroller pins are more limited.</li>
+    </ul>
+
+    <div class="cols power">
+      <div class="panel" data-label="From the 3V3 pin">
+        <table>
+          <tbody>
+            <tr><td>Pico, Pico 2</td><td>under 300 mA</td></tr>
+            <tr><td>micro:bit V1 · V2</td><td>90 · 190 mA</td></tr>
+            <tr><td>Adafruit Feather</td><td>500 mA peak</td></tr>
+            <tr><td>USB 2.0 port, in total</td><td>500 mA</td></tr>
+          </tbody>
+        </table>
+        <p>On an ESP32, Wi-Fi alone can take 240 mA of it.</p>
+      </div>
+
+      <div class="panel" data-label="From one GPIO pin">
+        <table>
+          <tbody>
+            <tr><td>RP2040/2350 · Pico 1 & 2</td><td>4 mA, up to 12</td></tr>
+            <tr><td>ESP32</td><td>20 mA, up to 40</td></tr>
+            <tr><td>micro:bit V2</td><td>1–4 mA</td></tr>
+          </tbody>
+        </table>
+        <p>Fine for an LED and a 330 Ω resistor, about 4 mA. <br />Not enough for a motor.</p>
+      </div>
+    </div>
+
+    <ul class="power-check qr-clear">
+      <li><b>Add up</b> the datasheets: BME280 under 1 mA · OLED ~20 mA · NeoPixel up to 60 mA · servo, hundreds.</li>
+      <li><b>Measure</b> with a USB power meter, or a multimeter in series.</li>
+    </ul>
+
+    <aside class="notes">
+      Vertical slide, skipped live. 3V3 pin: Pico and Pico 2 datasheets,
+      "recommended to keep the load on this pin less than 300 mA". micro:bit:
+      tech.microbit.org revision tables, "Max current provided via edge
+      connector" 90 mA (V1), 190 mA (V2); the power-supply overview still says
+      270 mA for V2. Feather RP2040 and ESP32-S3 pinouts: "can supply 500mA
+      peak". USB: 500 mA for 2.0, 900 mA for 3.x (TI SLYY109B). ESP32
+      datasheet Table 5-4: 240 mA transmitting. GPIO: RP2040 2/4/8/12 mA, 4 mA
+      default, 50 mA for all pins (Table 625); RP2350 the same, 100 mA total;
+      ESP32 drive 0-3 = 5/10/20/40 mA, default 2 (MicroPython's Pin.DRIVE_n);
+      nRF52833 standard drive 1-4 mA, high drive 6-14 mA (tech.microbit.org
+      edge-connector page). rp2 has no drive argument in MicroPython. LED:
+      (3.3 - 2.0) V / 330 Ohm = about 4 mA, derived. Parts: BME280 3.6 µA at
+      1 Hz, 714 µA peak; OLED ~20 mA (Adafruit); NeoPixel 60 mA at full white
+      (Adafruit Uberguide); "Even micro servos will draw several hundred mA when
+      moving" (Adafruit). Measuring: SparkFun, put the meter "in-line", start on
+      the 10A socket.
     </aside>
   </section>
 </section>
