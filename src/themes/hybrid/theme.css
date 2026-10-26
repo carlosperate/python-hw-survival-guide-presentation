@@ -306,7 +306,8 @@
   background: var(--pcb-gold);
 }
 
-/* Gold arrows on top of the QR's gold escapes read as more copper. */
+/* Gold arrows on top of the QR's gold escapes read as more copper; only the
+   down arrow, which has to be noticed, stays gold. */
 [data-base-theme="hybrid"] .reveal .controls {
   color: var(--pcb-silk-mute);
 }

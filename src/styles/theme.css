@@ -342,6 +342,76 @@
   color: var(--pcb-gold);
 }
 
+/* Vertical slides are skipped live, so the down arrow streams on arrival and
+   every 20s. Reveal's bounce, which stops once anyone goes down, is off. */
+.reveal .controls .navigate-down {
+  --chevron-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 20.5'%3E%3Cpath d='M2.5 2.5 18 18 33.5 2.5' fill='none' stroke='%23000' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --chevron-step: 1.25em;
+  color: var(--pcb-gold);
+  bottom: -0.8em; /* room for the bottom chevron to slide off */
+}
+
+/* .enabled is needed to outrank reveal's .navigate-down.highlight bounce. */
+.reveal .controls .navigate-down.enabled {
+  opacity: 1;
+  animation: none;
+}
+
+/* The pair is drawn on the button, which reveal leaves unstyled; its arrow only keeps the hit area. */
+.reveal .controls .navigate-down .controls-arrow {
+  visibility: hidden;
+}
+
+.reveal .controls .navigate-down::before,
+.reveal .controls .navigate-down::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.2em;
+  width: 3.6em;
+  height: 2.05em;
+  background: currentColor;
+  mask: var(--chevron-mask) center / 100% 100% no-repeat;
+}
+
+.reveal .controls .navigate-down::before {
+  opacity: 0.45;
+}
+
+.reveal .controls .navigate-down::after {
+  top: calc(0.2em + var(--chevron-step));
+}
+
+/* Restarts on each arrival. */
+.reveal .controls .navigate-down.enabled::before {
+  animation: chevron-stream-top 20s 1s infinite;
+}
+
+.reveal .controls .navigate-down.enabled::after {
+  animation: chevron-stream-bottom 20s 1s infinite;
+}
+
+/* A pass is the first second; the swap at 3% lands on identical frames. */
+@keyframes chevron-stream-top {
+  0% { opacity: 0.45; translate: 0 0; animation-timing-function: var(--pcb-ease); }
+  3% { opacity: 1; translate: 0 var(--chevron-step); animation-timing-function: step-end; }
+  3.01% { opacity: 0; translate: 0 0; animation-timing-function: ease-out; }
+  4.8%, 100% { opacity: 0.45; translate: 0 0; }
+}
+
+@keyframes chevron-stream-bottom {
+  0% { opacity: 1; translate: 0 0; animation-timing-function: var(--pcb-ease); }
+  3% { opacity: 0; translate: 0 var(--chevron-step); animation-timing-function: step-end; }
+  3.01%, 100% { opacity: 1; translate: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal .controls .navigate-down.enabled::before,
+  .reveal .controls .navigate-down.enabled::after {
+    animation: none;
+  }
+}
+
 .reveal .slide-number {
   display: none; /* replaced by the board rail */
 }
