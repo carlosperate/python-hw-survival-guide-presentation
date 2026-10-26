@@ -126,7 +126,6 @@
 /* ---------- Cover ---------- */
 
 .reveal .cover {
-  position: relative;
   justify-content: center;
 }
 
@@ -206,7 +205,6 @@
 /* ---------- Section divider ---------- */
 
 .reveal .section-slide {
-  position: relative;
   justify-content: center;
 }
 
