@@ -1,0 +1,172 @@
+/*
+  The driver stack on "No driver? You only write one layer",
+  slides/art/driver-stack.svg: two empty boxes that fill a layer per click.
+*/
+
+.reveal .ds-wrap {
+  position: relative;
+  margin: 4px 0 0;
+}
+
+/* Each layer's code, right of the layers and above the divide: x 448 and y 260 of the 1112 x 480 drawing. */
+.reveal .ds-steps {
+  position: absolute;
+  top: 0;
+  left: 40.3%;
+  right: 0;
+  height: 54.2%;
+}
+
+.reveal .ds-steps pre {
+  margin: 0 0 10px;
+}
+
+.reveal .ds-steps .caption {
+  margin: 0;
+  text-align: left;
+}
+
+/* A caption level with its layer: layers sit every 66 of the panel's 260, each 52 tall. */
+.reveal .ds-steps .ds-at-layer {
+  position: relative;
+}
+
+.reveal .ds-at-layer .caption {
+  position: absolute;
+  top: calc(var(--layer) * 66 / 260 * 100%);
+  height: calc(52 / 260 * 100%);
+  display: flex;
+  align-items: center;
+}
+
+.reveal svg .ds-layer {
+  fill: color-mix(in srgb, var(--pcb-board-panel) 82%, transparent);
+  stroke: color-mix(in srgb, var(--pcb-gold) 34%, transparent);
+  stroke-width: 1;
+}
+
+/* Where the layers will go, before they arrive. */
+.reveal svg .ds-box {
+  fill: none;
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 6;
+}
+
+/* The layer you write when nobody has. */
+.reveal svg .ds-layer--you {
+  stroke: var(--pcb-gold);
+  stroke-width: 2;
+}
+
+.reveal svg :is(.ds-name, .ds-side) {
+  font-family: var(--pcb-font-mono);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.reveal svg .ds-name {
+  fill: var(--pcb-silk);
+}
+
+.reveal svg .ds-name--you {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .ds-side {
+  fill: var(--pcb-silk-mute);
+}
+
+.reveal svg :is(.ds-file, .ds-code, .ds-pin, .ds-part-name) {
+  font-family: var(--pcb-font-mono);
+  font-size: 18px;
+}
+
+.reveal svg :is(.ds-file, .ds-pin) {
+  text-anchor: end;
+}
+
+.reveal svg .ds-file {
+  fill: var(--pcb-silk-dim);
+}
+
+.reveal svg .ds-code {
+  fill: var(--pcb-yellow);
+}
+
+.reveal svg .ds-note {
+  font-family: var(--pcb-font-body);
+  font-size: 19px;
+  fill: var(--pcb-silk-dim);
+}
+
+.reveal svg .ds-split {
+  fill: none;
+  stroke: var(--pcb-silk-mute);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 6;
+}
+
+.reveal svg .ds-chip {
+  fill: var(--pcb-board-deep);
+  stroke: var(--pcb-gold);
+  stroke-width: 2;
+}
+
+.reveal svg .ds-chip-name {
+  font-family: var(--pcb-font-mono);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  fill: var(--pcb-silk);
+}
+
+.reveal svg .ds-pin {
+  fill: var(--pcb-silk);
+}
+
+.reveal svg .ds-pad {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .ds-trace {
+  fill: none;
+  stroke: var(--pcb-blue);
+  stroke-width: 3;
+}
+
+.reveal svg .ds-part {
+  fill: var(--pcb-board-deep);
+  stroke: color-mix(in srgb, var(--pcb-silk-dim) 60%, transparent);
+  stroke-width: 1.5;
+}
+
+.reveal svg .ds-part-name {
+  text-anchor: middle;
+  fill: var(--pcb-silk);
+}
+
+/* The read itself: the step down each layer, then the wire it ends on. */
+.reveal svg :is(.ds-flow, .ds-hot, .ds-hot-box) {
+  fill: none;
+  stroke: var(--pcb-gold);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.reveal svg .ds-flow {
+  stroke-width: 3;
+}
+
+.reveal svg .ds-flow-start {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .ds-hot {
+  stroke-width: 4;
+}
+
+.reveal svg .ds-hot-box {
+  stroke-width: 3;
+}

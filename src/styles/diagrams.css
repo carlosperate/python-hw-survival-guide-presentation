@@ -850,3 +850,76 @@
   top: 0;
   left: 661px;
 }
+
+/* ---------- The real-world slide ---------- */
+
+/* Parts photos at one height, not to scale; they lie on the board, so they cast the photo shadow. */
+.reveal img.part-shot {
+  height: var(--h, 116px);
+  width: auto;
+  max-width: 100%;
+  max-height: none;
+  margin: 0;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 14px color-mix(in srgb, var(--pcb-board-deep) 75%, transparent));
+}
+
+.reveal .parts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px 32px;
+  align-items: end;
+}
+
+.reveal .parts figure {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.reveal .parts figcaption {
+  margin: 0;
+}
+
+/* On the click the parts dim and the point lands on top of them. */
+.reveal .parts.semi-fade-out.visible {
+  opacity: 0.1;
+}
+
+.reveal .parts-stack {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.reveal .parts-stack > .parts {
+  width: 100%;
+}
+
+/* A solid panel, so the point reads over the parts behind it. */
+.reveal .parts-stack > .lede {
+  font-size: 1.15em;
+  max-width: 24em;
+  padding: 22px 32px;
+  border: 1px solid var(--pcb-gold);
+  border-radius: 10px;
+  background: var(--pcb-board-deep);
+  color: var(--pcb-silk);
+  text-align: center;
+}
+
+/* ---------- The look-for-a-driver slide ---------- */
+
+/* The steps beside the board they start from. */
+.reveal .find-driver {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Five steps, one of them three lines long: tighter than the theme's list rhythm. */
+.reveal .find-driver ol li,
+[data-base-theme] .reveal .find-driver ol li {
+  margin-bottom: 0.45em;
+  padding-bottom: 0.4em;
+}

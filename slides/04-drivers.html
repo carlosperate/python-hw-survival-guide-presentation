@@ -1,16 +1,573 @@
 <section class="section-slide is-centered" data-board="section" data-part="04">
   <h2>Drivers</h2>
   <span class="trace-rule"></span>
-  <p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
+  <p class="lede">Every light, motor and sensor needs one.</p>
 </section>
 
+<!-- REAL WORLD: the parts on the board, then what they have in common -->
 <section>
   <header class="slide-head">
-    <h2>Lorem ipsum dolor</h2>
+    <h2>Your Python controlling the real world</h2>
   </header>
 
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua.
-  </p>
+  <div class="r-stack parts-stack">
+    <div class="parts fragment semi-fade-out" data-fragment-index="0">
+      <figure><img class="part-shot" src="/images/parts/neopixel-ring.webp" style="--h: 100px" alt="A lit NeoPixel LED ring" /><figcaption class="caption"><b>light</b> · NeoPixel ring</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/servo-sg90.webp" style="--h: 108px" alt="A micro servo" /><figcaption class="caption"><b>move</b> · micro servo</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/oled-ssd1306.webp" style="--h: 94px" alt="A small OLED screen" /><figcaption class="caption"><b>show</b> · OLED screen</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/bme280-adafruit.webp" style="--h: 100px" alt="A BME280 sensor breakout" /><figcaption class="caption"><b>sense</b> · temperature</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/eink-display.webp" style="--h: 104px" alt="An e-ink display" /><figcaption class="caption"><b>show</b> · e-ink screen</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/stepper-28byj48.webp" style="--h: 108px" alt="A small stepper motor and its driver board" /><figcaption class="caption"><b>move</b> · stepper motor</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/distance-hc-sr04.webp" style="--h: 76px" alt="An ultrasonic distance sensor" /><figcaption class="caption"><b>sense</b> · distance</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/pir-hc-sr501.webp" style="--h: 100px" alt="A PIR motion sensor" /><figcaption class="caption"><b>sense</b> · motion</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/camera-ov5640.webp" style="--h: 86px" alt="A small camera module" /><figcaption class="caption"><b>see</b> · camera</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/accel-lis3dh.webp" style="--h: 86px" alt="SparkFun's LIS3DH accelerometer breakout" /><figcaption class="caption"><b>sense</b> · acceleration</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/encoder-qt.webp" style="--h: 94px" alt="Adafruit's I2C rotary encoder board, with a knob and a lit LED" /><figcaption class="caption"><b>control</b> · rotary knob</figcaption></figure>
+    </div>
+    <p class="lede fragment" data-fragment-index="0">Every part needs its own signals, protocol, and timing.<br /><br />A driver abstracts all of that for you.</p>
+  </div>
+
+  <aside class="notes">
+    The fun part: your code leaves the screen. Lights, motion, a screen,
+    sensing the room. Each part talks differently: a servo wants a pulse width
+    (PWM), a NeoPixel a precise bit timing on one pin, a stepper its coils in
+    sequence, the distance sensor a trigger pulse and an echo to time, the PIR
+    just a pin going high, the BME280, OLED, accelerometer and encoder board
+    registers over I2C, the e-ink screen SPI, and the camera eight data pins at once.
+    You don't learn each language yourself: a driver does.
+    Photos and licences: public/images/parts/CREDITS.md (CC BY-SA, so the
+    cut-outs are too).
+    Next: so first, look for one.
+  </aside>
+</section>
+
+<!-- LOOK FOR A DRIVER: a step per click -->
+<section>
+  <header class="slide-head">
+    <h2>First step, find an existing driver</h2>
+  </header>
+
+  <div class="find-driver">
+  <ol>
+    <li><b>Read the </b>official <b>docs</b>. Popular vendors will provide all you need.</li>
+    <li class="fragment" data-fragment-index="1"><b>Find the chip name</b>. Board name might not be the same as the chip (e.g. <code>BME280</code>).</li>
+    <li class="fragment" data-fragment-index="2">Start with Google, but also use <b>GitHub's search</b> with filters.</li>
+    <li class="fragment" data-fragment-index="3">
+      Check <a href="https://github.com/micropython/micropython-lib/tree/master/micropython/drivers" target="_blank" rel="noopener">micropython-lib</a>,
+      <a href="https://github.com/mcauser/awesome-micropython" target="_blank" rel="noopener">awesome-micropython</a>,
+      <a href="https://github.com/adafruit/awesome-circuitpython" target="_blank" rel="noopener">awesome-circuitpython</a>,
+      popular vendor's repos (<a href="https://circuitpython.org/libraries" target="_blank" rel="noopener">Adafruit</a>, <a href="https://github.com/sparkfun/" target="_blank" rel="noopener">SparkFun</a>, <a href="https://github.com/pimoroni/" target="_blank" rel="noopener">Pimoroni</a>, <a href="https://github.com/arduino/package-index-py" target="_blank" rel="noopener">Arduino</a>).
+    </li>
+    <li class="fragment" data-fragment-index="4">Check it's for your Python. E.g. <code>machine.I2C</code> is MicroPython; <code>busio</code> is CircuitPython.</li>
+  </ol>
+  <img class="part-shot" src="/images/parts/bme280-adafruit.webp" style="--h: 180px" alt="Adafruit's BME280 breakout, with BME280 printed on it" />
+  </div>
+
+  <aside class="notes">
+    Most of the time, someone has written it. Search the part number, not the
+    product name: the product page names the chip ("The BME280 is the
+    next-generation of sensors from Bosch", adafruit.com/product/2652).
+    Order: what the firmware already has (help('modules'); stock ESP32 freezes
+    neopixel, apa106, onewire, ds18x20, dht), then micropython-lib (17 drivers
+    on 2026-10-25, no BME280), then awesome-micropython (seven BME280
+    entries), then the maker. Adafruit's bundle is CircuitPython: "may or may
+    not work with MicroPython" (circuitpython.org/libraries). SparkFun's
+    Qwiic_Py drivers support both; Pimoroni builds theirs into its firmware.
+    Sources: reports/finding-drivers.md.
+    Next: found one? Get it onto the board.
+  </aside>
+</section>
+
+<!-- INSTALL: the same BME280 driver onto each Python; other ways below -->
+<section>
+  <section>
+    <header class="slide-head">
+      <h2>Getting the driver onto your board</h2>
+    </header>
+
+    <div class="cols">
+      <div>
+        <p class="kicker">MicroPython</p>
+        <pre class="terminal compact" data-label="On your PC, over USB"><span class="terminal__in">$ pip install mpremote</span>
+<span class="terminal__in">$ mpremote mip install \
+    github:robert-hh/BME280</span></pre>
+        <pre class="compact"><code class="language-python" data-trim>
+import bme280_float as bme280
+bme = bme280.BME280(i2c=i2c)
+        </code></pre>
+        <p class="caption fragment" data-fragment-index="1">By hand: <code>mpremote cp bme280_float.py :</code></p>
+      </div>
+      <div class="fragment" data-fragment-index="0">
+        <p class="kicker">CircuitPython</p>
+        <pre class="terminal compact" data-label="On your PC, over USB"><span class="terminal__in">$ pip install circup</span>
+<span class="terminal__in">$ circup install adafruit_bme280</span></pre>
+        <pre class="compact"><code class="language-python" data-trim>
+from adafruit_bme280 import basic as bme280
+bme = bme280.Adafruit_BME280_I2C(i2c)
+        </code></pre>
+        <p class="caption fragment" data-fragment-index="1">By hand: drag the <code>.mpy</code> into <code>CIRCUITPY/lib</code></p>
+      </div>
+    </div>
+
+    <aside class="notes">
+      Found a driver: now get it onto the board. MicroPython: mpremote
+      (pip install --user mpremote, or pipx) runs mip from your PC over USB.
+      github:org/repo works when the repo has a package.json; robert-hh/BME280
+      has one (its licence is non-standard). mip installs to the first sys.path
+      entry ending in /lib. CircuitPython: circup (pip install circup) installs
+      from the Adafruit and Community bundles into CIRCUITPY/lib, with the
+      dependencies. Imports from the READMEs; the CircuitPython alias is shortened
+      from adafruit_bme280. By hand: ":" is the board in mpremote cp. Not yet run on a board: run them once before the
+      talk. i2c is machine.I2C(...) on one and board.I2C() on the other.
+      Press down for the other ways.
+      Next: no driver? You can write it in Python.
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>Other ways to install a driver</h2>
+    </header>
+
+    <div class="cols">
+      <div>
+        <p class="kicker">MicroPython</p>
+        <ul>
+          <li>Board with Wi-Fi (ESP32, Pico W): <code>import mip</code>, then <code>mip.install("ssd1306")</code></li>
+          <li>Any repo with a <code>package.json</code>: <code>mpremote mip install github:org/repo</code></li>
+          <li>By hand: <code>mpremote cp bme280_float.py :</code>, where <code>:</code> is the board</li>
+        </ul>
+      </div>
+      <div>
+        <p class="kicker">CircuitPython</p>
+        <ul>
+          <li>By hand: copy the <code>.mpy</code> and its dependencies into <code>CIRCUITPY/lib</code></li>
+          <li>Match the bundle to your firmware: 10.x for CircuitPython 10</li>
+          <li><code>circup install --auto</code> installs what <code>code.py</code> imports</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="caption qr-clear">
+      <a href="https://docs.micropython.org/en/latest/reference/packages.html" target="_blank" rel="noopener">MicroPython packages</a> · <a href="https://docs.micropython.org/en/latest/reference/mpremote.html" target="_blank" rel="noopener">mpremote</a> · <a href="https://docs.circuitpython.org/projects/circup/en/latest/" target="_blank" rel="noopener">circup</a> · <a href="https://circuitpython.org/libraries" target="_blank" rel="noopener">CircuitPython libraries</a>
+    </p>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live.
+      mip on the board: "Network-capable boards include the mip module"; it
+      uses micropython-lib as its index, not PyPI, and fetches .mpy files.
+      Pico W: its manifest requires bundle-networking, which requires mip.
+      github:, gitlab: and codeberg: URLs work via package.json (packages docs).
+      mpremote: "a leading : represents a remote path"; mpremote cp main.py :
+      copies to the board's root. CircuitPython: "download the bundle that
+      matches the major version of your CircuitPython" (circuitpython.org/
+      libraries, which offers 9.x, 10.x and 11.x). circup install --auto reads
+      code.py. SparkFun's Qwiic_Py drivers: mpremote mip install
+      github:sparkfun/qwiic_scd4x_py, or circup bundle-add sparkfun/Qwiic_Py.
+    </aside>
+  </section>
+</section>
+
+<!-- LOOK UNDERNEATH: two empty boxes, then a layer per click and the read -->
+<section>
+  <header class="slide-head">
+    <h2>No driver? You can write it in Python!</h2>
+  </header>
+
+  <div class="ds-wrap">
+    <!-- @include slides/art/driver-stack.svg -->
+    <div class="ds-steps r-stack swap">
+      <div class="fragment current-visible" data-fragment-index="0">
+        <pre class="compact"><code class="language-python" data-trim>
+from machine import I2C
+from bme280 import BME280
+
+sensor = BME280(I2C(0))
+print(sensor.temperature)
+        </code></pre>
+        <p class="caption">Python user code, requests temperature, driver handles the details</p>
+      </div>
+      <div class="fragment current-visible" data-fragment-index="1">
+        <pre class="compact"><code class="language-python" data-trim>
+class BME280:
+    def __init__(self, i2c, addr=0x76):
+        chip_id = i2c.readfrom_mem(addr, 0xD0, 1)
+        if chip_id != b"\x60":
+            raise OSError("BME280 not found")
+        </code></pre>
+        <p class="caption">Driver in Python code, initialises and controls the sensor</p>
+      </div>
+      <div class="fragment current-visible ds-at-layer" data-fragment-index="2" style="--layer: 2">
+        <p class="caption">Written in C, provides Python API to control the Microcontroller</p>
+      </div>
+      <div class="fragment ds-at-layer" data-fragment-index="3" style="--layer: 3">
+        <p class="caption">Usually C code, from the chip vendor, provides low-level access Microcontroller features.</p>
+      </div>
+    </div>
+  </div>
+
+  <aside class="notes">
+    No driver for your chip? Look at what sits under your code. Start: just
+    the divide, software above, hardware below. Each software click swaps the
+    code on the right. Click 1, your code, Python: it wants a temperature.
+    Click 2, the driver, Python: it knows the chip, the ID is register 0xD0 at
+    address 0x76 (BME280 datasheet 5.4.1, 6.2). Click 3, MicroPython, in C:
+    it knows the board; I2C(0) is SCL GP5, SDA GP4 on the Pico (rp2
+    quickref), and the rp2 port calls the SDK's i2c_read_timeout_us and
+    i2c_write_timeout_us (ports/rp2/machine_i2c.c, simplified on the slide).
+    Click 4, the silicon vendor's SDK, in C: it writes the microcontroller's
+    I2C registers, the target address then each byte (pico-sdk
+    hardware_i2c/i2c.c, simplified). Click 5, the microcontroller and its
+    peripherals. Click 6, the parts from the start of this part on their
+    buses. Click 7, the read: the I2C block drives the wires and the BME280
+    answers 0x60.
+    Only the driver is yours: MicroPython gives you machine.I2C, SPI, UART, PWM
+    and Pin.
+    Next: which bus? The chip picks.
+  </aside>
+</section>
+
+<!-- WHICH BUS: columns reveal, then the rule of thumb; UART and SPI below -->
+<section>
+  <section>
+    <header class="slide-head">
+      <h2>Which bus?</h2>
+    </header>
+
+    <table class="buses">
+      <thead>
+        <tr><th></th><th>UART</th><th>I²C</th><th>SPI</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Wires</td><td>TX → RX, crossed</td><td>SDA, SCL + pull-ups</td><td>SCK, COPI, CIPO + CS each</td></tr>
+        <tr><td>Clock</td><td>none: agree on baud</td><td>controller drives SCL</td><td>controller drives SCK</td></tr>
+        <tr><td>Speed</td><td>9,600–115,200 baud</td><td>100 k · 400 k · 1 M</td><td>MHz</td></tr>
+        <tr><td>Who's talking</td><td>just the two ends</td><td>7-bit address</td><td>chip-select line</td></tr>
+        <tr><td>Anyone there?</td><td>no way to know</td><td>ACK + <code>scan()</code></td><td>no way to know</td></tr>
+      </tbody>
+    </table>
+
+    <div class="cards">
+      <div class="panel fragment" data-label="UART"><p>GPS, modems, another computer: anything that talks text</p></div>
+      <div class="panel fragment" data-label="I²C"><p>Sensors, RTCs, small OLEDs: many devices, two wires</p></div>
+      <div class="panel fragment" data-label="SPI"><p>Displays, SD cards, flash: when you need speed</p></div>
+    </div>
+
+    <aside class="notes">
+      You rarely choose the bus: the chip's datasheet does, and some (the BME280)
+      speak two. Three buses cover most beginner devices. I2C is the only one of the three
+      that tells you when nobody is there. Names: controller/target (UM10204
+      Rev. 7), COPI/CIPO for SPI (OSHWA); old names MOSI/MISO, master/slave.
+      BME280 SPI runs up to 10 MHz. Footer if asked: NeoPixel is a timing
+      protocol, 1-Wire is the DS18B20 plus a 4.7 kΩ pull-up, knobs and servos are
+      ADC/PWM. Qwiic / STEMMA QT connectors make I2C plug-and-play.
+      Sources: SparkFun Serial, I2C and SPI tutorials; NXP UM10204; BME280 datasheet.
+      Press down for UART and SPI. Next: I2C, the bus the rest of this part follows.
+    </aside>
+  </section>
+
+  <!-- UART: no fragments, read on its own -->
+  <section class="is-body-centered">
+    <header class="slide-head">
+      <h2>UART: no clock, so agree in advance</h2>
+    </header>
+
+    <p>UART sends bytes one bit at a time from TX to the other end's RX. There is no clock wire, so both ends agree on the speed, the baud rate, in advance.</p>
+
+    <p class="readout"><code>'A'</code> = 0x41 = <b>0100 0001</b> · sent least significant bit (LSB) first</p>
+
+    <svg class="diagram" viewBox="0 0 900 130" width="1112" height="161" role="img">
+      <title>UART frame for the letter A: start bit, 1 0 0 0 0 0 1 0, stop bit</title>
+  <text class="lane-label lane-label--data" x="0" y="63">TX</text>
+  <text class="slot" x="102" y="110">idle</text>
+  <text class="slot slot--frame" x="166" y="110">START</text>
+  <text class="slot" x="230" y="110">D0</text>
+  <text class="slot" x="294" y="110">D1</text>
+  <text class="slot" x="358" y="110">D2</text>
+  <text class="slot" x="422" y="110">D3</text>
+  <text class="slot" x="486" y="110">D4</text>
+  <text class="slot" x="550" y="110">D5</text>
+  <text class="slot" x="614" y="110">D6</text>
+  <text class="slot" x="678" y="110">D7</text>
+  <text class="slot slot--frame" x="742" y="110">STOP</text>
+  <text class="slot" x="806" y="110">idle</text>
+  <g class="wave-base"><path class="lane lane--data" pathLength="1" d="M70 40 H134 V74 H134"/></g>
+  <g><path class="lane lane--data" pathLength="1" d="M134 74 H198 V40 H198"/><path class="lane lane--data" pathLength="1" d="M710 40 H838"/></g>
+  <g><path class="lane lane--data" pathLength="1" d="M198 40 H262 V74 H582 V40 H646 V74 H710 V40 H710"/><text class="bit bit--big" x="230" y="28">1</text><text class="bit bit--big" x="294" y="28">0</text><text class="bit bit--big" x="358" y="28">0</text><text class="bit bit--big" x="422" y="28">0</text><text class="bit bit--big" x="486" y="28">0</text><text class="bit bit--big" x="550" y="28">0</text><text class="bit bit--big" x="614" y="28">1</text><text class="bit bit--big" x="678" y="28">0</text></g>
+  <g><line class="tick" x1="166" y1="36" x2="166" y2="78"/><line class="tick" x1="230" y1="36" x2="230" y2="78"/><line class="tick" x1="294" y1="36" x2="294" y2="78"/><line class="tick" x1="358" y1="36" x2="358" y2="78"/><line class="tick" x1="422" y1="36" x2="422" y2="78"/><line class="tick" x1="486" y1="36" x2="486" y2="78"/><line class="tick" x1="550" y1="36" x2="550" y2="78"/><line class="tick" x1="614" y1="36" x2="614" y2="78"/><line class="tick" x1="678" y1="36" x2="678" y2="78"/><line class="tick" x1="742" y1="36" x2="742" y2="78"/></g>
+    </svg>
+
+    <p class="readout">The receiver samples the middle of each bit at <b>its</b> baud rate. Send at 9600, read at 19200: garbage, and no exception.</p>
+
+    <p class="caption">
+      <a href="https://docs.micropython.org/en/latest/library/machine.UART.html" target="_blank" rel="noopener">machine.UART</a> ·
+      <a href="https://learn.sparkfun.com/tutorials/serial-communication" target="_blank" rel="noopener">SparkFun: Serial Communication</a>
+    </p>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live.
+      Line idles HIGH; START is a 1-to-0 transition; data LSB first; STOP returns
+      to 1. 8N1 is the usual framing. The default baud rate is per port: 115,200
+      on rp2 and ESP32 (ports/*/machine_uart.c), and the pyboard makes you pass
+      it. 104 µs per bit at 9,600, 8.68 µs at 115,200 (derived). SparkFun
+      Serial; machine.UART docs.
+    </aside>
+  </section>
+
+  <!-- SPI: no fragments, read on its own -->
+  <section>
+    <header class="slide-head">
+      <h2>SPI: to read, you must write</h2>
+    </header>
+
+    <p>SPI has a clock, a wire each way and a chip-select (CS) per device. Every tick moves one bit each way.</p>
+
+    <p class="readout"><code>cs(0); spi.write_readinto(b'\xD0\x00', buf); cs(1)</code> → <b>buf[1] == 0x60</b></p>
+
+    <svg class="diagram diagram--spaced" viewBox="0 -6 820 262" width="760" height="243" role="img">
+      <title>SPI mode 0: controller sends 0xD0 then a dummy byte while the BME280 returns 0x60</title>
+  <text class="lane-label" x="0" y="23">CS</text>
+  <text class="lane-label" x="0" y="79">SCK</text>
+  <text class="lane-label lane-label--data" x="0" y="135">COPI</text>
+  <text class="lane-label lane-label--data" x="0" y="191">CIPO</text>
+  <g class="wave-base"><path class="lane lane--frame" pathLength="1" d="M62 0 H84"/><path class="lane lane--clk" pathLength="1" d="M62 90 H84"/><path class="lane lane--data" pathLength="1" d="M62 112 H84"/><path class="lane lane--data lane--in" pathLength="1" d="M62 185 H84"/></g>
+  <g><path class="lane lane--frame" pathLength="1" d="M84 0 H104 V34 H124"/><path class="lane lane--clk" pathLength="1" d="M84 90 H124"/><path class="lane lane--data" pathLength="1" d="M84 112 H124"/><path class="lane lane--data lane--in" pathLength="1" d="M84 185 H124"/></g>
+  <g><path class="lane lane--frame" pathLength="1" d="M124 34 H444"/><path class="lane lane--clk" pathLength="1" d="M124 90 H144 V56 H164 V90 H184 V56 H204 V90 H224 V56 H244 V90 H264 V56 H284 V90 H304 V56 H324 V90 H344 V56 H364 V90 H384 V56 H404 V90 H424 V56 H444 V90 H444"/><path class="lane lane--data" pathLength="1" d="M124 112 H204 V146 H244 V112 H284 V146 H444"/><path class="lane lane--data lane--in" pathLength="1" d="M124 185 H444 V202 H444"/><rect class="dontcare" x="124" y="166" width="320" height="38"/><text class="hex" x="284" y="190">don't care</text><text class="bit" x="144" y="106">1</text><text class="bit" x="184" y="106">1</text><text class="bit" x="224" y="106">0</text><text class="bit" x="264" y="106">1</text><text class="bit" x="304" y="106">0</text><text class="bit" x="344" y="106">0</text><text class="bit" x="384" y="106">0</text><text class="bit" x="424" y="106">0</text><text class="hex" x="284" y="232">0xD0 · bit 7 = read</text></g>
+  <g><path class="lane lane--frame" pathLength="1" d="M444 34 H764"/><path class="lane lane--clk" pathLength="1" d="M444 90 H464 V56 H484 V90 H504 V56 H524 V90 H544 V56 H564 V90 H584 V56 H604 V90 H624 V56 H644 V90 H664 V56 H684 V90 H704 V56 H724 V90 H744 V56 H764 V90 H764"/><path class="lane lane--data" pathLength="1" d="M444 146 H764"/><path class="lane lane--data lane--in" pathLength="1" d="M444 202 H484 V168 H564 V202 H764"/><text class="bit" x="464" y="162">0</text><text class="bit" x="504" y="162">1</text><text class="bit" x="544" y="162">1</text><text class="bit" x="584" y="162">0</text><text class="bit" x="624" y="162">0</text><text class="bit" x="664" y="162">0</text><text class="bit" x="704" y="162">0</text><text class="bit" x="744" y="162">0</text><text class="hex" x="604" y="232">0x60 · chip id</text></g>
+  <g><path class="lane lane--frame" pathLength="1" d="M764 34 H784 V0 H804"/><path class="lane lane--clk" pathLength="1" d="M764 90 H804"/><path class="lane lane--data" pathLength="1" d="M764 146 H774 V112 H804"/><path class="lane lane--data lane--in" pathLength="1" d="M764 202 H774 V185 H804"/></g>
+    </svg>
+
+    <p class="readout">No ACK, so no <code>scan()</code>: reading a known ID register (0xD0 → 0x60) is SPI's <code>scan()</code>.</p>
+
+    <p class="caption qr-clear">
+      COPI and CIPO were MOSI and MISO in older docs ·
+      <a href="https://docs.micropython.org/en/latest/library/machine.SPI.html" target="_blank" rel="noopener">machine.SPI</a> ·
+      <a href="https://www.bosch-sensortec.com/products/environmental-sensors/humidity-sensors-bme280/" target="_blank" rel="noopener">BME280 datasheet</a>
+    </p>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live.
+      Full duplex through paired shift registers, usually MSB first. In
+      MicroPython, CS is your own Pin; defaults are polarity 0, phase 0
+      (machine.SPI). The BME280 supports modes 00 and 11, uses the register MSB as
+      the read/write bit (1 = read), and runs up to 10 MHz (datasheet 6.3).
+      A missing SPI device reads 0x00 or 0xFF silently. Trap: pulling the
+      BME280's CSB low even once disables I2C until the next power-on (6.1).
+    </aside>
+  </section>
+</section>
+
+<!-- CHIP-ID READ: waveform segment, packet cell and side note share an index -->
+<section>
+  <header class="slide-head">
+    <h2>Reading the chip ID, bit by bit</h2>
+  </header>
+
+  <p class="readout"><code>i2c.readfrom_mem(0x76, 0xD0, 1)</code> → <b>b'\x60'</b></p>
+
+  <svg class="diagram" viewBox="0 0 1112 336" width="1112" height="336" role="img">
+    <title>I2C waveform of a BME280 chip-ID read: S, 0xEC, ACK, 0xD0, ACK, Sr, 0xED, ACK, 0x60, NACK, P</title>
+<text class="lane-label" x="0" y="45">SCL</text>
+<text class="lane-label lane-label--data" x="0" y="101">SDA</text>
+<g class="wave-base"><path class="lane lane--clk" pathLength="1" d="M64 22 H104"/><path class="lane lane--data" pathLength="1" d="M64 78 H104"/></g>
+<rect class="wave-cursor fragment current-visible" data-fragment-index="1" x="104" y="4" width="40" height="142"/>
+<g class="draw fragment" data-fragment-index="1"><path class="lane lane--clk" pathLength="1" d="M104 22 H144 V56 H144"/><path class="lane lane--data" pathLength="1" d="M104 78 H124 V112 H144"/></g>
+<rect class="wave-cursor fragment current-visible" data-fragment-index="2" x="144" y="4" width="320" height="142"/>
+<g class="draw fragment" data-fragment-index="2"><path class="lane lane--clk" pathLength="1" d="M144 56 H164 V22 H184 V56 H204 V22 H224 V56 H244 V22 H264 V56 H284 V22 H304 V56 H324 V22 H344 V56 H364 V22 H384 V56 H404 V22 H424 V56 H444 V22 H464 V56 H464"/><path class="lane lane--data" pathLength="1" d="M144 112 H149 V78 H269 V112 H309 V78 H389 V112 H464"/><text class="bit" x="164" y="70">1</text><text class="bit" x="204" y="70">1</text><text class="bit" x="244" y="70">1</text><text class="bit" x="284" y="70">0</text><text class="bit" x="324" y="70">1</text><text class="bit" x="364" y="70">1</text><text class="bit" x="404" y="70">0</text><text class="bit" x="444" y="70">0</text></g>
+<rect class="wave-cursor fragment current-visible" data-fragment-index="3" x="464" y="4" width="40" height="142"/>
+<g class="draw fragment" data-fragment-index="3"><path class="lane lane--clk" pathLength="1" d="M464 56 H484 V22 H504 V56 H504"/><path class="lane lane--data" pathLength="1" d="M464 112 H504"/><text class="bit" x="484" y="70">0</text></g>
+<rect class="wave-cursor fragment current-visible" data-fragment-index="4" x="504" y="4" width="360" height="142"/>
+<g class="draw fragment" data-fragment-index="4"><path class="lane lane--clk" pathLength="1" d="M504 56 H524 V22 H544 V56 H564 V22 H584 V56 H604 V22 H624 V56 H644 V22 H664 V56 H684 V22 H704 V56 H724 V22 H744 V56 H764 V22 H784 V56 H804 V22 H824 V56 H844 V22 H864 V56 H864"/><path class="lane lane--data" pathLength="1" d="M504 112 H509 V78 H589 V112 H629 V78 H669 V112 H864"/><text class="bit" x="524" y="70">1</text><text class="bit" x="564" y="70">1</text><text class="bit" x="604" y="70">0</text><text class="bit" x="644" y="70">1</text><text class="bit" x="684" y="70">0</text><text class="bit" x="724" y="70">0</text><text class="bit" x="764" y="70">0</text><text class="bit" x="804" y="70">0</text><text class="bit" x="844" y="70">0</text></g>
+<text class="lane-label" x="0" y="213">SCL</text>
+<text class="lane-label lane-label--data" x="0" y="269">SDA</text>
+<rect class="wave-cursor fragment current-visible" data-fragment-index="5" x="64" y="172" width="40" height="142"/>
+<g class="draw fragment" data-fragment-index="5"><path class="lane lane--clk" pathLength="1" d="M64 224 H74 V190 H104 V224 H104"/><path class="lane lane--data" pathLength="1" d="M64 280 H69 V246 H89 V280 H104"/></g>
+<rect class="wave-cursor fragment current-visible" data-fragment-index="6" x="104" y="172" width="360" height="142"/>
+<g class="draw fragment" data-fragment-index="6"><path class="lane lane--clk" pathLength="1" d="M104 224 H124 V190 H144 V224 H164 V190 H184 V224 H204 V190 H224 V224 H244 V190 H264 V224 H284 V190 H304 V224 H324 V190 H344 V224 H364 V190 H384 V224 H404 V190 H424 V224 H444 V190 H464 V224 H464"/><path class="lane lane--data" pathLength="1" d="M104 280 H109 V246 H229 V280 H269 V246 H349 V280 H389 V246 H429 V280 H464"/><text class="bit" x="124" y="238">1</text><text class="bit" x="164" y="238">1</text><text class="bit" x="204" y="238">1</text><text class="bit" x="244" y="238">0</text><text class="bit" x="284" y="238">1</text><text class="bit" x="324" y="238">1</text><text class="bit" x="364" y="238">0</text><text class="bit" x="404" y="238">1</text><text class="bit" x="444" y="238">0</text></g>
+<rect class="wave-cursor fragment current-visible" data-fragment-index="7" x="464" y="172" width="320" height="142"/>
+<g class="draw fragment" data-fragment-index="7"><path class="lane lane--clk" pathLength="1" d="M464 224 H484 V190 H504 V224 H524 V190 H544 V224 H564 V190 H584 V224 H604 V190 H624 V224 H644 V190 H664 V224 H684 V190 H704 V224 H724 V190 H744 V224 H764 V190 H784 V224 H784"/><path class="lane lane--data" pathLength="1" d="M464 280 H509 V246 H589 V280 H784"/><text class="bit" x="484" y="238">0</text><text class="bit" x="524" y="238">1</text><text class="bit" x="564" y="238">1</text><text class="bit" x="604" y="238">0</text><text class="bit" x="644" y="238">0</text><text class="bit" x="684" y="238">0</text><text class="bit" x="724" y="238">0</text><text class="bit" x="764" y="238">0</text></g>
+<rect class="wave-cursor fragment current-visible" data-fragment-index="8" x="784" y="172" width="40" height="142"/>
+<g class="draw fragment" data-fragment-index="8"><path class="lane lane--clk" pathLength="1" d="M784 224 H804 V190 H824 V224 H824"/><path class="lane lane--data" pathLength="1" d="M784 280 H789 V246 H824"/><text class="bit" x="804" y="238">1</text></g>
+<rect class="wave-cursor fragment current-visible" data-fragment-index="9" x="824" y="172" width="80" height="142"/>
+<g class="draw fragment" data-fragment-index="9"><path class="lane lane--clk" pathLength="1" d="M824 224 H834 V190 H904"/><path class="lane lane--data" pathLength="1" d="M824 246 H829 V280 H849 V246 H904"/></g>
+<g class="pkt pkt--ctl fragment" data-fragment-index="1"><rect x="106" y="122" width="36" height="30" rx="4"/><text x="124" y="142">S</text><text class="pkt__who" x="124" y="166">C</text></g>
+<g class="pkt pkt--addr fragment" data-fragment-index="2"><rect x="146" y="122" width="276" height="30" rx="4"/><text x="284" y="142">0x76</text><text class="pkt__who" x="284" y="166">C</text></g>
+<g class="pkt pkt--rw fragment" data-fragment-index="2"><rect x="426" y="122" width="36" height="30" rx="4"/><text x="444" y="142">W</text><text class="pkt__who" x="444" y="166">C</text></g>
+<g class="pkt pkt--ack fragment" data-fragment-index="3"><rect x="466" y="122" width="36" height="30" rx="4"/><text x="484" y="142">A✓</text><text class="pkt__who" x="484" y="166">T</text></g>
+<g class="pkt pkt--data fragment" data-fragment-index="4"><rect x="506" y="122" width="316" height="30" rx="4"/><text x="664" y="142">0xD0  register</text><text class="pkt__who" x="664" y="166">C</text></g>
+<g class="pkt pkt--ack fragment" data-fragment-index="4"><rect x="826" y="122" width="36" height="30" rx="4"/><text x="844" y="142">A✓</text><text class="pkt__who" x="844" y="166">T</text></g>
+<g class="pkt pkt--ctl fragment" data-fragment-index="5"><rect x="66" y="290" width="36" height="30" rx="4"/><text x="84" y="310">Sr</text><text class="pkt__who" x="84" y="334">C</text></g>
+<g class="pkt pkt--addr fragment" data-fragment-index="6"><rect x="106" y="290" width="276" height="30" rx="4"/><text x="244" y="310">0x76</text><text class="pkt__who" x="244" y="334">C</text></g>
+<g class="pkt pkt--rw fragment" data-fragment-index="6"><rect x="386" y="290" width="36" height="30" rx="4"/><text x="404" y="310">R</text><text class="pkt__who" x="404" y="334">C</text></g>
+<g class="pkt pkt--ack fragment" data-fragment-index="6"><rect x="426" y="290" width="36" height="30" rx="4"/><text x="444" y="310">A✓</text><text class="pkt__who" x="444" y="334">T</text></g>
+<g class="pkt pkt--data fragment" data-fragment-index="7"><rect x="466" y="290" width="316" height="30" rx="4"/><text x="624" y="310">0x60  chip id</text><text class="pkt__who" x="624" y="334">T</text></g>
+<g class="pkt pkt--nack fragment" data-fragment-index="8"><rect x="786" y="290" width="36" height="30" rx="4"/><text x="804" y="310">N</text><text class="pkt__who" x="804" y="334">C</text></g>
+<g class="pkt pkt--ctl fragment" data-fragment-index="9"><rect x="826" y="290" width="36" height="30" rx="4"/><text x="844" y="310">P</text><text class="pkt__who" x="844" y="334">C</text></g>
+<g class="chip"><rect x="930" y="10" width="170" height="44" rx="6"/><text x="1015" y="38">Pico</text></g>
+<g class="chip"><rect x="930" y="74" width="170" height="44" rx="6"/><text x="1015" y="102">BME280</text></g>
+<g class="fragment fade-out" data-fragment-index="1"><text class="step-note" x="930" y="160">Idle: both lines</text><text class="step-note" x="930" y="182">pulled HIGH</text></g>
+<g class="fragment current-visible" data-fragment-index="1"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">START: SDA falls</text><text class="step-note" x="930" y="182">while SCL is HIGH</text></g>
+<g class="fragment current-visible" data-fragment-index="2"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Address 0x76</text><text class="step-note" x="930" y="182">+ write bit</text></g>
+<g class="fragment current-visible" data-fragment-index="3"><rect class="driver" x="930" y="74" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Sensor pulls SDA</text><text class="step-note" x="930" y="182">LOW: ACK</text></g>
+<g class="fragment current-visible" data-fragment-index="4"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><rect class="driver" x="930" y="74" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Register 0xD0,</text><text class="step-note" x="930" y="182">then ACK</text></g>
+<g class="fragment current-visible" data-fragment-index="5"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Repeated START</text></g>
+<g class="fragment current-visible" data-fragment-index="6"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><rect class="driver" x="930" y="74" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Address 0x76</text><text class="step-note" x="930" y="182">+ read bit, ACK</text></g>
+<g class="fragment current-visible" data-fragment-index="7"><rect class="driver" x="930" y="74" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">Sensor sends</text><text class="step-note" x="930" y="182">0x60</text></g>
+<g class="fragment current-visible" data-fragment-index="8"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">NACK: that is</text><text class="step-note" x="930" y="182">all I need</text></g>
+<g class="fragment" data-fragment-index="9"><rect class="driver" x="930" y="10" width="170" height="44" rx="6"/><text class="step-note" x="930" y="160">STOP: SDA rises</text><text class="step-note" x="930" y="182">while SCL is HIGH</text></g>
+  </svg>
+
+  <aside class="notes">
+    SDA may change only while SCL is LOW; START and STOP are SDA edges while
+    SCL is HIGH; bytes go MSB first, each followed by a ninth-clock ACK; a NACK
+    from a reading controller signals the end (UM10204 3.1.3-3.1.6, 3.1.10).
+    BME280: 7-bit address 0x76 with SDO to GND, chip-ID register 0xD0 = 0x60
+    (datasheet 5.4.1, 6.2). readfrom_mem() is writeto(addr, reg, stop=False)
+    then readfrom(..., stop=True) (extmod/machine_i2c.c): hence the repeated
+    START. 36 clocks: ~0.36 ms at 100 kHz.
+    The code says 0x76; the wire says 0xEC and 0xED. Remember that: it comes
+    back when scan() lies. Tooling replays this read live, field by field.
+    Next: wrap this read in a class, and you have a driver.
+  </aside>
+</section>
+
+<!-- A DRIVER: line steps synced to the notes -->
+<section>
+  <header class="slide-head">
+    <h2>A driver is a small class</h2>
+  </header>
+
+  <div class="cols cols--wide-left">
+    <pre class="compact"><code class="language-python" data-trim data-line-numbers="1-4|6-9|10-12|14-17" data-fragment-index="0">
+from micropython import const
+_ID = const(0xD0)
+_CTRL = const(0xF4)
+_TEMP = const(0xFA)
+
+class BME280:
+    def __init__(self, i2c, addr=0x76):
+        self.i2c, self.addr = i2c, addr
+        self._buf = bytearray(3)
+        if i2c.readfrom_mem(addr, _ID, 1) != b"\x60":
+            raise OSError("BME280 not found")
+        i2c.writeto_mem(addr, _CTRL, b"\x27")  # wake
+
+    def raw_temperature(self):
+        b = self._buf
+        self.i2c.readfrom_mem_into(self.addr, _TEMP, b)
+        return b[0] &lt;&lt; 12 | b[1] &lt;&lt; 4 | b[2] &gt;&gt; 4
+    </code></pre>
+
+    <div>
+      <ol>
+        <li>Registers as <code>const()</code></li>
+        <li class="fragment" data-fragment-index="0">Take the bus, don't make it: I2C, SoftI2C or a fake</li>
+        <li class="fragment" data-fragment-index="1">Check the ID, wake it up</li>
+        <li class="fragment" data-fragment-index="2">One buffer, reused</li>
+      </ol>
+
+    </div>
+  </div>
+
+  <aside class="notes">
+    That read, wrapped in a class, is a driver: the layer you write when
+    nobody has. Every register and value comes from the datasheet.
+    API: machine.I2C readfrom_mem, writeto_mem, readfrom_mem_into. The
+    preallocated buffer is the documented pattern (speed_python.html).
+    The BME280 powers up in sleep mode: ctrl_meas (0xF4) = 0x27 sets
+    temperature and pressure oversampling x1 and normal mode. Verify against
+    datasheet 5.4.5 and run this on the board before showing it.
+    Turning raw counts into °C needs the factory calibration words
+    (0x88-0xA1) and Bosch's compensation formula: in a real project, use a
+    library from micropython-lib or Adafruit.
+    Next: the class raises "BME280 not found". What now?
+  </aside>
+</section>
+
+<!-- WHEN SCAN() LIES -->
+<section>
+  <section>
+    <header class="slide-head">
+      <h2>When <code>scan()</code> lies to you</h2>
+    </header>
+
+    <div class="cols cols--wide-left">
+      <table>
+        <thead>
+          <tr><th><code>i2c.scan()</code></th><th>Usual cause</th></tr>
+        </thead>
+        <tbody>
+          <tr class="fragment dim-past"><td><code>[]</code></td><td>no power or GND, SDA/SCL swapped, wrong pins</td></tr>
+          <tr class="fragment dim-past"><td>every address, or hangs</td><td>SDA held LOW: no pull-ups, stuck target</td></tr>
+          <tr class="fragment dim-past"><td>yours is missing</td><td>8-bit address (0xEC ≠ 0x76), collision</td></tr>
+          <tr class="fragment dim-past"><td>found, reads fail</td><td>weak pull-ups, long wires</td></tr>
+          <tr class="fragment dim-past"><td>found, on 5 V</td><td>its pull-ups put 5 V on 3.3 V pins</td></tr>
+        </tbody>
+      </table>
+
+      <div>
+        <aside class="callout callout--warn fragment" data-label="Nobody answered">
+          <p>Pico: <code>[Errno 5] EIO</code><br />ESP32, SoftI2C: <code>[Errno 19] ENODEV</code></p>
+        </aside>
+        <aside class="callout callout--ok fragment" data-label="Survival rule">
+          <p>Look for a driver first. Then <code>scan()</code> and read the ID.</p>
+        </aside>
+      </div>
+    </div>
+
+    <aside class="notes">
+      Symptom first: "BME280 not found", or OSError EIO. scan() is the first
+      question to ask the bus.
+      scan() probes 0x08-0x77 with zero-length writes (extmod/machine_i2c.c).
+      rp2 maps every non-timeout error to EIO; esp32 maps ESP_FAIL to ENODEV;
+      SCL held too long gives ETIMEDOUT (110). Verify the Pico errno on your
+      board before saying it.
+      Pull-ups: rise time ≈ 0.8473 × 50 kΩ × 50 pF ≈ 2.1 µs against a 300 ns
+      Fast-mode limit (derived from UM10204 7.1). CircuitPython refuses instead:
+      "No pull up found on SDA or SCL; check your wiring".
+      Collisions: two BME280s at 0x76 show as one entry. Tie one SDO high
+      (0x77), use a TCA9548A multiplexer, or a second bus.
+      Pico pins: SDA on an even GPIO, SCL on an odd one; bus id = bit 1 of the
+      pin number. 5 V: a breakout powered from 5 V can pull SDA and SCL up to
+      5 V, over the RP2040's IOVDD + 0.5 V absolute maximum (datasheet 5.5);
+      power it from 3V3 or use one with level shifting.
+      Press down for the rise-time curves. Next: Debugging, when it stops.
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>Why weak pull-ups fail</h2>
+    </header>
+
+    <p>The pull-up resistor lifts the line. The weaker it is, the slower the rise: at 400 kHz, 300 ns at most.</p>
+
+    <svg class="diagram" viewBox="0 0 780 280" width="680" height="244" role="img">
+      <title>RC rise of SDA with a 4.7 kilo-ohm and a 50 kilo-ohm pull-up</title>
+<line class="axis" x1="70" y1="10" x2="70" y2="250"/>
+<line class="axis" x1="70" y1="250" x2="770" y2="250"/>
+<line class="threshold" x1="70" y1="82" x2="770" y2="82"/>
+<text class="axis-label" x="0" y="87">0.7 VDD</text>
+<line class="threshold" x1="70" y1="178" x2="770" y2="178"/>
+<text class="axis-label" x="0" y="183">0.3 VDD</text>
+<line class="limit" x1="140" y1="10" x2="140" y2="250"/>
+<text class="lane-note lane-note--start" x="148" y="272">300 ns limit (400 kHz)</text>
+<g><path class="lane lane--clk" pathLength="1" d="M70 250 L77 221.2 L84 195.9 L91 173.6 L98 154 L105 136.8 L112 121.6 L119 108.2 L126 96.4 L133 86.1 L140 77 L147 68.9 L154 61.9 L161 55.7 L168 50.2 L175 45.4 L182 41.1 L189 37.4 L196 34.1 L203 31.2 L210 28.7 L217 26.4 L224 24.5 L231 22.7 L238 21.2 L245 19.9 L252 18.7 L259 17.6 L266 16.7 L273 15.9 L280 15.2 L287 14.6 L294 14 L301 13.6 L308 13.1 L315 12.8 L322 12.4 L329 12.1 L336 11.9 L343 11.7 L350 11.5 L357 11.3 L364 11.1 L371 11 L378 10.9 L385 10.8 L392 10.7 L399 10.6 L406 10.5 L413 10.5 L420 10.4 L427 10.4 L434 10.3 L441 10.3 L448 10.2 L455 10.2 L462 10.2 L469 10.2 L476 10.1 L483 10.1 L490 10.1 L497 10.1 L504 10.1 L511 10.1 L518 10.1 L525 10.1 L532 10.1 L539 10 L546 10 L553 10 L560 10 L567 10 L574 10 L581 10 L588 10 L595 10 L602 10 L609 10 L616 10 L623 10 L630 10 L637 10 L644 10 L651 10 L658 10 L665 10 L672 10 L679 10 L686 10 L693 10 L700 10 L707 10 L714 10 L721 10 L728 10 L735 10 L742 10 L749 10 L756 10 L763 10 L770 10"/><text class="legend legend--clk" x="560" y="190">━ 4.7 kΩ</text></g>
+<g><path class="lane lane--data" pathLength="1" d="M70 250 L77 247.1 L84 244.3 L91 241.5 L98 238.8 L105 236 L112 233.3 L119 230.7 L126 228 L133 225.4 L140 222.9 L147 220.3 L154 217.8 L161 215.3 L168 212.9 L175 210.5 L182 208.1 L189 205.7 L196 203.4 L203 201.1 L210 198.8 L217 196.5 L224 194.3 L231 192.1 L238 189.9 L245 187.8 L252 185.7 L259 183.6 L266 181.5 L273 179.5 L280 177.4 L287 175.4 L294 173.5 L301 171.5 L308 169.6 L315 167.7 L322 165.8 L329 164 L336 162.1 L343 160.3 L350 158.5 L357 156.7 L364 155 L371 153.3 L378 151.5 L385 149.9 L392 148.2 L399 146.5 L406 144.9 L413 143.3 L420 141.7 L427 140.1 L434 138.6 L441 137.1 L448 135.5 L455 134 L462 132.6 L469 131.1 L476 129.7 L483 128.2 L490 126.8 L497 125.4 L504 124.1 L511 122.7 L518 121.3 L525 120 L532 118.7 L539 117.4 L546 116.1 L553 114.9 L560 113.6 L567 112.4 L574 111.2 L581 109.9 L588 108.8 L595 107.6 L602 106.4 L609 105.3 L616 104.1 L623 103 L630 101.9 L637 100.8 L644 99.7 L651 98.6 L658 97.6 L665 96.5 L672 95.5 L679 94.5 L686 93.5 L693 92.5 L700 91.5 L707 90.5 L714 89.6 L721 88.6 L728 87.7 L735 86.8 L742 85.8 L749 84.9 L756 84 L763 83.2 L770 82.3"/><text class="legend legend--data" x="560" y="214">━ 50 kΩ (Pico internal)</text></g>
+<text class="axis-label" x="600" y="274">time (µs) · 50 pF bus</text>
+    </svg>
+
+    <p class="readout">Rise time: 4.7 kΩ <b>~0.2 µs</b> ✓ · 50 kΩ <b>~2.1 µs</b> ✕ · five 4.7 kΩ in parallel = 940 Ω, under the 967 Ω minimum</p>
+
+    <p class="caption qr-clear">
+      The Pico's internal pull-ups are 50–80 kΩ: fine on the desk, flaky on wires ·
+      <a href="https://www.nxp.com/docs/en/user-guide/UM10204.pdf" target="_blank" rel="noopener">NXP UM10204, the I²C specification</a>
+    </p>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live.
+      Thresholds 0.3 and 0.7 VDD (UM10204 3.1.2). The ~967 Ω minimum at
+      3.3 V and 3 mA is derived: five breakouts with 4.7 kΩ each go below it.
+    </aside>
+  </section>
 </section>
