@@ -13,6 +13,7 @@ import './styles/presentation.css';
 import HeapMap from './plugins/heap-map/plugin.js';
 import Phone from './plugins/phone/plugin.js';
 import Magnifier from './plugins/magnifier/plugin.js';
+import SlideAxis from './plugins/slide-axis/plugin.js';
 import Board from './plugins/board/plugin.js';
 
 const deck = new Reveal({
@@ -27,6 +28,7 @@ const deck = new Reveal({
   // Reveal writes this inline onto the visible slide, so it is the only place
   // the slide's own layout mode can be set.
   display: 'flex',
+  // Between horizontal slides; slide-axis slides every move that touches a vertical one.
   transition: 'fade',
   transitionSpeed: 'fast',
   backgroundTransition: 'fade',
@@ -35,7 +37,7 @@ const deck = new Reveal({
   // Phones keep the slides; portrait gets the turn-sideways card instead of
   // reveal's scroll view, which shrinks text to 7-9px.
   scrollActivationWidth: null,
-  plugins: [Notes, Highlight, HeapMap, Phone, Magnifier, Board],
+  plugins: [Notes, Highlight, HeapMap, Phone, Magnifier, SlideAxis, Board],
 });
 
 deck.initialize();
