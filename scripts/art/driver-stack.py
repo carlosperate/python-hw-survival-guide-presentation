@@ -90,7 +90,7 @@ def build():
                f'<path class="ds-hot" pathLength="1" d="M{pad} {PIN_YS[0]} H{NEAR_X}"/></g>')
     out.append(f'<g class="fragment" data-fragment-index="{read_at}">'
                f'<rect class="ds-hot-box" x="{NEAR_X}" y="{PIN_YS[0] - PART_H / 2}" width="{NEAR_W}" height="{PART_H}" rx="4"/>'
-               f'<text class="ds-note" x="{BAR_X + 24}" y="{CHIP_Y + 112}">its I²C block drives the wires</text></g>')
+               f'<text class="ds-note" x="{BAR_X + 24}" y="{CHIP_Y + 112}">Its I²C block drives the wires</text></g>')
     return out
 
 

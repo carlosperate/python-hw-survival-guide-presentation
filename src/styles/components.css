@@ -62,7 +62,35 @@
   font-size: 1.16em;
   line-height: 1.45;
   color: var(--pcb-silk-dim);
-  max-width: 22em;
+  max-width: none;
+}
+
+/* Lists that read better on one line than wrapped at the usual measure. */
+.reveal :is(ul, ol).list--wide {
+  max-width: none;
+}
+
+/* A short list on a roomy slide: read from the back of the hall. */
+.reveal :is(ul, ol).list--large {
+  font-size: 1.25em;
+}
+
+/* A slide too full for the deck's type scale keeps the smaller one it was laid out at. */
+.reveal .slides section.slide--small-type {
+  --pcb-text-dense: 22px;
+  --pcb-text-label: 18px;
+  font-size: 27px;
+}
+
+/* A list squeezed beside code or a picture: smaller, and closer together. */
+.reveal :is(ul, ol).list--dense {
+  font-size: var(--pcb-text-dense);
+}
+
+.reveal :is(ul, ol).list--dense li,
+[data-base-theme] .reveal :is(ul, ol).list--dense li {
+  margin-bottom: 0.45em;
+  padding-bottom: 0.4em;
 }
 
 .reveal .tagline {
@@ -72,7 +100,7 @@
   max-width: none;
   margin: 0;
   font-family: var(--pcb-font-mono);
-  font-size: 19px;
+  font-size: var(--pcb-text-label);
   font-weight: 500;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -91,7 +119,7 @@
 .reveal .kicker {
   margin: 0 0 18px;
   font-family: var(--pcb-font-mono);
-  font-size: 18px;
+  font-size: var(--pcb-text-label);
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -103,7 +131,7 @@
   max-width: none;
   text-align: center;
   font-family: var(--pcb-font-mono);
-  font-size: 18px;
+  font-size: var(--pcb-text-label);
   letter-spacing: 0.02em;
   color: var(--pcb-silk-dim);
 }
@@ -227,6 +255,11 @@
   font-size: 81px;
 }
 
+/* Clears the part number. */
+.reveal .section-slide .lede {
+  max-width: 22em;
+}
+
 /* ---------- Layout helpers ---------- */
 
 .reveal .cols {
@@ -244,6 +277,11 @@
 
 .reveal .cols--wide-left {
   grid-template-columns: 1.35fr 1fr;
+}
+
+/* The left column as wide as its code needs; the right takes what is left. */
+.reveal .cols--fit-left {
+  grid-template-columns: auto minmax(0, 1fr);
 }
 
 .reveal .cols--wide-right {
@@ -269,17 +307,18 @@
   border: 1px solid color-mix(in srgb, var(--pcb-gold) 34%, transparent);
 }
 
+/* Tight tracking so a 21-letter label still fits a third of the slide. */
 .reveal .panel[data-label]::before {
   content: attr(data-label);
   position: absolute;
-  top: -12.5px;
-  left: 22px;
-  padding: 0 10px;
+  top: -15px;
+  left: 14px;
+  padding: 0 8px;
   background: var(--pcb-board);
   font-family: var(--pcb-font-mono);
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--pcb-silk-dim);
 }
@@ -297,7 +336,7 @@
 }
 
 .reveal .cards p {
-  font-size: 0.82em;
+  font-size: var(--pcb-text-dense);
   color: var(--pcb-silk-dim);
 }
 
@@ -371,7 +410,7 @@
   flex: none;
   padding: 22px 30px;
   font-family: var(--pcb-font-mono);
-  font-size: 24px;
+  font-size: var(--pcb-text-dense);
   font-weight: 500;
 }
 
@@ -391,7 +430,7 @@
   transform: translateX(-50%);
   white-space: nowrap;
   font-family: var(--pcb-font-mono);
-  font-size: 18px;
+  font-size: var(--pcb-text-label);
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -423,7 +462,7 @@
   position: absolute;
   top: 14px;
   left: 30px;
-  font-size: 18px;
+  font-size: var(--pcb-text-label);
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -451,7 +490,6 @@
     var(--hole) left 7px bottom 7px / 12px 12px no-repeat,
     var(--hole) right 7px bottom 7px / 12px 12px no-repeat,
     color-mix(in srgb, var(--pcb-callout-hue) 9%, transparent);
-  font-size: 0.94em;
   --pcb-callout-hue: var(--pcb-blue);
 }
 
@@ -472,7 +510,7 @@
   display: block;
   margin-bottom: 8px;
   font-family: var(--pcb-font-mono);
-  font-size: 18px;
+  font-size: var(--pcb-text-label);
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -505,7 +543,7 @@
 .reveal .spec__label {
   margin-top: 12px;
   font-family: var(--pcb-font-mono);
-  font-size: 18px;
+  font-size: var(--pcb-text-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--pcb-silk-dim);
@@ -520,7 +558,7 @@
 .reveal .pinout {
   max-width: none;
   font-family: var(--pcb-font-mono);
-  font-size: 0.82em;
+  font-size: var(--pcb-text-dense);
 }
 
 .reveal .pinout li {
@@ -569,7 +607,7 @@
   display: block;
   margin-top: 22px;
   font-family: var(--pcb-font-mono);
-  font-size: 16px;
+  font-size: var(--pcb-text-label);
   font-weight: 500;
   font-style: normal;
   letter-spacing: 0.18em;

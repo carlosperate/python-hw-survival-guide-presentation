@@ -190,7 +190,7 @@
         <tr><td>Pins</td><td>The port's ids: <code>Pin(15)</code>, <code>Pin("GP15")</code></td><td>The board's labels: <code>board.D5</code>, <code>board.LED</code></td></tr>
         <tr><td>Concurrency</td><td>Pin interrupts, timers, <code>_thread</code>, asyncio</td><td>No interrupts or threads; asyncio</td></tr>
         <tr><td>Workflow</td><td>Copy files with <code>mpremote</code> or Thonny</td><td>A USB drive: save <code>code.py</code> and it reruns</td></tr>
-        <tr><td>Files</td><td>Your code reads and writes them</td><td>Read-only to code while mounted on USB</td></tr>
+        <tr><td>Files</td><td>Your code reads and writes them</td><td>Read-only to code, unless <code>boot.py</code> remounts</td></tr>
         <tr><td>Libraries</td><td><code>mip</code>, from micropython-lib</td><td><code>circup</code>, from a bundle of 300+ drivers</td></tr>
       </tbody>
     </table>
@@ -222,8 +222,14 @@
       ESP32-C3 use the Wi-Fi workflow. MicroPython's pyboard is the exception
       that also shows up as a USB drive.
       Files: "CircuitPython cannot write to the filesystem at the same time as
-      your computer"; boot.py can call storage.remount() to give the code write
-      access instead (CircuitPython Essentials, Storage).
+      your computer"; boot.py can call storage.remount("/", readonly=False) to
+      give the code write access instead, and the computer then sees the drive
+      read-only (CircuitPython Essentials, Storage). On boards with native USB
+      this is the default whether or not a computer is attached: main.c sets
+      the drive writable by USB when CIRCUITPY_USB_DEVICE is 1, before boot.py
+      runs. Boards without native USB (the original ESP32, ESP32-C3, C6) can
+      write by default (ports/espressif/mpconfigport.mk; CircuitPython main,
+      checked 29 October 2026).
       Libraries: mip installs from micropython-lib, GitHub, GitLab or a URL, not
       PyPI; circup updates libraries from the Adafruit and Community bundles;
       "300+ device libraries and drivers" (README).
@@ -254,7 +260,7 @@
           <div class="is-you">main.py</div>
           <div>mip + micropython-lib, not PyPI</div>
           <div>MicroPython VM + <code>machine</code></div>
-          <div class="is-os">No OS: a crash resets the chip</div>
+          <div class="is-os">No OS: crashes stop or reset the board</div>
           <div>Vendor SDK</div>
           <div class="is-chip">The chip, its flash as the disk</div>
         </div>
@@ -268,9 +274,13 @@
       the interpreter effectively is the OS: one program, no process isolation,
       no swap. mip installs precompiled .mpy packages from micropython-lib, not
       PyPI. The filesystem lives in the chip's flash: on a 2 MB Pico the rp2 port
-      gives it 1,408 KB by default. The REPL comes over USB serial. Resets are
-      part of normal operation: when it crashes, nothing catches you; the chip
-      restarts.
+      gives it 1,408 KB by default. The REPL comes over USB serial. Nothing
+      restarts a crashed program for you. An uncaught Python exception stops
+      main.py and leaves the board at the REPL, the traceback printed to a
+      serial console that may not be open ("MicroPython will drop to the REPL
+      following any crash or if main exits", reset_boot docs). A crash in the C
+      firmware, the watchdog or a brownout resets the chip instead, and main.py
+      runs again from the top.
     </aside>
   </section>
 

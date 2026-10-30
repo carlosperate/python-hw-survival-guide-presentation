@@ -14,7 +14,7 @@
 
 .reveal {
   font-family: var(--pcb-font-body);
-  font-size: 27px;
+  font-size: var(--pcb-text);
   font-weight: var(--pcb-body-weight);
   color: var(--pcb-silk);
   letter-spacing: 0.005em;
@@ -109,7 +109,7 @@
 }
 
 .reveal h4 {
-  font-size: 26px;
+  font-size: 30px;
   font-weight: var(--pcb-heading-weight);
 }
 
@@ -209,11 +209,6 @@
   height: 9px;
 }
 
-/* Statements that read better on one line than wrapped at the usual measure. */
-.reveal ul.list--wide {
-  max-width: none;
-}
-
 /* ---------- Code ---------- */
 
 .reveal code,
@@ -299,16 +294,20 @@
   background: color-mix(in srgb, var(--pcb-gold) 12%, transparent);
 }
 
-/* The band spans the code well, not just the longest highlighted line. */
+/* The band spans the code well, not just the longest highlighted line;
+   line-numbered code keeps its listing's size, not the table text size. */
 .reveal pre code table.hljs-ln {
   width: 100%;
+  font-size: inherit;
 }
 
 /* ---------- Tables ---------- */
 
+/* Separate borders belong to their cells, so a row still hidden by a fragment hides its line too. */
 .reveal table {
-  border-collapse: collapse;
-  font-size: 0.82em;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--pcb-text-dense);
   margin: 0 0 0.6em;
 }
 
@@ -322,7 +321,7 @@
 
 .reveal table th {
   font-family: var(--pcb-font-mono);
-  font-size: 18px;
+  font-size: var(--pcb-text-label);
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;

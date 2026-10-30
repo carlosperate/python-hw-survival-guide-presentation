@@ -13,8 +13,8 @@
   </header>
 
   <div class="ram-points">
-    <ul class="list--wide">
-      <li>Memory! KBs, maybe MBs,   for RAM & ROM</li>
+    <ul class="list--wide list--large">
+      <li>Memory! KBs, maybe MBs, of RAM & ROM</li>
       <li class="fragment" data-fragment-index="2">Run out of RAM? There is no swap, just <code>MemoryError</code></li>
       <li class="fragment" data-fragment-index="3">CPU frequencies in MHz, not GHz</li>
       <li class="fragment" data-fragment-index="4">Same language we love, just with tighter constraints</li>
@@ -179,43 +179,43 @@ GC: total: 64000, used: 9824, <b class="net">free: 54176</b>
 import bme280    # a 10 KB .py driver
     </code></pre>
 
-    <svg class="diagram" viewBox="0 0 1040 324" width="1040" height="324" role="img">
+    <svg class="diagram" viewBox="0 0 1110 360" width="1110" height="360" role="img">
       <title>RAM used while importing bme280: as .py it climbs to 28 KB while parsing and compiling, then drops to 6.5 KB, and with only 20 KB free it fails on the way up. As .mpy it never climbs past 6.7 KB; from ROMFS it holds 4.1 KB and frozen 1.2 KB.</title>
-      <line class="axis" x1="70" y1="10" x2="70" y2="290"/>
-      <line class="axis" x1="70" y1="290" x2="1030" y2="290"/>
-      <text class="axis-label" x="58" y="294" text-anchor="end">0</text>
-      <text class="axis-label" x="58" y="204" text-anchor="end">10 KB</text>
-      <text class="axis-label" x="58" y="114" text-anchor="end">20 KB</text>
-      <text class="axis-label" x="58" y="24" text-anchor="end">30 KB</text>
-      <text class="axis-label" x="1030" y="316" text-anchor="end">time →</text>
+      <line class="axis" x1="90" y1="10" x2="90" y2="320"/>
+      <line class="axis" x1="90" y1="320" x2="900" y2="320"/>
+      <text class="axis-label" x="78" y="327" text-anchor="end">0</text>
+      <text class="axis-label" x="78" y="227" text-anchor="end">10 KB</text>
+      <text class="axis-label" x="78" y="127" text-anchor="end">20 KB</text>
+      <text class="axis-label" x="78" y="27" text-anchor="end">30 KB</text>
+      <text class="axis-label" x="900" y="352" text-anchor="end">time →</text>
       <g class="draw fragment" data-fragment-index="0">
-        <path class="lane lane--data" pathLength="1" d="M70 290 H120 L600 128"/>
-        <text class="axis-label" x="440" y="214">parse: the tree grows line by line</text>
+        <path class="lane lane--data" pathLength="1" d="M90 320 H140 L620 140"/>
+        <text class="axis-label" x="395" y="205" text-anchor="end">parse</text>
       </g>
       <g class="draw fragment" data-fragment-index="1">
-        <path class="lane lane--data" pathLength="1" d="M600 128 L760 34"/>
-        <text class="axis-label" x="690" y="40" text-anchor="end">compile</text>
+        <path class="lane lane--data" pathLength="1" d="M620 140 L780 36"/>
+        <text class="axis-label" x="685" y="80" text-anchor="end">compile</text>
       </g>
       <g class="draw fragment" data-fragment-index="2">
-        <path class="lane lane--data" pathLength="1" d="M760 34 L772 231 H1030"/>
-        <text class="axis-label" x="780" y="30">peak 28 KB</text>
-        <text class="axis-label" x="1030" y="222" text-anchor="end">stays: bytecode + names, 6.5 KB</text>
+        <path class="lane lane--data" pathLength="1" d="M780 36 L792 255 H900"/>
+        <text class="axis-label" x="800" y="42">peak 28 KB</text>
+        <text class="axis-label" x="912" y="262">stays 6.5 KB</text>
       </g>
       <g class="fragment" data-fragment-index="3">
-        <path class="threshold" d="M70 110 H1030"/>
-        <text class="axis-label axis-label--alert" x="1030" y="100" text-anchor="end">if only 20 KB were free</text>
-        <text class="cross" x="631" y="119">✕</text>
-        <text class="console" x="452" y="98">MemoryError</text>
+        <path class="threshold" d="M90 120 H900"/>
+        <text class="axis-label axis-label--alert" x="912" y="127">only 20 KB free</text>
+        <text class="cross" x="651" y="129">✕</text>
+        <text class="console" x="640" y="105" text-anchor="end">MemoryError</text>
       </g>
       <g class="draw fragment" data-fragment-index="4">
-        <path class="lane lane--clk" pathLength="1" d="M70 290 H120 L138 230 H1030"/>
-        <text class="legend legend--clk" x="120" y="220">.mpy: bytecode file</text>
+        <path class="lane lane--clk" pathLength="1" d="M90 320 H140 L158 253 H900"/>
+        <text class="legend legend--clk" x="168" y="243">.mpy</text>
       </g>
       <g class="draw fragment" data-fragment-index="5">
-        <path class="lane lane--frame" pathLength="1" d="M70 290 H120 L134 253 H1030"/>
-        <path class="lane lane--frame" pathLength="1" d="M70 290 H120 L130 279 H1030"/>
-        <text class="axis-label" x="1030" y="246" text-anchor="end">ROMFS: 4.1 KB</text>
-        <text class="axis-label" x="1030" y="273" text-anchor="end">frozen: 1.2 KB</text>
+        <path class="lane lane--frame" pathLength="1" d="M90 320 H140 L154 279 H900"/>
+        <path class="lane lane--frame" pathLength="1" d="M90 320 H140 L150 308 H900"/>
+        <text class="axis-label" x="912" y="286">ROMFS 4.1 KB</text>
+        <text class="axis-label" x="912" y="315">frozen 1.2 KB</text>
       </g>
     </svg>
   </div>
@@ -228,7 +228,7 @@ import bme280    # a 10 KB .py driver
     <p class="readout fragment current-visible" data-fragment-index="4"><code>.mpy</code>: file compiled on your machine via <code>mpy-cross</code>. The bytecode still loads into RAM.</p>
     <p class="readout fragment current-visible" data-fragment-index="5">ROMFS: bytecode saved into a special filesystem in flash.<br>Frozen: bytecode compiled into the MicroPython build.</p>
   </div>
-  <p class="caption"><br />* Peak and ends measured on the unix port</p>
+  <p class="caption">* Peak and ends measured on the unix port</p>
 
   <aside class="notes">
     A .py is compiled on the board: parsing builds a tree of the whole module,
@@ -261,101 +261,56 @@ import bme280    # a 10 KB .py driver
   </aside>
 </section>
 
-<!-- WHAT ALLOCATES: the model the rest of the part builds on; the tested list below -->
-<section>
-  <section class="is-body-centered">
-    <header class="slide-head">
-      <h2>Which lines cost memory?</h2>
-    </header>
+<!-- WHAT ALLOCATES: the model the rest of the part builds on -->
+<section class="is-body-centered">
+  <header class="slide-head">
+    <h2>Which lines cost memory?</h2>
+  </header>
 
-    <div class="cols cols--fit">
-      <div class="panel" data-label="Free">
-        <ul>
-          <li><code>if</code>, <code>for</code>, <code>while</code>, <code>try</code></li>
-          <li>locals, small-int maths: <code>n += 1</code></li>
-          <li>calling a function or a method</li>
-          <li>reading a pin: <code>pin.value()</code></li>
-          <li>writing into a buffer: <code>buf[i] = b</code></li>
-        </ul>
-      </div>
-      <div class="panel fragment" data-label="Allocates">
-        <ul>
-          <li><code>import</code>, <code>def</code>, <code>class</code></li>
-          <li>a new list, dict, str or bytes</li>
-          <li><code>s + t</code>, <code>f"{t}"</code>, <code>data[4:20]</code></li>
-          <li><code>uart.read(64)</code></li>
-          <li>float maths, even <code>n / 2</code>*</li>
-        </ul>
-      </div>
+  <div class="cols cols--fit cost-lists">
+    <div class="panel" data-label="Free">
+      <ul>
+        <li><code>if</code>, <code>for</code>, <code>while</code>, <code>try</code></li>
+        <li>locals, small-int maths: <code>n += 1</code></li>
+        <li>calling a function or a method</li>
+        <li>reading a pin: <code>pin.value()</code></li>
+        <li>writing into a buffer: <code>buf[i] = b</code></li>
+      </ul>
     </div>
+    <div class="panel fragment" data-label="Allocates">
+      <ul>
+        <li><code>import</code>, <code>def</code>, <code>class</code></li>
+        <li>a new list, dict, str or bytes</li>
+        <li><code>s + t</code>, <code>f"{t}"</code>, <code>data[4:20]</code></li>
+        <li><code>uart.read(64)</code></li>
+        <li>float maths, even <code>n / 2</code>*</li>
+      </ul>
+    </div>
+  </div>
 
-    <p class="readout fragment">Control flow is free. Each new object takes at least one 16-byte block.</p>
-    <p class="caption">After <a href="https://micropython.org/resources/publish/DPG_FastEfficientMP_PyConAU2018.pdf" target="_blank" rel="noopener">Damien George, PyCon AU 2018</a> · *MicroPython only</p>
+  <p class="readout fragment">&nbsp;&nbsp;&nbsp;Control flow is free. Each new object takes at least one 16-byte block.</p>
+  <p class="readout">&nbsp;&nbsp;&nbsp;From <a href="https://micropython.org/resources/publish/DPG_FastEfficientMP_PyConAU2018.pdf" target="_blank" rel="noopener">Damien George, PyCon AU 2018</a> | *MicroPython only</p>
 
-    <aside class="notes">
-      Most of your Python is fine: memory goes on new objects, not on logic.
-      Damien George's PyCon AU 2018 slides, "Memory allocation": expressions,
-      if/while/for/try, local variables, small integer arithmetic, in-place
-      operations on existing data structures, calling functions/methods with
-      positional or keyword args and builtins like len, min, max, sum, print
-      don't allocate. Importing, defining functions and classes, assigning a
-      global for the first time and creating data structures do.
-      Every line on this slide was run under micropython.heap_lock() on the
-      unix port (v1.30.0-preview, b70ae1a): the results match. Reading a pin
-      or ticks_ms() returns a small int, so nothing is allocated.
-      Floats: on MicroPython's default object representation (rp2, esp32,
-      stm32, nrf) every float result is a new heap object, and n / 2 is a
-      float even when n is an int: use n // 2. CircuitPython packs 30-bit
-      floats into the object word (MICROPY_OBJ_REPR_C in circuitpy_mpconfig.h),
-      so its float maths doesn't allocate; MicroPython does the same only on
-      esp8266 and a few Arduino and OpenMV boards.
-      One block is 16 bytes on 32-bit (develop/memorymgt); the allocator rounds
-      every request up to whole blocks (py/mpconfig.h). Computed, not measured.
-      Press down for the longer, tested list.
-    </aside>
-  </section>
-
-  <section>
-    <header class="slide-head">
-      <h2>Which lines cost memory: tested</h2>
-    </header>
-
-    <table class="habits">
-      <thead>
-        <tr><th></th><th>Free</th><th>Allocates</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Numbers</td><td>ints up to ±2³⁰, <code>//</code>, <code>round(t)</code>, <code>ticks_us()</code></td><td>floats*, <code>n / 2</code>, ints past ±2³⁰: <code>time_ns()</code></td></tr>
-        <tr><td>Bytes, text</td><td>literals, <code>buf[0:4] = data</code>, <code>readinto()</code>, <code>struct.pack_into()</code></td><td><code>s + t</code>, f-strings, <code>str(n)</code>, <code>data[4:20]</code>, <code>read()</code>, <code>struct.unpack()</code></td></tr>
-        <tr><td>Collections</td><td><code>for x in lst</code>, <code>for i in range(n)</code>, <code>d[k]</code>, a full <code>deque</code></td><td>new lists, dicts, tuples, comprehensions, <code>append()</code> as it grows, <code>enumerate()</code>, <code>zip()</code></td></tr>
-        <tr><td>Functions</td><td>calls with positional or keyword args, <code>obj.m()</code></td><td><code>def</code>, generators, <code>*args</code>, <code>return a, b</code>, a bound method: <code>cb = obj.m</code></td></tr>
-      </tbody>
-    </table>
-
-    <p class="caption">
-      Tested with <code>heap_lock()</code>, unix port · *not on CircuitPython ·
-      <a href="https://docs.micropython.org/en/latest/reference/isr_rules.html" target="_blank" rel="noopener">ISR rules</a>
-    </p>
-
-    <aside class="notes">
-      Vertical slide: read on its own, skipped live.
-      Method: each line ran inside a function, once
-      to warm up, then again under micropython.heap_lock(), where any
-      allocation raises MemoryError. MicroPython unix port, v1.30.0-preview
-      (master b70ae1a, 2026-10-19), 64-bit. Its small ints go to ±2^62, so the
-      ±2^30 limit for 32-bit boards is from isr_rules.html ("Values between
-      2**30 -1 and -2**30 will be stored in a single machine word").
-      Surprises: obj.m() is free but cb = obj.m makes a bound method, which is
-      why ISR code binds it once in __init__ (isr_rules.html); for i in
-      range(n) is free, but enumerate() and zip() create an iterator object;
-      reading a float out of an array('f') makes a float. Slice assignment into
-      a bytearray or memoryview is free since v1.26.
-      Not on the slide: raising an exception allocates (96–128 bytes here),
-      but under heap_lock MicroPython falls back to a static exception, so the
-      test can't catch it. A function needing more than 11 words of frame
-      takes it from the heap and frees it on return (py/objfun.c).
-    </aside>
-  </section>
+  <aside class="notes">
+    Most of your Python is fine: memory goes on new objects, not on logic.
+    Damien George's PyCon AU 2018 slides, "Memory allocation": expressions,
+    if/while/for/try, local variables, small integer arithmetic, in-place
+    operations on existing data structures, calling functions/methods with
+    positional or keyword args and builtins like len, min, max, sum, print
+    don't allocate. Importing, defining functions and classes, assigning a
+    global for the first time and creating data structures do.
+    Every line on this slide was run under micropython.heap_lock() on the
+    unix port (v1.30.0-preview, b70ae1a): the results match. Reading a pin
+    or ticks_ms() returns a small int, so nothing is allocated.
+    Floats: on MicroPython's default object representation (rp2, esp32,
+    stm32, nrf) every float result is a new heap object, and n / 2 is a
+    float even when n is an int: use n // 2. CircuitPython packs 30-bit
+    floats into the object word (MICROPY_OBJ_REPR_C in circuitpy_mpconfig.h),
+    so its float maths doesn't allocate; MicroPython does the same only on
+    esp8266 and a few Arduino and OpenMV boards.
+    One block is 16 bytes on 32-bit (develop/memorymgt); the allocator rounds
+    every request up to whole blocks (py/mpconfig.h). Computed, not measured.
+  </aside>
 </section>
 
 
@@ -365,58 +320,35 @@ import bme280    # a 10 KB .py driver
     <h2>Tweaks to your common habits</h2>
   </header>
 
-  <table class="habits habits--tight">
+  <table class="habits">
     <tbody>
       <tr class="fragment dim-past" data-fragment-index="0"><td><code>uart.read(64)</code> every loop</td><td class="verdict">→</td><td><code>readinto(buf)</code> with one buffer</td></tr>
       <tr class="fragment dim-past" data-fragment-index="1"><td><code>packet[4:20]</code></td><td class="verdict">→</td><td>a <code>memoryview</code>: no copy</td></tr>
       <tr class="fragment dim-past" data-fragment-index="2"><td>float maths in a fast loop</td><td class="verdict">→</td><td>use ints, increase units (e.g. millivolts)</td></tr>
       <tr class="fragment dim-past" data-fragment-index="3"><td>magic numbers as globals</td><td class="verdict">→</td><td><code>const()</code></td></tr>
-      <tr class="fragment dim-past" data-fragment-index="4"><td>allocating in a hard ISR (Interrupt Service Routine)</td><td class="verdict">→</td><td><code>micropython.schedule()</code></td></tr>
-      <tr class="fragment dim-past" data-fragment-index="5"><td><code>r.json()</code> on a big reply</td><td class="verdict">→</td><td><code>json.load(r.raw)</code>: parsed as it arrives</td></tr>
-      <tr class="fragment dim-past" data-fragment-index="6"><td><code>f.read()</code> on a log file</td><td class="verdict">→</td><td><code>for line in f:</code></td></tr>
-      <tr class="fragment dim-past" data-fragment-index="7"><td>1,000 floats in a list</td><td class="verdict">→</td><td><code>array("f")</code>: ~4 KB, not ~20 KB</td></tr>
     </tbody>
   </table>
 
   <div class="r-stack swap qr-clear">
-    <pre class="compact fragment current-visible" data-fragment-index="0"><code class="language-python" data-trim>
+    <pre class="fragment current-visible" data-fragment-index="0"><code class="language-python" data-trim>
 data = uart.read(64)      # ✕ new bytes every loop
 buf = bytearray(64)       # ✓ once, before the loop
-n = uart.readinto(buf)    # ✓ in the loop: fills buf, allocates nothing
+n = uart.readinto(buf)    # ✓ in the loop: no allocation
     </code></pre>
-    <pre class="compact fragment current-visible" data-fragment-index="1"><code class="language-python" data-trim>
+    <pre class="fragment current-visible" data-fragment-index="1"><code class="language-python" data-trim>
 header = packet[4:20]     # ✕ copies 16 bytes
 mv = memoryview(packet)   # ✓ once
 header = mv[4:20]         # ✓ a view into packet, no copy
     </code></pre>
-    <pre class="compact fragment current-visible" data-fragment-index="2"><code class="language-python" data-trim>
+    <pre class="fragment current-visible" data-fragment-index="2"><code class="language-python" data-trim>
 raw = adc.read_u16()
-volts = raw * 3.3 / 65535     # ✕ MicroPython: two new floats each time
-mv = raw * 3300 // 65535      # ✓ millivolts: an int, no allocation
+volts = raw * 3.3 / 65535  # ✕ MicroPython: 2 new floats
+mv = raw * 3300 // 65535   # ✓ millivolts, an int
     </code></pre>
-    <pre class="compact fragment current-visible" data-fragment-index="3"><code class="language-python" data-trim>
-REG_ID = 0xD0             # ✕ a global: a dict entry, looked up by name
+    <pre class="fragment" data-fragment-index="3"><code class="language-python" data-trim>
+REG_ID = 0xD0           # ✕ a global, looked up by name
 from micropython import const
-_REG_ID = const(0xD0)     # ✓ written into the bytecode, no global
-    </code></pre>
-    <pre class="compact fragment current-visible" data-fragment-index="4"><code class="language-python" data-trim>
-def on_edge(pin):                      # a hard IRQ when pin changes
-    events.append(pin.value())         # ✕ heap locked, MemoryError when list grows
-    micropython.schedule(record, pin)  # ✓ record() runs soon, and may allocate
-    </code></pre>
-    <pre class="compact fragment current-visible" data-fragment-index="5"><code class="language-python" data-trim>
-data = r.json()           # ✕ the whole body in RAM, then parsed
-data = json.load(r.raw)   # ✓ parsed as it arrives
-    </code></pre>
-    <pre class="compact fragment current-visible" data-fragment-index="6"><code class="language-python" data-trim>
-lines = f.read().split("\n")   # ✕ the whole file, then a copy
-for line in f:                 # ✓ one line at a time
-    handle(line)
-    </code></pre>
-    <pre class="compact fragment" data-fragment-index="7"><code class="language-python" data-trim>
-temps.append(sensor.temperature)   # ✕ MicroPython: a float object each, ~20 KB
-temps = array("f", [0] * 1000)     # ✓ raw floats: ~4 KB
-temps[i] = sensor.temperature
+_REG_ID = const(0xD0)   # ✓ in the bytecode, no global
     </code></pre>
   </div>
 
@@ -433,7 +365,50 @@ temps[i] = sensor.temperature
     3300 is under 2^30, so the int stays small (computed). CircuitPython's
     30-bit floats live in the object word (circuitpy_mpconfig.h).
     const(): a name with a leading underscore isn't stored in the module dict
-    at all (micropython module docs, constrained.html). Hard ISRs run with the
+    at all (micropython module docs, constrained.html).
+    Next: interrupts and big data.
+  </aside>
+</section>
+
+<!-- HABITS, CONTINUED: interrupts and big data -->
+<section>
+  <header class="slide-head">
+    <h2>More tweaks: interrupts and big data</h2>
+  </header>
+
+  <table class="habits">
+    <tbody>
+      <tr class="fragment dim-past" data-fragment-index="0"><td>allocating in a hard ISR (Interrupt Service Routine)</td><td class="verdict">→</td><td><code>micropython.schedule()</code></td></tr>
+      <tr class="fragment dim-past" data-fragment-index="1"><td><code>r.json()</code> on a big reply</td><td class="verdict">→</td><td><code>json.load(r.raw)</code>: parsed as it arrives</td></tr>
+      <tr class="fragment dim-past" data-fragment-index="2"><td><code>f.read()</code> on a log file</td><td class="verdict">→</td><td><code>for line in f:</code></td></tr>
+      <tr class="fragment dim-past" data-fragment-index="3"><td>1,000 floats in a list</td><td class="verdict">→</td><td><code>array("f")</code>: ~4 KB, not ~20 KB</td></tr>
+    </tbody>
+  </table>
+
+  <div class="r-stack swap qr-clear">
+    <pre class="fragment current-visible" data-fragment-index="0"><code class="language-python" data-trim>
+def on_edge(pin):                      # hard IRQ, heap locked
+    events.append(pin.value())         # ✕ MemoryError
+    micropython.schedule(record, pin)  # ✓ may allocate
+    </code></pre>
+    <pre class="fragment current-visible" data-fragment-index="1"><code class="language-python" data-trim>
+data = r.json()           # ✕ whole body in RAM first
+data = json.load(r.raw)   # ✓ parsed as it arrives
+    </code></pre>
+    <pre class="fragment current-visible" data-fragment-index="2"><code class="language-python" data-trim>
+lines = f.read().split("\n")   # ✕ whole file, then a copy
+for line in f:                 # ✓ one line at a time
+    handle(line)
+    </code></pre>
+    <pre class="fragment" data-fragment-index="3"><code class="language-python" data-trim>
+temps.append(sensor.temperature)  # ✕ ~20 KB of floats
+temps = array("f", [0] * 1000)    # ✓ raw floats: ~4 KB
+temps[i] = sensor.temperature
+    </code></pre>
+  </div>
+
+  <aside class="notes">
+    Hard ISRs run with the
     heap locked: "memory allocation failed, heap is locked"; schedule() runs
     the callback "very soon" when the heap isn't locked (isr_rules.html).
     CircuitPython has no user interrupt handlers.
@@ -667,14 +642,14 @@ def checksum(buf) -> int:
           <text class="axis-label" x="149" y="169">423 ms · 19.7×</text>
         </g>
       </svg>
-      <p class="caption">Fixed-point Mandelbrot, Metro RP2040 · <a href="https://learn.adafruit.com/circuitpython-turbo/measured-speed" target="_blank" rel="noopener">Adafruit</a></p>
+      <p class="caption">Mandelbrot, Metro RP2040 · <a href="https://learn.adafruit.com/circuitpython-turbo/measured-speed" target="_blank" rel="noopener">Adafruit</a></p>
     </div>
   </div>
 
   <ul class="pinout qr-clear">
-    <li class="fragment" data-fragment-index="0"><span class="pinout__pin">native</span><span class="pinout__net">your Python, compiled to machine code instead of bytecode</span></li>
-    <li class="fragment" data-fragment-index="1"><span class="pinout__pin">viper</span><span class="pinout__net">also raw ints and pointers: no floats, no overflow checks</span></li>
-    <li class="fragment" data-fragment-index="2"><span class="pinout__pin">Turbo</span><span class="pinout__net">native & viper on CircuitPython, pre-built on your computer</span></li>
+    <li class="fragment" data-fragment-index="0"><span class="pinout__pin">native</span><span class="pinout__net">your Python compiled to machine code, not bytecode</span></li>
+    <li class="fragment" data-fragment-index="1"><span class="pinout__pin">viper</span><span class="pinout__net">raw ints and pointers: no floats, no overflow checks</span></li>
+    <li class="fragment" data-fragment-index="2"><span class="pinout__pin">Turbo</span><span class="pinout__net">native &amp; viper for CircuitPython, built on a computer</span></li>
   </ul>
 
   <aside class="notes">

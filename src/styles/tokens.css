@@ -40,6 +40,11 @@
   --pcb-heading-weight: 400;
   --pcb-body-weight: 300;
 
+  /* Text: body copy; dense blocks (tables, cards, lists); mono labels and captions. */
+  --pcb-text: 30px;
+  --pcb-text-dense: 24px;
+  --pcb-text-label: 20px;
+
   /* Code listings, and the .compact ones on dense slides: type size and the well's padding. */
   --pcb-code-size: 22px;
   --pcb-code-pad: 26px 30px;

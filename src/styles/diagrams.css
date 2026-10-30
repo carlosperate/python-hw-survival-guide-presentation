@@ -570,7 +570,7 @@
   margin: 0;
   max-width: none;
   font-family: var(--pcb-font-mono);
-  font-size: 17px;
+  font-size: var(--pcb-text-label);
   color: var(--pcb-silk-dim);
 }
 
@@ -615,7 +615,7 @@
   border: 1px solid color-mix(in srgb, var(--pcb-gold) 35%, transparent);
   background: var(--pcb-board-panel);
   font-family: var(--pcb-font-mono);
-  font-size: 19px;
+  font-size: var(--pcb-text-label);
   line-height: 1.35;
   overflow: hidden;
 }
@@ -645,7 +645,6 @@
 .reveal table.buses,
 .reveal table.matrix {
   width: 100%;
-  font-size: 0.74em;
 }
 
 .reveal table.buses {
@@ -659,14 +658,104 @@
 }
 
 /* The panel under it hugs its text, clear of the QR traces. */
-.reveal table.buses + .panel {
+.reveal .buses-wrap + .panel {
   width: fit-content;
+  font-size: var(--pcb-text-dense);
+}
+
+/* Fixed columns, so the wiring drawn under each one lines up with it. */
+.reveal .buses-wrap {
+  position: relative;
+}
+
+.reveal table.buses {
+  table-layout: fixed;
+  font-size: 0.74em;
+}
+
+.reveal table.buses th:first-child {
+  width: 15%;
+}
+
+/* Over the rows still to come: top is the bottom of the devices row. */
+.reveal .bus-wiring {
+  position: absolute;
+  top: 176px;
+  left: 15%;
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding-right: 24px;
+}
+
+/* Short enough to stay clear of the QR chip at the bottom right. */
+.reveal .bus-wiring svg {
+  width: auto;
+  height: 200px;
+  max-width: 100%;
+}
+
+.reveal svg .bw-box {
+  fill: var(--pcb-board-deep);
+  stroke: color-mix(in srgb, var(--pcb-silk-dim) 60%, transparent);
+  stroke-width: 1.5;
+}
+
+.reveal svg :is(.bw-name, .bw-pin, .bw-line) {
+  font-family: var(--pcb-font-mono);
+  font-size: 19px;
+}
+
+.reveal svg .bw-name {
+  text-anchor: middle;
+  fill: var(--pcb-silk);
+}
+
+.reveal svg .bw-pin {
+  fill: var(--pcb-silk-dim);
+}
+
+/* Signal names sit on their wire, knocked out of it. */
+.reveal svg .bw-line {
+  text-anchor: middle;
+  fill: var(--pcb-silk);
+  paint-order: stroke;
+  stroke: var(--pcb-board);
+  stroke-width: 8px;
+  stroke-linejoin: round;
+}
+
+.reveal svg .bw-wire {
+  fill: none;
+  stroke: var(--pcb-gold);
+  stroke-width: 3;
+}
+
+.reveal svg .bw-wire--clk {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg :is(.bw-wire--gnd, .bw-wire--cs) {
+  stroke: var(--pcb-silk-dim);
+}
+
+.reveal svg .bw-dot {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .bw-dot--clk {
+  fill: var(--pcb-blue);
 }
 
 /* Tighter rows: room for code under a habits table, or for a long one. */
 .reveal table.habits--tight {
-  font-size: 0.68em;
   margin-bottom: 18px;
+}
+
+/* A habits table split over two slides: a little larger, with its code at full size. */
+.reveal table.habits--split {
+  font-size: 27px;
 }
 
 .reveal table.habits--tight td {
@@ -687,6 +776,16 @@
 .reveal table.matrix th,
 .reveal table.matrix .verdict {
   text-align: center;
+}
+
+/* Column lines and room either side, so the long headings don't run together. */
+.reveal table.matrix :is(th, td) {
+  padding-left: 0.6em;
+  padding-right: 0.6em;
+}
+
+.reveal table.matrix :is(th, td) + :is(th, td) {
+  border-left: 1px solid color-mix(in srgb, var(--pcb-silk-mute) 60%, transparent);
 }
 
 .reveal table.mapping {
@@ -715,22 +814,14 @@
 
 .reveal .cards--4 p,
 .reveal .rules p {
-  font-size: 0.72em;
+  font-size: var(--pcb-text-dense);
 }
 
 .reveal .rules .panel {
   padding: 24px 20px 18px;
 }
 
-/* Cards with no heading but their label: larger, tighter, so a 21-letter label still fits a third. */
-.reveal .cards.cards--titled .panel[data-label]::before {
-  top: -15px;
-  left: 14px;
-  padding: 0 8px;
-  font-size: 22px;
-  letter-spacing: 0.04em;
-}
-
+/* Cards whose label is their only heading: the text starts closer to it. */
 .reveal .cards--titled .panel {
   padding-top: 22px;
 }
@@ -747,11 +838,11 @@
 }
 
 .reveal .rules-list p {
-  font-size: 0.86em;
+  font-size: var(--pcb-text-dense);
 }
 
 .reveal .cards .readout {
-  font-size: 15px;
+  font-size: var(--pcb-text-label);
 }
 
 .reveal .chain--compact {
@@ -904,6 +995,11 @@
   position: relative;
 }
 
+/* Read from the back of the hall: the chart's labels at the deck's label size. */
+.reveal .import-chart svg :is(.axis-label, .legend, .console) {
+  font-size: var(--pcb-text-label);
+}
+
 .reveal .slides .import-chart > pre {
   position: absolute;
   left: 104px;
@@ -922,7 +1018,7 @@
 .reveal .ram-points__box {
   position: absolute;
   top: 0;
-  left: 661px;
+  left: 796px;
 }
 
 /* ---------- The real-world slide ---------- */
@@ -952,8 +1048,10 @@
   margin: 0;
 }
 
+/* One line each: the longest caption is a few pixels wider than its column. */
 .reveal .parts figcaption {
   margin: 0;
+  white-space: nowrap;
 }
 
 /* On the click the parts dim and the point lands on top of them. */
@@ -992,6 +1090,16 @@
 }
 
 /* Five steps, one of them three lines long: tighter than the theme's list rhythm. */
+/* "Which bus?": the UART, I²C and SPI bullet on one line. */
+.reveal .bus-list {
+  font-size: 29px;
+}
+
+/* Five steps beside the photo: the largest size that clears the footer. */
+.reveal .find-driver ol {
+  font-size: 27px;
+}
+
 .reveal .find-driver ol li,
 [data-base-theme] .reveal .find-driver ol li {
   margin-bottom: 0.45em;
@@ -1103,4 +1211,173 @@
   font-family: var(--pcb-font-body);
   font-size: 17px;
   fill: var(--pcb-silk-dim);
+}
+
+/* ---------- Debugging ---------- */
+
+/* The suspect leads each line, so it reads first from the back. */
+.reveal .suspects b {
+  font-size: 1.15em;
+}
+
+/* A one-line aside under a list, not a full-slide quote. */
+.reveal .quote--aside {
+  max-width: none;
+  padding-left: 24px;
+  font-size: 30px;
+}
+
+/* Hangs under its list item, over the next one, which is still hidden. */
+.reveal .meme {
+  position: absolute;
+  top: calc(100% + 36px);
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  width: 800px;
+}
+
+.reveal .meme img {
+  flex: none;
+  width: auto;
+  height: 150px;
+  margin: 0;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--pcb-gold) 34%, transparent);
+}
+
+.reveal .quote--aside cite {
+  margin-top: 10px;
+}
+
+.reveal ol.rules-nine {
+  font-size: var(--pcb-text-dense);
+}
+
+/* The second column carries on from 6. */
+.reveal ol.rules-nine[start="6"] {
+  counter-reset: pcb-step 5;
+}
+
+/* Five checks and a graph: the largest size that keeps each check on one line. */
+.reveal .power-checks {
+  margin-bottom: 22px;
+  font-size: 28px;
+}
+
+.reveal table.recover td:first-child {
+  white-space: nowrap;
+  color: var(--pcb-gold);
+}
+
+.reveal svg .joint-board {
+  fill: var(--pcb-board-panel);
+  stroke: color-mix(in srgb, var(--pcb-gold) 34%, transparent);
+}
+
+.reveal svg .joint-pad,
+.reveal svg .joint-pin {
+  fill: var(--pcb-gold-deep);
+}
+
+.reveal svg .joint-solder {
+  fill: var(--pcb-silk-dim);
+}
+
+.reveal svg .joint-solder--bad {
+  fill: var(--pcb-silk-mute);
+}
+
+.reveal svg .joint-name {
+  font-size: 17px;
+  text-anchor: middle;
+  fill: var(--pcb-silk);
+}
+
+/* The longest "costs memory" bullet still fits its half-width panel on one line. */
+.reveal .cost-lists ul {
+  font-size: 28px;
+}
+
+/* Few rows and lots of room: read from the back of the hall. */
+.reveal table.table--large {
+  font-size: var(--pcb-text);
+}
+
+.reveal .cards.cards--readable p {
+  font-size: var(--pcb-text);
+}
+
+/* ---------- Tooling ---------- */
+
+/* The tool's photo, then what it's for and what to buy, clear of the QR. */
+.reveal .tool {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 540px);
+  gap: 52px;
+  align-items: center;
+}
+
+.reveal .tool .part-shot {
+  justify-self: center;
+}
+
+.reveal .tool ul {
+  margin-bottom: 26px;
+}
+
+.reveal .tool .callout {
+  margin: 30px 0 0;
+}
+
+.reveal .tool .panel p {
+  margin: 0;
+}
+
+/* A screenshot needs more width than a photo; top-aligned, the text ends above the QR chip. */
+.reveal .tool--screenshot {
+  grid-template-columns: 400px minmax(0, 660px);
+  align-items: start;
+}
+/* The device, then what it shows on screen. */
+.reveal .tool-shots {
+  display: grid;
+  gap: 12px;
+}
+
+.reveal img.tool-screenshot {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border-radius: 6px;
+}
+
+/* Three meter checks and the trap: the checks larger than the warning, both clear of the footer. */
+.reveal .meter-checks ol.list--dense {
+  font-size: 24px;
+}
+
+.reveal .meter-checks .callout {
+  font-size: var(--pcb-text-dense);
+}
+
+/* Where to learn more: the link, then its format in small type. */
+.reveal .learn ul {
+  max-width: none;
+  margin: 0;
+  font-size: var(--pcb-text-dense);
+}
+
+.reveal .learn li {
+  margin-bottom: 0.7em;
+}
+
+.reveal .learn li:last-child {
+  margin-bottom: 0;
+}
+
+.reveal .learn li span {
+  display: block;
+  font-size: 0.82em;
+  color: var(--pcb-silk-dim);
 }

@@ -207,9 +207,6 @@
 }
 
 :root[data-theme="schematic"] .reveal .panel[data-label]::before {
-  top: -12.5px;
-  font-size: 18px;
-  letter-spacing: 0.14em;
   color: var(--schem-ref);
 }
 
@@ -218,7 +215,7 @@
   background: color-mix(in srgb, var(--pcb-silk) 4%, transparent);
 }
 
-:root[data-theme="schematic"] .reveal ol {
+:root[data-theme="schematic"] .reveal ol:not(.list--wide) {
   max-width: 34em;
 }
 

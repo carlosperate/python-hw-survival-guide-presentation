@@ -23,6 +23,7 @@
 
 .reveal .ds-steps .caption {
   margin: 0;
+  font-size: var(--pcb-text-dense);
   text-align: left;
 }
 
@@ -66,7 +67,10 @@
   letter-spacing: 0.14em;
 }
 
+/* Larger than the side labels, tracked tighter so the longest still fits its layer. */
 .reveal svg .ds-name {
+  font-size: 22px;
+  letter-spacing: 0.06em;
   fill: var(--pcb-silk);
 }
 
@@ -88,6 +92,7 @@
 }
 
 .reveal svg .ds-file {
+  font-size: 20px;
   fill: var(--pcb-silk-dim);
 }
 
@@ -122,7 +127,10 @@
   fill: var(--pcb-silk);
 }
 
+/* A touch larger, tracked tighter: the same width beside the chip. */
 .reveal svg .ds-pin {
+  font-size: 20px;
+  letter-spacing: -0.04em;
   fill: var(--pcb-silk);
 }
 

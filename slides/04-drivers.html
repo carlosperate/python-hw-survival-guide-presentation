@@ -12,17 +12,17 @@
 
   <div class="r-stack parts-stack">
     <div class="parts fragment semi-fade-out" data-fragment-index="0">
-      <figure><img class="part-shot" src="/images/parts/neopixel-ring.webp" style="--h: 100px" alt="A lit NeoPixel LED ring" /><figcaption class="caption"><b>light</b> · NeoPixel ring</figcaption></figure>
-      <figure><img class="part-shot" src="/images/parts/servo-sg90.webp" style="--h: 108px" alt="A micro servo" /><figcaption class="caption"><b>move</b> · micro servo</figcaption></figure>
-      <figure><img class="part-shot" src="/images/parts/oled-ssd1306.webp" style="--h: 94px" alt="A small OLED screen" /><figcaption class="caption"><b>show</b> · OLED screen</figcaption></figure>
-      <figure><img class="part-shot" src="/images/parts/bme280-adafruit.webp" style="--h: 100px" alt="A BME280 sensor breakout" /><figcaption class="caption"><b>sense</b> · temperature</figcaption></figure>
-      <figure><img class="part-shot" src="/images/parts/eink-display.webp" style="--h: 104px" alt="An e-ink display" /><figcaption class="caption"><b>show</b> · e-ink screen</figcaption></figure>
-      <figure><img class="part-shot" src="/images/parts/stepper-28byj48.webp" style="--h: 108px" alt="A small stepper motor and its driver board" /><figcaption class="caption"><b>move</b> · stepper motor</figcaption></figure>
-      <figure><img class="part-shot" src="/images/parts/distance-hc-sr04.webp" style="--h: 76px" alt="An ultrasonic distance sensor" /><figcaption class="caption"><b>sense</b> · distance</figcaption></figure>
-      <figure><img class="part-shot" src="/images/parts/pir-hc-sr501.webp" style="--h: 100px" alt="A PIR motion sensor" /><figcaption class="caption"><b>sense</b> · motion</figcaption></figure>
-      <figure><img class="part-shot" src="/images/parts/camera-ov5640.webp" style="--h: 86px" alt="A small camera module" /><figcaption class="caption"><b>see</b> · camera</figcaption></figure>
-      <figure><img class="part-shot" src="/images/parts/accel-lis3dh.webp" style="--h: 86px" alt="SparkFun's LIS3DH accelerometer breakout" /><figcaption class="caption"><b>sense</b> · acceleration</figcaption></figure>
-      <figure><img class="part-shot" src="/images/parts/encoder-qt.webp" style="--h: 94px" alt="Adafruit's I2C rotary encoder board, with a knob and a lit LED" /><figcaption class="caption"><b>control</b> · rotary knob</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/neopixel-ring.webp" style="--h: 80px" alt="A lit NeoPixel LED ring" /><figcaption class="caption"><b>light</b> · NeoPixel ring</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/servo-sg90.webp" style="--h: 86px" alt="A micro servo" /><figcaption class="caption"><b>move</b> · micro servo</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/oled-ssd1306.webp" style="--h: 75px" alt="A small OLED screen" /><figcaption class="caption"><b>show</b> · OLED screen</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/bme280-adafruit.webp" style="--h: 80px" alt="A BME280 sensor breakout" /><figcaption class="caption"><b>sense</b> · temperature</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/eink-display.webp" style="--h: 83px" alt="An e-ink display" /><figcaption class="caption"><b>show</b> · e-ink screen</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/stepper-28byj48.webp" style="--h: 86px" alt="A small stepper motor and its driver board" /><figcaption class="caption"><b>move</b> · stepper motor</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/distance-hc-sr04.webp" style="--h: 61px" alt="An ultrasonic distance sensor" /><figcaption class="caption"><b>sense</b> · distance</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/pir-hc-sr501.webp" style="--h: 80px" alt="A PIR motion sensor" /><figcaption class="caption"><b>sense</b> · motion</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/camera-ov5640.webp" style="--h: 69px" alt="A small camera module" /><figcaption class="caption"><b>see</b> · camera</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/accel-lis3dh.webp" style="--h: 69px" alt="SparkFun's LIS3DH accelerometer breakout" /><figcaption class="caption"><b>sense</b> · acceleration</figcaption></figure>
+      <figure><img class="part-shot" src="/images/parts/encoder-qt.webp" style="--h: 62px" alt="Adafruit's I2C rotary encoder board, with a knob and a lit LED" /><figcaption class="caption"><b>control</b> · rotary knob</figcaption></figure>
     </div>
     <p class="lede fragment" data-fragment-index="0">Every part needs its own signals, protocol, and timing.<br /><br />A driver abstracts all of that for you.</p>
   </div>
@@ -49,7 +49,7 @@
 
   <div class="find-driver">
   <ol>
-    <li><b>Read the </b>official <b>docs</b>. Popular vendors will provide all you need.</li>
+    <li><b>Read the </b>official <b>docs</b>. Vendors might provide all you need.</li>
     <li class="fragment" data-fragment-index="1"><b>Find the chip name</b>. Board name might not be the same as the chip (e.g. <code>BME280</code>).</li>
     <li class="fragment" data-fragment-index="2">Start with Google, but also use <b>GitHub's search</b> with filters.</li>
     <li class="fragment" data-fragment-index="3">
@@ -201,7 +201,7 @@ class BME280:
         <p class="caption">Written in C, provides Python API to control the Microcontroller</p>
       </div>
       <div class="fragment ds-at-layer" data-fragment-index="3" style="--layer: 3">
-        <p class="caption">Usually C code, from the chip vendor, provides low-level access Microcontroller features.</p>
+        <p class="caption">Usually C code, from the chip vendor, provides low-level access to Microcontroller features.</p>
       </div>
     </div>
   </div>
@@ -227,27 +227,28 @@ class BME280:
   </aside>
 </section>
 
-<!-- WHICH BUS: a bullet per click, for people who have never wired one -->
+<!-- WHICH BUS: a bullet per click, for people who have never wired one; the last replaces the code -->
 <section>
   <header class="slide-head">
     <h2>Which bus?</h2>
   </header>
 
-  <ul class="list--wide">
-    <li>A <b>bus</b> is a few wires between chips, plus rules for sending bytes: the protocol.</li>
-    <li class="fragment" data-fragment-index="1">Microcontrollers have hardware for the three common ones built in: <b>UART</b>, <b>I²C</b> and <b>SPI</b>.</li>
-    <li class="fragment" data-fragment-index="2">You rarely choose: the part's datasheet or product page says which bus it speaks.</li>
-    <li class="fragment" data-fragment-index="3">You still need to know it: it decides which pins you wire, and the bus you hand the driver.</li>
+  <ul class="list--wide bus-list">
+    <li>A <b>bus</b> is the signals between chips & the rules for sending bytes (the protocol).</li>
+    <li class="fragment" data-fragment-index="1">Microcontrollers have built-in hardware for common ones like: <b>UART</b>, <b>I²C</b> and <b>SPI</b>.</li>
+    <li class="fragment" data-fragment-index="2">You rarely choose: the part's datasheet or product page specifies the bus.</li>
+    <li class="fragment" data-fragment-index="3">You still need to know it: it decides which pins you wire, and what bus you hand the driver.</li>
   </ul>
 
-  <pre class="fragment" data-fragment-index="3"><code class="language-python" data-trim>
+  <div class="r-stack swap qr-clear">
+    <pre class="fragment current-visible" data-fragment-index="3"><code class="language-python" data-trim>
 i2c = I2C(0, scl=Pin(5), sda=Pin(4))
 bme = bme280.BME280(i2c=i2c)
-  </code></pre>
-
-  <ul class="list--wide qr-clear">
-    <li class="fragment" data-fragment-index="4">Not every part needs a bus: buttons use a plain pin (GPIO), servos use pulses (PWM).</li>
-  </ul>
+    </code></pre>
+    <ul class="list--wide bus-list">
+      <li class="fragment" data-fragment-index="4">Not every part needs a bus: buttons use a plain pin (GPIO), servos use pulses (PWM).</li>
+    </ul>
+  </div>
 
   <aside class="notes">
     Many here have never wired a bus. A bus is shared wires plus a protocol;
@@ -263,32 +264,90 @@ bme = bme280.BME280(i2c=i2c)
 
 <!-- THREE BUSES: a row per click, then what all three share; a waveform per bus below -->
 <section>
-  <section>
+  <section class="slide--small-type">
     <header class="slide-head">
       <h2>UART, I²C and SPI side by side</h2>
     </header>
 
+    <div class="buses-wrap">
     <table class="buses">
       <thead>
         <tr><th></th><th>UART</th><th>I²C</th><th>SPI</th></tr>
       </thead>
       <tbody>
         <tr><td>Used for</td><td>GPS, radios, another board</td><td>sensors, clocks, small OLEDs</td><td>colour screens, SD cards</td></tr>
-        <tr class="fragment" data-fragment-index="1"><td>Wires, + GND</td><td>TX → RX, crossed</td><td>SDA, SCL</td><td>SCK, COPI, CIPO + CS each</td></tr>
-        <tr class="fragment" data-fragment-index="2"><td>Devices</td><td>two, one at each end</td><td>many, each at an address</td><td>many, one CS pin each</td></tr>
-        <tr class="fragment" data-fragment-index="3"><td>Speed</td><td>9,600–115,200 baud</td><td>100 or 400 kHz</td><td>1–10+ MHz</td></tr>
-        <tr class="fragment" data-fragment-index="4"><td>Extra parts</td><td>none</td><td>pull-ups, often on the board</td><td>none</td></tr>
-        <tr class="fragment" data-fragment-index="5"><td>Anyone there?</td><td>no way to know</td><td><code>scan()</code> lists them</td><td>no: you read 0x00 or 0xFF</td></tr>
-        <tr class="fragment" data-fragment-index="6"><td>Classic mistake</td><td>wrong baud: garbage, no error</td><td>two of the same chip clash</td><td>wrong mode: wrong bits, no error</td></tr>
+        <tr class="fragment" data-fragment-index="1"><td>Wires</td><td>TX → RX, crossed</td><td>SDA, SCL</td><td>SCK, COPI, CIPO + CS each</td></tr>
+        <tr class="fragment" data-fragment-index="1"><td>Devices</td><td>two, one at each end</td><td>many, each at an address</td><td>many, one CS pin each</td></tr>
+        <tr class="fragment" data-fragment-index="2"><td>Speed</td><td>9,600–115,200 baud</td><td>100 or 400 kHz</td><td>1–10+ MHz</td></tr>
+        <tr class="fragment" data-fragment-index="3"><td>Extra parts</td><td>none</td><td>pull-ups</td><td>often pull-ups on CS</td></tr>
+        <tr class="fragment" data-fragment-index="4"><td>Anyone there?</td><td>no way to know</td><td><code>scan()</code> lists them</td><td>no: you read 0x00 or 0xFF</td></tr>
+        <tr class="fragment" data-fragment-index="5"><td>Classic mistake</td><td>wrong baud: garbage, no error</td><td>two of the same chip clash</td><td>wrong mode: wrong bits, no error</td></tr>
       </tbody>
     </table>
 
-    <div class="panel fragment" data-label="All three" data-fragment-index="7">
+    <!-- Typical wiring under each column, while the wires and devices rows are new -->
+    <div class="bus-wiring fragment current-visible" data-fragment-index="1">
+      <svg class="diagram" viewBox="0 0 300 240" role="img">
+        <title>UART: two devices, each one's TX wired to the other's RX, and a shared ground</title>
+        <rect class="bw-box" x="0" y="20" width="96" height="170" rx="6"/>
+        <rect class="bw-box" x="204" y="20" width="96" height="170" rx="6"/>
+        <text class="bw-name" x="48" y="52">board</text>
+        <text class="bw-name" x="252" y="52">GPS</text>
+        <text class="bw-pin" x="88" y="95" text-anchor="end">TX</text>
+        <text class="bw-pin" x="88" y="135" text-anchor="end">RX</text>
+        <text class="bw-pin" x="88" y="175" text-anchor="end">GND</text>
+        <text class="bw-pin" x="212" y="95">TX</text>
+        <text class="bw-pin" x="212" y="135">RX</text>
+        <text class="bw-pin" x="212" y="175">GND</text>
+        <path class="bw-wire" d="M96 89 L204 129 M204 89 L96 129"/>
+        <path class="bw-wire bw-wire--gnd" d="M96 169 H204"/>
+      </svg>
+      <svg class="diagram" viewBox="0 0 300 240" role="img">
+        <title>I2C: one controller and three targets, all on the same two wires, SDA and SCL</title>
+        <rect class="bw-box" x="60" y="0" width="180" height="44" rx="6"/>
+        <text class="bw-name" x="150" y="29">controller</text>
+        <path class="bw-wire" d="M120 44 V84 M20 84 H280 M30 180 V84 M165 180 V84 M238 180 V84"/>
+        <path class="bw-wire bw-wire--clk" d="M140 44 V112 M20 112 H280 M60 180 V112 M185 180 V112 M262 180 V112"/>
+        <g class="bw-dot"><circle cx="120" cy="84" r="4"/><circle cx="30" cy="84" r="4"/><circle cx="165" cy="84" r="4"/><circle cx="238" cy="84" r="4"/></g>
+        <g class="bw-dot bw-dot--clk"><circle cx="140" cy="112" r="4"/><circle cx="60" cy="112" r="4"/><circle cx="185" cy="112" r="4"/><circle cx="262" cy="112" r="4"/></g>
+        <text class="bw-line" x="90" y="90">SDA</text>
+        <text class="bw-line" x="90" y="118">SCL</text>
+        <rect class="bw-box" x="0" y="180" width="92" height="48" rx="6"/>
+        <rect class="bw-box" x="104" y="180" width="92" height="48" rx="6"/>
+        <rect class="bw-box" x="208" y="180" width="92" height="48" rx="6"/>
+        <text class="bw-name" x="46" y="210">target</text>
+        <text class="bw-name" x="150" y="210">target</text>
+        <text class="bw-name" x="254" y="210">target</text>
+      </svg>
+      <svg class="diagram" viewBox="0 0 300 240" role="img">
+        <title>SPI: one controller and two peripherals sharing SCK, COPI and CIPO, with a chip-select wire to each</title>
+        <rect class="bw-box" x="60" y="0" width="180" height="44" rx="6"/>
+        <text class="bw-name" x="150" y="29">controller</text>
+        <path class="bw-wire bw-wire--clk" d="M80 44 V80 M24 80 H275 M30 188 V80 M190 188 V80"/>
+        <path class="bw-wire" d="M100 44 V104 M24 104 H275 M50 188 V104 M215 188 V104 M120 44 V128 M24 128 H275 M70 188 V128 M240 188 V128"/>
+        <path class="bw-wire bw-wire--cs" d="M60 22 H14 V188 M240 22 H286 V188"/>
+        <g class="bw-dot bw-dot--clk"><circle cx="80" cy="80" r="4"/><circle cx="30" cy="80" r="4"/><circle cx="190" cy="80" r="4"/></g>
+        <g class="bw-dot"><circle cx="100" cy="104" r="4"/><circle cx="50" cy="104" r="4"/><circle cx="215" cy="104" r="4"/><circle cx="120" cy="128" r="4"/><circle cx="70" cy="128" r="4"/><circle cx="240" cy="128" r="4"/></g>
+        <text class="bw-line" x="155" y="86">SCK</text>
+        <text class="bw-line" x="155" y="110">COPI</text>
+        <text class="bw-line" x="155" y="134">CIPO</text>
+        <text class="bw-pin" x="37" y="16" text-anchor="middle">CS</text>
+        <text class="bw-pin" x="263" y="16" text-anchor="middle">CS</text>
+        <rect class="bw-box" x="0" y="188" width="130" height="48" rx="6"/>
+        <rect class="bw-box" x="170" y="188" width="130" height="48" rx="6"/>
+        <text class="bw-name" x="65" y="218">peripheral</text>
+        <text class="bw-name" x="235" y="218">peripheral</text>
+      </svg>
+    </div>
+    </div>
+
+    <div class="panel fragment" data-label="All three" data-fragment-index="6">
       <p>Connect GND between boards · 5 V can kill a 3.3 V pin<br>Not every pin can do every bus · keep wires short</p>
     </div>
 
     <aside class="notes">
-      A row per click. Used for: UART for modules that stream text (GPS NMEA,
+      A row per click; wires and devices come together, with the usual wiring
+      under each column until speed arrives. Used for: UART for modules that stream text (GPS NMEA,
       AT-command radios) or another computer; I2C for slow sensors; SPI when
       you move a lot of data. Wires: UART labels are "with respect to the
       device itself", so TX goes to RX (SparkFun Serial); SPI needs one CS per
@@ -297,7 +356,12 @@ bme = bme280.BME280(i2c=i2c)
       best (BME280 0x76/0x77). Speed: 115,200 baud is about 11.5 kB/s, 400 kHz
       I2C about 44 kB/s, 10 MHz SPI 1.25 MB/s (derived); a 240x240 colour
       frame is 2.6 s over I2C, 92 ms over SPI. Pull-ups: most SparkFun and
-      Adafruit I2C boards include them. Anyone there: a missing SPI chip reads
+      Adafruit I2C boards include them. SPI's SCK, COPI and CIPO are driven
+      both ways and need none, but "pullup resistors are needed on the chip
+      select pins" when several devices share a bus, or one hears another's
+      traffic (PJRC, Better SPI Bus Design); some chips don't release CIPO when
+      deselected. SD cards want 10 kΩ pull-ups on CMD and DAT0-3 (Espressif,
+      SD pull-up requirements), which carry COPI, CIPO and CS in SPI mode. Anyone there: a missing SPI chip reads
       a floating line, usually 0xFF or 0x00, so read an ID register. Mistakes:
       fixes for clashes are an address pin, a TCA9548A mux or a second bus
       (Adafruit). All three: no shared ground, no signal; RP2040 pins take
@@ -449,7 +513,7 @@ bme = bme280.BME280(i2c=i2c)
       then readfrom(..., stop=True) (extmod/machine_i2c.c): hence the repeated
       START. 36 clocks: ~0.36 ms at 100 kHz.
       The code says 0x76; the wire says 0xEC and 0xED: the 8-bit address trap
-      in "When scan() lies". Tooling replays this read live, field by field.
+      in "When scan() lies". A logic analyser shows this read, field by field.
     </aside>
   </section>
 
@@ -513,7 +577,7 @@ bme = bme280.BME280(i2c=i2c)
     <h2>A driver is a small class</h2>
   </header>
 
-  <div class="cols cols--wide-left">
+  <div class="cols cols--fit-left">
     <pre class="compact"><code class="language-python" data-trim data-line-numbers="1-4|6-9|10-12|14-17" data-fragment-index="0">
 from micropython import const
 _ID = const(0xD0)
@@ -535,7 +599,7 @@ class BME280:
     </code></pre>
 
     <div>
-      <ol>
+      <ol class="list--dense">
         <li>Registers as <code>const()</code></li>
         <li class="fragment" data-fragment-index="0">Take the bus, don't make it: I2C, SoftI2C or a fake</li>
         <li class="fragment" data-fragment-index="1">Check the ID, wake it up</li>
@@ -556,98 +620,9 @@ class BME280:
     Turning raw counts into °C needs the factory calibration words
     (0x88-0xA1) and Bosch's compensation formula: in a real project, use a
     library from micropython-lib or Adafruit.
-    Next: the class raises "BME280 not found". What now?
+    Next: the class raises "BME280 not found"? Before you blame the driver.
   </aside>
 </section>
-
-<!-- WHEN SCAN() LIES -->
-<section>
-  <section>
-    <header class="slide-head">
-      <h2>When <code>scan()</code> lies to you</h2>
-    </header>
-
-    <div class="cols cols--wide-left">
-      <table>
-        <thead>
-          <tr><th><code>i2c.scan()</code></th><th>Usual cause</th></tr>
-        </thead>
-        <tbody>
-          <tr class="fragment dim-past"><td><code>[]</code></td><td>no power or GND, SDA/SCL swapped, wrong pins</td></tr>
-          <tr class="fragment dim-past"><td>every address, or hangs</td><td>SDA held LOW: no pull-ups, stuck target</td></tr>
-          <tr class="fragment dim-past"><td>yours is missing</td><td>8-bit address (0xEC ≠ 0x76), collision</td></tr>
-          <tr class="fragment dim-past"><td>found, reads fail</td><td>weak pull-ups, long wires</td></tr>
-          <tr class="fragment dim-past"><td>found, on 5 V</td><td>its pull-ups put 5 V on 3.3 V pins</td></tr>
-        </tbody>
-      </table>
-
-      <div>
-        <aside class="callout callout--warn fragment" data-label="Nobody answered">
-          <p>Pico: <code>[Errno 5] EIO</code><br />ESP32, SoftI2C: <code>[Errno 19] ENODEV</code></p>
-        </aside>
-        <aside class="callout callout--ok fragment" data-label="Survival rule">
-          <p>Look for a driver first. Then <code>scan()</code> and read the ID.</p>
-        </aside>
-      </div>
-    </div>
-
-    <aside class="notes">
-      Symptom first: "BME280 not found", or OSError EIO. scan() is the first
-      question to ask the bus.
-      scan() probes 0x08-0x77 with zero-length writes (extmod/machine_i2c.c).
-      rp2 maps every non-timeout error to EIO; esp32 maps ESP_FAIL to ENODEV;
-      SCL held too long gives ETIMEDOUT (110). Verify the Pico errno on your
-      board before saying it.
-      Pull-ups: rise time ≈ 0.8473 × 50 kΩ × 50 pF ≈ 2.1 µs against a 300 ns
-      Fast-mode limit (derived from UM10204 7.1). CircuitPython refuses instead:
-      "No pull up found on SDA or SCL; check your wiring".
-      Collisions: two BME280s at 0x76 show as one entry. Tie one SDO high
-      (0x77), use a TCA9548A multiplexer, or a second bus.
-      Pico pins: SDA on an even GPIO, SCL on an odd one; bus id = bit 1 of the
-      pin number. 5 V: a breakout powered from 5 V can pull SDA and SCL up to
-      5 V, over the RP2040's IOVDD + 0.5 V absolute maximum (datasheet 5.5);
-      power it from 3V3 or use one with level shifting.
-      Press down for the rise-time curves. Next: before you blame the driver.
-    </aside>
-  </section>
-
-  <section>
-    <header class="slide-head">
-      <h2>Why weak pull-ups fail</h2>
-    </header>
-
-    <p>The pull-up resistor lifts the line. The weaker it is, the slower the rise: at 400 kHz, 300 ns at most.</p>
-
-    <svg class="diagram" viewBox="0 0 780 280" width="680" height="244" role="img">
-      <title>RC rise of SDA with a 4.7 kilo-ohm and a 50 kilo-ohm pull-up</title>
-<line class="axis" x1="70" y1="10" x2="70" y2="250"/>
-<line class="axis" x1="70" y1="250" x2="770" y2="250"/>
-<line class="threshold" x1="70" y1="82" x2="770" y2="82"/>
-<text class="axis-label" x="0" y="87">0.7 VDD</text>
-<line class="threshold" x1="70" y1="178" x2="770" y2="178"/>
-<text class="axis-label" x="0" y="183">0.3 VDD</text>
-<line class="limit" x1="140" y1="10" x2="140" y2="250"/>
-<text class="lane-note lane-note--start" x="148" y="272">300 ns limit (400 kHz)</text>
-<g><path class="lane lane--clk" pathLength="1" d="M70 250 L77 221.2 L84 195.9 L91 173.6 L98 154 L105 136.8 L112 121.6 L119 108.2 L126 96.4 L133 86.1 L140 77 L147 68.9 L154 61.9 L161 55.7 L168 50.2 L175 45.4 L182 41.1 L189 37.4 L196 34.1 L203 31.2 L210 28.7 L217 26.4 L224 24.5 L231 22.7 L238 21.2 L245 19.9 L252 18.7 L259 17.6 L266 16.7 L273 15.9 L280 15.2 L287 14.6 L294 14 L301 13.6 L308 13.1 L315 12.8 L322 12.4 L329 12.1 L336 11.9 L343 11.7 L350 11.5 L357 11.3 L364 11.1 L371 11 L378 10.9 L385 10.8 L392 10.7 L399 10.6 L406 10.5 L413 10.5 L420 10.4 L427 10.4 L434 10.3 L441 10.3 L448 10.2 L455 10.2 L462 10.2 L469 10.2 L476 10.1 L483 10.1 L490 10.1 L497 10.1 L504 10.1 L511 10.1 L518 10.1 L525 10.1 L532 10.1 L539 10 L546 10 L553 10 L560 10 L567 10 L574 10 L581 10 L588 10 L595 10 L602 10 L609 10 L616 10 L623 10 L630 10 L637 10 L644 10 L651 10 L658 10 L665 10 L672 10 L679 10 L686 10 L693 10 L700 10 L707 10 L714 10 L721 10 L728 10 L735 10 L742 10 L749 10 L756 10 L763 10 L770 10"/><text class="legend legend--clk" x="560" y="190">━ 4.7 kΩ</text></g>
-<g><path class="lane lane--data" pathLength="1" d="M70 250 L77 247.1 L84 244.3 L91 241.5 L98 238.8 L105 236 L112 233.3 L119 230.7 L126 228 L133 225.4 L140 222.9 L147 220.3 L154 217.8 L161 215.3 L168 212.9 L175 210.5 L182 208.1 L189 205.7 L196 203.4 L203 201.1 L210 198.8 L217 196.5 L224 194.3 L231 192.1 L238 189.9 L245 187.8 L252 185.7 L259 183.6 L266 181.5 L273 179.5 L280 177.4 L287 175.4 L294 173.5 L301 171.5 L308 169.6 L315 167.7 L322 165.8 L329 164 L336 162.1 L343 160.3 L350 158.5 L357 156.7 L364 155 L371 153.3 L378 151.5 L385 149.9 L392 148.2 L399 146.5 L406 144.9 L413 143.3 L420 141.7 L427 140.1 L434 138.6 L441 137.1 L448 135.5 L455 134 L462 132.6 L469 131.1 L476 129.7 L483 128.2 L490 126.8 L497 125.4 L504 124.1 L511 122.7 L518 121.3 L525 120 L532 118.7 L539 117.4 L546 116.1 L553 114.9 L560 113.6 L567 112.4 L574 111.2 L581 109.9 L588 108.8 L595 107.6 L602 106.4 L609 105.3 L616 104.1 L623 103 L630 101.9 L637 100.8 L644 99.7 L651 98.6 L658 97.6 L665 96.5 L672 95.5 L679 94.5 L686 93.5 L693 92.5 L700 91.5 L707 90.5 L714 89.6 L721 88.6 L728 87.7 L735 86.8 L742 85.8 L749 84.9 L756 84 L763 83.2 L770 82.3"/><text class="legend legend--data" x="560" y="214">━ 50 kΩ (Pico internal)</text></g>
-<text class="axis-label" x="600" y="274">time (µs) · 50 pF bus</text>
-    </svg>
-
-    <p class="readout">Rise time: 4.7 kΩ <b>~0.2 µs</b> ✓ · 50 kΩ <b>~2.1 µs</b> ✕ · five 4.7 kΩ in parallel = 940 Ω, under the 967 Ω minimum</p>
-
-    <p class="caption qr-clear">
-      The Pico's internal pull-ups are 50–80 kΩ: fine on the desk, flaky on wires ·
-      <a href="https://www.nxp.com/docs/en/user-guide/UM10204.pdf" target="_blank" rel="noopener">NXP UM10204, the I²C specification</a>
-    </p>
-
-    <aside class="notes">
-      Vertical slide: read on its own, skipped live.
-      Thresholds 0.3 and 0.7 VDD (UM10204 3.1.2). The ~967 Ω minimum at
-      3.3 V and 3 mA is derived: five breakouts with 4.7 kΩ each go below it.
-    </aside>
-  </section>
-</section>
-
 
 <!-- WIRING TIPS: a card per click; board-specific numbers stay in the notes -->
 <section>
@@ -687,12 +662,100 @@ class BME280:
       about 1 kOhm floor at 3.3 V (UM10204, TI SLVA689). Level shifting: NXP
       AN10441; TI says the TXB0108 "should not be used" on I2C. Pins: ESP32
       GPIO0, 2, 12 at boot, 34-39 input only. Sources: reports/wiring-tips.md.
-      Next: Debugging, when it stops.
+      Press down for when scan() lies, weak pull-ups, I2C pull-ups and the
+      power budget. Next: Debugging, the sensor reads nothing.
+    </aside>
+  </section>
+
+  <!-- WHEN SCAN() LIES, and the rise-time curves behind it -->
+  <section>
+    <header class="slide-head">
+      <h2>When <code>scan()</code> lies to you</h2>
+    </header>
+
+    <div class="cols cols--wide-left">
+      <table>
+        <thead>
+          <tr><th><code>i2c.scan()</code></th><th>Usual cause</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>[]</code></td><td>no power or GND, SDA/SCL swapped, wrong pins</td></tr>
+          <tr><td>every address, or hangs</td><td>SDA held LOW: no pull-ups, stuck target</td></tr>
+          <tr><td>yours is missing</td><td>8-bit address (0xEC ≠ 0x76), collision</td></tr>
+          <tr><td>found, reads fail</td><td>weak pull-ups, long wires</td></tr>
+          <tr><td>found, on 5 V</td><td>its pull-ups put 5 V on 3.3 V pins</td></tr>
+        </tbody>
+      </table>
+
+      <div>
+        <aside class="callout callout--warn" data-label="Nobody answered">
+          <p>Pico: <code>[Errno 5] EIO</code><br />ESP32, SoftI2C: <code>[Errno 19] ENODEV</code></p>
+        </aside>
+        <aside class="callout callout--ok" data-label="Survival rule">
+          <p>Look for a driver first. Then <code>scan()</code> and read the ID.</p>
+        </aside>
+      </div>
+    </div>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live.
+      Symptom first: "BME280 not found", or OSError EIO. scan() is the first
+      question to ask the bus.
+      scan() probes 0x08-0x77 with zero-length writes (extmod/machine_i2c.c).
+      rp2 maps every non-timeout error to EIO; esp32 maps ESP_FAIL to ENODEV;
+      SCL held too long gives ETIMEDOUT (110). Verify the Pico errno on your
+      board before saying it.
+      Pull-ups: rise time ≈ 0.8473 × 50 kΩ × 50 pF ≈ 2.1 µs against a 300 ns
+      Fast-mode limit (derived from UM10204 7.1). CircuitPython refuses instead:
+      "No pull up found on SDA or SCL; check your wiring".
+      Collisions: two BME280s at 0x76 show as one entry. Tie one SDO high
+      (0x77), use a TCA9548A multiplexer, or a second bus.
+      Pico pins: SDA on an even GPIO, SCL on an odd one; bus id = bit 1 of the
+      pin number. 5 V: a breakout powered from 5 V can pull SDA and SCL up to
+      5 V, over the RP2040's IOVDD + 0.5 V absolute maximum (datasheet 5.5);
+      power it from 3V3 or use one with level shifting.
+      Press down for the rise-time curves.
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>Why weak pull-ups fail</h2>
+    </header>
+
+    <p>The pull-up resistor lifts the line. The weaker it is, the slower the rise: at 400 kHz, 300 ns at most.</p>
+
+    <svg class="diagram" viewBox="0 0 780 280" width="680" height="244" role="img">
+      <title>RC rise of SDA with a 4.7 kilo-ohm and a 50 kilo-ohm pull-up</title>
+<line class="axis" x1="70" y1="10" x2="70" y2="250"/>
+<line class="axis" x1="70" y1="250" x2="770" y2="250"/>
+<line class="threshold" x1="70" y1="82" x2="770" y2="82"/>
+<text class="axis-label" x="0" y="87">0.7 VDD</text>
+<line class="threshold" x1="70" y1="178" x2="770" y2="178"/>
+<text class="axis-label" x="0" y="183">0.3 VDD</text>
+<line class="limit" x1="140" y1="10" x2="140" y2="250"/>
+<text class="lane-note lane-note--start" x="148" y="272">300 ns limit (400 kHz)</text>
+<g><path class="lane lane--clk" pathLength="1" d="M70 250 L77 221.2 L84 195.9 L91 173.6 L98 154 L105 136.8 L112 121.6 L119 108.2 L126 96.4 L133 86.1 L140 77 L147 68.9 L154 61.9 L161 55.7 L168 50.2 L175 45.4 L182 41.1 L189 37.4 L196 34.1 L203 31.2 L210 28.7 L217 26.4 L224 24.5 L231 22.7 L238 21.2 L245 19.9 L252 18.7 L259 17.6 L266 16.7 L273 15.9 L280 15.2 L287 14.6 L294 14 L301 13.6 L308 13.1 L315 12.8 L322 12.4 L329 12.1 L336 11.9 L343 11.7 L350 11.5 L357 11.3 L364 11.1 L371 11 L378 10.9 L385 10.8 L392 10.7 L399 10.6 L406 10.5 L413 10.5 L420 10.4 L427 10.4 L434 10.3 L441 10.3 L448 10.2 L455 10.2 L462 10.2 L469 10.2 L476 10.1 L483 10.1 L490 10.1 L497 10.1 L504 10.1 L511 10.1 L518 10.1 L525 10.1 L532 10.1 L539 10 L546 10 L553 10 L560 10 L567 10 L574 10 L581 10 L588 10 L595 10 L602 10 L609 10 L616 10 L623 10 L630 10 L637 10 L644 10 L651 10 L658 10 L665 10 L672 10 L679 10 L686 10 L693 10 L700 10 L707 10 L714 10 L721 10 L728 10 L735 10 L742 10 L749 10 L756 10 L763 10 L770 10"/><text class="legend legend--clk" x="560" y="190">━ 4.7 kΩ</text></g>
+<g><path class="lane lane--data" pathLength="1" d="M70 250 L77 247.1 L84 244.3 L91 241.5 L98 238.8 L105 236 L112 233.3 L119 230.7 L126 228 L133 225.4 L140 222.9 L147 220.3 L154 217.8 L161 215.3 L168 212.9 L175 210.5 L182 208.1 L189 205.7 L196 203.4 L203 201.1 L210 198.8 L217 196.5 L224 194.3 L231 192.1 L238 189.9 L245 187.8 L252 185.7 L259 183.6 L266 181.5 L273 179.5 L280 177.4 L287 175.4 L294 173.5 L301 171.5 L308 169.6 L315 167.7 L322 165.8 L329 164 L336 162.1 L343 160.3 L350 158.5 L357 156.7 L364 155 L371 153.3 L378 151.5 L385 149.9 L392 148.2 L399 146.5 L406 144.9 L413 143.3 L420 141.7 L427 140.1 L434 138.6 L441 137.1 L448 135.5 L455 134 L462 132.6 L469 131.1 L476 129.7 L483 128.2 L490 126.8 L497 125.4 L504 124.1 L511 122.7 L518 121.3 L525 120 L532 118.7 L539 117.4 L546 116.1 L553 114.9 L560 113.6 L567 112.4 L574 111.2 L581 109.9 L588 108.8 L595 107.6 L602 106.4 L609 105.3 L616 104.1 L623 103 L630 101.9 L637 100.8 L644 99.7 L651 98.6 L658 97.6 L665 96.5 L672 95.5 L679 94.5 L686 93.5 L693 92.5 L700 91.5 L707 90.5 L714 89.6 L721 88.6 L728 87.7 L735 86.8 L742 85.8 L749 84.9 L756 84 L763 83.2 L770 82.3"/><text class="legend legend--data" x="560" y="214">━ 50 kΩ (Pico internal)</text></g>
+<text class="axis-label" x="600" y="274">time (µs) · 50 pF bus</text>
+    </svg>
+
+    <p class="readout">Rise time: 4.7 kΩ <b>~0.2 µs</b> ✓ · 50 kΩ <b>~2.1 µs</b> ✕ · five 4.7 kΩ in parallel = 940 Ω, under the 967 Ω minimum</p>
+
+    <p class="caption qr-clear">
+      The Pico's internal pull-ups are 50–80 kΩ: fine on the desk, flaky on wires ·
+      <a href="https://www.nxp.com/docs/en/user-guide/UM10204.pdf" target="_blank" rel="noopener">NXP UM10204, the I²C specification</a>
+    </p>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live.
+      Thresholds 0.3 and 0.7 VDD (UM10204 3.1.2). The ~967 Ω minimum at
+      3.3 V and 3 mA is derived: five breakouts with 4.7 kΩ each go below it.
     </aside>
   </section>
 
   <!-- I2C PULL-UPS: why they add up, then the one chip that never lets go -->
-  <section>
+  <section class="slide--small-type">
     <header class="slide-head">
       <h2>I²C: resistors pull HIGH, chips pull LOW</h2>
     </header>
@@ -762,7 +825,7 @@ class BME280:
   </section>
 
   <!-- POWER BUDGET: what the board gives your parts, what one pin gives, how to check -->
-  <section>
+  <section class="slide--small-type">
     <header class="slide-head">
       <h2>Power budget</h2>
     </header>
@@ -797,7 +860,7 @@ class BME280:
       </div>
     </div>
 
-    <ul class="power-check qr-clear">
+    <ul class="power-check">
       <li><b>Add up</b> the datasheets: BME280 under 1 mA · OLED ~20 mA · NeoPixel up to 60 mA · servo, hundreds.</li>
       <li><b>Measure</b> with a USB power meter, or a multimeter in series.</li>
     </ul>

@@ -54,7 +54,7 @@
 }
 
 /* A steady left edge and fewer competing accents. */
-[data-theme="refined"] .reveal { font-size: 27px; letter-spacing: 0; }
+[data-theme="refined"] .reveal { letter-spacing: 0; }
 [data-theme="refined"] .reveal h2 { font-size: 54px; letter-spacing: -.025em; }
 [data-theme="refined"] .reveal .slide-head {
   margin-bottom: 38px;
@@ -79,7 +79,7 @@
   top: .55em;
   border-width: 2px;
 }
-[data-theme="refined"] .reveal ol { max-width: 34em; }
+[data-theme="refined"] .reveal ol:not(.list--wide) { max-width: 34em; }
 [data-theme="refined"] .reveal ol li {
   padding-left: 2.6em;
   margin-bottom: .8em;
@@ -193,12 +193,6 @@
   border-color: color-mix(in srgb, var(--pcb-silk) 18%, transparent);
   background: color-mix(in srgb, var(--pcb-board-panel) 45%, transparent);
   padding: 28px;
-}
-[data-theme="refined"] .reveal .panel[data-label]::before {
-  font-size: 12px;
-  letter-spacing: .13em;
-  top: -9px;
-  background: var(--pcb-board);
 }
 [data-theme="refined"] .reveal .pinout { font-size: 22px; }
 [data-theme="refined"] .reveal .pinout li {

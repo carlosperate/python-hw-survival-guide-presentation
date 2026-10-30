@@ -115,8 +115,10 @@
   </g>
 
   <g fill="var(--pcb-gold, #FDCA42)" fill-opacity="0.22">
-    <circle cx="58" cy="628" r="3" /><circle cx="76" cy="628" r="3" /><circle cx="94" cy="628" r="3" />
-    <circle cx="58" cy="646" r="3" /><circle cx="76" cy="646" r="3" /><circle cx="94" cy="646" r="3" />
-    <circle cx="58" cy="664" r="3" /><circle cx="76" cy="664" r="3" /><circle cx="94" cy="664" r="3" />
+    <circle cx="40" cy="564" r="3" /><circle cx="58" cy="564" r="3" />
+    <circle cx="40" cy="582" r="3" /><circle cx="58" cy="582" r="3" />
+    <circle cx="40" cy="600" r="3" /><circle cx="58" cy="600" r="3" />
+    <circle cx="40" cy="618" r="3" /><circle cx="58" cy="618" r="3" />
+    <circle cx="40" cy="636" r="3" /><circle cx="58" cy="636" r="3" />
   </g>
 </svg>
