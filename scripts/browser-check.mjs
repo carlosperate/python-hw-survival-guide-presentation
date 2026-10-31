@@ -47,7 +47,7 @@ const BODY_PX = 27;
 
 function args() {
   const opts = { browsers: 'chromium,firefox,webkit', devices: 'all', slides: '', theme: 'hybrid',
-    base: 'http://localhost:5173', out: '.screenshots' };
+    base: 'http://localhost:5173/presentation', out: '.screenshots' };
   const argv = process.argv.slice(2);
   for (let i = 0; i < argv.length; i += 2) opts[argv[i].replace(/^--/, '')] = argv[i + 1];
   return opts;
@@ -57,7 +57,7 @@ async function slideList(browser, opts) {
   if (opts.slides && opts.slides !== 'all') return opts.slides.split(',');
   if (!opts.slides) return DEFAULT_SLIDES;
   const page = await browser.newPage();
-  await page.goto(`${opts.base}/?theme=${opts.theme}`);
+  await page.goto(`${opts.base}?theme=${opts.theme}`);
   const count = await page.locator('.reveal .slides > section').count();
   await page.close();
   return Array.from({ length: count }, (_, i) => String(i));
@@ -86,7 +86,7 @@ async function check(name, opts, slides, results) {
     let n = 0;
     for (const slide of slides) {
       // A changed query forces a real load; a hash-only change would not.
-      const url = `${opts.base}/?theme=${opts.theme}&r=${n++}#/${slide}`;
+      const url = `${opts.base}?theme=${opts.theme}&r=${n++}#/${slide}`;
       // Vite restarts when dependencies change; give it one more chance.
       await page.goto(url).catch(() => page.waitForTimeout(3000).then(() => page.goto(url)));
       await page.locator('.reveal.ready').waitFor({ timeout: 10000 }).catch(() => {});

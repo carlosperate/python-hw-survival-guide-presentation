@@ -25,7 +25,7 @@ function qr(revealEl) {
   const tail = rest.length ? `<br>.${rest.join('.')}` : '';
   return `
     <div class="board__qr">
-      <img src="/images/qr.svg" alt="" />
+      <img src="${import.meta.env.BASE_URL}images/qr.svg" alt="" />
       <span class="board__qr-label">${head}${tail}</span>
     </div>`;
 }

@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 const INCLUDE = /<!--\s*@include\s+(\S+)\s*-->/g;
 
 /*
- * Inlines `<!-- @include path -->` into index.html, and into included files in
+ * Inlines `<!-- @include path -->` into the HTML entry pages, and into included files in
  * turn, so the deck can live in one file per part (and its art in files of its
  * own) while reveal and the build still see a single plain HTML page.
  * Runs before Vite's own HTML pass, so asset URLs in included files resolve.
@@ -45,4 +45,16 @@ function htmlIncludes() {
 
 export default defineConfig({
   plugins: [htmlIncludes()],
+  // Polling catches edits from sandboxed tools when filesystem events are missed.
+  server: {
+    watch: { usePolling: true, interval: 250 },
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        landing: resolve(import.meta.dirname, 'index.html'),
+        presentation: resolve(import.meta.dirname, 'presentation.html'),
+      },
+    },
+  },
 });

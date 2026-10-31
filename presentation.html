@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Python Hardware Survival Guide | PyCon ES 2026</title>
+  </head>
+  <body>
+    <!--
+      Slide recipes
+      -------------
+      data-board="cover"   full board artwork (traces, pin header, LEDs)
+      data-board="section" dimmed artwork, no pin header, for part dividers
+      (omitted)            frame + footer rail only, for content
+
+      class="is-centered"  centre the slide content vertically
+      class="section-slide" + data-part="02"  giant ghosted part number
+    -->
+    <!-- Shared by every diagram's arrows; outside the slides, so it renders
+         while the slide that would otherwise hold it is hidden. -->
+    <svg class="svg-defs" width="0" height="0" aria-hidden="true">
+      <defs>
+        <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path class="arrowhead" d="M0 0 L10 5 L0 10 z" />
+        </marker>
+        <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+          <path class="hatch-line" d="M0 0 V8" />
+        </pattern>
+      </defs>
+    </svg>
+    <div class="reveal" data-deck-url="https://pycones2026.embeddedlog.com">
+      <div class="slides">
+        <!-- One file per part, in running order. -->
+        <!-- @include slides/01-intro.html -->
+        <!-- @include slides/02-python-on-hardware.html -->
+        <!-- @include slides/03-resources.html -->
+        <!-- @include slides/04-drivers.html -->
+        <!-- @include slides/05-debugging.html -->
+        <!-- @include slides/06-tooling.html -->
+        <!-- @include slides/07-ai.html -->
+        <!-- @include slides/08-conclusion.html -->
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
