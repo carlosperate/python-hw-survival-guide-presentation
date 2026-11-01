@@ -1,9 +1,7 @@
 # Parts photos
 
-Photos of the parts on the Drivers slides. The `.webp` files are cut out of
-their backgrounds (macOS Vision foreground mask) and resized to 640 px wide;
-derivatives of CC BY-SA images carry the same licence. Licences were read on
-each file's own page on 2026-10-25.
+Photos of the parts on the Drivers slides. The image files are cut out of their
+backgrounds and resized; derivatives of CC BY-SA images carry the same licence.
 
 - `neopixel-ring.webp`: NeoPixel Ring 16, lit
   - Source: [Adafruit Learning System asset 30702](https://learn.adafruit.com/assets/30702)

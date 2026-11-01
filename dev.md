@@ -17,7 +17,7 @@ most common phone sizes, portrait and landscape, into `.screenshots/`. Options
 are in AGENTS.md, "Testing in browsers". To try it on your own phone, open
 `http://<your-mac's-LAN-IP>:5173` on the same Wi-Fi.
 
-**PDF:** open <http://localhost:5173/?print-pdf> in Chrome and print to PDF
+**PDF:** open <http://localhost:5173/presentation?print-pdf> in Chrome and print to PDF
 (landscape, no margins, background graphics on). Each fragment state becomes a
 page.
 
@@ -48,9 +48,9 @@ landscape a small full-screen button sits in the top-right corner.
 | To change | Edit |
 |---|---|
 | A slide | `slides/NN-part.html` |
-| Order of parts | the `@include` lines in `index.html` |
+| Order of parts | the `@include` lines in `presentation.html` |
 | Title, name, event | the cover in `slides/01-intro.html` |
-| Deck URL (QR caption) | `data-deck-url` on `.reveal` in `index.html` |
+| Deck URL (QR caption) | `data-deck-url` on `.reveal` in `presentation.html` |
 | QR code | regenerate `public/images/qr.svg` if the URL changes (square viewBox, same name) |
 | Colours, code size | `src/styles/tokens.css` (a theme sets its own in its `theme.css`) |
 | A drawing's colours and line weights | `src/styles/art/<name>.css` |
@@ -60,7 +60,7 @@ landscape a small full-screen button sits in the top-right corner.
 | A generated drawing (the owl slide's drawings, the deck map, the board scale) | its script in `scripts/art/`, then `python3 scripts/art/<name>.py` |
 
 Most components, with examples, are on the slides in `slides/09-demo.html`
-(the "Demo" part at the end of the deck).
+(a component reference, excluded from the published deck).
 
 ## Themes
 
@@ -71,11 +71,11 @@ choice. If a browser still opens in an old theme, press 1 or add
 
 | Key | Theme | What it is |
 |---|---|---|
-| 1 | [hybrid](http://localhost:5173/?theme=hybrid) | Default. Classic's board and palette, Oxanium titles, heavier type, a chip wired to the pin header on the cover, clean part dividers |
-| 2 | [hybrid-matte](http://localhost:5173/?theme=hybrid-matte) | Hybrid on a flat, darker mask with the traces tented under it; the cover's traces are the Python logo's yellow and blue |
-| 3 | [schematic](http://localhost:5173/?theme=schematic) | Each slide is a KiCad schematic sheet on paper, with a title block and the I2C circuit on the cover |
-| 4 | [classic](http://localhost:5173/?theme=classic) | The original board from `reports/mockup/mockup1.png`, light Roboto throughout |
-| 5 | [refined](http://localhost:5173/?theme=refined) | Cooler, bluer solder mask, heavier type, a QFN wired to a header on the cover, a small routing detail on content slides |
+| 1 | [hybrid](http://localhost:5173/presentation?theme=hybrid) | Default. Classic's board and palette, Oxanium titles, heavier type, a chip wired to the pin header on the cover, clean part dividers |
+| 2 | [hybrid-matte](http://localhost:5173/presentation?theme=hybrid-matte) | Hybrid on a flat, darker mask with the traces tented under it; the cover's traces are the Python logo's yellow and blue |
+| 3 | [schematic](http://localhost:5173/presentation?theme=schematic) | Each slide is a KiCad schematic sheet on paper, with a title block and the I2C circuit on the cover |
+| 4 | [classic](http://localhost:5173/presentation?theme=classic) | The original board from `reports/mockup/mockup1.png`, light Roboto throughout |
+| 5 | [refined](http://localhost:5173/presentation?theme=refined) | Cooler, bluer solder mask, heavier type, a QFN wired to a header on the cover, a small routing detail on content slides |
 
 A theme is a folder in `src/themes/` holding `frame.svg`, `cover.svg`,
 `parts.html` and an optional `theme.css`. Copy a folder to start a new one.
@@ -91,5 +91,4 @@ hybrid-matte and schematic live in `src/themes/hybrid/`.
 - Open the deck URL on a real Android phone and an iPhone: the turn-sideways card in
   portrait, Full screen on Android, and the slides in landscape.
 - Keep a PDF export as a fallback.
-- Get permission for the Pyboard D photo, or replace it, before publishing (see `public/images/boards/CREDITS.md`).
 - The timings (33–34 minutes) leave almost no buffer in the 35-minute slot. Slides marked "Cut-first" in their notes are the ones to drop.

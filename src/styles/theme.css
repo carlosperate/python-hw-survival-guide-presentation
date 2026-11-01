@@ -338,15 +338,21 @@
 }
 
 .reveal .controls {
-  color: var(--pcb-gold);
+  color: var(--pcb-controls-color);
+}
+
+/* The arrows' look, shared with the .nav-arrows picture on slides; themes set these. */
+:root {
+  --pcb-controls-color: var(--pcb-gold);
+  --pcb-chevron-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 20.5'%3E%3Cpath d='M2.5 2.5 18 18 33.5 2.5' fill='none' stroke='%23000' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --pcb-chevron-color: var(--pcb-gold);
 }
 
 /* Vertical slides are skipped live, so the down arrow streams on arrival and
    every 20s. Reveal's bounce, which stops once anyone goes down, is off. */
 .reveal .controls .navigate-down {
-  --chevron-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 20.5'%3E%3Cpath d='M2.5 2.5 18 18 33.5 2.5' fill='none' stroke='%23000' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   --chevron-step: 1.25em;
-  color: var(--pcb-gold);
+  color: var(--pcb-chevron-color);
   bottom: -0.8em; /* room for the bottom chevron to slide off */
 }
 
@@ -370,7 +376,7 @@
   width: 3.6em;
   height: 2.05em;
   background: currentColor;
-  mask: var(--chevron-mask) center / 100% 100% no-repeat;
+  mask: var(--pcb-chevron-mask) center / 100% 100% no-repeat;
 }
 
 .reveal .controls .navigate-down::before {

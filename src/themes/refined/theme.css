@@ -235,7 +235,8 @@
   background: color-mix(in srgb, var(--pcb-blue) 17%, transparent);
 }
 [data-theme="refined"] .reveal .hljs.has-highlights tr:not(.highlight-line) { opacity: .6; }
-[data-theme="refined"] .reveal .controls { color: var(--pcb-silk-mute); font-size: 8px; }
+:root[data-theme="refined"] { --pcb-controls-color: var(--pcb-silk-mute); }
+[data-theme="refined"] .reveal .controls { font-size: 8px; }
 [data-theme="refined"] .reveal .progress { height: 2px; }
 
 /* The screen chrome is one global object. Print pages get a quiet edge of
