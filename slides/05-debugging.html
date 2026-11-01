@@ -1,16 +1,789 @@
 <section class="section-slide is-centered" data-board="section" data-part="05">
   <h2>Debugging</h2>
   <span class="trace-rule"></span>
-  <p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
+  <p class="lede">Code, wiring, power or the part? From the outside they all look the same.</p>
 </section>
 
+<!-- THE PROBLEM: one symptom, a suspect per click -->
 <section>
   <header class="slide-head">
-    <h2>Lorem ipsum dolor</h2>
+    <h2>New sensor ready to go, but..</h2>
   </header>
 
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua.
-  </p>
+  <p class="lede">But nothing happens, not even an error. Could it be the...</p>
+
+  <ul class="list--wide suspects">
+    <li class="fragment"><b>Code?</b> the wrong pins, the wrong config, the wrong constructor?</li>
+    <li class="fragment"><b>Driver?</b> the wrong defaults, similar but different chip, incomplete implementation?</li>
+    <li class="fragment"><b>Wiring?</b> signals swapped, a loose jumper, a bad breadboard or solder joint?</li>
+    <li class="fragment"><b>Power?</b> no power to the sensor, wrong voltage, grounds aren't joined?</li>
+    <li class="fragment"><b>Part?</b> is it dead, fake, or a different version?</li>
+  </ul>
+
+  <p class="lede fragment">Where do we start?</p>
+
+  <aside class="notes">
+    A made-up but typical case: a suspect per click, and most of the room
+    has done at least one of these. On a laptop the bug is in your code.
+    Here it can be in five places, sometimes two at once, and there is no
+    debugger by default: you can't pause the board and look inside.
+    "Dead" includes a part cooked by 5 V on a 3.3 V pin. Guessing wastes
+    the evening. Agans: the rules cover "Software and Hardware Problems"
+    (Debugging: The 9 Indispensable Rules, 2006). Sources:
+    reports/debugging-tips.md. Next: a method that works for code and wires.
+  </aside>
+</section>
+
+<!-- THE METHOD: a step per click -->
+<section>
+  <section>
+    <header class="slide-head">
+      <h2>Stop guessing, start debugging</h2>
+    </header>
+
+    <ol class="method list--wide">
+      <li class="fragment" data-fragment-index="0"><b>Look first:</b> smoke, heat, a burnt smell? Unplug. Then check the LEDs and wires.</li>
+      <li class="fragment" data-fragment-index="1"><b>Check power & cables:</b> measure voltage & ground, check signal directions and pins.</li>
+      <li class="fragment" data-fragment-index="2"><b>Make it fail:</b> the smallest test that consistently reproduces the issue.</li>
+      <li class="fragment" data-fragment-index="3"><b>Change one thing at a time:</b> and write down what you changed.
+        <div class="meme fragment current-visible" data-fragment-index="3">
+          <img src="/images/other/mythbusters-writing-it-down.jpg" alt="Adam Savage on MythBusters, holding up a clipboard" />
+          <blockquote class="quote quote--aside">
+            "Remember kids, the only difference between screwing around and science is writing it down."
+          </blockquote>
+        </div>
+      </li>
+      <li class="fragment" data-fragment-index="4"><b>Get a fresh view:</b> explain it, or ask online/ai. Include code, wiring & the error.</li>
+    </ol>
+
+    <aside class="notes">
+      Cheapest and safest first, after David Agans' nine rules: Quit Thinking
+      and Look, Check the Plug, Make it Fail with Divide and Conquer, Change
+      One Thing at a Time with Keep an Audit Trail, Get a Fresh View.
+      Look first: "Feel for any excessively hot components" and burned parts
+      have "a nasty and characteristic smell" (Circuit Basics, How to
+      troubleshoot and repair); Elektor's "See me, feel me, hear me" (Jan
+      Buiting, 2017) uses the senses "for a first diagnosis only". Unplugging
+      first is common practice, not from those sources. Feel near a part, not
+      on it: a shorted regulator can burn.
+      Measure, don't assume: a wire that looks right can be in the wrong row.
+      Make it fail, small: a test that fails every time tells you when a
+      change fixed it; the smallest one says which half the fault is in.
+      Prevention: build and test in small steps, one part working before the
+      next (UC Davis EEC18 lab tips). It won't catch faults that only appear
+      together, like total current. Asking for help: say what you've tried.
+      The quote is the popular wording; Savage credited ballistics expert
+      Alexander Jason (2012 talk). Image: a MythBusters still, not openly
+      licensed. It goes when step 5 comes in.
+      Press down for all nine rules. Next: power and cables.
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>The nine rules</h2>
+    </header>
+
+    <div class="cols">
+      <ol class="rules-nine">
+        <li>Understand the system</li>
+        <li>Make it fail</li>
+        <li>Quit thinking and look</li>
+        <li>Divide and conquer</li>
+        <li>Change one thing at a time</li>
+      </ol>
+      <ol class="rules-nine" start="6">
+        <li>Keep an audit trail</li>
+        <li>Check the plug</li>
+        <li>Get a fresh view</li>
+        <li>If you didn't fix it, it ain't fixed</li>
+      </ol>
+    </div>
+
+    <p class="caption qr-clear">
+      David J. Agans, <i>Debugging: The 9 Indispensable Rules for Finding Even the Most Elusive Software and Hardware Problems</i> ·
+      <a href="https://embeddedartistry.com/blog/2017/9/6/debugging-9-indispensable-rules" target="_blank" rel="noopener">Embedded Artistry summary</a> ·
+      <a href="https://interrupt.memfault.com/blog/debugging-steps" target="_blank" rel="noopener">Interrupt: debugging ill-defined problems</a>
+    </p>
+
+    <aside class="notes">
+      Vertical slide, skipped live. The book is from 2002 (AMACOM, 2006 paperback);
+      the rules haven't aged. Interrupt's nine steps (Riddiford, April 2025)
+      start with "see what changed" and end with "ask for help".
+    </aside>
+  </section>
+</section>
+
+<!-- POWER & CABLES: a check per click, the brownout drawn with the last;
+     wiring and solder joints below -->
+<section>
+  <section>
+    <header class="slide-head">
+      <h2>Check power &amp; cables</h2>
+    </header>
+
+    <ul class="list--wide power-checks">
+      <li class="fragment" data-fragment-index="0"><b>Cable:</b> Some USB cable only charge. Use a known&#8209;good data cable.</li>
+      <li class="fragment" data-fragment-index="1"><b>Battery banks:</b> Some switch off when the board draws too little current.</li>
+      <li class="fragment" data-fragment-index="2"><b>Voltage:</b> Ensure the right voltage level is used for your device and any components.</li>
+      <li class="fragment" data-fragment-index="3"><b>Ground:</b> Has to be shared by every board and supply. Breadboard rails can be split.</li>
+      <li class="fragment" data-fragment-index="4"><b>Under load:</b> Resets when a motor or Wi-Fi starts? A brownout. A meter misses it.</li>
+    </ul>
+
+    <svg class="diagram brownout fragment" data-fragment-index="4" viewBox="0 0 780 164" width="780" height="164" role="img">
+      <title>Supply voltage dips below the brownout threshold when a load starts; the chip resets and reports a power-on reset</title>
+      <text class="axis-label" x="0" y="54">3.3 V</text>
+      <line class="axis" x1="100" y1="20" x2="100" y2="134"/>
+      <line class="axis" x1="100" y1="134" x2="770" y2="134"/>
+      <text class="axis-label" x="770" y="126" text-anchor="end">time (ms)</text>
+      <line class="threshold" x1="100" y1="91" x2="770" y2="91"/>
+      <text class="axis-label axis-label--alert" x="0" y="97">brownout</text>
+      <path class="lane lane--data" d="M100 48 H323"/>
+      <line class="marker" x1="323" y1="26" x2="323" y2="134"/><text class="lane-note" x="323" y="14">Wi-Fi TX burst, motor starts, etc</text>
+      <path class="lane lane--data" d="M323 48 C352 51 367 109 382 113 S 413 115 430 103"/>
+      <text class="cross" x="374" y="100">✕</text><text class="console" x="323" y="160">Brownout detector was triggered</text>
+      <path class="lane lane--data" d="M430 103 V134 H488 C518 134 537 48 576 48 H770"/><text class="console console--ok" x="770" y="36" text-anchor="end">reset_cause() == PWRON_RESET</text>
+    </svg>
+
+    <aside class="notes">
+      A check per click, cheapest first; SparkFun's order is the supply
+      voltage, then shorts, then each chip's VCC and GND ("The multimeter is
+      your first defense when troubleshooting a system", How to Use a
+      Multimeter). Cable: "A surprising number of USB cables are designed to
+      only handle power and not data"; use a "known-good USB data cable", then
+      another port (Adafruit, Welcome to CircuitPython). Battery pack: the
+      micro:bit hardware page advises against USB battery packs, some of which
+      switch off at low current (tech.microbit.org/hardware/power-supply).
+      Voltage: a meter on 3V3 and GND at the board, then on the part's own
+      pins. Ground: a logic level is a voltage against GND, so every board and
+      supply needs one in common. Breadboards: "the power rails on either side
+      are not connected", and some split each rail in the middle (SparkFun,
+      How to Use a Breadboard). Not on the slide: with the power off, 3V3 to
+      GND must not beep on continuity; a brief chirp is capacitors
+      charging.
+      Under load: a brownout looks like a code bug. ESP32 prints "Brownout
+      detector was triggered", and "if voltage drops rapidly, only partial
+      console output may appear before reset" (ESP-IDF Fatal Errors), hence
+      the cut-off line. Espressif lists the supply, the cable and a capacitor
+      as fixes, the threshold last. reset_cause() maps ESP_RST_BROWNOUT to
+      PWRON_RESET (ports/esp32/modmachine.c), so the software thinks you
+      plugged it in. CircuitPython on ESP32 and nRF52 enters safe mode: "Power
+      dipped. Make sure you are providing enough power." The RP2040/RP2350
+      port doesn't detect it: the board just resets. A meter averages, so it
+      misses the dip; a USB meter or a scope catches it (Tooling). The graph
+      is illustrative, with no threshold number: the ESP32 default is
+      unverified. Replace it with a real scope capture if you have one.
+      Press down for wiring and solder joints. Next: let the board tell you.
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>Wiring: look, wiggle, swap</h2>
+    </header>
+
+    <p class="lede">Fine sometimes, and flaky others? Maybe something moved.</p>
+
+    <div class="cards cards--readable">
+      <div class="panel" data-label="Look">
+        <p>A good solder joint is smooth and concave. Lumpy or grainy may not connect at all. Headers must be soldered, not just pushed in.</p>
+      </div>
+      <div class="panel" data-label="Wiggle">
+        <p>Press on wires and parts as it runs. Comes and goes as you move? A connection. Changes with just a hand nearby? A floating input: add <code>Pin.PULL_UP</code>/<code>DOWN</code>.</p>
+      </div>
+      <div class="panel" data-label="Swap">
+        <p>Another wire, another sensor, another board. A part you know works tells you which half is broken.</p>
+      </div>
+    </div>
+
+    <p class="caption qr-clear">
+      <a href="https://learn.adafruit.com/adafruit-guide-excellent-soldering/common-problems" target="_blank" rel="noopener">Adafruit: common soldering problems</a>
+    </p>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live. Illustrative story.
+      Adafruit Guide to Excellent Soldering: a cold joint looks rough, lumpy
+      or grainy, is unreliable and can crack later; a good one has a smooth,
+      concave fillet; reheat with flux until it flows. Wiggling and swapping
+      are common practice, not from a single source.
+      Floating pins: an input with nothing connected, or a wire to nothing,
+      "will report seemingly random changes in pin state, picking up
+      electrical noise from the environment, or capacitively coupling the
+      state of a nearby pin" (Arduino docs, Digital Pins); the same high
+      impedance is what makes capacitive touch sensing work, so a hand nearby
+      is enough. A button wired without a pull resistor is the usual case.
+      MicroPython: Pin(BUTTON_PIN, Pin.IN, Pin.PULL_UP); not every port has
+      PULL_DOWN. CircuitPython: pin.pull = digitalio.Pull.UP.
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>Good and bad solder joints</h2>
+    </header>
+
+    <ul class="list--wide">
+      <li>If you've done the soldering, check your joints carefully</li>
+    </ul>
+
+    <svg class="diagram joints" viewBox="0 26 900 194" width="900" height="194" role="img">
+      <title>Side views of three solder joints: a good concave fillet, a cold lumpy joint, and a ball that has not wetted the pad</title>
+      <g transform="translate(60 0)">
+        <rect class="joint-board" x="0" y="150" width="200" height="22"/>
+        <rect class="joint-pad" x="40" y="142" width="120" height="8"/>
+        <rect class="joint-pin" x="92" y="30" width="16" height="160"/>
+        <path class="joint-solder" d="M40 142 Q92 138 92 70 L108 70 Q108 138 160 142 Z"/>
+        <text class="joint-name" x="100" y="208">good: smooth, concave</text>
+      </g>
+      <g transform="translate(350 0)">
+        <rect class="joint-board" x="0" y="150" width="200" height="22"/>
+        <rect class="joint-pad" x="40" y="142" width="120" height="8"/>
+        <rect class="joint-pin" x="92" y="30" width="16" height="160"/>
+        <path class="joint-solder joint-solder--bad" d="M52 142 C40 120 60 92 78 100 C86 80 118 80 124 100 C146 92 162 122 148 142 Z"/>
+        <text class="joint-name" x="100" y="208">cold: lumpy, grainy</text>
+      </g>
+      <g transform="translate(640 0)">
+        <rect class="joint-board" x="0" y="150" width="200" height="22"/>
+        <rect class="joint-pad" x="40" y="142" width="120" height="8"/>
+        <rect class="joint-pin" x="92" y="30" width="16" height="160"/>
+        <circle class="joint-solder joint-solder--bad" cx="100" cy="96" r="30"/>
+        <text class="joint-name" x="100" y="208">ball: never touched the pad</text>
+      </g>
+    </svg>
+
+    <ul class="list--wide">
+      <li>Breadboards: the two long rails on each side are separate, and some are split in the middle. Check with a meter.</li>
+      <li>Jumper wires break inside the plastic. If in doubt, swap it.</li>
+    </ul>
+
+    <p class="caption qr-clear">
+      <a href="https://learn.adafruit.com/adafruit-guide-excellent-soldering/common-problems" target="_blank" rel="noopener">Adafruit: common soldering problems</a> ·
+      <a href="https://learn.sparkfun.com/tutorials/how-to-use-a-breadboard/all" target="_blank" rel="noopener">SparkFun: how to use a breadboard</a>
+    </p>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live. Drawings are schematic,
+      not to scale; the
+      Adafruit guide has photos of each case. SparkFun: "the power rails on
+      either side are not connected", and some breadboards isolate one half of
+      a rail from the other: "use a multimeter to check". Broken jumpers are
+      common practice, not sourced.
+    </aside>
+  </section>
+</section>
+
+<!-- YOUR HABITS: one row per click, its snippet below; rows and snippets share indices -->
+<section>
+  <section>
+    <header class="slide-head">
+      <h2>Most of your debugging habits still work</h2>
+    </header>
+
+    <table class="habits habits--tight habits--split">
+      <tbody>
+        <tr class="fragment dim-past" data-fragment-index="0"><td>Tracebacks, <code>print()</code></td><td>Stdout is serial via USB cable: keep a terminal open</td></tr>
+        <tr class="fragment dim-past" data-fragment-index="1"><td><code>logging</code></td><td>With filesystem access you can log into a file </td></tr>
+        <tr class="fragment dim-past" data-fragment-index="2"><td>REPL</td><td>An interactive shell can poke the live hardware</td></tr>
+        <tr class="fragment dim-past" data-fragment-index="3"><td>cProfile</td><td>time it on the chip, or on a spare pin ↓</td></tr>
+      </tbody>
+    </table>
+
+    <div class="r-stack swap qr-clear">
+      <pre class="terminal fragment current-visible" data-fragment-index="0" data-label="Tracebacks and print() sent via USB serial"><span class="terminal__out">Traceback (most recent call last):</span>
+<span class="terminal__out">  File "main.py", line 14, in &lt;module&gt;</span>
+<span class="terminal__out">OSError: [Errno 5] EIO</span>
+<span class="terminal__in">&gt;&gt;&gt;</span></pre>
+      <pre class="fragment current-visible" data-fragment-index="1"><code class="language-python" data-trim>
+except Exception as e:
+    log.exception("failed", exc_info=e)  # or no traceback
+    handler.stream.flush()               # or lost on a reset
+      </code></pre>
+      <pre class="terminal fragment current-visible" data-fragment-index="2" data-label="The REPL, over USB"><span class="terminal__in">&gt;&gt;&gt; i2c.scan()        # ask the live bus</span>
+<span class="terminal__out">[118]</span>
+<span class="terminal__in">&gt;&gt;&gt; led.value(1)      # and the LED lights up</span></pre>
+      <pre class="fragment" data-fragment-index="3"><code class="language-python" data-trim>
+t0 = time.ticks_us()
+read_sensor()
+print(time.ticks_diff(time.ticks_us(), t0), "µs")
+      </code></pre>
+    </div>
+
+    <aside class="notes">
+      Most of what you do on a laptop still works. What's missing is the
+      operating system under it, and your stdout is a USB cable. A row per
+      click, its snippet below. Sources: reports/debugging-for-developers.md.
+      Same: an uncaught exception, or main.py ending, leaves a MicroPython
+      board at the REPL with the traceback printed only to the serial console
+      ("MicroPython will drop to the REPL following any crash or if main
+      exits", reset_boot docs). CircuitPython drops console output when no
+      host is connected. EIO is the Pico's I2C error; other ports differ.
+      Better: the REPL talks to the real pins and buses; mpremote mount runs
+      your laptop's files on the board without copying.
+      Changed, logging: micropython-lib's FileHandler doesn't flush on each
+      line, and shutdown only runs where sys.atexit exists (unix, windows), so
+      the last lines before a reset can be lost; log.exception() can't find
+      the exception on a board (sys.exc_info is compiled out), so pass
+      exc_info=e. CircuitPython's adafruit_logging has no logger hierarchy.
+      Changed, timing: ticks_us() and ticks_diff() (MicroPython time docs);
+      a spare pin on a logic analyser, press down. CircuitPython has no
+      ticks_us(): time.monotonic_ns(), except on boards without long ints
+      (shared-bindings/time).
+      Press down for timing and four kinds of silence. Next: the habits that
+      need a workaround.
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>Make time visible</h2>
+    </header>
+
+    <p class="lede">No profiler on the board: time your code with a spare pin, or with ticks.</p>
+
+    <div class="cols cols--fit">
+      <pre class="compact"><code class="language-python" data-trim>
+dbg = Pin(DEBUG_PIN, Pin.OUT)   # any free pin
+dbg.on(); read_sensor(); dbg.off()
+      </code></pre>
+      <pre class="compact"><code class="language-python" data-trim>
+t0 = time.ticks_us(); read_sensor()
+print(time.ticks_diff(time.ticks_us(), t0))
+      </code></pre>
+    </div>
+
+    <svg class="diagram" viewBox="0 -28 820 160" width="820" height="160" role="img">
+      <title>Logic-analyser lanes: a debug-pin pulse answers each interrupt, one runs long, then the interrupts go unanswered</title>
+<text class="lane-label" x="0" y="23">DEBUG</text>
+<text class="lane-label" x="0" y="87">IRQ</text>
+<path class="lane lane--data" d="M0 34 H80 V0 H106 V34 H170 V0 H196 V34 H260 V0 H286 V34 H350 V0 H376 V34 H440 V0 H466 V34 H530 V0 H556 V34 H800"/>
+<rect class="lane-mask" x="432" y="-6" width="90" height="46"/><path class="lane lane--data lane--alert" d="M432 34 H440 V0 H514 V34 H522"/><text class="lane-note" x="478" y="-14">GC pause or blocking call</text>
+<path class="lane lane--clk" d="M0 98 H72 V64 H78 V98 H162 V64 H168 V98 H252 V64 H258 V98 H342 V64 H348 V98 H432 V64 H438 V98 H522 V64 H528 V98 H612 V64 H618 V98 H702 V64 H708 V98 H780 V64 H786 V98 H800"/>
+<text class="lane-note lane-note--alert" x="640" y="124">✕ no response: handler raised, IRQ disabled</text>
+    </svg>
+    <p class="caption qr-clear">Illustrative capture · DEBUG: your pin, high while the code runs · IRQ: the interrupt</p>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live. No cProfile on the board:
+      ticks_us() measures inside the chip, and a spare pin lets you measure
+      from outside on a logic analyser, where pauses and missed interrupts
+      show up. Peter Hinch's micropython-monitor turns asyncio task activity
+      into pin pulses and has a hog detector. A hard IRQ handler that raises
+      is disabled (shared/runtime/mpirq.c), so later IRQs go unanswered.
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>Time every call with a decorator</h2>
+    </header>
+
+    <p class="lede">Put <code>@timed</code> above a function, and each call prints how long it took.</p>
+
+    <div class="cols cols--wide-left">
+      <pre class="compact"><code class="language-python" data-trim>
+import gc, time
+
+def timed(f):
+    name = str(f).split()[1]  # portable name
+    def wrapper(*args, **kwargs):
+        gc.collect()  # no GC mid-timing
+        t0 = time.ticks_us()
+        result = f(*args, **kwargs)
+        dt = time.ticks_diff(time.ticks_us(), t0)
+        print(name, dt, "us")
+        return result
+    return wrapper
+      </code></pre>
+
+      <ul>
+        <li>Time a few calls: the first is often slower.</li>
+        <li>Ticks wrap: use <code>ticks_diff()</code>.</li>
+        <li>On <code>async def</code> it only times making the coroutine.</li>
+        <li>CircuitPython: use <code>time.monotonic_ns()</code>.</li>
+      </ul>
+    </div>
+
+    <p class="caption qr-clear">
+      <a href="https://docs.micropython.org/en/latest/reference/speed_python.html" target="_blank" rel="noopener">MicroPython docs: maximising speed</a> ·
+      <a href="https://gist.github.com/carlosperate/49c1605827e6912ee61d8a1a992115f8" target="_blank" rel="noopener">the original gist</a>
+    </p>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live. The docs' own
+      @timed_function (Maximising MicroPython speed, still there in v1.29),
+      tidied: it keeps the function's name, prints whole microseconds and
+      collects first so a GC pause can't land in the timing. str(f).split()[1]
+      is the docs' trick: f.__name__ needs MICROPY_PY_FUNCTION_ATTRS, on for
+      rp2, esp32 and nrf but not in the micro:bit V2 build. Run 30 October 2026
+      on MicroPython 1.29's unix port: functions and methods, with keyword
+      arguments; the first call took 212 µs, the next two 38 and 50 µs. On an
+      async def it printed 15 µs for a coroutine that sleeps 50 ms: time inside
+      the coroutine instead. Ticks wrap round, and ticks_diff() and ticks_add()
+      handle it where subtraction doesn't (MicroPython time docs).
+      CircuitPython: time.monotonic_ns(), "Not available on boards without
+      long integer support"; supervisor.ticks_ms() wraps after 2**29 ms, first
+      about 65 s after power-on, "making it feasible to check that your program
+      works properly around an overflow" (shared-bindings/time and supervisor,
+      checked 29 October 2026).
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>Four kinds of silence</h2>
+    </header>
+
+    <div class="cards">
+      <div class="panel" data-label="Raised">
+        <h4>Stopped</h4>
+        <p>Traceback lost, board idle at the REPL</p>
+        <p class="readout">→ terminal, log to a file</p>
+      </div>
+      <div class="panel" data-label="Rebooted">
+        <h4>Restarted</h4>
+        <p>C crash, watchdog, brownout</p>
+        <p class="readout">→ <code>reset_cause()</code></p>
+      </div>
+      <div class="panel" data-label="Stuck">
+        <h4>Frozen</h4>
+        <p>Endless loop, blocking I/O, SDA held LOW</p>
+        <p class="readout">→ Ctrl-C, watchdog</p>
+      </div>
+      <div class="panel" data-label="Partly dead">
+        <h4>Half working</h4>
+        <p>A hard interrupt handler raised: that interrupt is now off</p>
+        <p class="readout">→ emergency exception buffer</p>
+      </div>
+    </div>
+
+    <aside class="notes">
+      Vertical slide, skipped live. CircuitPython blinks 2 red for an exception
+      (Adafruit troubleshooting). ESP32 C crashes print "Guru Meditation Error"
+      (ESP-IDF Fatal Errors). "If an ISR raises an exception it will not
+      propagate to the main loop. The interrupt will be disabled" (isr_rules):
+      use micropython.alloc_emergency_exception_buf(100) to see the traceback.
+      Only hard handlers are switched off; soft handlers, the default, print a
+      traceback and keep firing (shared/runtime/mpirq.c;
+      reports/micropython-debugging-code.md).
+      Blocking calls stall the asyncio scheduler (micropython-monitor). Stuck:
+      a reset mid-I2C-transfer restarts the board but not the sensor, which can
+      keep SDA LOW until power is cycled.
+    </aside>
+  </section>
+</section>
+
+<!-- HABITS, CONTINUED: the ones with no direct equivalent -->
+<section>
+  <header class="slide-head">
+    <h2>Habits that need a workaround</h2>
+  </header>
+
+  <table class="habits habits--tight habits--split">
+    <tbody>
+      <tr class="fragment dim-past" data-fragment-index="0"><td><code>breakpoint()</code>, pdb</td><td>not in the firmware you downloaded</td></tr>
+      <tr class="fragment dim-past" data-fragment-index="1"><td>pytest, pdb, cProfile</td><td>off the board: keep the logic plain Python</td></tr>
+      <tr class="fragment dim-past" data-fragment-index="2"><td>systemd restarts it</td><td>restart yourself, from <code>main.py</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="r-stack swap qr-clear">
+    <pre class="terminal fragment current-visible" data-fragment-index="0" data-label="Stock firmware"><span class="terminal__in">&gt;&gt;&gt; import sys</span>
+<span class="terminal__in">&gt;&gt;&gt; hasattr(sys, "settrace")    # what pdb is built on</span>
+<span class="terminal__out">False</span></pre>
+    <pre class="terminal fragment current-visible" data-fragment-index="1" data-label="On your laptop"><span class="terminal__in">$ pytest test_readings.py</span>
+<span class="terminal__in">$ python -m pdb test_readings.py</span>
+<span class="terminal__in">$ python -m cProfile test_readings.py</span>
+<span class="terminal__in">$ BLINKA_FT232H=1 python read_bme280.py   # real sensor</span></pre>
+    <pre class="fragment" data-fragment-index="2"><code class="language-python" data-trim>
+try:
+    app.run()
+except Exception as e:
+    sys.print_exception(e)
+machine.reset()          # nothing else restarts you
+    </code></pre>
+  </div>
+
+  <aside class="notes">
+    The rest have no direct equivalent on the board. A row per click, its
+    snippet below.
+    Missing: sys.settrace is compiled out of pre-built firmware
+    (MICROPY_PY_SYS_SETTRACE is 0; sys docs) and CircuitPython has none.
+    GHI Electronics' VS Code debugger (September 2026) steps through
+    MicroPython on RP2040, RP2350 and ESP32 boards, on its own firmware;
+    debugpy (micropython-lib PR #1022) was still open on 29 October 2026.
+    Recheck both the week of the talk.
+    Off the board: keep the maths and parsing in plain Python, with no
+    machine, board or micropython imports, and CPython runs it with pytest,
+    pdb and cProfile. Don't say "runs unchanged": const(), ticks_ms() and
+    the hardware modules don't exist there. Blinka with an FT232H USB adapter
+    drives real I2C or SPI sensors from desktop CPython with the CircuitPython
+    drivers (BLINKA_FT232H=1; not I2C and SPI at once, no UART, analogue or
+    PWM; Adafruit, CircuitPython on any computer with FT232H). Wokwi for VS
+    Code simulates a MicroPython board, and mpremote connects to it over
+    RFC2217 (Wokwi docs). Not verified: the unix port, fake machine modules.
+    Sources: reports/board-debugging-tricks.md.
+    Missing, a supervisor: the docs' own pattern wraps main.py and calls
+    machine.reset() (reset_boot docs, v1.25 onwards). Ctrl-C still works:
+    KeyboardInterrupt isn't an Exception.
+    Next: what you get instead of a breakpoint.
+    </aside>
+</section>
+
+<!-- TRICKS: one trick per click, its code on the right -->
+<section>
+  <section class="is-body-centered">
+    <header class="slide-head">
+      <h2>Tricks only these Pythons have</h2>
+    </header>
+
+    <div class="cols cols--fit">
+      <ul>
+        <li class="fragment fade-in-then-semi-out" data-fragment-index="0">Ctrl-C is your breakpoint: globals stay</li>
+        <li class="fragment fade-in-then-semi-out" data-fragment-index="1">Locals don't: copy them to a global</li>
+        <li class="fragment fade-in-then-semi-out" data-fragment-index="2">Or <code>peek()</code> at them, and carry on</li>
+        <li class="fragment fade-in-then-semi-out" data-fragment-index="3">Run it with <code>exec()</code>, not <code>import</code></li>
+        <li class="fragment fade-in-then-semi-out" data-fragment-index="4">CircuitPython keeps only the traceback</li>
+        <li class="fragment fade-in-then-semi-out" data-fragment-index="5">Log why it reset, first thing ↓</li>
+      </ul>
+
+      <div class="r-stack swap">
+        <div class="fragment current-visible" data-fragment-index="0">
+          <pre class="compact"><code class="language-python" data-trim>
+# main.py, top level
+reading = sensor.read()
+if reading > LIMIT:
+    while True: pass      # stop here: Ctrl-C
+          </code></pre>
+          <pre class="terminal compact" data-label="MicroPython REPL"><span class="terminal__out">KeyboardInterrupt:</span>
+<span class="terminal__in">&gt;&gt;&gt; reading</span>
+<span class="terminal__out">4095</span></pre>
+        </div>
+        <pre class="compact fragment current-visible" data-fragment-index="1"><code class="language-python" data-trim>
+def check(raw):
+    global last
+    value = convert(raw)
+    last = (raw, value)  # kept after Ctrl-C
+        </code></pre>
+        <pre class="compact fragment current-visible" data-fragment-index="2"><code class="language-python" data-trim>
+def peek(**names):           # peek(raw=raw)
+    while True:
+        e = input("peek> ")
+        if not e: return     # blank: carry on
+        try: print(eval(e, globals(), names))
+        except Exception as err: print(err)
+        </code></pre>
+        <pre class="terminal compact fragment current-visible" data-fragment-index="3" data-label="MicroPython REPL"><span class="terminal__in">&gt;&gt;&gt; import app                    # Ctrl-C</span>
+<span class="terminal__out">KeyboardInterrupt:</span>
+<span class="terminal__in">&gt;&gt;&gt; app.count</span>
+<span class="terminal__out">NameError: name 'app' isn't defined</span>
+<span class="terminal__in">&gt;&gt;&gt; exec(open("app.py").read())   # Ctrl-C</span>
+<span class="terminal__out">KeyboardInterrupt:</span>
+<span class="terminal__in">&gt;&gt;&gt; count</span>
+<span class="terminal__out">97392904</span></pre>
+        <pre class="compact fragment current-visible" data-fragment-index="4"><code class="language-python" data-trim>
+# CircuitPython: a fresh REPL, no globals
+import supervisor
+print(supervisor.get_previous_traceback())
+        </code></pre>
+        <pre class="compact fragment" data-fragment-index="5"><code class="language-python" data-trim>
+# first thing in main.py
+cause = machine.reset_cause()
+if cause == machine.WDT_RESET:
+    print("hung?")    # not always ↓
+        </code></pre>
+      </div>
+    </div>
+
+    <aside class="notes">
+      What only these Pythons give you, one per click, its code on the right.
+      Breakpoint: main.py and the REPL share one globals dict, so after Ctrl-C
+      or an uncaught exception main.py's top-level variables are still at
+      >>> ("Any global variables that were set in boot.py and main.py will
+      still be set in the global context of the REPL", reset_boot docs;
+      shared/runtime/pyexec.c). Not after sys.exit() on rp2 and esp32, or any
+      soft reset (Ctrl-D, tools that soft-reset first). Ctrl-C can't get in
+      after micropython.kbd_intr(-1), inside some blocking C calls, or under a
+      bare except. One way only: you can't carry on. 4095 is illustrative.
+      Locals: MicroPython keeps them in slots, so locals() in a function gives
+      the module's names (cpydiff, core language).
+      peek(): eval() takes globals and locals dicts (py/builtinevex.c). Take
+      the input() calls out before deploying: they wait for ever with nothing
+      attached. CircuitPython's three-argument eval() not checked.
+      exec(): since v1.21 a module whose import raises is dropped from
+      sys.modules (commit a79a6ab), as in CPython, so nothing is left to look
+      at. Or keep the loop in app.run(), import cleanly, then read app.count.
+      CircuitPython: "the REPL is a fresh vm" (README); get_previous_traceback()
+      keeps the last code.py traceback, Ctrl-C included, over a soft reload.
+      Tested 30 October 2026 on MicroPython 1.29's unix port (Docker image
+      micropython/unix): peek(), import against exec() (the terminal is
+      trimmed from that run), locals lost. Not run on a board. Sources:
+      reports/board-debugging-tricks.md.
+      Press down for what each port's reset_cause() can tell apart. Next: a
+      defensive main.py, the supervisor you don't have.
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>Why did it reset?</h2>
+    </header>
+
+    <p><code>machine.reset_cause()</code> says why the board last started. Each port tells apart different causes:</p>
+
+    <ul class="pinout pinout--wide">
+      <li><span class="pinout__pin">Pico</span><span class="pinout__net">power-on or watchdog only; <code>machine.reset()</code> uses the watchdog</span></li>
+      <li><span class="pinout__pin">ESP32</span><span class="pinout__net">a brownout reads as power-on, a crash as <code>HARD_RESET</code></span></li>
+      <li><span class="pinout__pin">micro:bit</span><span class="pinout__net">no <code>reset_cause()</code> at all</span></li>
+      <li><span class="pinout__pin">CircuitPython</span><span class="pinout__net"><code>microcontroller.cpu.reset_reason</code>; RP2350 adds brownout</span></li>
+    </ul>
+
+    <p class="readout qr-clear">Another board? Its port's <code>modmachine.c</code> lists what it can tell apart.</p>
+
+    <aside class="notes">
+      Vertical slide, skipped live. Read in MicroPython v1.29.0's source, not
+      run. rp2 (ports/rp2/modmachine.c): reset_cause() only asks the SDK's
+      watchdog_caused_reboot(), so the RUN button, power-on and a brownout all
+      read PWRON_RESET (issues #10898, #13009). machine.reset() is
+      watchdog_reboot(), and machine.deepsleep() ends in machine.reset(), so
+      both should read WDT_RESET, like a real timeout: check on your board.
+      esp32 (ports/esp32/modmachine.c): ESP_RST_SW (machine.reset()),
+      ESP_RST_PANIC (a C crash) and ESP_RST_EXT read HARD_RESET, though ESP-IDF
+      says the original ESP32 never returns ESP_RST_EXT; a brownout reads
+      PWRON_RESET; the three watchdogs WDT_RESET; a deep-sleep wake
+      DEEPSLEEP_RESET; after any soft reset, SOFT_RESET whatever the cause.
+      micro:bit V2: its machine module has no reset_cause()
+      (micropython-microbit-v2, modmachine.c). Other ports: read their
+      modmachine.c. CircuitPython 10.3.1, raspberrypi port: RP2040 can't tell
+      a brownout from power-on; RP2350 reports BROWNOUT and RESET_PIN; a reboot
+      through the watchdog reads SOFTWARE, a WatchDogTimer timeout WATCHDOG.
+      ESP32 boards with a USB-UART bridge print the ROM's rst:0x... line on
+      every boot: keep a terminal open across the reset.
+    </aside>
+  </section>
+</section>
+
+<!-- DEFENSIVE MAIN.PY: line steps and the side panel share indices -->
+<section>
+  <section>
+    <header class="slide-head">
+      <h2>A defensive <code>main.py</code></h2>
+    </header>
+
+    <div class="cols cols--wide-left">
+      <pre class="compact"><code class="language-python" data-trim data-line-numbers="3-4|5-7|10-11|12|13-14|15|8-9" data-fragment-index="0">
+import sys, time, machine
+from machine import Pin
+safe = Pin(SAFE_PIN, Pin.IN, Pin.PULL_UP)
+if safe.value():          # LOW at boot: skip
+    try:
+        import app
+        app.run()
+    except KeyboardInterrupt:
+        raise             # never swallow Ctrl-C
+    except Exception as e:
+        sys.print_exception(e)
+        log_crash(e)      # append to crash.log
+        blink(3)
+        time.sleep(5)     # Ctrl-C window
+        machine.reset()
+      </code></pre>
+
+      <div class="r-stack swap">
+        <p class="lede fragment fade-out" data-fragment-index="0">An escape hatch: hold that pin LOW at power-on and your app never starts.</p>
+        <p class="lede fragment current-visible" data-fragment-index="0">Your app raises.</p>
+        <p class="lede fragment current-visible" data-fragment-index="1">Printed… to a terminal nobody opened.</p>
+        <pre class="terminal compact fragment current-visible" data-fragment-index="2" data-label="crash.log"><span class="terminal__out">cause=1 t=1234</span>
+<span class="terminal__out">Traceback (most recent call last):</span>
+<span class="terminal__out">OSError: [Errno 5] EIO</span></pre>
+        <p class="lede fragment current-visible" data-fragment-index="3">The LED says "crashed". You get 5 s to press Ctrl-C.</p>
+        <p class="lede fragment current-visible" data-fragment-index="4">Reset, and try again.</p>
+        <aside class="callout callout--danger fragment" data-fragment-index="5" data-label="Lockout">
+          <p>A bare <code>except:</code> catches Ctrl-C too. Then you can never get back in.</p>
+        </aside>
+      </div>
+    </div>
+
+    <aside class="notes">
+      The supervisor you don't have, from the habits slide's last row. Its
+      core, a try/except round the app ending in machine.reset(), is the docs'
+      own pattern (reset_boot docs, v1.25 onwards); the safe pin, crash log,
+      blink and Ctrl-C window are my additions: run it on the stage board with
+      a deliberate exception in app.py first. SAFE_PIN is any free pin with a
+      button to GND. machine.WDT isn't on the nrf port (nRF52, micro:bit).
+      sys.print_exception(exc, file) writes a traceback to any file (sys docs).
+      Start the WDT inside app.run() after the safe-boot check, never in
+      boot.py: it "cannot be stopped". v1.29 added machine.mem_backup(), which
+      survives soft reset, machine.reset() and deep sleep (not power-off): keep a
+      consecutive-crash counter there and stop resetting after N, or a startup
+      bug becomes a reboot loop. Only append to flash on a real crash.
+      CircuitPython's hook is safemode.py. Press down for the helpers. Next:
+      when the board won't talk to you at all.
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>The helpers</h2>
+    </header>
+
+    <pre class="compact"><code class="language-python" data-trim>
+def log_crash(e):
+    try:
+        with open("crash.log", "a") as f:
+            f.write("cause=%d t=%d\n" % (machine.reset_cause(), time.time()))
+            sys.print_exception(e, f)
+    except OSError:
+        pass  # full or read-only filesystem: carry on
+
+def blink(n, led=Pin(LED_PIN, Pin.OUT)):  # your board's LED
+    for _ in range(n):
+        led.on(); time.sleep(0.2)
+        led.off(); time.sleep(0.2)
+    </code></pre>
+
+    <aside class="notes">
+      Vertical slide, skipped live. Untested synthesis: run it. Some boards
+      name the LED pin, Pin("LED"). On CircuitPython boards with native USB the
+      drive is read-only to code, connected or not, unless boot.py calls
+      storage.remount("/", readonly=False); boards without native USB (original
+      ESP32, ESP32-C3, C6) can write by default (CircuitPython main.c).
+    </aside>
+  </section>
+</section>
+
+<!-- WON'T TALK TO YOU: recovery steps, mildest first -->
+<section class="slide--small-type">
+  <header class="slide-head">
+    <h2>When the board won't talk to you</h2>
+  </header>
+
+  <p class="lede">You saved a <code>main.py</code> with an endless loop. Now your editor can't connect.</p>
+
+  <table class="recover table--large">
+    <thead>
+      <tr><th></th><th>MicroPython</th><th>CircuitPython</th></tr>
+    </thead>
+    <tbody>
+      <tr class="fragment dim-past"><td>Stop your code</td><td>Ctrl-C, then <code>os.remove("main.py")</code></td><td>Ctrl-C, then fix <code>code.py</code></td></tr>
+      <tr class="fragment dim-past"><td>Skip your code</td><td>Safe mode, on some boards</td><td>Reset within 1 s: 3 yellow blinks</td></tr>
+      <tr class="fragment dim-past"><td>Start clean</td><td>Erase the flash, reflash</td><td>The board's erase file, reinstall</td></tr>
+    </tbody>
+  </table>
+
+  <p class="readout fragment qr-clear">Erasing deletes your files too. Keep them in git, not only on the board.</p>
+
+  <aside class="callout callout--ok fragment" data-label="Survival rule">
+    <p>Check the plug first. Then change one thing at a time.</p>
+  </aside>
+
+  <aside class="notes">
+    Illustrative story. MicroPython "Soft bricking (failure to boot)": Ctrl-C works
+    "in many cases"; safe mode is "only supported on some ports"; a factory
+    reset erases the flash (rp2: a full erase; ESP32: esptool erase_flash),
+    then reflash. Reflashing without erasing keeps the filesystem, and the bad
+    file. CircuitPython 7+: press reset within about 1 s of start-up; safe mode
+    runs no user code. Then storage.erase_filesystem() from the REPL, or drag
+    the board's erase .uf2 (flash_nuke.uf2 on RP2040) onto the BOOT drive.
+    Entry gestures vary by board. Next: Tooling, for when the code is fine.
+  </aside>
 </section>

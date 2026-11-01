@@ -136,6 +136,12 @@
   color: var(--pcb-silk-dim);
 }
 
+/* A sources line tucked under a full-height table, clear of the footer rail. */
+.reveal .caption--left {
+  margin-top: 0;
+  text-align: left;
+}
+
 /* Rotated silkscreen stamp, e.g. a revision marker. */
 .reveal .stamp {
   position: absolute;
@@ -292,6 +298,19 @@
   min-width: 0;
 }
 
+/* Columns whose blocks share rows, so each box matches the one beside it (up to six blocks). */
+.reveal .cols--rows {
+  grid-template-rows: repeat(6, auto);
+  row-gap: 0;
+  align-content: start;
+}
+
+.reveal .cols--rows > * {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 6;
+}
+
 /* Columns that keep their natural height instead of filling the slide. */
 .reveal .cols--fit {
   flex: none;
@@ -371,6 +390,23 @@
   width: 100%;
   margin: 0;
 }
+
+/* Code blocks swapped by fragments read as one box that grows and shrinks:
+   every block takes the height of the last visible one's data-lines.
+   Keyed off .visible, not .current-fragment, which reveal briefly clears. */
+.reveal .code-swap > pre > code {
+  box-sizing: content-box;
+  height: calc(var(--lines) * 1lh);
+  overflow: hidden;
+  transition: height calc(var(--pcb-speed) * 2) var(--pcb-ease);
+}
+
+.reveal .code-swap:has(> [data-lines="1"].visible:last-child, > [data-lines="1"].visible + :not(.visible)) { --lines: 1; }
+.reveal .code-swap:has(> [data-lines="2"].visible:last-child, > [data-lines="2"].visible + :not(.visible)) { --lines: 2; }
+.reveal .code-swap:has(> [data-lines="3"].visible:last-child, > [data-lines="3"].visible + :not(.visible)) { --lines: 3; }
+.reveal .code-swap:has(> [data-lines="4"].visible:last-child, > [data-lines="4"].visible + :not(.visible)) { --lines: 4; }
+.reveal .code-swap:has(> [data-lines="5"].visible:last-child, > [data-lines="5"].visible + :not(.visible)) { --lines: 5; }
+.reveal .code-swap:has(> [data-lines="6"].visible:last-child, > [data-lines="6"].visible + :not(.visible)) { --lines: 6; }
 
 /* ---------- Agenda ---------- */
 
@@ -555,6 +591,12 @@
   grid-template-columns: 11em 1fr;
 }
 
+/* Less padding and a narrower label column, for a pinout on a full slide. */
+.reveal .pinout.pinout--tight li {
+  grid-template-columns: 9.5em 1fr;
+  padding: 0.3em 0;
+}
+
 .reveal .pinout {
   max-width: none;
   font-family: var(--pcb-font-mono);
@@ -613,6 +655,10 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--pcb-silk-dim);
+}
+
+.reveal .quote + * {
+  margin-top: 34px;
 }
 
 /* ---------- Speaker bio ---------- */
