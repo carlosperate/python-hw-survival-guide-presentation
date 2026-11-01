@@ -1,0 +1,22 @@
+{
+    "name": "presenter-remote",
+    "description": "",
+    "dependencies": {
+        "core": "*",
+        "microphone": "*",
+        "microbit-pxt-blehid - Copy": "github:bsiever/microbit-pxt-blehid#v0.1.0"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md"
+    ],
+    "targetVersions": {
+        "branch": "stable9.0",
+        "tag": "v9.0.12",
+        "commits": "https://github.com/microsoft/pxt-microbit/commits/49d8b2a09658f4c68bdde0d80757f02138c5d913",
+        "target": "9.0.12",
+        "pxt": "13.0.9"
+    },
+    "preferredEditor": "tsprj"
+}
