@@ -33,20 +33,27 @@ function qr(revealEl) {
 const railNumber = (number, total) =>
   `${String(number).padStart(2, '0')}<span> / ${String(total).padStart(2, '0')}</span>`;
 
+/* The rail counts horizontal slides only. Export flattens vertical slides into
+   pages, so each slide records its horizontal number before reveal lays out. */
+export function numberHorizontalSlides(revealEl) {
+  revealEl.querySelectorAll('.slides > section').forEach((h, i) => {
+    for (const slide of [h, ...h.querySelectorAll(':scope > section')]) slide.dataset.railNumber = i + 1;
+  });
+}
+
 /* Export lays every slide out as a page at once, so each page gets a board of
    its own, between the page's background and its slide. */
 function printBoards(board) {
   const pages = [...document.querySelectorAll('.pdf-page')];
-  // Reveal follows each slide's page with a copy per fragment step; only the first shows none.
-  let count = 0;
-  const numbers = pages.map((page) => (page.querySelector('.fragment.visible') ? count : ++count));
+  const slides = pages.map((page) => page.querySelector(':scope > section'));
+  const total = Math.max(...slides.map((slide) => Number(slide.dataset.railNumber)));
   pages.forEach((page, i) => {
-    const slide = page.querySelector(':scope > section');
+    const slide = slides[i];
     const copy = board.cloneNode(true);
     copy.dataset.board = slide.dataset.board ?? 'plain';
     copy.style.left = slide.style.left;
     copy.style.top = slide.style.top;
-    copy.querySelector('.board__rail-number').innerHTML = railNumber(numbers[i], count);
+    copy.querySelector('.board__rail-number').innerHTML = railNumber(slide.dataset.railNumber, total);
     page.insertBefore(copy, slide);
   });
   board.remove();
@@ -165,7 +172,7 @@ export function mountBoardChrome(deck, startTheme) {
     const slide = deck.getCurrentSlide();
     board.dataset.board = slide?.dataset.board ?? 'plain';
 
-    numberEl.innerHTML = railNumber(deck.getSlidePastCount() + 1, deck.getTotalSlides());
+    numberEl.innerHTML = railNumber(deck.getIndices().h + 1, deck.getHorizontalSlides().length);
   }
 
   // Restarts the rail pulse; `dir` is the way the deck just moved between slides.
