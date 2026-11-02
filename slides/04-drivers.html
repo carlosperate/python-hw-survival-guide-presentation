@@ -85,7 +85,7 @@
       <h2>Getting the driver onto your board</h2>
     </header>
 
-    <div class="cols">
+    <div class="cols cols--rows">
       <div>
         <p class="kicker">MicroPython</p>
         <pre class="terminal compact" data-label="On your PC, over USB"><span class="terminal__in">$ pip install mpremote</span>
@@ -319,24 +319,24 @@ bme = bme280.BME280(i2c=i2c)
         <text class="bw-name" x="150" y="210">target</text>
         <text class="bw-name" x="254" y="210">target</text>
       </svg>
-      <svg class="diagram" viewBox="0 0 300 240" role="img">
-        <title>SPI: one controller and two peripherals sharing SCK, COPI and CIPO, with a chip-select wire to each</title>
-        <rect class="bw-box" x="60" y="0" width="180" height="44" rx="6"/>
-        <text class="bw-name" x="150" y="29">controller</text>
-        <path class="bw-wire bw-wire--clk" d="M80 44 V80 M24 80 H275 M30 188 V80 M190 188 V80"/>
-        <path class="bw-wire" d="M100 44 V104 M24 104 H275 M50 188 V104 M215 188 V104 M120 44 V128 M24 128 H275 M70 188 V128 M240 188 V128"/>
-        <path class="bw-wire bw-wire--cs" d="M60 22 H14 V188 M240 22 H286 V188"/>
-        <g class="bw-dot bw-dot--clk"><circle cx="80" cy="80" r="4"/><circle cx="30" cy="80" r="4"/><circle cx="190" cy="80" r="4"/></g>
-        <g class="bw-dot"><circle cx="100" cy="104" r="4"/><circle cx="50" cy="104" r="4"/><circle cx="215" cy="104" r="4"/><circle cx="120" cy="128" r="4"/><circle cx="70" cy="128" r="4"/><circle cx="240" cy="128" r="4"/></g>
-        <text class="bw-line" x="155" y="86">SCK</text>
-        <text class="bw-line" x="155" y="110">COPI</text>
-        <text class="bw-line" x="155" y="134">CIPO</text>
-        <text class="bw-pin" x="37" y="16" text-anchor="middle">CS</text>
-        <text class="bw-pin" x="263" y="16" text-anchor="middle">CS</text>
-        <rect class="bw-box" x="0" y="188" width="130" height="48" rx="6"/>
-        <rect class="bw-box" x="170" y="188" width="130" height="48" rx="6"/>
-        <text class="bw-name" x="65" y="218">peripheral</text>
-        <text class="bw-name" x="235" y="218">peripheral</text>
+      <svg class="diagram" viewBox="0 0 330 250" role="img">
+        <title>SPI: a controller on the left drives SCK, COPI and CIPO out of its right side to two peripherals stacked on the right, with a chip-select wire to each</title>
+        <rect class="bw-box" x="0" y="0" width="130" height="250" rx="6"/>
+        <text class="bw-name" x="65" y="28">controller</text>
+        <text class="bw-pin" x="122" y="52" text-anchor="end">CS</text>
+        <text class="bw-pin" x="122" y="98" text-anchor="end">SCK</text>
+        <text class="bw-pin" x="122" y="134" text-anchor="end">COPI</text>
+        <text class="bw-pin" x="122" y="170" text-anchor="end">CIPO</text>
+        <text class="bw-pin" x="122" y="216" text-anchor="end">CS</text>
+        <path class="bw-wire bw-wire--clk" d="M130 92 H150 M150 64 V198 M150 64 H200 M150 198 H200"/>
+        <path class="bw-wire" d="M130 128 H164 M164 80 V182 M164 80 H200 M164 182 H200 M130 164 H200 M178 164 V96 H200"/>
+        <path class="bw-wire bw-wire--cs" d="M130 46 H200 M130 210 H200"/>
+        <g class="bw-dot bw-dot--clk"><circle cx="150" cy="92" r="4"/></g>
+        <g class="bw-dot"><circle cx="164" cy="128" r="4"/><circle cx="178" cy="164" r="4"/></g>
+        <rect class="bw-box" x="200" y="0" width="130" height="112" rx="6"/>
+        <rect class="bw-box" x="200" y="138" width="130" height="112" rx="6"/>
+        <text class="bw-name" x="265" y="62">peripheral</text>
+        <text class="bw-name" x="265" y="200">peripheral</text>
       </svg>
     </div>
     </div>
@@ -673,7 +673,7 @@ class BME280:
       <h2>When <code>scan()</code> lies to you</h2>
     </header>
 
-    <div class="cols cols--wide-left">
+    <div class="cols cols--wide-left scan-lies">
       <table>
         <thead>
           <tr><th><code>i2c.scan()</code></th><th>Usual cause</th></tr>
@@ -725,7 +725,7 @@ class BME280:
 
     <p>The pull-up resistor lifts the line. The weaker it is, the slower the rise: at 400 kHz, 300 ns at most.</p>
 
-    <svg class="diagram" viewBox="0 0 780 280" width="680" height="244" role="img">
+    <svg class="diagram" viewBox="0 0 780 280" width="664" height="238" role="img">
       <title>RC rise of SDA with a 4.7 kilo-ohm and a 50 kilo-ohm pull-up</title>
 <line class="axis" x1="70" y1="10" x2="70" y2="250"/>
 <line class="axis" x1="70" y1="250" x2="770" y2="250"/>
@@ -760,7 +760,7 @@ class BME280:
       <h2>I²C: resistors pull HIGH, chips pull LOW</h2>
     </header>
 
-    <ul class="list--wide">
+    <ul class="list--wide pullups-intro">
       <li>Resistors "pull-ups" the SDA (data) and SCL (clock) signals to 3.3 V.</li>
       <li>The microcontroller and I2C device pull the lines LOW to communicate.</li>
     </ul>

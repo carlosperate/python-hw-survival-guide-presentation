@@ -5,16 +5,16 @@
 
 .reveal .ds-wrap {
   position: relative;
-  margin: 4px 0 0;
+  margin: 0;
 }
 
-/* Each layer's code, right of the layers and above the divide: x 448 and y 260 of the 1112 x 480 drawing. */
+/* Each layer's code, right of the layers and above the divide: x 448 and y 260 of the 1112 x 472 drawing. */
 .reveal .ds-steps {
   position: absolute;
   top: 0;
   left: 40.3%;
   right: 0;
-  height: 54.2%;
+  height: 55.1%;
 }
 
 .reveal .ds-steps pre {

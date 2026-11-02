@@ -2,13 +2,13 @@
 from pathlib import Path
 
 ART = Path(__file__).resolve().parents[2] / 'slides' / 'art'
-W, H = 1112, 480
+W, H = 1112, 472
 BAR_X, BAR_W, BAR_H, PITCH = 40, 380, 52, 66
 FLOW_X = 14
 # The slide's code panel sits right of the layers, above the divide: keep driver-stack.css in step.
-SPLIT_Y = 290
-CHIP_Y, CHIP_H = 326, 150
-PIN_YS = [344, 372, 400, 428, 456]
+SPLIT_Y = 282
+CHIP_Y, CHIP_H = 318, 150
+PIN_YS = [CHIP_Y + 18 + 28 * i for i in range(5)]
 NEAR_X, NEAR_W = 480, 172
 FAR_X, FAR_W = 700, 190
 PART_H = 26
