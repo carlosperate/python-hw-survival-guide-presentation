@@ -14,6 +14,7 @@ import HeapMap from './plugins/heap-map/plugin.js';
 import Phone from './plugins/phone/plugin.js';
 import Magnifier from './plugins/magnifier/plugin.js';
 import SlideAxis from './plugins/slide-axis/plugin.js';
+import BleBadge from './plugins/ble-badge/plugin.js';
 import Board from './plugins/board/plugin.js';
 
 const deck = new Reveal({
@@ -37,7 +38,9 @@ const deck = new Reveal({
   // Phones keep the slides; portrait gets the turn-sideways card instead of
   // reveal's scroll view, which shrinks text to 7-9px.
   scrollActivationWidth: null,
-  plugins: [Notes, Highlight, HeapMap, Phone, Magnifier, SlideAxis, Board],
+  // B connects the Sticky badge (ble-badge) rather than blacking the screen.
+  pause: false,
+  plugins: [Notes, Highlight, HeapMap, Phone, Magnifier, SlideAxis, BleBadge, Board],
 });
 
 deck.initialize();

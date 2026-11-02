@@ -1,0 +1,33 @@
+/* The board's theme-switch toast, in the same spot (76 deck px above the slide's foot), on
+   reveal's layer so it needs no board. reveal sets --slide-height and --slide-scale. */
+.ble-badge__toast {
+  position: absolute;
+  z-index: 30;
+  left: 50%;
+  top: calc(50% + (var(--slide-height) / 2 - 76px) * var(--slide-scale, 1));
+  transform: translate(-50%, -100%) scale(var(--slide-scale, 1));
+  transform-origin: 50% 100%;
+  padding: 9px 18px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--pcb-gold) 35%, transparent);
+  background: color-mix(in srgb, var(--pcb-board-deep) 90%, transparent);
+  font-family: var(--pcb-font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--pcb-silk-mute);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms linear;
+}
+
+.ble-badge__toast.is-visible {
+  opacity: 1;
+}
+
+.ble-badge__toast b {
+  font-weight: 600;
+  color: var(--pcb-gold);
+}
