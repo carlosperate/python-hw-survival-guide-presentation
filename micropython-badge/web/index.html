@@ -1,0 +1,61 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Sticky link</title>
+<!-- A testing tool for the badge: connect, send any trigger in ../triggers.json, or any line.
+     `make web` serves the badge's folder and opens this page. -->
+<style>
+  body { font: 16px system-ui, sans-serif; margin: 2em; max-width: 40em; }
+  button, input, select { font: inherit; }
+  label { display: inline-block; width: 9em; }
+  #log { font: 13px ui-monospace, monospace; white-space: pre-wrap; border: 1px solid #ccc; padding: 0.5em; height: 20em; overflow: auto; }
+</style>
+<h1>Sticky link</h1>
+<p>Status: <b id="status">off</b></p>
+<p><button id="connect">Connect</button> <button id="disconnect">Disconnect</button></p>
+<div id="triggers"></div>
+<form id="send"><label for="line">Any line</label> <input id="line"> <button>Send</button></form>
+<div id="log"></div>
+<script type="module">
+  import { MAX_LEN, StickyLink } from './link.js';
+
+  const link = new StickyLink(navigator.bluetooth);
+  window.link = link;
+  const $ = (id) => document.getElementById(id);
+  $('line').placeholder = `at most ${MAX_LEN} bytes`;
+  const log = (...parts) => {
+    $('log').textContent += `${new Date().toISOString().slice(11, 23)} ${parts.join(' ')}\n`;
+    $('log').scrollTop = $('log').scrollHeight;
+  };
+  const send = (line) => {
+    try { link.trigger(line) || log('dropped: not connected', line); } catch (err) { log(err.message); }
+  };
+
+  link.addEventListener('status', (e) => { $('status').textContent = e.detail; log('status', e.detail); });
+  link.addEventListener('event', (e) => log('event', e.detail));
+  link.addEventListener('written', (e) => log('written', e.detail.line, `${e.detail.ms.toFixed(1)} ms`));
+  link.addEventListener('error', (e) => log('error', e.detail.message ?? e.detail));
+
+  $('connect').onclick = () => link.connect().catch((e) => log('error', e.message));
+  $('disconnect').onclick = () => link.disconnect();
+  $('send').onsubmit = (e) => {
+    e.preventDefault();
+    send($('line').value);
+  };
+
+  // One dropdown per group: the names a slide's data-sticky uses, each sending its line.
+  const triggers = await fetch('../triggers.json')
+    .then((r) => r.json())
+    .catch((e) => log('no ../triggers.json: serve the badge folder (make web)', e.message));
+  for (const [group, entries] of Object.entries(triggers ?? {})) {
+    const row = document.createElement('p');
+    const label = document.createElement('label');
+    const select = document.createElement('select');
+    const button = document.createElement('button');
+    label.textContent = group;
+    for (const [name, line] of Object.entries(entries)) select.append(new Option(name, line));
+    button.textContent = 'Send';
+    button.onclick = () => send(select.value);
+    row.append(label, ' ', select, ' ', button);
+    $('triggers').append(row);
+  }
+</script>

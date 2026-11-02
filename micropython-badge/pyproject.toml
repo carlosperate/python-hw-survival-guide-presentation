@@ -1,0 +1,36 @@
+# Not a Python package: the host tools, pinned for `uv run`, and ruff's settings, as
+# micropython-reterminal-sticky's (MicroPython's own).
+[project]
+name = "micropython-badge"
+version = "0"
+requires-python = ">=3.11"
+
+[dependency-groups]
+dev = [
+  "esptool==5.6.0",
+  "mpremote==1.29.0",
+  "pillow==13.0.0",
+  "ruff==0.11.6",
+]
+
+# prototypes/ is a record of the design rounds, left as it was written.
+[tool.ruff]
+extend-exclude = ["micropython-reterminal-sticky", "prototypes"]
+line-length = 99
+target-version = "py38"
+
+[tool.ruff.lint]
+extend-select = ["C9", "PLC", "W292"]
+ignore = [
+  "E401",
+  "E402",
+  "E722",
+  "E731",
+  "E741",
+  "F401",
+  "F403",
+  "F405",
+  "PLC0206",
+  "PLC0415", # conditional imports are common in MicroPython
+]
+mccabe.max-complexity = 40
