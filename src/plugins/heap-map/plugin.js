@@ -26,12 +26,13 @@ function render(root) {
 
     // '=' continues the object whose head came before it, as in mem_info(1).
     let kind = 'free';
-    for (const ch of rows.join('')) {
+    [...rows.join('')].forEach((ch, i) => {
       if (ch !== '=') kind = KINDS[ch] ?? 'other';
       const cell = document.createElement('span');
       cell.className = `heap__cell heap__cell--${kind}`;
+      cell.style.setProperty('--i', i); // so CSS can stagger an animation along the strip
       grid.append(cell);
-    }
+    });
 
     pre.replaceWith(grid);
   }

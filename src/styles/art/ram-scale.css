@@ -60,22 +60,6 @@
   background: var(--pcb-led-green);
 }
 
-/* Only there to find the square: it starts as the laptop box and shrinks into the corner around it. */
-.reveal .ram-scale__ring {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 39px;
-  height: 39px;
-  border: 3px solid var(--pcb-led-green);
-  transition: width calc(var(--pcb-speed) * 4) var(--pcb-ease) var(--pcb-speed), height calc(var(--pcb-speed) * 4) var(--pcb-ease) var(--pcb-speed);
-}
-
-.reveal .ram-scale.fragment:not(.visible) .ram-scale__ring {
-  width: 300px;
-  height: 300px;
-}
-
 /* The zoom plays forward only; going back snaps, so the 32× laptop never shows unclipped. */
 .reveal .ram-ladder.visible ~ .ram-scale__window {
   overflow: hidden;
@@ -112,11 +96,6 @@
 .reveal .ram-ladder.visible ~ .ram-scale__window .ram-scale__board {
   opacity: 1;
   transition: opacity var(--pcb-speed) linear calc(var(--pcb-speed) * 2);
-}
-
-.reveal .ram-ladder.visible ~ .ram-scale__window .ram-scale__ring {
-  opacity: 0;
-  transition: opacity var(--pcb-speed) linear;
 }
 
 /* Boards on one baseline with the 16 MB box; it runs left over the bullets still hidden. */
@@ -183,9 +162,28 @@
   color: var(--pcb-silk);
 }
 
+/* Holds the arrow, which runs from the label's end to under the dot; the QR's escapes rule out the right. */
 .reveal .ram-scale__note {
-  max-width: 20em;
+  position: relative;
+  top: 18px; /* room for the arrow's climb; not margin, which r-stack sets to auto */
   font-size: 1.1em;
+}
+
+/* Drawn in the label's own px (a 1×1 viewBox at its corner), so the tip lands on the dot. */
+.reveal .ram-scale__arrow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  overflow: visible;
+  fill: none;
+  stroke: var(--pcb-gold);
+  stroke-width: 4;
+}
+
+.reveal .ram-scale__arrow .via {
+  fill: var(--pcb-board-deep);
 }
 
 /* As wide as the box, so the board's label centres under it. */

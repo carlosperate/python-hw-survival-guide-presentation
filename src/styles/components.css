@@ -391,6 +391,32 @@
   margin: 0;
 }
 
+/* Blocks that step inside themselves: each stays up until the next one shows. */
+.reveal .r-stack.swap--steps > .fragment.visible:has(~ .fragment.visible) {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Like fade-in-then-semi-out, but an item stays bright until the next item shows,
+   not just for its own click. */
+.reveal .fade-past > .fragment.visible:has(~ .fragment.visible) {
+  opacity: 0.5;
+}
+
+/* A ✕ line, then its fix on the next click: the fix is hidden until its step,
+   and the ✕ line stays readable, dimmed, once the fix shows. */
+.reveal pre.code-fix .hljs-ln-numbers {
+  display: none;
+}
+
+.reveal pre.code-fix code:first-child tr:not(.highlight-line) {
+  visibility: hidden;
+}
+
+.reveal pre.code-fix code:first-child .highlight-line {
+  background: none;
+}
+
 /* Code blocks swapped by fragments read as one box that grows and shrinks:
    every block takes the height of the last visible one's data-lines.
    Keyed off .visible, not .current-fragment, which reveal briefly clears. */
@@ -399,6 +425,14 @@
   height: calc(var(--lines) * 1lh);
   overflow: hidden;
   transition: height calc(var(--pcb-speed) * 2) var(--pcb-ease);
+}
+
+/* reveal makes a step's copy of the code border-box, which would cut its last line;
+   right: 0 keeps the content-box copy as wide as the block. */
+.reveal .code-swap > pre > code.hljs:not(:first-child).fragment {
+  box-sizing: content-box;
+  right: 0;
+  width: auto;
 }
 
 .reveal .code-swap:has(> [data-lines="1"].visible:last-child, > [data-lines="1"].visible + :not(.visible)) { --lines: 1; }

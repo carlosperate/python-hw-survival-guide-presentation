@@ -863,6 +863,132 @@
   margin-top: 26px;
 }
 
+/* A strip's scale sits just over its blocks, clear of the code above. */
+.reveal .kicker:has(+ .heap-stack) {
+  margin: 26px 0 0;
+}
+
+.reveal .kicker + .heap-stack .heap--strip {
+  margin-top: 10px;
+}
+
+/* ---------- Code lines tinted like heap cells ---------- */
+
+/* A band behind line --line of a pre.compact (18px top padding + 1px border);
+   screen blending tints the well and leaves the text's colours alone. */
+.reveal .code-tint {
+  position: absolute;
+  top: calc(20px + (var(--line) - 1) * 1lh);
+  left: 8px;
+  right: 8px;
+  height: calc(1lh - 2px);
+  border-radius: 2px;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.reveal .code-tint--float {
+  background: color-mix(in srgb, var(--pcb-blue) 30%, transparent);
+}
+
+.reveal .code-tint--str {
+  background: color-mix(in srgb, var(--pcb-silk-dim) 24%, transparent);
+}
+
+.reveal .code-tint--array {
+  background: color-mix(in srgb, var(--pcb-gold) 30%, transparent);
+}
+
+/* ---------- The leaks slide ---------- */
+
+/* Code side by side, two strips, then four short rows: all above the footer rail. */
+.reveal .leaks .cols {
+  flex: none;
+}
+
+.reveal .slides .leaks .cols > pre.compact {
+  margin: 0;
+}
+
+.reveal .leaks__strips {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 10px 24px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.reveal .leaks .pinout {
+  margin-top: 14px;
+  font-size: 18px;
+}
+
+.reveal .leaks .pinout li {
+  grid-template-columns: 9em 1fr;
+  padding: 0.2em 0;
+}
+
+.reveal .leaks .pinout + .caption {
+  margin-top: 14px;
+}
+
+.reveal .leaks .kicker {
+  max-width: none;
+  margin: 22px 0 0;
+}
+
+.reveal .leaks .kicker + .leaks__strips {
+  margin-top: 10px;
+}
+
+/* One clock for both strips: --leak-tick counts readings, 0 to 35, then starts again.
+   The list adds one per tick until the heap is full at 25, then shows MemoryError; the
+   deque's newest goes round its 6. At rest the tick is 25, so the PDF and reduced motion
+   show the full heap. --i is each cell's index, set by the heap-map plugin. */
+@property --leak-tick {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 25;
+}
+
+.reveal .leaks {
+  --leak-step: 160ms;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.reveal-print) .reveal .slides section.leaks.present .leaks__strips {
+    animation: leak-clock calc(36 * var(--leak-step)) steps(36) infinite;
+  }
+}
+
+@keyframes leak-clock {
+  from {
+    --leak-tick: 0;
+  }
+
+  to {
+    --leak-tick: 36;
+  }
+}
+
+/* Free until its tick, gold for that tick, blue after; the first 3 are there from the start. */
+.reveal .leaks__list .heap__cell:nth-child(n + 4) {
+  --born: clamp(0, var(--leak-tick) - var(--i) + 3, 1);
+  --old: clamp(0, var(--leak-tick) - var(--i) + 2, 1);
+  background: color-mix(in srgb, var(--pcb-blue) calc(var(--old) * 100%), color-mix(in srgb, var(--pcb-gold) calc(var(--born) * 100%), var(--heap-free)));
+}
+
+/* The 26th reading finds no room. */
+.reveal .leaks__error {
+  opacity: clamp(0, var(--leak-tick) - 24, 1);
+}
+
+/* The newest overwrites the oldest slot: 36 ticks is six rounds, so the loop doesn't jump. */
+.reveal .leaks__deque .heap__cell:nth-child(-n + 6) {
+  --d: calc(mod(var(--leak-tick) + 5, 6) - var(--i));
+  background: color-mix(in srgb, var(--pcb-gold) calc(clamp(0, 1 - max(var(--d), -1 * var(--d)), 1) * 100%), var(--pcb-blue));
+}
+
 /* ---------- The owl slide ---------- */
 
 /* Short enough to clear the QR's escape trace at the bottom right. */
@@ -1008,6 +1134,30 @@
   width: auto;
   margin: 0;
 }
+
+/* Where a .mpy lives: three rows that end above the QR's top vias. */
+.reveal .mpy-homes .lede {
+  margin-bottom: 22px;
+}
+
+.reveal table.mpy-table {
+  margin-bottom: 14px;
+  font-size: 22px;
+  table-layout: fixed;
+}
+
+.reveal table.mpy-table :is(th, td) {
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+}
+
+.reveal table.mpy-table code {
+  white-space: nowrap;
+}
+
+.reveal table.mpy-table :is(th, td):nth-child(1) { width: 22%; }
+.reveal table.mpy-table :is(th, td):nth-child(2) { width: 30%; }
+.reveal table.mpy-table :is(th, td):nth-child(3) { width: 36%; }
 
 /* ---------- The "What's different" slide ---------- */
 
@@ -1442,4 +1592,30 @@
 /* Links under the skills list start at the gutter, so they end short of the QR. */
 .reveal .skill-links {
   text-align: left;
+}
+
+/* ---------- The interrupts slide ---------- */
+/* Code and its note beside four rows, all clear of the footer rail. */
+.reveal .slides .irq-intro .cols pre.compact {
+  margin: 0;
+}
+
+.reveal .irq-intro .cols .caption {
+  margin-top: 12px;
+  font-size: 18px;
+}
+
+.reveal .irq-intro .pinout {
+  margin: 0;
+  font-size: 20px;
+}
+
+.reveal .irq-intro .pinout li {
+  grid-template-columns: 7.5em 1fr;
+  padding: 0.3em 0;
+}
+
+/* A hairline under the last row would cross the QR escapes. */
+.reveal .irq-intro .pinout li:last-child {
+  border-bottom: 0;
 }

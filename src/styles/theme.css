@@ -289,9 +289,9 @@
   color: var(--pcb-py-blue);
 }
 
-/* Highlight plugin line focus, restated on the board palette. */
+/* Highlight plugin line focus, restated on the board palette; faint, so the code keeps its contrast. */
 .reveal .hljs .highlight-line {
-  background: color-mix(in srgb, var(--pcb-gold) 12%, transparent);
+  background: color-mix(in srgb, var(--pcb-gold) 6%, transparent);
 }
 
 /* The band spans the code well, not just the longest highlighted line;

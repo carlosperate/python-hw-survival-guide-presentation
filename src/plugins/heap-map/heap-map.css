@@ -5,6 +5,7 @@
 
 .reveal .heap {
   --cell: 14px;
+  --heap-free: color-mix(in srgb, var(--pcb-silk-mute) 22%, var(--pcb-board-deep));
   display: grid;
   grid-template-columns: repeat(var(--cols), var(--cell));
   gap: 2px;
@@ -27,7 +28,7 @@
   width: var(--cell);
   height: var(--cell);
   border-radius: 2px;
-  background: color-mix(in srgb, var(--pcb-silk-mute) 22%, var(--pcb-board-deep));
+  background: var(--heap-free);
 }
 
 .reveal .heap__cell--array {

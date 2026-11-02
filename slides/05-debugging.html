@@ -217,7 +217,7 @@
     </aside>
   </section>
 
-  <section>
+  <section class="solder">
     <header class="slide-head">
       <h2>Good and bad solder joints</h2>
     </header>
@@ -288,7 +288,7 @@
       </tbody>
     </table>
 
-    <div class="r-stack swap qr-clear">
+    <div class="r-stack swap qr-clear qr-clear--low">
       <pre class="terminal fragment current-visible" data-fragment-index="0" data-label="Tracebacks and print() sent via USB serial"><span class="terminal__out">Traceback (most recent call last):</span>
 <span class="terminal__out">  File "main.py", line 14, in &lt;module&gt;</span>
 <span class="terminal__out">OSError: [Errno 5] EIO</span>
@@ -369,62 +369,6 @@ print(time.ticks_diff(time.ticks_us(), t0))
       show up. Peter Hinch's micropython-monitor turns asyncio task activity
       into pin pulses and has a hog detector. A hard IRQ handler that raises
       is disabled (shared/runtime/mpirq.c), so later IRQs go unanswered.
-    </aside>
-  </section>
-
-  <section>
-    <header class="slide-head">
-      <h2>Time every call with a decorator</h2>
-    </header>
-
-    <p class="lede">Put <code>@timed</code> above a function, and each call prints how long it took.</p>
-
-    <div class="cols cols--wide-left">
-      <pre class="compact"><code class="language-python" data-trim>
-import gc, time
-
-def timed(f):
-    name = str(f).split()[1]  # portable name
-    def wrapper(*args, **kwargs):
-        gc.collect()  # no GC mid-timing
-        t0 = time.ticks_us()
-        result = f(*args, **kwargs)
-        dt = time.ticks_diff(time.ticks_us(), t0)
-        print(name, dt, "us")
-        return result
-    return wrapper
-      </code></pre>
-
-      <ul>
-        <li>Time a few calls: the first is often slower.</li>
-        <li>Ticks wrap: use <code>ticks_diff()</code>.</li>
-        <li>On <code>async def</code> it only times making the coroutine.</li>
-        <li>CircuitPython: use <code>time.monotonic_ns()</code>.</li>
-      </ul>
-    </div>
-
-    <p class="caption qr-clear">
-      <a href="https://docs.micropython.org/en/latest/reference/speed_python.html" target="_blank" rel="noopener">MicroPython docs: maximising speed</a> ·
-      <a href="https://gist.github.com/carlosperate/49c1605827e6912ee61d8a1a992115f8" target="_blank" rel="noopener">the original gist</a>
-    </p>
-
-    <aside class="notes">
-      Vertical slide: read on its own, skipped live. The docs' own
-      @timed_function (Maximising MicroPython speed, still there in v1.29),
-      tidied: it keeps the function's name, prints whole microseconds and
-      collects first so a GC pause can't land in the timing. str(f).split()[1]
-      is the docs' trick: f.__name__ needs MICROPY_PY_FUNCTION_ATTRS, on for
-      rp2, esp32 and nrf but not in the micro:bit V2 build. Run 30 October 2026
-      on MicroPython 1.29's unix port: functions and methods, with keyword
-      arguments; the first call took 212 µs, the next two 38 and 50 µs. On an
-      async def it printed 15 µs for a coroutine that sleeps 50 ms: time inside
-      the coroutine instead. Ticks wrap round, and ticks_diff() and ticks_add()
-      handle it where subtraction doesn't (MicroPython time docs).
-      CircuitPython: time.monotonic_ns(), "Not available on boards without
-      long integer support"; supervisor.ticks_ms() wraps after 2**29 ms, first
-      about 65 s after power-on, "making it feasible to check that your program
-      works properly around an overflow" (shared-bindings/time and supervisor,
-      checked 29 October 2026).
     </aside>
   </section>
 
