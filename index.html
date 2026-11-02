@@ -8,8 +8,26 @@
     <link rel="icon" href="/images/python-mark.svg" type="image/svg+xml" />
   </head>
   <body>
+    <div class="landing-art" aria-hidden="true">
+      <!-- @include src/themes/hybrid/cover.svg -->
+    </div>
     <main class="landing">
+      <div class="landing__surface" aria-hidden="true"></div>
       <header class="profile">
+        <!-- Routes extend beneath the centred portrait so responsive scaling cannot leave a gap. -->
+        <svg class="profile__routes" viewBox="0 0 440 224" aria-hidden="true" fill="none">
+          <g class="route--gold">
+            <path d="M220 48H82L58 24H16 M220 68H74L50 44H16" />
+            <path class="route--lower" d="M220 154H358L382 178H424 M220 174H350L374 198H424" />
+            <circle cx="10" cy="24" r="5"/><circle cx="10" cy="44" r="5"/>
+            <circle class="route--lower" cx="430" cy="178" r="5"/><circle class="route--lower" cx="430" cy="198" r="5"/>
+          </g>
+          <g class="route--blue">
+            <path class="route--lower" d="M220 160H78L54 184H16" />
+            <path d="M220 54H362L386 30H424" />
+            <circle class="route--lower" cx="10" cy="184" r="5"/><circle cx="430" cy="30" r="5"/>
+          </g>
+        </svg>
         <div class="profile__frame">
           <img class="profile__photo" src="/images/profil-pic.jpg" width="200" height="200" alt="Carlos Pereira Atencio" />
         </div>
@@ -17,7 +35,7 @@
           <a class="social" href="https://github.com/carlosperate" rel="me" aria-label="Carlos on GitHub" title="GitHub">
             <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.9 18.3 5.2 18.3 5.2c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.4c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z" /></svg>
           </a>
-          <a class="social" href="https://bsky.app/profile/carlosperate.bsky.social" rel="me" aria-label="Carlos on Bluesky" title="Bluesky">
+          <a class="social social--bluesky" href="https://bsky.app/profile/carlosperate.bsky.social" rel="me" aria-label="Carlos on Bluesky" title="Bluesky">
             <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path d="M5.202 1.522C7.954 3.588 10.914 7.776 12 10.023c1.087-2.247 4.046-6.435 6.798-8.501C20.784.03 24-1.124 24 2.546c0 .733-.42 6.163-.667 7.044-.856 3.064-3.978 3.845-6.755 3.372 4.854.826 6.089 3.562 3.422 6.298-5.065 5.195-7.28-1.304-7.848-2.969-.104-.305-.153-.448-.152-.326-.001-.122-.048.021-.152.326-.568 1.665-2.783 8.164-7.848 2.969-2.667-2.736-1.432-5.472 3.422-6.298-2.777.473-5.899-.308-6.755-3.372C.42 8.71 0 3.279 0 2.546 0-1.124 3.216.03 5.202 1.522Z" /></svg>
           </a>
           <a class="social" href="https://www.linkedin.com/in/carlos-pa/" rel="me" aria-label="Carlos on LinkedIn" title="LinkedIn">
@@ -29,16 +47,20 @@
       </header>
 
       <section class="talk" aria-labelledby="talk-title">
-        <h1 id="talk-title">Python on Hardware<br />Survival Guide</h1>
+        <div class="talk__heading">
+          <h1 id="talk-title">Python on Hardware<br /><span>Survival Guide</span></h1>
+          <img class="talk__mark" src="/images/python-mark.svg" width="42" height="42" alt="" />
+        </div>
+        <div class="talk__rule" aria-hidden="true"></div>
         <p class="talk__event">PyCon ES 2026</p>
         <a class="presentation-link" href="./presentation">
-          <span>Open presentation</span><span aria-hidden="true">→</span>
+          <span>Open presentation</span><span class="presentation-link__arrow" aria-hidden="true"><svg class="link-arrow" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" focusable="false"><path d="M6 18 18 6M9 6h9v9" /></svg></span>
         </a>
       </section>
       <nav class="links" aria-label="Related links">
-        <a class="link" href="https://github.com/carlosperate/python-hw-survival-guide-presentation">Presentation Repository</a>
-        <a class="link" href="https://www.embeddedlog.com/" rel="me">Website</a>
-        <a class="link" href="https://www.embeddedlog.com/about/" rel="me">About me</a>
+        <a class="link" href="https://github.com/carlosperate/python-hw-survival-guide-presentation"><span>Presentation Repository</span><span class="link__arrow" aria-hidden="true"><svg class="link-arrow" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" focusable="false"><path d="M6 18 18 6M9 6h9v9" /></svg></span></a>
+        <a class="link" href="https://www.embeddedlog.com/" rel="me"><span>Website</span><span class="link__arrow" aria-hidden="true"><svg class="link-arrow" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" focusable="false"><path d="M6 18 18 6M9 6h9v9" /></svg></span></a>
+        <a class="link" href="https://www.embeddedlog.com/about/" rel="me"><span>About me</span><span class="link__arrow" aria-hidden="true"><svg class="link-arrow" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" focusable="false"><path d="M6 18 18 6M9 6h9v9" /></svg></span></a>
       </nav>
     </main>
     <script type="module" src="/src/landing.js"></script>

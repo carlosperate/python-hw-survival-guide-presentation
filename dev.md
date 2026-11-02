@@ -92,3 +92,30 @@ hybrid-matte and schematic live in `src/themes/hybrid/`.
   portrait, Full screen on Android, and the slides in landscape.
 - Keep a PDF export as a fallback.
 - The timings (33–34 minutes) leave almost no buffer in the 35-minute slot. Slides marked "Cut-first" in their notes are the ones to drop.
+
+## Landing-page browser checks
+
+With the dev server running, `npm run check:landing` checks the landing page at
+25 sizes: five desktop/projector sizes and all ten phone sizes in both
+orientations. It saves screenshots and `.screenshots/landing/report.json`.
+The checks cover horizontal overflow, missing images/fonts, tap targets,
+portrait trace connections and bottom clearance.
+
+```sh
+npm run check:landing
+npm run check:landing -- --browsers chrome,firefox --devices desktop
+npm run check:landing -- --browsers safari --devices desktop
+npm run check:landing -- --browsers webkit --devices phones
+```
+
+Chrome uses the installed Google Chrome; Firefox and WebKit use the cached
+Playwright browsers. Safari uses the installed Safari through WebDriver, with
+no extra package. Enable Safari automation in your own Terminal with
+`sudo /usr/bin/safaridriver --enable` if needed. Safari has no mobile emulation
+and may enforce a minimum window size: the report records actual viewport
+sizes and flags sizes it cannot match. WebKit supplies phone-size engine
+coverage, not a claim of testing real iPhone Safari. Safari screenshots cover
+the viewport and Safari console capture is unavailable through this check.
+
+Exit 2 means layout checks failed or a browser could not start. Exit 3 means
+requested viewport sizes could not be matched. An empty run is not a pass.
