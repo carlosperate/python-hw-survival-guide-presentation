@@ -4,13 +4,25 @@ import asyncio
 
 from deck.anim import Player
 
+# The deck's chooser lists only this prefix, so a Sticky running another programme stays out.
+NAME_PREFIX = "sticky-badge-"
+
+
+def link_name(ble):
+    """NAME_PREFIX and the MAC's last two bytes in hex, as the port names a BLEUART by default.
+    ble must be active: the MAC is read from the running radio."""
+    mac = ble.config("mac")[1]
+    return "%s%02x%02x" % (NAME_PREFIX, mac[-2], mac[-1])
+
 
 def run(scenes, parse, link=None, display=None, background=None, overlay=None):
     """Play scenes as the deck triggers them, until reset. parse(state) returns (scene name, step);
     background and overlay are the player's.
 
-    Without link or display, reads lines from a BLE UART and drives the board's panel.
+    Without link or display, reads lines from a BLE UART named link_name() and drives the board's
+    panel.
     """
+    radio = None
     try:
         if display is None:
             import reterminal_sticky
@@ -18,10 +30,13 @@ def run(scenes, parse, link=None, display=None, background=None, overlay=None):
 
             display = Display(reterminal_sticky.panel())
         if link is None:
+            import bluetooth
             from deck.lines import Lines
             from sticky.bleuart import BLEUART
 
-            link = Lines(BLEUART())
+            radio = bluetooth.BLE()
+            radio.active(True)
+            link = Lines(BLEUART(link_name(radio)))
         player = Player(display, scenes, parse, background, overlay)
         asyncio.run(_main(player, link))
     finally:
@@ -34,6 +49,8 @@ def run(scenes, parse, link=None, display=None, background=None, overlay=None):
                     part.close()
                 except Exception as e:
                     print("deck.app: closing", part, "failed", repr(e))
+        if link is None and radio is not None:
+            radio.active(False)  # on before the link existed to turn it off
 
 
 async def _main(player, link):

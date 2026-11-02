@@ -45,9 +45,14 @@ function htmlIncludes() {
 
 export default defineConfig({
   plugins: [htmlIncludes()],
-  // Polling catches edits from sandboxed tools when filesystem events are missed.
+  // Polling catches edits from sandboxed tools when filesystem events are missed. The badge's
+  // MicroPython checkout is ignored: polling its 100k files would stall the server.
   server: {
-    watch: { usePolling: true, interval: 250 },
+    watch: {
+      usePolling: true,
+      interval: 250,
+      ignored: ['**/micropython-badge/micropython-reterminal-sticky/**'],
+    },
   },
   build: {
     rollupOptions: {

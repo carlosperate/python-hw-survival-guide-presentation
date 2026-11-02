@@ -42,7 +42,7 @@
     send($('line').value);
   };
 
-  // One dropdown per group: the names a slide's data-sticky uses, each sending its line.
+  // One dropdown per group: the names a slide's data-ble-badge uses, each sending its line.
   const triggers = await fetch('../triggers.json')
     .then((r) => r.json())
     .catch((e) => log('no ../triggers.json: serve the badge folder (make web)', e.message));

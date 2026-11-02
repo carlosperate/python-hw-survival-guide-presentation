@@ -8,6 +8,7 @@ import fakes  # noqa: E402
 
 ble = fakes.BLE()
 sys.modules["bluetooth"] = fakes.bluetooth_module(ble)
+from deck.app import link_name  # noqa: E402
 from deck.lines import Lines  # noqa: E402
 from sticky.bleuart import BLEUART  # noqa: E402
 
@@ -83,3 +84,9 @@ class TestLines(unittest.TestCase):
         ble.connect()
         self.lines.notify(b"drawn")
         self.assertEqual(ble.notified, [b"drawn\n"])
+
+    # The name shares the 31-byte advertisement with the flags (3 bytes) and its header (2).
+    def test_link_name(self):
+        name = link_name(ble)
+        self.assertEqual(name, "sticky-badge-69f2")
+        self.assertLessEqual(len(name), 26)

@@ -44,6 +44,11 @@ make reset   # afterwards
 - `triggers.json` lists every trigger, by the name a slide uses.
 - Each name maps to the line sent over Bluetooth.
 - Three groups: presentation, blinks and idle animations.
+- A slide plays one with `data-ble-badge="<name>"` on its `<section>`, or on a fragment. In the
+  deck, B connects the Sticky.
+- The Sticky advertises as `sticky-badge-XXXX`. If the chooser stays empty after a firmware
+  change, macOS may still hold the old name: connect once from a scanner (nRF Connect) to
+  refresh it.
 
 To try them, run `make web`. It serves this folder and opens the test page, with a dropdown per
 group. Web Bluetooth needs Chrome.
