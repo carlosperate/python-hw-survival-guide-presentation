@@ -44,19 +44,22 @@ def leader(cx, vx):
     return f'M{n(cx)} {LEADER_TOP} V{n(RAM_Y - 12 - abs(d))} L{n(vx)} {RAM_Y - 12} V{RAM_Y - 6}'
 
 
-def board(name, img, aspect, mm, ram, flash, cpu, cx):
+def board(i, name, img, aspect, mm, ram, flash, cpu, cx):
     rx, fx = x(ram), x(flash)
     cx = rx if cx is None else cx
     w = mm * PX_MM
     h = w / aspect
+    # Boards rise in left to right, a beat apart, once the slide arrives.
     return [
-        f'<image href="/images/boards/{img}" x="{n(cx - w / 2)}" y="{n(FLOOR - h)}" width="{n(w)}" height="{n(h)}" filter="url(#ms-shadow)"/>',
-        f'<text class="ms-name" x="{n(cx)}" y="146" text-anchor="middle">{name}</text>',
-        f'<text class="ms-cpu" x="{n(cx)}" y="165" text-anchor="middle">{cpu}</text>',
-        f'<path class="ms-trace" d="{leader(cx, rx)}"/>',
-        f'<path class="ms-link" d="M{n(rx)} {RAM_Y + 6} L{n(fx)} {FLASH_Y - 6}" mask="url(#ms-label-gaps)"/>',
-        f'<circle class="ms-via ms-via--ram" cx="{n(rx)}" cy="{RAM_Y}" r="5"/>',
-        f'<circle class="ms-via ms-via--flash" cx="{n(fx)}" cy="{FLASH_Y}" r="5"/>',
+        f'<g class="b-rise" style="--d:{2 + 4 * i}">',
+        f'  <image href="/images/boards/{img}" x="{n(cx - w / 2)}" y="{n(FLOOR - h)}" width="{n(w)}" height="{n(h)}" filter="url(#ms-shadow)"/>',
+        f'  <text class="ms-name" x="{n(cx)}" y="146" text-anchor="middle">{name}</text>',
+        f'  <text class="ms-cpu" x="{n(cx)}" y="165" text-anchor="middle">{cpu}</text>',
+        f'  <path class="ms-trace" d="{leader(cx, rx)}"/>',
+        f'  <path class="ms-link" d="M{n(rx)} {RAM_Y + 6} L{n(fx)} {FLASH_Y - 6}" mask="url(#ms-label-gaps)"/>',
+        f'  <circle class="ms-via ms-via--ram" cx="{n(rx)}" cy="{RAM_Y}" r="5"/>',
+        f'  <circle class="ms-via ms-via--flash" cx="{n(fx)}" cy="{FLASH_Y}" r="5"/>',
+        '</g>',
     ]
 
 
@@ -91,14 +94,14 @@ def build():
     # The dotted links break where they cross the RAM scale's labels.
     o[0] = o[0].replace('</defs>', f'<mask id="ms-label-gaps" maskUnits="userSpaceOnUse" x="0" y="0" width="{W}" height="{H}">'
                         f'<rect width="{W}" height="{H}" fill="#fff"/><g fill="#000">{"".join(gaps)}</g></mask></defs>')
-    for b in BOARDS:
-        o.extend(board(*b))
+    for i, b in enumerate(BOARDS):
+        o.extend(board(i, *b))
     return o + labels
 
 
 if __name__ == '__main__':
     inner = '\n'.join('  ' + line for line in build())
-    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" class="diagram memory-scale" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img">\n'
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" class="diagram memory-scale build" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img">\n'
            '  <title>Boards placed by RAM and by flash on one log scale: microcontrollers have kilobytes to megabytes, single-board computers gigabytes</title>\n'
            f'{inner}\n</svg>\n')
     (ART / 'memory-scale.svg').write_text(svg, encoding='utf-8')

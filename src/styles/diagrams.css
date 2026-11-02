@@ -594,7 +594,7 @@
 .reveal .stack-layers {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px; /* the bottom layer stays clear of the QR's top vias */
   width: 520px;
 }
 
@@ -975,6 +975,18 @@
 
 .reveal .blink pre {
   margin: 0;
+}
+
+/* ---------- The two Pythons ---------- */
+
+/* Closer paragraphs, so the panels end above the QR's top vias. */
+.reveal .pythons p {
+  margin-bottom: 0.4em;
+}
+
+/* "Where they differ": at 23px no row wraps, so the table ends above the QR's top vias. */
+.reveal table.differ {
+  font-size: 23px;
 }
 
 /* ---------- The import slide ---------- */
