@@ -370,6 +370,11 @@
   padding: 22px 24px 18px;
 }
 
+/* A card that keeps its own height instead of its row's, e.g. to end above the QR. */
+.reveal .cards > .panel.panel--fit {
+  align-self: start;
+}
+
 .reveal .cards--3 h4 {
   margin-bottom: 0.3em;
 }

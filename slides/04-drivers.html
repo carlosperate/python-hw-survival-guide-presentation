@@ -4,14 +4,16 @@
   <p class="lede">Every light, motor and sensor needs one.</p>
 </section>
 
-<!-- REAL WORLD: the parts on the board, then what they have in common -->
+<!-- ---------------------------- -->
+<!-- CONNECTING TO THE REAL WORLD -->
+<!-- ---------------------------- -->
 <section>
   <header class="slide-head">
     <h2>Your Python controlling the real world</h2>
   </header>
 
-  <div class="r-stack parts-stack">
-    <div class="parts fragment semi-fade-out" data-fragment-index="0">
+  <div class="parts-stack">
+    <div class="parts fragment custom" data-fragment-index="0">
       <figure><img class="part-shot" src="/images/parts/neopixel-ring.webp" style="--h: 80px" alt="A lit NeoPixel LED ring" /><figcaption class="caption"><b>light</b> · NeoPixel ring</figcaption></figure>
       <figure><img class="part-shot" src="/images/parts/servo-sg90.webp" style="--h: 86px" alt="A micro servo" /><figcaption class="caption"><b>move</b> · micro servo</figcaption></figure>
       <figure><img class="part-shot" src="/images/parts/oled-ssd1306.webp" style="--h: 75px" alt="A small OLED screen" /><figcaption class="caption"><b>show</b> · OLED screen</figcaption></figure>
@@ -24,24 +26,16 @@
       <figure><img class="part-shot" src="/images/parts/accel-lis3dh.webp" style="--h: 69px" alt="SparkFun's LIS3DH accelerometer breakout" /><figcaption class="caption"><b>sense</b> · acceleration</figcaption></figure>
       <figure><img class="part-shot" src="/images/parts/encoder-qt.webp" style="--h: 62px" alt="Adafruit's I2C rotary encoder board, with a knob and a lit LED" /><figcaption class="caption"><b>control</b> · rotary knob</figcaption></figure>
     </div>
-    <p class="lede fragment" data-fragment-index="0">Every part needs its own signals, protocol, and timing.<br /><br />A driver abstracts all of that for you.</p>
+    <p class="parts-point fragment" data-fragment-index="0">Different parts might use different signals, protocols, and timings.<span>A <b>driver</b> abstracts that to provide their functionality.</span></p>
   </div>
 
   <aside class="notes">
-    The fun part: your code leaves the screen. Lights, motion, a screen,
-    sensing the room. Each part talks differently: a servo wants a pulse width
-    (PWM), a NeoPixel a precise bit timing on one pin, a stepper its coils in
-    sequence, the distance sensor a trigger pulse and an echo to time, the PIR
-    just a pin going high, the BME280, OLED, accelerometer and encoder board
-    registers over I2C, the e-ink screen SPI, and the camera eight data pins at once.
-    You don't learn each language yourself: a driver does.
-    Photos and licences: public/images/parts/CREDITS.md (CC BY-SA, so the
-    cut-outs are too).
-    Next: so first, look for one.
   </aside>
 </section>
 
-<!-- LOOK FOR A DRIVER: a step per click -->
+<!-- ----------------- -->
+<!-- LOOK FOR A DRIVER -->
+<!-- ----------------- -->
 <section>
   <header class="slide-head">
     <h2>First step, find an existing driver</h2>
@@ -58,34 +52,25 @@
       <a href="https://github.com/adafruit/awesome-circuitpython" target="_blank" rel="noopener">awesome-circuitpython</a>,
       popular vendor's repos (<a href="https://circuitpython.org/libraries" target="_blank" rel="noopener">Adafruit</a>, <a href="https://github.com/sparkfun/" target="_blank" rel="noopener">SparkFun</a>, <a href="https://github.com/pimoroni/" target="_blank" rel="noopener">Pimoroni</a>, <a href="https://github.com/arduino/package-index-py" target="_blank" rel="noopener">Arduino</a>).
     </li>
-    <li class="fragment" data-fragment-index="4">Check it's for your Python. E.g. <code>machine.I2C</code> is MicroPython; <code>busio</code> is CircuitPython.</li>
+    <li class="fragment" data-fragment-index="4">Check it's for your Python. <br />E.g. <code>machine.I2C</code> is MicroPython; <code>busio</code> is CircuitPython.</li>
   </ol>
   <img class="part-shot" src="/images/parts/bme280-adafruit.webp" style="--h: 180px" alt="Adafruit's BME280 breakout, with BME280 printed on it" />
   </div>
 
   <aside class="notes">
-    Most of the time, someone has written it. Search the part number, not the
-    product name: the product page names the chip ("The BME280 is the
-    next-generation of sensors from Bosch", adafruit.com/product/2652).
-    Order: what the firmware already has (help('modules'); stock ESP32 freezes
-    neopixel, apa106, onewire, ds18x20, dht), then micropython-lib (17 drivers
-    on 2026-10-25, no BME280), then awesome-micropython (seven BME280
-    entries), then the maker. Adafruit's bundle is CircuitPython: "may or may
-    not work with MicroPython" (circuitpython.org/libraries). SparkFun's
-    Qwiic_Py drivers support both; Pimoroni builds theirs into its firmware.
-    Sources: reports/finding-drivers.md.
-    Next: found one? Get it onto the board.
   </aside>
 </section>
 
-<!-- INSTALL: the same BME280 driver onto each Python; other ways below -->
+<!-- ------- -->
+<!-- INSTALL -->
+<!-- ------- -->
 <section>
   <section>
     <header class="slide-head">
       <h2>Getting the driver onto your board</h2>
     </header>
 
-    <div class="cols cols--rows">
+    <div class="fragment cols cols--rows"  data-fragment-index="0">
       <div>
         <p class="kicker">MicroPython</p>
         <pre class="terminal compact" data-label="On your PC, over USB"><span class="terminal__in">$ pip install mpremote</span>
@@ -95,7 +80,7 @@
 import bme280_float as bme280
 bme = bme280.BME280(i2c=i2c)
         </code></pre>
-        <p class="caption fragment" data-fragment-index="1">By hand: <code>mpremote cp bme280_float.py :</code></p>
+        <p class="caption fragment" data-fragment-index="2">By hand: <code>mpremote cp bme280_float.py :</code></p>
       </div>
       <div class="fragment" data-fragment-index="0">
         <p class="kicker">CircuitPython</p>
@@ -105,26 +90,15 @@ bme = bme280.BME280(i2c=i2c)
 from adafruit_bme280 import basic as bme280
 bme = bme280.Adafruit_BME280_I2C(i2c)
         </code></pre>
-        <p class="caption fragment" data-fragment-index="1">By hand: drag the <code>.mpy</code> into <code>CIRCUITPY/lib</code></p>
+        <p class="caption fragment" data-fragment-index="2">By hand: drag the <code>.mpy</code> into <code>CIRCUITPY/lib</code></p>
       </div>
     </div>
 
     <aside class="notes">
-      Found a driver: now get it onto the board. MicroPython: mpremote
-      (pip install --user mpremote, or pipx) runs mip from your PC over USB.
-      github:org/repo works when the repo has a package.json; robert-hh/BME280
-      has one (its licence is non-standard). mip installs to the first sys.path
-      entry ending in /lib. CircuitPython: circup (pip install circup) installs
-      from the Adafruit and Community bundles into CIRCUITPY/lib, with the
-      dependencies. Imports from the READMEs; the CircuitPython alias is shortened
-      from adafruit_bme280. By hand: ":" is the board in mpremote cp. Not yet run on a board: run them once before the
-      talk. i2c is machine.I2C(...) on one and board.I2C() on the other.
-      Press down for the other ways.
-      Next: no driver? You can write it in Python.
     </aside>
   </section>
 
-  <section>
+  <section class="slide--small-type">
     <header class="slide-head">
       <h2>Other ways to install a driver</h2>
     </header>
@@ -153,17 +127,6 @@ bme = bme280.Adafruit_BME280_I2C(i2c)
     </p>
 
     <aside class="notes">
-      Vertical slide: read on its own, skipped live.
-      mip on the board: "Network-capable boards include the mip module"; it
-      uses micropython-lib as its index, not PyPI, and fetches .mpy files.
-      Pico W: its manifest requires bundle-networking, which requires mip.
-      github:, gitlab: and codeberg: URLs work via package.json (packages docs).
-      mpremote: "a leading : represents a remote path"; mpremote cp main.py :
-      copies to the board's root. CircuitPython: "download the bundle that
-      matches the major version of your CircuitPython" (circuitpython.org/
-      libraries, which offers 9.x, 10.x and 11.x). circup install --auto reads
-      code.py. SparkFun's Qwiic_Py drivers: mpremote mip install
-      github:sparkfun/qwiic_scd4x_py, or circup bundle-add sparkfun/Qwiic_Py.
     </aside>
   </section>
 </section>
@@ -207,30 +170,15 @@ class BME280:
   </div>
 
   <aside class="notes">
-    No driver for your chip? Look at what sits under your code. Start: just
-    the divide, software above, hardware below. Each software click swaps the
-    code on the right. Click 1, your code, Python: it wants a temperature.
-    Click 2, the driver, Python: it knows the chip, the ID is register 0xD0 at
-    address 0x76 (BME280 datasheet 5.4.1, 6.2). Click 3, MicroPython, in C:
-    it knows the board; I2C(0) is SCL GP5, SDA GP4 on the Pico (rp2
-    quickref), and the rp2 port calls the SDK's i2c_read_timeout_us and
-    i2c_write_timeout_us (ports/rp2/machine_i2c.c, simplified on the slide).
-    Click 4, the silicon vendor's SDK, in C: it writes the microcontroller's
-    I2C registers, the target address then each byte (pico-sdk
-    hardware_i2c/i2c.c, simplified). Click 5, the microcontroller and its
-    peripherals. Click 6, the parts from the start of this part on their
-    buses. Click 7, the read: the I2C block drives the wires and the BME280
-    answers 0x60.
-    Only the driver is yours: MicroPython gives you machine.I2C, SPI, UART, PWM
-    and Pin.
-    Next: which bus? What a bus is, and why you need to know.
   </aside>
 </section>
 
-<!-- WHICH BUS: a bullet per click, for people who have never wired one; the last replaces the code -->
-<section>
+<!-- --------- -->
+<!-- WHICH BUS -->
+<!-- --------- -->
+ <section>
   <header class="slide-head">
-    <h2>Which bus?</h2>
+    <h2>Which communication bus?</h2>
   </header>
 
   <ul class="list--wide bus-list">
@@ -247,22 +195,17 @@ bme = bme280.BME280(i2c=i2c)
     </code></pre>
     <ul class="list--wide bus-list">
       <li class="fragment" data-fragment-index="4">Not every part needs a bus: buttons use a plain pin (GPIO), servos use pulses (PWM).</li>
+      <li class="fragment" data-fragment-index="5">Some buses might not be built into the microcontroller, could be software implemented.</li>
     </ul>
   </div>
 
   <aside class="notes">
-    Many here have never wired a bus. A bus is shared wires plus a protocol;
-    the microcontroller's I2C, SPI and UART blocks (last slide) do the
-    bit-level work. The chip's datasheet picks the bus, and some (the BME280)
-    speak two. The driver hides the protocol but not the wiring: you build
-    the bus object and pass it in, as on the install slide. Pins are the
-    Pico's I2C(0) defaults. Not a bus: GPIO, PWM, and NeoPixel, a timing
-    protocol on one GPIO pin.
-    Next: the three buses side by side.
   </aside>
 </section>
 
-<!-- THREE BUSES: a row per click, then what all three share; a waveform per bus below -->
+<!-- ------------------- -->
+<!-- THREE BUSES COMPARE -->
+<!-- ------------------- -->
 <section>
   <section class="slide--small-type">
     <header class="slide-head">
@@ -276,33 +219,30 @@ bme = bme280.BME280(i2c=i2c)
       </thead>
       <tbody>
         <tr><td>Used for</td><td>GPS, radios, another board</td><td>sensors, clocks, small OLEDs</td><td>colour screens, SD cards</td></tr>
-        <tr class="fragment" data-fragment-index="1"><td>Wires</td><td>TX → RX, crossed</td><td>SDA, SCL</td><td>SCK, COPI, CIPO + CS each</td></tr>
-        <tr class="fragment" data-fragment-index="1"><td>Devices</td><td>two, one at each end</td><td>many, each at an address</td><td>many, one CS pin each</td></tr>
-        <tr class="fragment" data-fragment-index="2"><td>Speed</td><td>9,600–115,200 baud</td><td>100 or 400 kHz</td><td>1–10+ MHz</td></tr>
-        <tr class="fragment" data-fragment-index="3"><td>Extra parts</td><td>none</td><td>pull-ups</td><td>often pull-ups on CS</td></tr>
-        <tr class="fragment" data-fragment-index="4"><td>Anyone there?</td><td>no way to know</td><td><code>scan()</code> lists them</td><td>no: you read 0x00 or 0xFF</td></tr>
-        <tr class="fragment" data-fragment-index="5"><td>Classic mistake</td><td>wrong baud: garbage, no error</td><td>two of the same chip clash</td><td>wrong mode: wrong bits, no error</td></tr>
+        <tr class="fragment" data-fragment-index="1"><td>Wires</td><td>TX → RX, crossed</td><td><span class="fragment" data-fragment-index="2">SDA, SCL</span></td><td><span class="fragment" data-fragment-index="3">SCK, COPI, CIPO + CS each</span></td></tr>
+        <tr class="fragment" data-fragment-index="1"><td>Devices</td><td>two, one at each end</td><td><span class="fragment" data-fragment-index="2">many, each at an address</span></td><td><span class="fragment" data-fragment-index="3">many, one CS pin each</span></td></tr>
+        <tr class="fragment" data-fragment-index="4"><td>Speed</td><td>9,600 - 115,200 baud (1M+)</td><td>100 or 400 kHz</td><td>1–10+ MHz</td></tr>
+        <tr class="fragment" data-fragment-index="5"><td>Extra parts</td><td>none</td><td>pull-up resistors</td><td>often pull-ups on Chip Select</td></tr>
+        <tr class="fragment" data-fragment-index="6"><td>Device detection</td><td>no way to know</td><td><code>scan()</code> lists them</td><td>no: you read 0x00 or 0xFF</td></tr>
+        <tr class="fragment" data-fragment-index="7"><td>Classic mistake</td><td>wrong baud, reads garbage</td><td>two of the same chip clash</td><td>wrong mode: wrong bits, no error</td></tr>
       </tbody>
     </table>
 
-    <!-- Typical wiring under each column, while the wires and devices rows are new -->
-    <div class="bus-wiring fragment current-visible" data-fragment-index="1">
-      <svg class="diagram" viewBox="0 0 300 240" role="img">
-        <title>UART: two devices, each one's TX wired to the other's RX, and a shared ground</title>
-        <rect class="bw-box" x="0" y="20" width="96" height="170" rx="6"/>
-        <rect class="bw-box" x="204" y="20" width="96" height="170" rx="6"/>
+    <!-- Typical wiring under each column, arriving with its bus; the speed row takes its place -->
+    <div class="bus-wiring fragment fade-out" data-fragment-index="4">
+      <svg class="diagram fragment" data-fragment-index="1" viewBox="0 0 300 240" role="img">
+        <title>UART: two devices, each one's TX wired to the other's RX</title>
+        <rect class="bw-box" x="0" y="20" width="96" height="140" rx="6"/>
+        <rect class="bw-box" x="204" y="20" width="96" height="140" rx="6"/>
         <text class="bw-name" x="48" y="52">board</text>
         <text class="bw-name" x="252" y="52">GPS</text>
         <text class="bw-pin" x="88" y="95" text-anchor="end">TX</text>
         <text class="bw-pin" x="88" y="135" text-anchor="end">RX</text>
-        <text class="bw-pin" x="88" y="175" text-anchor="end">GND</text>
         <text class="bw-pin" x="212" y="95">TX</text>
         <text class="bw-pin" x="212" y="135">RX</text>
-        <text class="bw-pin" x="212" y="175">GND</text>
         <path class="bw-wire" d="M96 89 L204 129 M204 89 L96 129"/>
-        <path class="bw-wire bw-wire--gnd" d="M96 169 H204"/>
       </svg>
-      <svg class="diagram" viewBox="0 0 300 240" role="img">
+      <svg class="diagram fragment" data-fragment-index="2" viewBox="0 0 300 240" role="img">
         <title>I2C: one controller and three targets, all on the same two wires, SDA and SCL</title>
         <rect class="bw-box" x="60" y="0" width="180" height="44" rx="6"/>
         <text class="bw-name" x="150" y="29">controller</text>
@@ -319,7 +259,7 @@ bme = bme280.BME280(i2c=i2c)
         <text class="bw-name" x="150" y="210">target</text>
         <text class="bw-name" x="254" y="210">target</text>
       </svg>
-      <svg class="diagram" viewBox="0 0 330 250" role="img">
+      <svg class="diagram fragment" data-fragment-index="3" viewBox="0 0 330 250" role="img">
         <title>SPI: a controller on the left drives SCK, COPI and CIPO out of its right side to two peripherals stacked on the right, with a chip-select wire to each</title>
         <rect class="bw-box" x="0" y="0" width="130" height="250" rx="6"/>
         <text class="bw-name" x="65" y="28">controller</text>
@@ -341,40 +281,11 @@ bme = bme280.BME280(i2c=i2c)
     </div>
     </div>
 
-    <div class="panel fragment" data-label="All three" data-fragment-index="6">
-      <p>Connect GND between boards · 5 V can kill a 3.3 V pin<br>Not every pin can do every bus · keep wires short</p>
+    <div class="panel fragment" data-label="Keep en eye for this" data-fragment-index="8">
+      <p>Connect GND between boards; 5 V can kill a 3.3 V pin;<br>Not every pin can do every bus; keep wires short</p>
     </div>
 
     <aside class="notes">
-      A row per click; wires and devices come together, with the usual wiring
-      under each column until speed arrives. Used for: UART for modules that stream text (GPS NMEA,
-      AT-command radios) or another computer; I2C for slow sensors; SPI when
-      you move a lot of data. Wires: UART labels are "with respect to the
-      device itself", so TX goes to RX (SparkFun Serial); SPI needs one CS per
-      device, and the others held high. Devices: UART is "one serial bus, two
-      serial devices"; I2C addresses are set by the chip, with two choices at
-      best (BME280 0x76/0x77). Speed: 115,200 baud is about 11.5 kB/s, 400 kHz
-      I2C about 44 kB/s, 10 MHz SPI 1.25 MB/s (derived); a 240x240 colour
-      frame is 2.6 s over I2C, 92 ms over SPI. Pull-ups: most SparkFun and
-      Adafruit I2C boards include them. SPI's SCK, COPI and CIPO are driven
-      both ways and need none, but "pullup resistors are needed on the chip
-      select pins" when several devices share a bus, or one hears another's
-      traffic (PJRC, Better SPI Bus Design); some chips don't release CIPO when
-      deselected. SD cards want 10 kΩ pull-ups on CMD and DAT0-3 (Espressif,
-      SD pull-up requirements), which carry COPI, CIPO and CS in SPI mode. Anyone there: a missing SPI chip reads
-      a floating line, usually 0xFF or 0x00, so read an ID register. Mistakes:
-      fixes for clashes are an address pin, a TCA9548A mux or a second bus
-      (Adafruit). All three: no shared ground, no signal; RP2040 pins take
-      3.8 V at most; RP2040 buses only on set pins (rp2 quickref, SoftI2C
-      and SoftSPI work on any); SparkFun gives I2C 2-3 m, SPI a few feet.
-      Cheap SPI screens label their pins SCL/SDA: that's SCK/COPI.
-      Names: controller/target (UM10204 Rev. 7), COPI/CIPO (OSHWA); old
-      names MOSI/MISO, master/slave. Not buses: NeoPixel is a timing protocol,
-      1-Wire a DS18B20 plus 4.7 kΩ, knobs and servos ADC/PWM.
-      Sources: SparkFun Serial, I2C, SPI and Logic Levels tutorials; NXP
-      UM10204; Adafruit address conflicts; MicroPython rp2 quickref; RP2040
-      datasheet 5.5.
-      Press down for UART, I2C and SPI, a waveform each. Next: a driver is a small class.
     </aside>
   </section>
 
@@ -512,8 +423,8 @@ bme = bme280.BME280(i2c=i2c)
       (datasheet 5.4.1, 6.2). readfrom_mem() is writeto(addr, reg, stop=False)
       then readfrom(..., stop=True) (extmod/machine_i2c.c): hence the repeated
       START. 36 clocks: ~0.36 ms at 100 kHz.
-      The code says 0x76; the wire says 0xEC and 0xED: the 8-bit address trap
-      in "When scan() lies". A logic analyser shows this read, field by field.
+      The code says 0x76; the wire says 0xEC and 0xED: the 8-bit address trap.
+      A logic analyser shows this read, field by field.
     </aside>
   </section>
 
@@ -560,18 +471,11 @@ bme = bme280.BME280(i2c=i2c)
     </p>
 
     <aside class="notes">
-      Vertical slide, skipped live. A click per step: select, register byte,
-      dummy byte, deselect. Full duplex through paired shift registers, usually MSB first. In
-      MicroPython, CS is your own Pin; defaults are polarity 0, phase 0
-      (machine.SPI). The BME280 supports modes 00 and 11, uses the register MSB as
-      the read/write bit (1 = read), and runs up to 10 MHz (datasheet 6.3).
-      A missing SPI device reads 0x00 or 0xFF silently. Trap: pulling the
-      BME280's CSB low even once disables I2C until the next power-on (6.1).
     </aside>
   </section>
 </section>
 
-<!-- A DRIVER: line steps synced to the notes -->
+<!-- A DRIVER EXAMPLE -->
 <section>
   <header class="slide-head">
     <h2>A driver is a small class</h2>
@@ -610,21 +514,12 @@ class BME280:
   </div>
 
   <aside class="notes">
-    The chip-ID read from the stack slide, wrapped in a class, is a driver: the layer you write when
-    nobody has. Every register and value comes from the datasheet.
-    API: machine.I2C readfrom_mem, writeto_mem, readfrom_mem_into. The
-    preallocated buffer is the documented pattern (speed_python.html).
-    The BME280 powers up in sleep mode: ctrl_meas (0xF4) = 0x27 sets
-    temperature and pressure oversampling x1 and normal mode. Verify against
-    datasheet 5.4.5 and run this on the board before showing it.
-    Turning raw counts into °C needs the factory calibration words
-    (0x88-0xA1) and Bosch's compensation formula: in a real project, use a
-    library from micropython-lib or Adafruit.
-    Next: the class raises "BME280 not found"? Before you blame the driver.
   </aside>
 </section>
 
-<!-- WIRING TIPS: a card per click; board-specific numbers stay in the notes -->
+<!-- ----------- -->
+<!-- WIRING TIPS -->
+<!-- ----------- -->
 <section>
   <section>
     <header class="slide-head">
@@ -635,86 +530,24 @@ class BME280:
       <div class="panel fragment" data-label="Share GND">
         <p>For every board and power supply. Signals need the common ground.</p>
       </div>
-      <div class="panel fragment" data-label="Most pins: 3.3 V only">
-        <p>Check the part's supply range and its logic level.</p>
+      <div class="panel fragment" data-label="Motors: own supply">
+        <p>Servos and LED strips can require too much power and affect the power stability of the board.</p>
       </div>
       <div class="panel fragment" data-label="I²C pull-ups">
-        <p>Long wires add capacitance & might need stronger pull-ups (↓ resistance). Remember boards/modules might already have pulls!</p>
+        <p>Long wires add capacitance & might need stronger pull-ups (↓ resistance). Remember boards/modules might already have pull-ups!</p>
       </div>
-      <div class="panel fragment" data-label="Motors: own supply">
-        <p>Servos and LED strips brown out the board. Keep GND shared.</p>
+      <div class="panel fragment" data-label="Most pins: 3.3 V only">
+        <p>Check the part's supply range and its logic level.<br />5V vs 3.3 V is not always safe.</p>
       </div>
       <div class="panel fragment" data-label="Level shifting">
-        <p>Shift I²C with a MOSFET. A BSS138-style shifter works on I²C. A TXB0108 doesn't.</p>
+        <p>A chip that converts 5 V signals into 3.3 V ones, and vice versa. For I²C, buy one sold as I²C-safe.</p>
       </div>
-      <div class="panel fragment" data-label="Some pins are taken">
+      <div class="panel panel--fit fragment" data-label="Special pins">
         <p>Boot, input-only, LED and button pins: read the pinout.</p>
       </div>
     </div>
 
     <aside class="notes">
-      A card per click. Ground: a logic level is a voltage against GND; Adafruit,
-      "there must be a ground connection between the two" (NeoPixel best
-      practices). Voltage: Pico GPIO is "fixed at 3.3 V"; ESP32 VIH max is
-      VDD + 0.3 V; micro:bit pins VDD + 0.3 V; Pico 2 takes 5 V only while
-      powered, never on its ADC pins. Power: Pico 3V3 pin under 300 mA,
-      micro:bit 90 mA (V1). Pull-ups: rise time 0.8473 x R x C, 400 pF limit;
-      about 1 kOhm floor at 3.3 V (UM10204, TI SLVA689). Level shifting: NXP
-      AN10441; TI says the TXB0108 "should not be used" on I2C. Pins: ESP32
-      GPIO0, 2, 12 at boot, 34-39 input only. Sources: reports/wiring-tips.md.
-      Press down for when scan() lies, weak pull-ups, I2C pull-ups and the
-      power budget. Next: Debugging, the sensor reads nothing.
-    </aside>
-  </section>
-
-  <!-- WHEN SCAN() LIES, and the rise-time curves behind it -->
-  <section>
-    <header class="slide-head">
-      <h2>When <code>scan()</code> lies to you</h2>
-    </header>
-
-    <div class="cols cols--wide-left scan-lies">
-      <table>
-        <thead>
-          <tr><th><code>i2c.scan()</code></th><th>Usual cause</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><code>[]</code></td><td>no power or GND, SDA/SCL swapped, wrong pins</td></tr>
-          <tr><td>every address, or hangs</td><td>SDA held LOW: no pull-ups, stuck target</td></tr>
-          <tr><td>yours is missing</td><td>8-bit address (0xEC ≠ 0x76), collision</td></tr>
-          <tr><td>found, reads fail</td><td>weak pull-ups, long wires</td></tr>
-          <tr><td>found, on 5 V</td><td>its pull-ups put 5 V on 3.3 V pins</td></tr>
-        </tbody>
-      </table>
-
-      <div>
-        <aside class="callout callout--warn" data-label="Nobody answered">
-          <p>Pico: <code>[Errno 5] EIO</code><br />ESP32, SoftI2C: <code>[Errno 19] ENODEV</code></p>
-        </aside>
-        <aside class="callout callout--ok" data-label="Survival rule">
-          <p>Look for a driver first. Then <code>scan()</code> and read the ID.</p>
-        </aside>
-      </div>
-    </div>
-
-    <aside class="notes">
-      Vertical slide: read on its own, skipped live.
-      Symptom first: "BME280 not found", or OSError EIO. scan() is the first
-      question to ask the bus.
-      scan() probes 0x08-0x77 with zero-length writes (extmod/machine_i2c.c).
-      rp2 maps every non-timeout error to EIO; esp32 maps ESP_FAIL to ENODEV;
-      SCL held too long gives ETIMEDOUT (110). Verify the Pico errno on your
-      board before saying it.
-      Pull-ups: rise time ≈ 0.8473 × 50 kΩ × 50 pF ≈ 2.1 µs against a 300 ns
-      Fast-mode limit (derived from UM10204 7.1). CircuitPython refuses instead:
-      "No pull up found on SDA or SCL; check your wiring".
-      Collisions: two BME280s at 0x76 show as one entry. Tie one SDO high
-      (0x77), use a TCA9548A multiplexer, or a second bus.
-      Pico pins: SDA on an even GPIO, SCL on an odd one; bus id = bit 1 of the
-      pin number. 5 V: a breakout powered from 5 V can pull SDA and SCL up to
-      5 V, over the RP2040's IOVDD + 0.5 V absolute maximum (datasheet 5.5);
-      power it from 3V3 or use one with level shifting.
-      Press down for the rise-time curves.
     </aside>
   </section>
 
@@ -722,8 +555,8 @@ class BME280:
     <header class="slide-head">
       <h2>Why weak pull-ups fail</h2>
     </header>
-
-    <p>The pull-up resistor lifts the line. The weaker it is, the slower the rise: at 400 kHz, 300 ns at most.</p>
+    
+    <p class="lede">The pull-up resistor lifts the line.<br />The weaker it is (higher resistance), the slower the rise: at 400 kHz, should raise within 300 ns at most.</p>
 
     <svg class="diagram" viewBox="0 0 780 280" width="664" height="238" role="img">
       <title>RC rise of SDA with a 4.7 kilo-ohm and a 50 kilo-ohm pull-up</title>
@@ -740,17 +573,9 @@ class BME280:
 <text class="axis-label" x="600" y="274">time (µs) · 50 pF bus</text>
     </svg>
 
-    <p class="readout">Rise time: 4.7 kΩ <b>~0.2 µs</b> ✓ · 50 kΩ <b>~2.1 µs</b> ✕ · five 4.7 kΩ in parallel = 940 Ω, under the 967 Ω minimum</p>
-
-    <p class="caption qr-clear">
-      The Pico's internal pull-ups are 50–80 kΩ: fine on the desk, flaky on wires ·
-      <a href="https://www.nxp.com/docs/en/user-guide/UM10204.pdf" target="_blank" rel="noopener">NXP UM10204, the I²C specification</a>
-    </p>
+    <p class="readout">Rise time: 4.7 kΩ <b>~0.2 µs</b> ✓ ; 50 kΩ <b>~2.1 µs</b> ✕ <br>Five 4.7 kΩ in parallel (multiple modules with pulls) = 940 Ω, too low</p>
 
     <aside class="notes">
-      Vertical slide: read on its own, skipped live.
-      Thresholds 0.3 and 0.7 VDD (UM10204 3.1.2). The ~967 Ω minimum at
-      3.3 V and 3 mA is derived: five breakouts with 4.7 kΩ each go below it.
     </aside>
   </section>
 
@@ -810,17 +635,6 @@ class BME280:
     </div>
 
     <aside class="notes">
-      Vertical slide, skipped live. Open drain: a chip can only pull a line LOW; the
-      resistor pulls it HIGH. Resistors in parallel: 1/R = 1/R1 + 1/R2 + ...;
-      n equal ones give R / n, so 4.7k / 3 = 1.57k. Floor: (3.3 - 0.4) V / 3 mA
-      = 967 Ohm (UM10204 7.1, TI SLVA689). SparkFun: "make sure only one board
-      has the pull-up resistors connected"; Qwiic boards use a cut-trace jumper.
-      Ceiling: rise time 0.8473 x R x C must stay under 1000 ns at 100 kHz,
-      300 ns at 400 kHz; wires and devices add C (400 pF max). Stuck bus:
-      UM10204 3.1.16, "If the data line (SDA) is stuck LOW, the controller
-      should send nine clock pulses... If not, then use the HW reset or cycle
-      power". Mid-read: the target is part-way through sending a byte and
-      still drives SDA when its bit is 0. Sources: reports/wiring-tips.md.
     </aside>
   </section>
 
@@ -866,22 +680,6 @@ class BME280:
     </ul>
 
     <aside class="notes">
-      Vertical slide, skipped live. 3V3 pin: Pico and Pico 2 datasheets,
-      "recommended to keep the load on this pin less than 300 mA". micro:bit:
-      tech.microbit.org revision tables, "Max current provided via edge
-      connector" 90 mA (V1), 190 mA (V2); the power-supply overview still says
-      270 mA for V2. Feather RP2040 and ESP32-S3 pinouts: "can supply 500mA
-      peak". USB: 500 mA for 2.0, 900 mA for 3.x (TI SLYY109B). ESP32
-      datasheet Table 5-4: 240 mA transmitting. GPIO: RP2040 2/4/8/12 mA, 4 mA
-      default, 50 mA for all pins (Table 625); RP2350 the same, 100 mA total;
-      ESP32 drive 0-3 = 5/10/20/40 mA, default 2 (MicroPython's Pin.DRIVE_n);
-      nRF52833 standard drive 1-4 mA, high drive 6-14 mA (tech.microbit.org
-      edge-connector page). rp2 has no drive argument in MicroPython. LED:
-      (3.3 - 2.0) V / 330 Ohm = about 4 mA, derived. Parts: BME280 3.6 µA at
-      1 Hz, 714 µA peak; OLED ~20 mA (Adafruit); NeoPixel 60 mA at full white
-      (Adafruit Uberguide); "Even micro servos will draw several hundred mA when
-      moving" (Adafruit). Measuring: SparkFun, put the meter "in-line", start on
-      the 10A socket.
     </aside>
   </section>
 </section>

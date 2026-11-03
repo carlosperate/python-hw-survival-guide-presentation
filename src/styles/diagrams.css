@@ -655,14 +655,16 @@
   padding-bottom: 0.32em;
 }
 
-/* The panel under it hugs its text, clear of the QR traces. */
+/* The panel under it hugs its text, clear of the QR traces; a step down, so its label clears the last row. */
 .reveal .buses-wrap + .panel {
+  margin-top: 14px;
   width: fit-content;
   font-size: var(--pcb-text-dense);
 }
 
 /* Fixed columns, so the wiring drawn under each one lines up with it. */
 .reveal .buses-wrap {
+  --bus-label: 16%;
   position: relative;
 }
 
@@ -671,15 +673,21 @@
   font-size: 0.74em;
 }
 
+/* Wide enough for "Device detection" on one line. */
 .reveal table.buses th:first-child {
-  width: 15%;
+  width: var(--bus-label);
+}
+
+/* Nothing to its right, so the SPI column gets the room back. */
+.reveal table.buses :is(th, td):last-child {
+  padding-right: 0;
 }
 
 /* Over the rows still to come: top is the bottom of the devices row. */
 .reveal .bus-wiring {
   position: absolute;
   top: 176px;
-  left: 15%;
+  left: var(--bus-label);
   right: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -734,7 +742,7 @@
   stroke: var(--pcb-blue);
 }
 
-.reveal svg :is(.bw-wire--gnd, .bw-wire--cs) {
+.reveal svg .bw-wire--cs {
   stroke: var(--pcb-silk-dim);
 }
 
@@ -1234,29 +1242,53 @@
   white-space: nowrap;
 }
 
-/* On the click the parts dim and the point lands on top of them. */
-.reveal .parts.semi-fade-out.visible {
-  opacity: 0.1;
-}
-
+/* On the click the parts step aside to the left and the point takes the right. */
 .reveal .parts-stack {
-  grid-template-columns: minmax(0, 1fr);
+  display: grid;
+  flex: 1;
+  min-height: 0;
 }
 
+.reveal .parts-stack > * {
+  grid-area: 1 / 1;
+}
+
+/* Scaled rather than re-laid out, so the grid shrinks as one picture. */
 .reveal .parts-stack > .parts {
-  width: 100%;
+  align-self: center;
+  transform-origin: left center;
+  transition: transform calc(2 * var(--pcb-speed)) var(--pcb-ease);
 }
 
-/* A solid panel, so the point reads over the parts behind it. */
-.reveal .parts-stack > .lede {
-  font-size: 1.15em;
-  max-width: 24em;
-  padding: 22px 32px;
-  border: 1px solid var(--pcb-gold);
-  border-radius: 10px;
-  background: var(--pcb-board-deep);
+.reveal .parts-stack > .parts.visible {
+  transform: scale(0.58);
+}
+
+/* Fades in once the shrink has made room. */
+.reveal .parts-point {
+  justify-self: end;
+  align-self: center;
+  width: 430px;
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.35;
+  color: var(--pcb-silk-dim);
+}
+
+/* Only on the way in: stepping back, it goes before the grid grows over it. */
+.reveal .parts-point.visible {
+  transition-delay: var(--pcb-speed);
+}
+
+.reveal .parts-point span {
+  display: block;
+  margin-top: 18px;
   color: var(--pcb-silk);
-  text-align: center;
+}
+
+.reveal .parts-point b {
+  color: var(--pcb-gold);
+  font-weight: 600;
 }
 
 /* ---------- The look-for-a-driver slide ---------- */
@@ -1284,15 +1316,6 @@
 [data-base-theme] .reveal .find-driver ol li {
   margin-bottom: 0.45em;
   padding-bottom: 0.4em;
-}
-
-/* ---------- When scan() lies ---------- */
-
-/* Closer callouts, so the survival rule ends above the QR's top vias. */
-.reveal .scan-lies .callout {
-  margin-bottom: 14px;
-  padding-top: 18px;
-  padding-bottom: 16px;
 }
 
 /* ---------- I2C pull-ups: breakouts' resistors in parallel ---------- */
