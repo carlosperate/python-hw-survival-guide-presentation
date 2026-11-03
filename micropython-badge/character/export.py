@@ -1,13 +1,15 @@
 # Renders the character for the board: a frame pack per style, idle.json (what each animation
-# plays) and cards.frm (boot, badge). A shared pose is one frame, numbered alike in every style.
-# A pack: b"FRM1", the frame count (u16), count + 1 offsets (u32, from the file's start), then
-# each frame as a zlib stream of the panel's buffer (800x480, MONO_HLSB, 1 for white).
+# plays), cards.frm (the boot symbol) and badge.gs2. A shared pose is one frame, numbered alike in
+# every style. A pack: b"FRM1", the frame count (u16), count + 1 offsets (u32, from the file's
+# start), then each frame as a zlib stream of the panel's buffer (800x480, MONO_HLSB, 1 for white).
+# badge.gs2: b"GRY1", then one zlib stream of an 800x480 GS2_HMSB frame (0 black to 3 white).
 import json
 import os
 import struct
 import sys
 import zlib
 
+import badge
 import cards
 import idle
 from face import REST, STYLES
@@ -34,11 +36,13 @@ def frames():
     return poses, table
 
 
+def compress(data):
+    z = zlib.compressobj(9, zlib.DEFLATED, WBITS)
+    return z.compress(data) + z.flush()
+
+
 def pack(images):
-    data = []
-    for img in images:
-        z = zlib.compressobj(9, zlib.DEFLATED, WBITS)
-        data.append(z.compress(img.tobytes()) + z.flush())
+    data = [compress(img.tobytes()) for img in images]
     head = 4 + 2 + 4 * (len(data) + 1)
     offsets = [head]
     for frame in data:
@@ -53,16 +57,19 @@ def write(out, name, blob):
 
 
 def main(out=BOARD):
-    os.makedirs(out, exist_ok=True)
+    # Everything is drawn before anything is written: a pack whose frame numbers idle.json no
+    # longer matches would play the wrong frames.
     poses, table = frames()
     print(len(poses), "frames a style")
-    for style in STYLES:
-        write(out, style + ".frm", pack(idle.render(style, st) for st in poses))
-    write(out, "cards.frm", pack([cards.boot(), cards.badge()]))  # deck/idle.py's CARDS
+    files = [(style + ".frm", pack(idle.render(style, st) for st in poses)) for style in STYLES]
+    files.append(("cards.frm", pack([cards.boot()])))  # deck/idle.py's CARDS
+    files.append(("badge.gs2", b"GRY1" + compress(badge.gs2(badge.draw()))))
     table["styles"] = list(STYLES)
     table["rest"] = poses.index(REST)  # every animation starts and ends on it
-    with open(os.path.join(out, "idle.json"), "w") as f:
-        json.dump(table, f, separators=(",", ":"))
+    files.append(("idle.json", json.dumps(table, separators=(",", ":")).encode()))
+    os.makedirs(out, exist_ok=True)
+    for name, blob in files:
+        write(out, name, blob)
     print(out)
 
 

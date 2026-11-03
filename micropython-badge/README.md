@@ -69,9 +69,13 @@ group. Web Bluetooth needs Chrome.
 ## Change the art
 
 ```sh
-uv run python character/export.py   # frames, in device/idle/
+uv run python character/export.py   # frames and the badge, in device/idle/
 uv run python character/idle.py     # GIFs, in build/previews/
+uv run python character/badge.py    # the badge, in build/previews/
 ```
+
+The badge reads the deck's photo, QR code and fonts: run `npm ci` in the deck's folder first. It
+shows in four greys, which needs the port's firmware with `Display.show_grey()`.
 
 Then load `device/` again.
 

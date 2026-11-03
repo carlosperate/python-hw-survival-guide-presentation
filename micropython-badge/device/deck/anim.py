@@ -12,6 +12,7 @@ class Scene:
 
     name = None
     holds = False  # as the background: True while it keeps the glass from triggers (a badge)
+    greys = True  # set by the player: whether its display can show grey frames
 
     def draw(self, display, step, pose):
         raise NotImplementedError
@@ -19,6 +20,15 @@ class Scene:
     def keyframes(self, step):
         """The Keyframes to play for step, or None for a still frame."""
         return None
+
+    def grey(self, step, pose):
+        """A four-grey frame (800x480 GS2_HMSB) to show for pose instead of drawing it, asked for
+        once a showing: shown with a grey refresh and held, with no overlay. None, as here, to
+        draw it."""
+        return None
+
+    def grey_failed(self, error):
+        """The grey frame couldn't be shown (or grey() raised): go back to black and white."""
 
 
 class Keyframes:
@@ -45,6 +55,11 @@ class Player:
     ):
         self.display = display
         self.scenes = {scene.name: scene for scene in scenes}
+        # Told before anything plays, so a scene never asks for what this display can't show.
+        greys = hasattr(display, "show_grey")
+        for scene in list(self.scenes.values()) + [background]:
+            if scene is not None:
+                scene.greys = greys
         self.parse = parse
         self.background = background
         self.overlay = overlay
@@ -117,9 +132,28 @@ class Player:
         return False
 
     async def _frame(self, scene, step, pose):
+        # A grey frame is held: no overlay or show(), which would bring black and white back.
+        # None marks it, where a drawn frame has link.connected.
+        grey_shown = (scene.name, step, pose, None)
+        if self._shown == grey_shown:
+            return
+        try:
+            grey = scene.grey(step, pose)
+            if grey is not None:
+                show_grey = self.display.show_grey  # before anything changes, if it can't
+                self._shown = None
+                # Cleaned first: a picture held for long (the character's eyes) shows through less.
+                await show_grey(grey, clean=True)
+                self._shown = grey_shown
+                return
+        except Exception as e:
+            print("deck.anim: grey frame failed", scene.name, step, repr(e))
+            scene.grey_failed(e)
+            return
         shown = (scene.name, step, pose, self.link.connected)
         # A new scene gets a full refresh: it clears ghosting where the picture changes anyway.
-        full = not self._shown or self._shown[0] != scene.name
+        # So does a frame after greys: only a full refresh clears them.
+        full = not self._shown or self._shown[0] != scene.name or self._shown[3] is None
         # A pose repeated to watch the buttons is in the buffer already, unless the icon changed.
         # show() still runs: only the display knows what the glass holds.
         if shown != self._shown:

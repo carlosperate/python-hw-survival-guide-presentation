@@ -73,6 +73,39 @@ class Background(Recorded):
         display.fill_rect(200, 0, 10 + 10 * (pose % 2), 10, 0)
 
 
+class Greyed(Background):
+    """The background, held on a grey frame while on, as the idle scene holds its badge."""
+
+    def __init__(self, log=None):
+        super().__init__(log)
+        self.on = False
+        self.failed = []
+        self.asked = 0
+        self.frame = bytearray(b"\xaa" * 96000)
+
+    def keyframes(self, step):
+        def forever():
+            n = 0
+            while True:
+                if self.on:
+                    yield "grey", 20
+                else:
+                    yield n, 20
+                    n += 1
+
+        return Keyframes(forever())
+
+    def grey(self, step, pose):
+        if pose != "grey":
+            return None
+        self.asked += 1
+        return self.frame
+
+    def grey_failed(self, error):
+        self.failed.append(error)
+        self.on = False
+
+
 class Broken(Scene):
     name = "broken"
 
@@ -96,20 +129,12 @@ class Empty(Blink):
         return Keyframes([])
 
 
-class TestPlayer(unittest.TestCase):
+# Fixtures only: the test classes share them without running each other's tests.
+class PlayerCase(unittest.TestCase):
     def setUp(self):
         self.panel = SimPanel()
         self.display = Display(self.panel, idle_ms=50)
         self.link = Link()
-        self.log = []
-        self.still = Still(self.log)
-        self.blink = Blink(self.log)
-        self.background = Background(self.log)
-        self.player = self.make()
-
-    def make(self, **kw):
-        scenes = [self.still, self.blink, Broken(), Empty(), FailsLater()]
-        return Player(self.display, scenes, parse, still_ms=50, **kw)
 
     # Drops the display's idle task, which would otherwise keep this test's buffers alive.
     def tearDown(self):
@@ -134,6 +159,20 @@ class TestPlayer(unittest.TestCase):
                 pass
 
         asyncio.run(main())
+
+
+class TestPlayer(PlayerCase):
+    def setUp(self):
+        super().setUp()
+        self.log = []
+        self.still = Still(self.log)
+        self.blink = Blink(self.log)
+        self.background = Background(self.log)
+        self.player = self.make()
+
+    def make(self, **kw):
+        scenes = [self.still, self.blink, Broken(), Empty(), FailsLater()]
+        return Player(self.display, scenes, parse, still_ms=50, **kw)
 
     def counts(self):
         return self.panel.full, self.panel.partial
@@ -304,6 +343,150 @@ class TestPlayer(unittest.TestCase):
         self.assertTrue(all(link is self.link for link in calls))
         self.assertEqual(self.panel.glass, self.display.buffer)
         self.assertEqual(self.display.pixel(799, 479), 1)
+
+
+class TestGrey(PlayerCase):
+    def setUp(self):
+        super().setUp()
+        self.greyed = Greyed()
+        self.overlaid = []
+        self.player = Player(
+            self.display,
+            [],
+            parse,
+            background=self.greyed,
+            overlay=lambda display, link: self.overlaid.append(link.connected),
+        )
+
+    def on(self):
+        self.greyed.on = True
+
+    def off(self):
+        self.greyed.on = False
+
+    def counts(self):
+        return self.panel.full, self.panel.partial, self.panel.grey
+
+    # Held over many chunks: asked for and shown once, and no show() that would undo it.
+    def test_shown_once_and_held(self):
+        seen = []
+        self.session((None, 60), (self.on, 150), (lambda: seen.append(self.counts()), 200))
+        self.assertEqual(self.greyed.asked, 1)
+        self.assertEqual(self.panel.grey, 1)
+        self.assertEqual(self.counts(), seen[0])
+        self.assertEqual(self.panel.greys, self.greyed.frame)
+
+    def test_the_link_neither_redraws_nor_overlays_it(self):
+        def drop():
+            self.link.connected = False
+
+        self.session((None, 60), (self.on, 100), (lambda: self.overlaid.clear(), 0), (drop, 200))
+        self.assertEqual(self.panel.grey, 1)
+        self.assertEqual(self.overlaid, [])
+
+    def test_leaving_is_a_full_refresh(self):
+        self.session((None, 60), (self.on, 100))
+        full = self.panel.full
+        self.session((self.off, 100))
+        self.assertEqual(self.panel.full, full + 1)
+        self.assertIsNone(self.panel.greys)
+        self.assertEqual(self.panel.glass, self.display.buffer)
+
+    # Up again during the grey refresh: it ends, then black and white comes back, in full.
+    def test_off_during_the_refresh_waits_for_it(self):
+        self.panel.refresh_ms = 150
+
+        async def main():
+            task = asyncio.create_task(self.player.run(self.link))
+            await asyncio.sleep_ms(60)
+            self.on()
+            while not self.panel.grey:
+                await asyncio.sleep_ms(1)
+            self.assertTrue(self.panel.busy())
+            full = self.panel.full
+            self.off()
+            await asyncio.sleep_ms(100)
+            self.assertEqual(self.panel.full, full)  # not while the grey refresh runs
+            await asyncio.sleep_ms(300)
+            self.assertEqual(self.panel.full, full + 1)
+            task.cancel()
+            try:
+                await task
+            except asyncio.CancelledError:
+                pass
+
+        asyncio.run(main())
+        self.assertEqual(self.panel.grey, 1)
+        self.assertIsNone(self.panel.greys)
+
+    # The player's own rule, whatever the display does: leaving grey is a full refresh.
+    def test_leaving_is_full_on_any_display(self):
+        calls = []
+
+        class Recording(Display):
+            async def show(self, full=False):
+                calls.append(("show", full))
+                await asyncio.sleep_ms(0)
+
+            async def show_grey(self, frame, clean=False):
+                calls.append(("grey", clean))
+                await asyncio.sleep_ms(0)
+
+        self.player.display = Recording(SimPanel())
+        self.session((None, 60), (self.on, 60), (self.off, 60))
+        # Cleaned first, then black and white again in full.
+        after = calls[calls.index(("grey", True)) + 1 :]
+        self.assertEqual(after[0], ("show", True))
+        self.assertEqual(after[1], ("show", False))
+
+    # Firmware before show_grey(): Up shows nothing, and the character carries on.
+    def test_a_display_without_grey(self):
+        class NoGrey:
+            def __init__(self, display):
+                self.inner = display
+
+            def __getattr__(self, name):
+                if name == "show_grey":
+                    raise AttributeError(name)
+                return getattr(self.inner, name)
+
+        self.assertTrue(self.greyed.greys)
+        self.player = Player(NoGrey(self.display), [], parse, background=self.greyed)
+        self.assertFalse(self.greyed.greys)  # told before anything plays
+        # A scene that asks anyway fails before anything changes: no extra full refresh.
+        self.session((None, 60))
+        full = self.panel.full
+        self.session((self.on, 100))
+        self.assertEqual(self.panel.grey, 0)
+        self.assertEqual(len(self.greyed.failed), 1)
+        self.assertFalse(self.greyed.on)
+        self.assertEqual(self.panel.full, full)
+
+    # grey() itself failing (no memory to inflate) mustn't stop the background.
+    def test_grey_raising_goes_back_to_black_and_white(self):
+        def broken(step, pose):
+            if pose == "grey":
+                raise MemoryError
+            return None
+
+        self.greyed.grey = broken
+        self.session((None, 60), (self.on, 100))
+        self.assertEqual(len(self.greyed.failed), 1)
+        drawn = len(self.greyed.drawn)
+        self.session((None, 100))
+        self.assertTrue(len(self.greyed.drawn) > drawn)
+
+    def test_a_failed_grey_frame_goes_back_to_black_and_white(self):
+        def fail(frame):
+            raise OSError("busy timeout")
+
+        self.panel.show_grey = fail
+        self.session((None, 60), (self.on, 100))
+        self.assertEqual(len(self.greyed.failed), 1)
+        self.assertFalse(self.greyed.on)
+        drawn = len(self.greyed.drawn)
+        self.session((None, 100))
+        self.assertTrue(len(self.greyed.drawn) > drawn)
 
 
 class TestRun(unittest.TestCase):

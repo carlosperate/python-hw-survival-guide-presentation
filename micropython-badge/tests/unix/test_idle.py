@@ -4,10 +4,11 @@ import sys
 sys.path.insert(0, __file__.rsplit("/", 3)[0] + "/device")
 import json
 import os
+import struct
 import time
 import unittest
 
-from deck.idle import BOOT_MS, CHUNK_MS, Idle, character
+from deck.idle import BADGE, BOOT_MS, CHUNK_MS, Idle, character
 
 REST = 0
 TABLE = {
@@ -23,6 +24,17 @@ TABLE = {
     },
 }
 CARDS = 9
+
+
+class Badge:
+    """Stands in for deck.frames.Grey, counting how often it's inflated."""
+
+    def __init__(self):
+        self.inflated = 0
+
+    def frame(self):
+        self.inflated += 1
+        return bytearray(96000)
 
 
 class Frames:
@@ -58,8 +70,9 @@ class Pin:
             self.handler(self)
 
 
-def idle(rand=lambda n: 0, boot=False):
-    return Idle(TABLE, [Frames(i) for i in range(3)], Frames(CARDS), boot, rand=rand)
+def idle(rand=lambda n: 0, boot=False, badge=True):
+    badge = Badge() if badge is True else badge
+    return Idle(TABLE, [Frames(i) for i in range(3)], Frames(CARDS), boot, rand=rand, badge=badge)
 
 
 def holds(steps):
@@ -125,7 +138,7 @@ class TestIdle(unittest.TestCase):
         gen = scene.forever()
         first(gen, 3)
         scene.toggle_badge()
-        self.assertEqual(first(gen, 3), [((0, "badge"), CHUNK_MS)] * 3)
+        self.assertEqual(first(gen, 3), [(BADGE, CHUNK_MS)] * 3)
         scene.toggle_badge()
         # Back to the rest pose, in full, then the next animation.
         self.assertEqual(holds(first(gen, 40))[:2], [[REST, 8000], [1, 600]])
@@ -168,8 +181,53 @@ class TestIdle(unittest.TestCase):
         scene, display = idle(), Display()
         scene.draw(display, 0, (1, 4))
         self.assertEqual(bytes(display.buffer), bytes([1, 4]))
-        scene.draw(display, 0, (2, "badge"))
-        self.assertEqual(bytes(display.buffer), bytes([CARDS, 1]))
+        scene.draw(display, 0, (2, "boot"))
+        self.assertEqual(bytes(display.buffer), bytes([CARDS, 0]))
+
+    # The badge is the one grey frame, in no style: a style switch doesn't change its pose.
+    def test_the_badge_is_grey_in_every_style(self):
+        scene = idle()
+        self.assertEqual(len(scene.grey(0, BADGE)), 96000)
+        self.assertIsNone(scene.grey(0, (0, REST)))
+        scene.toggle_badge()
+        gen = scene.forever()
+        self.assertEqual(next(gen), (BADGE, CHUNK_MS))
+        scene.next_style()
+        self.assertEqual(next(gen), (BADGE, CHUNK_MS))
+
+    # Holding the glass with nothing to show would only block the triggers.
+    def test_no_badge_means_up_does_nothing(self):
+        scene = idle(badge=None)
+        scene.toggle_badge()
+        self.assertFalse(scene.badge)
+        self.assertFalse(scene.holds)
+        self.assertEqual(next(scene.forever()), ((0, REST), CHUNK_MS))
+
+    # On a display without greys (older firmware), Up changes nothing at all.
+    def test_no_greys_means_up_does_nothing(self):
+        scene = idle()
+        scene.greys = False
+        scene.toggle_badge()
+        self.assertFalse(scene.holds)
+        self.assertEqual(scene.badge_grey.inflated, 0)
+
+    # Inflated each time it's asked for and never kept: the player asks once a showing.
+    def test_the_badge_is_inflated_when_asked(self):
+        scene = idle()
+        scene.toggle_badge()
+        self.assertIsNot(scene.grey(0, BADGE), scene.grey(0, BADGE))
+        self.assertEqual(scene.badge_grey.inflated, 2)
+
+    # Off for this press only: one busy timeout mustn't lose the badge until a reset.
+    def test_a_failed_badge_goes_off_until_up(self):
+        scene = idle()
+        scene.toggle_badge()
+        scene.grey(0, BADGE)
+        scene.grey_failed(OSError("busy timeout"))
+        self.assertFalse(scene.holds)
+        scene.toggle_badge()
+        self.assertTrue(scene.holds)
+        self.assertEqual(len(scene.grey(0, BADGE)), 96000)
 
     def test_buttons_act_once_per_press(self):
         scene, up, down = idle(), Pin(), Pin()
@@ -206,6 +264,32 @@ class TestIdle(unittest.TestCase):
             with open(folder + "/" + name, "wb") as f:
                 f.write(b"FRM")
         self.assertIsNone(character(folder))
+
+    # Without its badge, or with a damaged one, the character still runs: Up does nothing.
+    def test_missing_or_damaged_badge_means_no_badge(self):
+        folder = "/tmp/idle-badge-test"
+        try:
+            os.mkdir(folder)
+        except OSError:
+            pass
+        with open(folder + "/idle.json", "w") as f:
+            json.dump(dict(TABLE, styles=["a"]), f)
+        for name in ("a.frm", "cards.frm"):
+            with open(folder + "/" + name, "wb") as f:
+                f.write(b"FRM1" + struct.pack("<HI", 0, 10))  # a pack of no frames
+        try:
+            os.remove(folder + "/badge.gs2")
+        except OSError:
+            pass
+        self.assertIsNone(character(folder).badge_grey)
+        with open(folder + "/badge.gs2", "wb") as f:
+            f.write(b"GRY1")
+        self.assertIsNone(character(folder).badge_grey)
+        with open(__file__.rsplit("/", 3)[0] + "/device/idle/badge.gs2", "rb") as f:
+            exported = f.read()
+        with open(folder + "/badge.gs2", "wb") as f:
+            f.write(exported)
+        self.assertEqual(len(character(folder).grey(0, BADGE)), 96000)
 
 
 if __name__ == "__main__":

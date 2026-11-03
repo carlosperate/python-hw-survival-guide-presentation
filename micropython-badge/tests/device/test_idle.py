@@ -8,7 +8,7 @@ import os
 import time
 import unittest
 
-from deck.idle import CARDS, CHUNK_MS, Idle
+from deck.idle import BADGE, CARDS, CHUNK_MS, Idle
 from sticky.display import HEIGHT, WIDTH
 
 
@@ -34,10 +34,12 @@ class TestIdle(unittest.TestCase):
             ms = time.ticks_diff(time.ticks_ms(), t)
             self.assertTrue(ms < 100, ms)
 
+    # badge.gs2 loads whole on this firmware, which has the grey refresh.
     def test_the_badge_holds_the_glass(self):
+        self.assertEqual(len(self.scene.grey(0, BADGE)), WIDTH * HEIGHT // 4)
         self.scene.toggle_badge()
         gen = self.scene.forever()
-        self.assertEqual(next(gen), ((0, "badge"), CHUNK_MS))
+        self.assertEqual(next(gen), (BADGE, CHUNK_MS))
         self.assertTrue(self.scene.holds)
 
 
