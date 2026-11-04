@@ -31,3 +31,7 @@ backgrounds and resized.
   - Source: [PulseView 0.4.1 manual](https://sigrok.org/doc/pulseview/0.4.1/manual.html)
   - Author: sigrok project
   - Licence: Creative Commons Attribution-ShareAlike 4.0 International License.
+- `ghi-micropython-debugger.png`: the MicroPython Debugger extension paused on a breakpoint in VS Code
+  - Source: [ghi-electronics/micropython-vsc-extension: images/screenshot.png](https://github.com/ghi-electronics/micropython-vsc-extension/blob/main/images/screenshot.png)
+  - Author: GHI Electronics
+  - Licence: MIT (the repository's licence)

@@ -69,6 +69,13 @@
   stroke: var(--pcb-led-red);
 }
 
+/* Where a pulse should have been. */
+.reveal svg .lane--missing {
+  stroke: var(--pcb-led-red);
+  stroke-width: 2;
+  stroke-dasharray: 4 5;
+}
+
 .reveal svg .lane-label {
   font-size: 15px;
   font-weight: 600;
@@ -759,7 +766,7 @@
   margin-bottom: 18px;
 }
 
-/* A habits table split over two slides: a little larger, with its code at full size. */
+/* A habits table with a snippet under it: a little larger, with its code at full size. */
 .reveal table.habits--split {
   font-size: 27px;
 }
@@ -767,6 +774,16 @@
 .reveal table.habits--tight td {
   padding-top: 0.3em;
   padding-bottom: 0.3em;
+}
+
+/* Five rows at that size: closer rows keep the snippet above the rail. */
+.reveal table.habits--snug {
+  margin-bottom: 12px;
+}
+
+.reveal table.habits--snug td {
+  padding-top: 0.14em;
+  padding-bottom: 0.14em;
 }
 
 /* Every tip of a part in one table: rows end above the QR's top vias. */
@@ -1731,4 +1748,36 @@
 /* A hairline under the last row would cross the QR escapes. */
 .reveal .irq-intro .pinout li:last-child {
   border-bottom: 0;
+}
+
+/* ---------- Breakpoints on the board ---------- */
+
+/* The screenshot as wide as it can be while it still ends above the QR's vias. */
+.reveal .breakpoints .cols {
+  grid-template-columns: minmax(0, 1fr) 440px;
+  gap: 40px;
+  flex: none;
+}
+
+.reveal .breakpoints__cards {
+  display: grid;
+  gap: 26px;
+}
+
+.reveal .breakpoints__cards .panel {
+  padding: 22px 26px 14px;
+}
+
+.reveal .breakpoints__cards p {
+  margin-bottom: 0.4em;
+  font-size: var(--pcb-text-dense);
+  color: var(--pcb-silk-dim);
+}
+
+.reveal .breakpoints .cols + .caption {
+  margin-top: 18px;
+}
+
+.reveal .breakpoints__shot .caption {
+  margin-top: 8px;
 }
