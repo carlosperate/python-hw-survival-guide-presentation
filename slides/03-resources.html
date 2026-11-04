@@ -1,4 +1,4 @@
-<section class="section-slide is-centered" data-board="section" data-part="03">
+<section class="section-slide is-centered" data-board="section" data-part="03" data-ble-badge="640K">
   <h2>Device Resources</h2>
   <span class="trace-rule"></span>
   <p class="lede"><code>640 KB</code> ought to be enough for anybody!</p>
@@ -18,7 +18,7 @@
       <li class="fragment" data-fragment-index="2">Run out of RAM? There is no swap, just <code>MemoryError</code></li>
       <li class="fragment" data-fragment-index="3">CPU frequencies in MHz, not GHz</li>
       <li class="fragment" data-fragment-index="4">Python standard library is limited</li>
-      <li class="fragment" data-fragment-index="5">Same language we love, just with tighter constraints</li>
+      <li class="fragment" data-fragment-index="5" data-ble-badge="if it fits">Same language we love, just with tighter constraints</li>
     </ul>
 
     <!-- The box shows on the first click, zooms on the next, and goes with the second bullet -->
@@ -62,7 +62,7 @@
 <!-- Ways to run out of RAM -->
 <!-- ---------------------- -->
 <section>
-  <section class="is-body-centered">
+  <section class="is-body-centered" data-ble-badge="out of RAM">
     <header class="slide-head">
       <h2>Common ways to run out of RAM</h2>
     </header>
@@ -422,7 +422,7 @@ button.irq(on_press, Pin.IRQ_FALLING)
 <!-- ------------- -->
 <!-- FRAGMENTATION -->
 <!-- ------------- -->
-<section class="is-body-centered">
+<section class="is-body-centered" data-ble-badge="fragmentation">
   <header class="slide-head">
     <h2>Memory Fragmentation</h2>
   </header>
@@ -537,7 +537,7 @@ def checksum(buf) -> int:
 
     <ul class="pinout qr-clear">
       <li class="fragment" data-fragment-index="0"><span class="pinout__pin">native</span><span class="pinout__net">your Python compiled to machine code, not bytecode</span></li>
-      <li class="fragment" data-fragment-index="1"><span class="pinout__pin">viper</span><span class="pinout__net">raw ints and pointers: no floats, no overflow checks</span></li>
+      <li class="fragment" data-fragment-index="1" data-ble-badge="viper"><span class="pinout__pin">viper</span><span class="pinout__net">raw ints and pointers: no floats, no overflow checks</span></li>
       <li class="fragment" data-fragment-index="2"><span class="pinout__pin">Turbo</span><span class="pinout__net">native &amp; viper for CircuitPython, built on a computer</span></li>
     </ul>
 
@@ -702,7 +702,7 @@ except MemoryError as e:
       on no board in main, 68c72ec; py/gc.c still calls it). Docs:
       docs.circuitpython.org/en/latest/shared-bindings/memorymonitor/
       Build: learn.adafruit.com/building-circuitpython/customizing-included-modules
-      Recover: the defensive main.py in Debugging, catching MemoryError. By
+      Recover: catch MemoryError round the app, log it and reset. By
       the time the handler runs, the failed call's objects are unreachable, so
       logging usually finds room; the reset gives a heap with no holes.
       Each bullet's code shows on the right, one at a time. The graph is a

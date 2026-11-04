@@ -5,6 +5,7 @@ import random
 
 from PIL import Image, ImageDraw
 
+import stage
 from face import H, W, heart, oval, thick_line
 
 
@@ -280,7 +281,9 @@ ZEES = [(560, 330, 40), (610, 236, 56), (660, 128, 74), (700, 12, 92)]
 HEARTS = [(610, 400, 40), (690, 335, 30), (185, 405, 34)]
 
 
-def draw(img, props):
+def draw(img, props, eyes=None):
+    """Each prop over the face, in order; eyes: the eyes' centres and the face's zoom, for the
+    slides' props (stage.py) that need them."""
     d = ImageDraw.Draw(img)
     for name, *args in props:
         if name == "clock":
@@ -308,3 +311,7 @@ def draw(img, props):
         elif name == "bang":
             thick_line(d, (754, 24), (742, 136), 30)
             oval(d, 738, 180, 18, 18, 0)
+        elif name == "bug":  # the fly, on its own: what the detective finds
+            fly(d, *args)
+        else:
+            stage.draw(img, d, name, args, eyes)

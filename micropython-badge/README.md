@@ -43,7 +43,7 @@ make reset   # afterwards
 
 - `triggers.json` lists every trigger, by the name a slide uses.
 - Each name maps to the line sent over Bluetooth.
-- Three groups: presentation, blinks and idle animations.
+- Four groups: presentation, blinks, idle animations and slides.
 - A slide plays one with `data-ble-badge="<name>"` on its `<section>`, or on a fragment. In the
   deck, B connects the Sticky.
 - The Sticky advertises as `sticky-badge-XXXX`. If the chooser stays empty after a firmware
@@ -71,6 +71,7 @@ group. Web Bluetooth needs Chrome.
 ```sh
 uv run python character/export.py   # frames and the badge, in device/idle/
 uv run python character/idle.py     # GIFs, in build/previews/
+uv run python character/slides.py   # the slides' animations, in build/previews/
 uv run python character/badge.py    # the badge, in build/previews/
 ```
 

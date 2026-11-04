@@ -190,8 +190,9 @@ SCENES = [Eyes(), Led(), Heap(), Title(), Trigger()]
 
 
 def parse(state, idle=None):
-    """b"<scene> <step>" as (scene, step), as b"trigger 7"; b"blink <name>" and b"idle <name>" as
-    the character's scene and one of its animations. idle: the Idle, None without its frames."""
+    """b"<scene> <step>" as (scene, step), as b"trigger 7"; b"blink <name>", b"idle <name>" and
+    b"slide <name>" as the character's scene and one of its animations. idle: the Idle, None
+    without its frames."""
     word, _, step = state.decode().partition(" ")
     if word in TRIGGERS:
         if not idle:

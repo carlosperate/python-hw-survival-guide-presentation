@@ -4,11 +4,13 @@
 # partial refresh on the unit. Run it to preview every behaviour as GIFs.
 import os
 import sys
+from functools import cache
 
 from PIL import Image
 
+import cards
 import props
-from face import FX, FY, REST, STYLES, H, W, face, pose, threshold
+from face import FX, FY, REST, STYLES, H, W, eye_centres, face, pose, threshold
 
 FRAME = 600  # ms
 PREVIEWS = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "build", "previews"))
@@ -245,28 +247,38 @@ BLINKS = {
 }
 
 
+@cache  # the same in every style
+def card(name):
+    return cards.CARDS[name]()
+
+
 def render(style, st):
-    """One frame for the panel: 1-bit, 800x480."""
+    """One frame for the panel, 1-bit, 800x480: a pose drawn in style, or a card by its name."""
+    if isinstance(st, str):
+        return card(st)
     img = face(STYLES[style], st)
-    props.draw(img, st["props"])
+    props.draw(img, st["props"], (eye_centres(STYLES[style], st), st["zoom"]))
     return threshold(img)
 
 
-def main(out=PREVIEWS):
+def previews(out, animations):
+    """Each animation as a GIF per style, out/<style>-<name>.gif, at the board's timing."""
     os.makedirs(out, exist_ok=True)
     for style in STYLES:
-        blinks = {"blink-" + name: steps for name, steps in BLINKS.items()}
-        for name, steps in {**BEHAVIOURS, **blinks}.items():
+        for name, steps in animations.items():
             images = [render(style, st) for st, _ in steps]
-            path = os.path.join(out, "%s-%s.gif" % (style, name))
             images[0].save(
-                path,
+                os.path.join(out, "%s-%s.gif" % (style, name)),
                 save_all=True,
                 append_images=images[1:],
                 duration=[ms for _, ms in steps],
                 loop=0,
             )
     print(out)
+
+
+def main(out=PREVIEWS):
+    previews(out, {**BEHAVIOURS, **{"blink-" + name: steps for name, steps in BLINKS.items()}})
 
 
 if __name__ == "__main__":

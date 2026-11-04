@@ -1,4 +1,4 @@
-<section class="section-slide is-centered" data-board="section" data-part="04">
+<section class="section-slide is-centered" data-board="section" data-part="04" data-ble-badge="F1 car">
   <h2>Drivers</h2>
   <span class="trace-rule"></span>
   <p class="lede">Every light, motor and sensor needs one.</p>
@@ -506,7 +506,7 @@ class BME280:
       <ol class="list--dense">
         <li>Registers as <code>const()</code></li>
         <li class="fragment" data-fragment-index="0">Take the bus, don't make it: I2C, SoftI2C or a fake</li>
-        <li class="fragment" data-fragment-index="1">Check the ID, wake it up</li>
+        <li class="fragment" data-fragment-index="1" data-ble-badge="scan()">Check the ID, wake it up</li>
         <li class="fragment" data-fragment-index="2">One buffer, reused</li>
       </ol>
 

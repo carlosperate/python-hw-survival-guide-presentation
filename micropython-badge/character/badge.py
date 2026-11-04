@@ -5,6 +5,7 @@ import math
 import os
 import re
 import sys
+from functools import cache
 from itertools import combinations
 from pathlib import Path
 
@@ -61,8 +62,14 @@ def font_path(family):
     return FONTS / family / "files" / (family + "-latin-wght-normal.woff2")
 
 
-def font(family, size, weight):
-    face = ImageFont.truetype(str(font_path(family)), round(size * SCALE))
+@cache  # each face parsed once: export and the previews ask for the same few again and again
+def font(family, size, weight, scale=SCALE):
+    path = font_path(family)
+    if (
+        not path.exists()
+    ):  # the slides' props and cards use the deck's fonts too, not only the badge
+        sys.exit("%s is missing: the fonts come from `npm ci` in %s." % (path, DECK))
+    face = ImageFont.truetype(str(path), round(size * scale))
     face.set_variation_by_axes([weight])
     return face
 

@@ -1,7 +1,7 @@
 # The character between the deck's triggers, as the player's background: rests, random blinks
 # and behaviours, or the badge in four greys. A frame has the same number in every style, so a
 # style switch keeps the place. As a scene too, it plays a named animation for a trigger: the same
-# scene, so with no full refresh.
+# scene, so with no full refresh. The slides' animations play only so, never in the rotation.
 import json
 import random
 import time
@@ -13,9 +13,8 @@ SETTLE_MS = 30  # longer than a contact bounces: a press needs the pin released 
 REST_MS = 8000  # between two animations: a blink starts about every 10 s
 EVERY = 3  # every third animation is a behaviour, about every 30 s
 BOOT_MS = 2000
-CARDS = ("boot",)  # cards.frm's frames, in order
 BADGE = (None, "badge")  # the badge's pose, in no style: switching style leaves it as it is
-TRIGGERS = {"blink": "blinks", "idle": "behaviours"}  # a trigger's first word: its group
+TRIGGERS = {"blink": "blinks", "idle": "behaviours", "slide": "slides"}  # first word: group
 
 
 class Idle(Scene):
@@ -34,6 +33,7 @@ class Idle(Scene):
         self.styles = table["styles"]
         self.frames = frames
         self.cards = cards
+        self.card_names = table["cards"]  # cards.frm's frames, in order
         self.boot = boot
         self.rest_ms = rest_ms
         self.rand = rand or random.randrange
@@ -46,7 +46,11 @@ class Idle(Scene):
         with open(folder + "/idle.json") as f:
             table = json.load(f)
         frames = [Frames("%s/%s.frm" % (folder, s)) for s in table["styles"]]
-        return cls(table, frames, Frames(folder + "/cards.frm"), boot, badge=grey_badge(folder))
+        cards = Frames(folder + "/cards.frm")
+        # Refused now, not when a slide first shows a card that isn't there.
+        if len(cards) != len(table["cards"]):
+            raise ValueError("cards.frm has %d cards, not %d" % (len(cards), len(table["cards"])))
+        return cls(table, frames, cards, boot, badge=grey_badge(folder))
 
     def next_style(self):
         self.style = (self.style + 1) % len(self.styles)
@@ -78,8 +82,8 @@ class Idle(Scene):
 
     def draw(self, display, step, pose):
         style, frame = pose
-        if frame in CARDS:
-            self.cards.unpack(CARDS.index(frame), display.buffer)
+        if frame in self.card_names:
+            self.cards.unpack(self.card_names.index(frame), display.buffer)
         else:
             self.frames[style].unpack(frame, display.buffer)
 

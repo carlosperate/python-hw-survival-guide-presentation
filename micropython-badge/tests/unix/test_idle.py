@@ -22,6 +22,12 @@ TABLE = {
         "plain": [[REST, 1200], [1, 600], [REST, 1200]],
         "double": [[REST, 1200], [1, 600], [REST, 600], [1, 600], [REST, 1200]],
     },
+    # Frames 6 and 7 only the slides use; a card is named, as cards.frm holds it.
+    "slides": {
+        "pop": [[REST, 1200], [6, 700], ["pop", 600], [7, 900], [REST, 1200]],
+        "photo": [[REST, 1200], ["640k", 4500], [1, 600], [REST, 1200]],
+    },
+    "cards": ["boot", "640k", "owl", "pop"],  # cards.frm's order
 }
 CARDS = 9
 
@@ -86,6 +92,24 @@ def holds(steps):
     return out
 
 
+EMPTY = b"FRM1" + struct.pack("<HI", 0, 10)  # a pack of no frames
+
+
+def folder(path, pack=EMPTY, **table):
+    """path, made if need be, with TABLE (one style, changed by table) as idle.json and pack as
+    both a.frm and cards.frm."""
+    try:
+        os.mkdir(path)
+    except OSError:
+        pass
+    with open(path + "/idle.json", "w") as f:
+        json.dump(dict(TABLE, styles=["a"], **table), f)
+    for name in ("a.frm", "cards.frm"):
+        with open(path + "/" + name, "wb") as f:
+            f.write(pack)
+    return path
+
+
 def first(gen, n):
     return [next(gen) for _ in range(n)]
 
@@ -147,9 +171,26 @@ class TestIdle(unittest.TestCase):
         scene = idle()
         self.assertEqual(scene.named("blink", "double"), ("blinks", "double"))
         self.assertEqual(scene.named("idle", "nod"), ("behaviours", "nod"))
-        for word, name in (("blink", "nod"), ("idle", "plain"), ("wink", "plain")):
+        self.assertEqual(scene.named("slide", "pop"), ("slides", "pop"))
+        for word, name in (
+            ("blink", "nod"),
+            ("idle", "plain"),
+            ("wink", "plain"),
+            ("slide", "nod"),
+        ):
             with self.assertRaises(KeyError):
                 scene.named(word, name)
+
+    # Only from their slides: the rotation never picks one.
+    def test_slides_never_play_in_the_rotation(self):
+        shown = {frame for (_, frame), _ in first(idle().forever(), 4000)}
+        self.assertEqual(shown & {6, 7, "pop", "640k"}, set())
+
+    def test_a_slide_animation_plays_once_cards_and_all(self):
+        steps = list(idle().keyframes(("slides", "pop")).poses)
+        self.assertEqual(holds(steps), [[6, 700], ["pop", 600], [7, 900]])
+        steps = list(idle().keyframes(("slides", "photo")).poses)
+        self.assertEqual(holds(steps), [["640k", 4500], [1, 600]])
 
     def test_a_named_animation_plays_once_without_its_rests(self):
         steps = list(idle().keyframes(("blinks", "double")).poses)
@@ -183,6 +224,8 @@ class TestIdle(unittest.TestCase):
         self.assertEqual(bytes(display.buffer), bytes([1, 4]))
         scene.draw(display, 0, (2, "boot"))
         self.assertEqual(bytes(display.buffer), bytes([CARDS, 0]))
+        scene.draw(display, 0, (2, "pop"))
+        self.assertEqual(bytes(display.buffer), bytes([CARDS, 3]))
 
     # The badge is the one grey frame, in no style: a style switch doesn't change its pose.
     def test_the_badge_is_grey_in_every_style(self):
@@ -249,47 +292,33 @@ class TestIdle(unittest.TestCase):
 
     # An interrupted copy leaves damaged frames: the triggers must still play without them.
     def test_missing_or_damaged_frames_mean_no_character(self):
-        folder = "/tmp/idle-test"
-        try:
-            os.mkdir(folder)
-        except OSError:
-            pass
-        self.assertIsNone(character(folder + "/none"))
-        with open(folder + "/idle.json", "w") as f:
+        path = folder("/tmp/idle-test", pack=b"FRM")
+        self.assertIsNone(character(path + "/none"))
+        self.assertIsNone(character(path))
+        with open(path + "/idle.json", "w") as f:
             f.write('{"styles": ["a"')
-        self.assertIsNone(character(folder))
-        with open(folder + "/idle.json", "w") as f:
-            json.dump(dict(TABLE, styles=["a"]), f)
-        for name in ("a.frm", "cards.frm"):
-            with open(folder + "/" + name, "wb") as f:
-                f.write(b"FRM")
-        self.assertIsNone(character(folder))
+        self.assertIsNone(character(path))
+
+    # A cards.frm that doesn't match idle.json (half a copy) is refused at load, not mid-slide.
+    def test_too_few_cards_mean_no_character(self):
+        self.assertIsNone(character(folder("/tmp/idle-cards-test")))  # four named, none packed
 
     # Without its badge, or with a damaged one, the character still runs: Up does nothing.
     def test_missing_or_damaged_badge_means_no_badge(self):
-        folder = "/tmp/idle-badge-test"
+        path = folder("/tmp/idle-badge-test", cards=[])
         try:
-            os.mkdir(folder)
+            os.remove(path + "/badge.gs2")
         except OSError:
             pass
-        with open(folder + "/idle.json", "w") as f:
-            json.dump(dict(TABLE, styles=["a"]), f)
-        for name in ("a.frm", "cards.frm"):
-            with open(folder + "/" + name, "wb") as f:
-                f.write(b"FRM1" + struct.pack("<HI", 0, 10))  # a pack of no frames
-        try:
-            os.remove(folder + "/badge.gs2")
-        except OSError:
-            pass
-        self.assertIsNone(character(folder).badge_grey)
-        with open(folder + "/badge.gs2", "wb") as f:
+        self.assertIsNone(character(path).badge_grey)
+        with open(path + "/badge.gs2", "wb") as f:
             f.write(b"GRY1")
-        self.assertIsNone(character(folder).badge_grey)
+        self.assertIsNone(character(path).badge_grey)
         with open(__file__.rsplit("/", 3)[0] + "/device/idle/badge.gs2", "rb") as f:
             exported = f.read()
-        with open(folder + "/badge.gs2", "wb") as f:
+        with open(path + "/badge.gs2", "wb") as f:
             f.write(exported)
-        self.assertEqual(len(character(folder).grey(0, BADGE)), 96000)
+        self.assertEqual(len(character(path).grey(0, BADGE)), 96000)
 
 
 if __name__ == "__main__":

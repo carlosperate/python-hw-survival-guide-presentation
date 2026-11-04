@@ -61,5 +61,21 @@
     "idea": "idle idea",
     "fly": "idle fly",
     "speaker": "idle speaker"
+  },
+  "slides": {
+    "LED eyes": "slide leds",
+    "owl meme": "slide owl",
+    "640K": "slide 640k",
+    "if it fits": "slide box",
+    "out of RAM": "slide out-of-ram",
+    "fragmentation": "slide heap",
+    "viper": "slide viper",
+    "F1 car": "slide f1",
+    "scan()": "slide scan",
+    "detective": "slide bug",
+    "x-ray specs": "slide specs",
+    "beep": "slide beep",
+    "ACK": "slide ack",
+    "thank you": "slide thanks"
   }
 }

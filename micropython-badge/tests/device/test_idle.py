@@ -8,7 +8,7 @@ import os
 import time
 import unittest
 
-from deck.idle import BADGE, CARDS, CHUNK_MS, Idle
+from deck.idle import BADGE, CHUNK_MS, Idle
 from sticky.display import HEIGHT, WIDTH
 
 
@@ -27,7 +27,7 @@ class TestIdle(unittest.TestCase):
     def test_every_style_and_card_unpacks(self):
         display = Display()
         poses = [(style, self.scene.rest) for style in range(len(self.scene.styles))]
-        for pose in poses + [(0, card) for card in CARDS]:
+        for pose in poses + [(0, card) for card in self.scene.card_names]:
             t = time.ticks_ms()
             self.scene.draw(display, 0, pose)
             # Measured at 17 to 36 ms a frame on the unit: well inside a 600 ms frame.

@@ -6,6 +6,7 @@ HERE = __file__.rsplit("/", 3)[0]
 sys.path.insert(0, HERE + "/device")
 import unittest
 
+from deck.idle import TRIGGERS as WORDS
 from deck.idle import Idle
 from scenes import SCENES, parse, skipped
 from sticky.display import Display
@@ -51,15 +52,22 @@ class TestTriggers(unittest.TestCase):
             scenes[name].draw(display, step, frames.poses[0][0] if frames else None)
 
     def test_every_animation_of_the_character_and_no_other(self):
-        lines = set()
-        for group in ("blinks", "idle animations"):
-            lines |= set(TRIGGERS[group].values())
-        names = {"blink " + name for name in TABLE["blinks"]}
-        names |= {"idle " + name for name in TABLE["behaviours"]}
+        lines = {
+            line
+            for group, entries in TRIGGERS.items()
+            if group != "presentation"
+            for line in entries.values()
+        }
+        names = {word + " " + name for word, group in WORDS.items() for name in TABLE[group]}
         self.assertEqual(lines, names)
         idle = character()
         for line in lines:
             self.assertEqual(parse(line.encode(), idle)[0], "idle")
+
+    # A slide's card is found by name in the cards idle.json lists, in cards.frm's order.
+    def test_every_card_a_slide_shows_is_on_the_board(self):
+        named = {f for steps in TABLE["slides"].values() for f, _ in steps if isinstance(f, str)}
+        self.assertLessEqual(named, set(TABLE["cards"]))
 
     def test_names_unique_and_each_line_fits_one_write(self):
         names = [name for group in TRIGGERS.values() for name in group]

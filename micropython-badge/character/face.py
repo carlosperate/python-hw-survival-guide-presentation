@@ -1,5 +1,7 @@
 # The character's face: two eyes, eyebrows and a mouth, drawn from a pose (a dict of the fields in
 # REST). Three styles share every pose. Host only (Pillow): the board gets the frames, not this.
+import math
+
 from PIL import Image, ImageDraw
 
 W, H = 800, 480
@@ -53,8 +55,9 @@ STYLES = {
 
 # A pose. Head: centre (fx, fy), turn (yaw), nod (pitch), tilt (roll, degrees), size (zoom).
 # Eyes: gaze (gx, gy, -1..1), cross, upper lid (lid, 0..1) and its droop, eye size (scale) and
-# pupil size, fit (the pupil kept whole below the lid), and what they show (eyes: open, closed, happy, heart; or one per eye). Brows: lift,
-# lift_r (right one only), btilt (inner ends up), arch (0 flattens them).
+# pupil size, fit (the pupil kept whole below the lid), and what they show (eyes: open, closed,
+# happy, heart, or a symbol: led, led-lit, x; or one per eye). Brows: lift, lift_r (right one
+# only), btilt (inner ends up), arch (0 flattens them).
 REST = dict(
     fx=FX,
     fy=FY,
@@ -219,14 +222,61 @@ def threshold(img):
     return img.point(lambda v: 255 if v > 127 else 0).convert("1")
 
 
+def symbol_eye(d, eye, x, y, st):
+    """An eye drawn as a symbol, the same in every style: an LED, lit or not, or a dazed X."""
+    k = st["scale"]
+    if eye == "x":
+        r = 46 * k
+        thick_line(d, (x - r, y - r), (x + r, y + r), 20)
+        thick_line(d, (x - r, y + r), (x + r, y - r), 20)
+        return
+    lit = eye == "led-lit"
+    w, h = 64 * k, 92 * k
+    top, bottom = y - h / 2, y + h / 2
+    fill = 0 if lit else 255
+    d.chord((x - w, top - w * 0.2, x + w, top + w * 1.8), 180, 360, fill=fill, outline=0, width=14)
+    d.rectangle((x - w, top + w * 0.8, x + w, bottom), fill=fill, outline=0, width=14)
+    d.rectangle((x - w - 12, bottom - 4, x + w + 12, bottom + 14), fill=0)
+    # Its legs, the anode's the longer.
+    thick_line(d, (x - w * 0.4, bottom), (x - w * 0.4, bottom + 70), 10)
+    thick_line(d, (x + w * 0.4, bottom), (x + w * 0.4, bottom + 50), 10)
+    if lit:
+        oval(d, x - w * 0.45, top + w * 0.6, 12, 18, 255)
+        cy, r = top + w * 0.8, w + 26
+        for a in (-160, -125, -55, -20, 0, 180):  # it shines
+            c, s = math.cos(math.radians(a)), math.sin(math.radians(a))
+            thick_line(d, (x + c * r, cy + s * r), (x + c * (r + 34), cy + s * (r + 34)), 11)
+
+
+SYMBOLS = ("led", "led-lit", "x")
+
+
+def _head(p, st):
+    """The eyes' separation, and the face's centre, before the tilt and zoom."""
+    sep = p["sep"] * (1 - 0.2 * abs(st["yaw"]))
+    return sep, st["fx"] + st["yaw"] * 45, st["fy"] + st["pitch"] * 35
+
+
+def eye_centres(p, st):
+    """Where face() puts the two eyes' centres on the panel, after the tilt and zoom."""
+    sep, ox, oy = _head(p, st)
+    a, z = math.radians(st["roll"]), st["zoom"]
+    centres = []
+    for side in (-1, 1):
+        dx, dy = ox + side * sep - st["fx"], oy - st["fy"]
+        # As Image.rotate turns it: anticlockwise on the panel, with y pointing down.
+        dx, dy = dx * math.cos(a) + dy * math.sin(a), dy * math.cos(a) - dx * math.sin(a)
+        centres.append((st["fx"] + dx * z, st["fy"] + dy * z))
+    return centres
+
+
 def face(p, st):
     """The face alone, in greys (anti-aliased by the tilt and zoom); threshold() it for the panel."""
     img = Image.new("L", (W, H), 255)
     d = ImageDraw.Draw(img)
     outlined = p["kind"] == "outlined"
     yaw, pitch = st["yaw"], st["pitch"]
-    sep = p["sep"] * (1 - 0.2 * abs(yaw))
-    ox, oy = st["fx"] + yaw * 45, st["fy"] + pitch * 35
+    sep, ox, oy = _head(p, st)
     hf = 1 - 0.12 * abs(pitch)
     eyes = st["eyes"] if isinstance(st["eyes"], tuple) else (st["eyes"],) * 2
     for side, eye in zip((-1, 1), eyes):
@@ -234,7 +284,10 @@ def face(p, st):
         wf = 1 - 0.35 * max(0, side * yaw) + 0.06 * max(0, -side * yaw)
         ex = ox + side * sep
         est = {**st, "gx": st["gx"] - side * st["cross"]}
-        (outlined_eye if outlined else solid_eye)(img, p, eye, side, ex, oy, wf, hf, est)
+        if eye in SYMBOLS:
+            symbol_eye(d, eye, ex, oy, st)
+        else:
+            (outlined_eye if outlined else solid_eye)(img, p, eye, side, ex, oy, wf, hf, est)
         top = oy - p["ry" if outlined else "h"] * hf * st["scale"] - p["gap"]
         lift = st["lift"] + (st["lift_r"] if side > 0 else 0)
         inner = st["btilt"] + (0 if outlined else 4 * st["arch"])
