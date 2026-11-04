@@ -1,7 +1,7 @@
 <section class="section-slide is-centered" data-board="section" data-part="02">
   <h2>Python<br />on Hardware</h2>
   <span class="trace-rule"></span>
-  <p class="lede">What is it?<br />How is it different than normal Python?</p>
+  <p class="lede">What is it?<br />How is it different from normal Python?</p>
 </section>
 
 <!-- -------------------------------------------------- -->
@@ -83,7 +83,7 @@
   from time import sleep
   from gpiozero import LED
 
-  # External LED connected to pin 17
+  # An LED wired to GPIO17
   led = LED(17)
   while True:
       led.toggle()
@@ -109,8 +109,8 @@
         <h4><a href="https://micropython.org/" target="_blank" rel="noopener">MicroPython</a></h4>
         <p>A lean Python 3 for microcontrollers, by Damien George.</p>
         <p>
-          <strong>The best for each chip.</strong> <code>machine</code> is the
-          portable core, and each port adds modules for what the individual chip can do.
+          <strong>The most from each chip.</strong> <code>machine</code> works on
+          every board, and each port (the build for one chip family) adds modules for what its chip can do.
         </p>
       </div>
       <div class="panel" data-label="Released 2017">
@@ -122,7 +122,7 @@
         </p>
         <p>
           <a href="https://github.com/adafruit/Adafruit_Blinka" target="_blank" rel="noopener">Blinka</a>
-          brings that API and Adafruit's drivers to CPython on SBCs like Raspberry Pi.
+          brings that API and Adafruit's drivers to CPython on single-board computers like the Raspberry Pi.
         </p>
       </div>
     </div>
@@ -188,18 +188,18 @@
           <div>CPython</div>
           <div class="is-os">OS: processes, files, catches crashes</div>
           <div>Kernel + drivers</div>
-          <div class="is-chip">Computer Hardware, CPU, RAM, disk</div>
+          <div class="is-chip">Hardware: CPU, RAM, disk</div>
         </div>
       </div>
       <div>
-        <p class="kicker">On an MCU with Micropython</p>
+        <p class="kicker">On a microcontroller (MCU)</p>
         <div class="stack-layers">
           <div class="is-you">main.py</div>
           <div>mip + micropython-lib, not PyPI</div>
           <div>MicroPython VM + <code>machine</code></div>
           <div class="is-os">No OS: all handled by MicroPython</div>
-          <div>Vendor SDK</div>
-          <div class="is-chip">The MCU and built in RAM/flash.</div>
+          <div>Vendor SDK: the chip maker's C library</div>
+          <div class="is-chip">The MCU, with built-in RAM and flash</div>
         </div>
       </div>
     </div>

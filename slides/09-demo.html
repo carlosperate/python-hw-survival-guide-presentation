@@ -92,7 +92,7 @@
 </section>
 
 <!-- CARDS: one column per child, any count -->
-<section>
+<section class="is-body-centered">
   <header class="slide-head">
     <h2>Three options</h2>
   </header>
@@ -371,19 +371,25 @@ timer = Timer(period=500, callback=lambda t: led.toggle())
   </div>
 </section>
 
-<!-- VERTICAL STACK: optional detail; down enters it, right skips it -->
+<!-- VERTICAL SLIDES: down enters them, right skips them -->
 <section>
   <section>
     <header class="slide-head">
-      <h2>Optional detail</h2>
+      <h2>Horizontal slide</h2>
     </header>
     <p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    <p class="kicker">↓ Backup slide below</p>
+    <p class="kicker">↓ Vertical slide below</p>
+    <div class="nav-arrows" aria-hidden="true">
+      <span class="nav-arrows__left"></span>
+      <span class="nav-arrows__up"></span>
+      <span class="nav-arrows__right"></span>
+      <span class="nav-arrows__down"></span>
+    </div>
   </section>
 
   <section>
     <header class="slide-head">
-      <h2>Backup</h2>
+      <h2>Vertical slide</h2>
     </header>
     <aside class="callout" data-label="If asked">
       <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -397,4 +403,50 @@ timer = Timer(period=500, callback=lambda t: led.toggle())
     Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.
     <cite>Someone, somewhere</cite>
   </blockquote>
+</section>
+
+<!-- SPEAKER BIO + CORNER ARROWS: keep the arrow for the side of the screen you stand on -->
+<section>
+  <header class="slide-head">
+    <h2>Lorem ipsum dolor</h2>
+  </header>
+
+  <div class="bio">
+    <div class="bio__photo"><img src="/images/placeholder.svg" alt="" /></div>
+    <div>
+      <h3>Lorem Ipsum</h3>
+      <ul>
+        <li>Dolor sit amet, consectetur adipiscing elit</li>
+        <li>Sed do eiusmod tempor <img class="inline-icon" src="/images/microbit-heart.png" alt="heart" /></li>
+      </ul>
+    </div>
+  </div>
+
+  <svg class="corner-arrow corner-arrow--left" viewBox="0 0 240 120" aria-hidden="true">
+    <g class="draw fragment" data-fragment-index="0">
+      <circle class="via" cx="226" cy="14" r="7" />
+      <path pathLength="1" d="M219 14 H118 L14 118" />
+      <path class="head" pathLength="1" d="M14 84 V118 H48" />
+    </g>
+  </svg>
+
+  <svg class="corner-arrow corner-arrow--right" viewBox="0 0 240 120" aria-hidden="true">
+    <g class="draw fragment" data-fragment-index="1">
+      <circle class="via" cx="226" cy="14" r="7" />
+      <path pathLength="1" d="M219 14 H118 L14 118" />
+      <path class="head" pathLength="1" d="M14 84 V118 H48" />
+    </g>
+  </svg>
+</section>
+
+<!-- BOARD PHOTOS + LONG TITLE: --mm is each board's real width, so they keep their sizes -->
+<section class="is-body-centered">
+  <header class="slide-head slide-head--long">
+    <h2>Lorem ipsum, dolor sit amet, all the ipsums</h2>
+  </header>
+
+  <div class="r-hstack items-end" style="gap: 48px">
+    <img class="board-shot" style="--mm: 51" src="/images/boards/pico-2.webp" alt="Raspberry Pi Pico 2" />
+    <img class="board-shot" style="--mm: 85" src="/images/boards/raspberry-pi-5.webp" alt="Raspberry Pi 5" />
+  </div>
 </section>

@@ -94,6 +94,14 @@
 }
 
 /* One board panel per group, shown on the slide's one click. */
+.reveal svg .ms-zone-label {
+  font-family: var(--pcb-font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  fill: var(--pcb-silk-dim);
+}
+
 .reveal svg .ms-zone {
   fill: color-mix(in srgb, var(--pcb-board-panel) 70%, transparent);
   stroke: color-mix(in srgb, var(--pcb-gold) 34%, transparent);

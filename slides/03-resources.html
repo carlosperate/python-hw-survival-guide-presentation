@@ -14,7 +14,7 @@
 
   <div class="ram-points">
     <ul class="list--wide list--large">
-      <li>Memory! KBs, maybe MBs, of RAM & ROM</li>
+      <li>Memory! KBs, maybe MBs, of RAM & flash</li>
       <li class="fragment" data-fragment-index="2">Run out of RAM? There is no swap, just <code>MemoryError</code></li>
       <li class="fragment" data-fragment-index="3">CPU frequencies in MHz, not GHz</li>
       <li class="fragment" data-fragment-index="4">Python standard library is limited</li>
@@ -79,7 +79,7 @@
       </div>
       <div class="panel fragment" data-label="One big thing" data-fragment-index="2">
         <h4>Large allocations</h4>
-        <p>Allocating large lists or objects</p>
+        <p>One list, buffer or string bigger than the largest free block.</p>
       </div>
       <div class="panel fragment" data-label="The long run" data-fragment-index="3">
         <h4>Leaks and holes</h4>
@@ -106,7 +106,8 @@
 &gt;&gt;&gt; <a href="https://docs.micropython.org/en/latest/library/micropython.html#micropython.mem_info" target="_blank" rel="noopener">micropython.mem_info(1)</a></span>
 GC: total: 64000, used: 9824, <b class="net">free: 54176</b>
  No. of 1-blocks: 112, 2-blocks: 31, max blk sz: 64, <b class="net">max free sz: 3317</b>
-00000000: MDhhBTT=h===DhBBhSShhLh=hF.FF.S=..hhh=....Ah=======.....S=S=....</pre>
+00000000: MDhhBTT=h===DhBBhSShhLh=hF.FF.S=..hhh=....Ah=======.....S=S=....
+<span class="terminal__out">          S str · L list · D dict · F float · h other · = rest of one object</span></pre>
 
     <ul class="pinout pinout--tight">
       <li><span class="pinout__pin">max free sz</span><span class="pinout__net">the largest hole: 3317 blocks × 16 = 53,072 bytes</span></li>
@@ -217,7 +218,6 @@ import bme280    # a 10 KB .py driver
       <p class="readout fragment current-visible" data-fragment-index="4"><code>.mpy</code>: file compiled on your machine via <code>mpy-cross</code>. The bytecode still loads into RAM.</p>
       <p class="readout fragment current-visible" data-fragment-index="5">ROMFS: bytecode saved into a special filesystem in flash.<br>Frozen: bytecode compiled into the MicroPython build.</p>
     </div>
-    <p class="caption">* Peak and ends measured on the unix port</p>
 
     <aside class="notes">
     </aside>
@@ -277,8 +277,8 @@ import bme280    # a 10 KB .py driver
   <table class="habits">
     <tbody class="fade-past">
       <tr class="fragment" data-fragment-index="0"><td><code>packet[4:20]</code></td><td class="verdict">→</td><td>a <code>memoryview</code> does not copy data</td></tr>
-      <tr class="fragment" data-fragment-index="2"><td><code>uart.read(64)</code></td><td class="verdict">→</td><td><code>uart.readinto(buf)</code> reuse buffer</td></tr>
-      <tr class="fragment" data-fragment-index="4"><td>float maths in a fast loop</td><td class="verdict">→</td><td>use ints, increase units (e.g. millivolts)</td></tr>
+      <tr class="fragment" data-fragment-index="2"><td><code>uart.read(64)</code></td><td class="verdict">→</td><td><code>uart.readinto(buf)</code> reuses one buffer</td></tr>
+      <tr class="fragment" data-fragment-index="4"><td>float maths in a fast loop</td><td class="verdict">→</td><td>ints in smaller units: millivolts, not volts</td></tr>
       <tr class="fragment" data-fragment-index="6"><td>magic numbers as globals</td><td class="verdict">→</td><td><code>const()</code></td></tr>
     </tbody>
   </table>
@@ -424,7 +424,7 @@ button.irq(on_press, Pin.IRQ_FALLING)
 <!-- ------------- -->
 <section class="is-body-centered" data-ble-badge="fragmentation">
   <header class="slide-head">
-    <h2>Memory Fragmentation</h2>
+    <h2>Memory fragmentation</h2>
   </header>
 
   <div class="r-stack swap">
@@ -470,7 +470,7 @@ A===
       </pre>
       <p class="readout readout--alert">✕ MemoryError: memory allocation failed, allocating 64 bytes</p>
     </div>
-    <p class="lede fragment" data-fragment-index="1">Imports first, then the big buffers.<br />And reuse them!</p>
+    <p class="lede fragment" data-fragment-index="1">Allocate big buffers early, right after your imports.<br />And reuse them!</p>
   </div>
 
   <aside class="notes">
@@ -602,7 +602,7 @@ def timed(f):
       <ul class="list--dense">
         <li>Time a few calls: the first is often slower.</li>
         <li>Ticks wrap: use <code>ticks_diff()</code>.</li>
-        <li>Not for async, on <code>async def</code> it only times making the coroutine.</li>
+        <li>Not for async: on <code>async def</code> it only times creating the coroutine.</li>
         <li>CircuitPython: use <code>time.monotonic_ns()</code>.</li>
       </ul>
     </div>

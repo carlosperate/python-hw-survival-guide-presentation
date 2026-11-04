@@ -69,7 +69,10 @@ def panels():
     mcu = f'M0 0 H590 V{bottom} H0 Z'
     # The computers' panel cuts its corner at 45° to stay clear of the QR's escapes.
     sbc = f'M688 0 H1096 V{bottom - 46} L{1096 - 46} {bottom} H688 Z'
-    return [f'<path class="ms-zone" d="{mcu}"/>', f'<path class="ms-zone" d="{sbc}"/>']
+    return [f'<path class="ms-zone" d="{mcu}"/>', f'<path class="ms-zone" d="{sbc}"/>',
+            '<text class="ms-zone-label" x="16" y="28">MICROCONTROLLERS</text>',
+            '<text class="ms-zone-label" x="704" y="28">SINGLE-BOARD</text>',
+            '<text class="ms-zone-label" x="704" y="50">COMPUTERS</text>']
 
 
 def build():

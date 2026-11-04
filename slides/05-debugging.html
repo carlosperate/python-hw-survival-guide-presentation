@@ -9,10 +9,10 @@
 <!-- ----------- -->
 <section data-ble-badge="detective">
   <header class="slide-head">
-    <h2>New sensor ready to go, but..</h2>
+    <h2>New sensor ready to go, but...</h2>
   </header>
 
-  <p class="lede">But nothing happens, not even an error. Could it be the...</p>
+  <p class="lede">...but nothing happens, not even an error. Could it be the...</p>
 
   <ul class="list--wide suspects">
     <li class="fragment"><b>Code?</b> the wrong pins, the wrong config, the wrong constructor?</li>
@@ -38,14 +38,15 @@
     </header>
 
     <ol class="method list--wide">
-      <li class="fragment" data-fragment-index="0"><b>Look first:</b> inspect for damage, magic smoke, heat, a burnt smell? Check cables</li>
-      <li class="fragment" data-fragment-index="1"><b>Check power & cables:</b> Measuring voltage & ground, check signal directions and pins.</li>
+      <li class="fragment" data-fragment-index="0"><b>Look first:</b> inspect for damage, heat, magic smoke, a burnt smell? Check cables</li>
+      <li class="fragment" data-fragment-index="1"><b>Check power:</b> Measuring voltage & ground, check signal directions and pins.</li>
       <li class="fragment" data-fragment-index="2"><b>Make it fail:</b> the smallest test that consistently reproduces the issue.</li>
       <li class="fragment" data-fragment-index="3"><b>Change one thing at a time:</b> and write down what you changed.
         <div class="meme fragment current-visible" data-fragment-index="3">
           <img src="/images/other/mythbusters-writing-it-down.jpg" alt="Adam Savage on MythBusters, holding up a clipboard" />
           <blockquote class="quote quote--aside">
             "Remember kids, the only difference between screwing around and science is writing it down."
+            <cite>Adam Savage, MythBusters</cite>
           </blockquote>
         </div>
       </li>
@@ -58,7 +59,7 @@
 
   <section>
     <header class="slide-head">
-      <h2>The nine rules</h2>
+      <h2>Nine rules for debugging</h2>
     </header>
 
     <div class="cols">
@@ -271,7 +272,7 @@ print(time.ticks_diff(time.ticks_us(), t0))
 <text class="lane-label" x="0" y="87">INTERRUPT</text>
 <path class="lane lane--data" d="M0 34 H138 V0 H162 V34 H233 V0 H257 V34 H328 V0 H392 V34 H423 V0 H447 V34 H518 V0 H542 V34 H900"/>
 <rect class="lane-mask" x="320" y="-6" width="80" height="46"/><path class="lane lane--data lane--alert" d="M320 34 H328 V0 H392 V34 H400"/><text class="lane-note" x="360" y="-14">ran long: slow or blocking code</text>
-<path class="lane lane--missing" d="M613 34 V0 H637 V34 M708 34 V0 H732 V34 M803 34 V0 H827 V34"/><text class="lane-note lane-note--alert" x="721" y="-14">✕ hard handler raised, so it's switched off</text>
+<path class="lane lane--missing" d="M613 34 V0 H637 V34 M708 34 V0 H732 V34 M803 34 V0 H827 V34"/><text class="lane-note lane-note--alert" x="721" y="-14">✕ handler raised: interrupt turned off</text>
 <path class="lane lane--clk" d="M0 98 H130 V64 H136 V98 H225 V64 H231 V98 H320 V64 H326 V98 H415 V64 H421 V98 H510 V64 H516 V98 H605 V64 H611 V98 H700 V64 H706 V98 H795 V64 H801 V98 H900"/>
     </svg>
     <p class="caption qr-clear">Logic analyser: your pin is high while your code runs, once per interrupt.</p>
@@ -298,12 +299,11 @@ print(time.ticks_diff(time.ticks_us(), t0))
         <div class="panel" data-label="What you get">
           <p>Breakpoints, stepping, variables and watch in the Python code.</p>
           <p>Via USB cable, no debug probe needed.</p>
-          <p>Works with VS Code extension.</p>
-          <p>No debug probe, no wiring.</p>
+          <p>Runs as a VS Code extension.</p>
         </div>
         <div class="panel" data-label="The catch">
           <p>Developed as a MicroPython fork.</p>
-          <p>Only runs on Pico, Pico  2 and ESP32 boards so far.</p>
+          <p>Only runs on Pico, Pico 2 and ESP32 boards so far.</p>
           <p>Multiple <a href="https://github.com/ghi-electronics/micropython-vsc-extension#known-limits" target="_blank" rel="noopener">limitations listed on their documentation</a>.</p>
         </div>
       </div>
@@ -352,7 +352,7 @@ main()                   # Ctrl-C any time
     <ul class="list--dense list--wide qr-clear">
       <li>An uncaught exception keeps them too: <code>main.py</code> and the REPL share their globals.</li>
       <li>You can look, and manually execute code, but not step through. </li>
-      <li>Only for Micropython, CircuitPython starts a fresh REPL each time.</li>
+      <li>Only for MicroPython, CircuitPython starts a fresh REPL each time.</li>
     </ul>
 
     <aside class="notes">
