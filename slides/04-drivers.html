@@ -50,9 +50,10 @@
       Check <a href="https://github.com/micropython/micropython-lib/tree/master/micropython/drivers" target="_blank" rel="noopener">micropython-lib</a>,
       <a href="https://github.com/mcauser/awesome-micropython" target="_blank" rel="noopener">awesome-micropython</a>,
       <a href="https://github.com/adafruit/awesome-circuitpython" target="_blank" rel="noopener">awesome-circuitpython</a>,
-      popular vendor's repos (<a href="https://circuitpython.org/libraries" target="_blank" rel="noopener">Adafruit</a>, <a href="https://github.com/sparkfun/" target="_blank" rel="noopener">SparkFun</a>, <a href="https://github.com/pimoroni/" target="_blank" rel="noopener">Pimoroni</a>, <a href="https://github.com/arduino/package-index-py" target="_blank" rel="noopener">Arduino</a>).
+      vendor's repos (<a href="https://circuitpython.org/libraries" target="_blank" rel="noopener">Adafruit</a>, <a href="https://github.com/sparkfun/" target="_blank" rel="noopener">SparkFun</a>, <a href="https://github.com/pimoroni/" target="_blank" rel="noopener">Pimoroni</a>, <a href="https://github.com/arduino/package-index-py" target="_blank" rel="noopener">Arduino</a>).
     </li>
     <li class="fragment" data-fragment-index="4">Check it's for your Python. <br />E.g. <code>machine.I2C</code> is MicroPython; <code>busio</code> is CircuitPython.</li>
+    <li class="fragment" data-fragment-index="5">Only in C or Arduino? Port it, it's a great reference implementation.</li>
   </ol>
   <img class="part-shot" src="/images/parts/bme280-adafruit.webp" style="--h: 180px" alt="Adafruit's BME280 breakout, with BME280 printed on it" />
   </div>
@@ -133,44 +134,91 @@ bme = bme280.Adafruit_BME280_I2C(i2c)
 
 <!-- LOOK UNDERNEATH: two empty boxes, then a layer per click and the read -->
 <section>
-  <header class="slide-head">
-    <h2>No driver? You can write it in Python!</h2>
-  </header>
+  <section>
+    <header class="slide-head">
+      <h2>No driver? You can write it in Python!</h2>
+    </header>
 
-  <div class="ds-wrap">
-    <!-- @include slides/art/driver-stack.svg -->
-    <div class="ds-steps r-stack swap">
-      <div class="fragment current-visible" data-fragment-index="0">
-        <pre class="compact"><code class="language-python" data-trim>
+    <div class="ds-wrap">
+      <!-- @include slides/art/driver-stack.svg -->
+      <div class="ds-steps r-stack swap">
+        <div class="fragment current-visible" data-fragment-index="0">
+          <pre class="compact"><code class="language-python" data-trim>
 from machine import I2C
 from bme280 import BME280
 
 sensor = BME280(I2C(0))
 print(sensor.temperature)
-        </code></pre>
-        <p class="caption">Your code asks for the temperature; the driver handles the details.</p>
-      </div>
-      <div class="fragment current-visible" data-fragment-index="1">
-        <pre class="compact"><code class="language-python" data-trim>
+          </code></pre>
+          <p class="caption">Your code asks for the temperature; the driver handles the details.</p>
+        </div>
+        <div class="fragment current-visible" data-fragment-index="1">
+          <pre class="compact"><code class="language-python" data-trim>
 class BME280:
     def __init__(self, i2c, addr=0x76):
         chip_id = i2c.readfrom_mem(addr, 0xD0, 1)
         if chip_id != b"\x60":
             raise OSError("BME280 not found")
-        </code></pre>
-        <p class="caption">The driver: Python code that sets up and reads the sensor.</p>
-      </div>
-      <div class="fragment current-visible ds-at-layer" data-fragment-index="2" style="--layer: 2">
-        <p class="caption">MicroPython, written in C, gives your Python an API for the microcontroller.</p>
-      </div>
-      <div class="fragment current-visible ds-at-layer" data-fragment-index="3" style="--layer: 3">
-        <p class="caption">The chip maker's C library: low-level access to the microcontroller.</p>
+          </code></pre>
+          <p class="caption">The driver: Python code that sets up and reads the sensor.</p>
+        </div>
+        <div class="fragment current-visible ds-at-layer" data-fragment-index="2" style="--layer: 2">
+          <p class="caption">MicroPython, written in C, gives your Python an API for the microcontroller.</p>
+        </div>
+        <div class="fragment current-visible ds-at-layer" data-fragment-index="3" style="--layer: 3">
+          <p class="caption">The chip maker's C library: low-level access to the microcontroller.</p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <aside class="notes">
-  </aside>
+    <aside class="notes">
+    </aside>
+  </section>
+
+  <!-- REGISTERS: the bottom of the stack, from Python -->
+  <section>
+    <header class="slide-head">
+      <h2>One level down: registers</h2>
+    </header>
+
+    <p class="lede">
+      A <b>register</b> is a memory address wired to the hardware.<br />Write a bit there, and a pin changes.
+    </p>
+
+    <div class="cols cols--fit-left">
+      <pre class="compact"><code class="language-python" data-trim>
+from machine import Pin, mem32
+
+led = Pin(25, Pin.OUT)  # MicroPython sets the pin up
+
+# RP2040 addresses, from its datasheet
+GPIO_OUT_SET = 0xD0000014
+GPIO_OUT_CLR = 0xD0000018
+
+mem32[GPIO_OUT_SET] = 1 &lt;&lt; 25  # bit 25: "set" LED on
+mem32[GPIO_OUT_CLR] = 1 &lt;&lt; 25  # "clear" LED off
+      </code></pre>
+
+      <ul class="list--dense">
+        <li>The microcontroller datasheets explains all registers.</li>
+        <li>Each chip has its own register memory map: on an RP2350, <code>GPIO_OUT_SET</code> is at <code>0xD0000018</code>.</li>
+        <li>This is what drivers and SDKs do. Use <code>mem32</code> only when needed.</li>
+      </ul>
+    </div>
+
+    <p class="caption qr-clear">
+      <a href="https://docs.micropython.org/en/latest/library/machine.html#memory-access" target="_blank" rel="noopener">machine.mem32</a> ·
+      <a href="https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf" target="_blank" rel="noopener">RP2040 datasheet</a>
+    </p>
+
+    <aside class="notes">
+      Vertical slide, skipped live. Addresses from the pico-sdk register headers: SIO_BASE 0xd0000000;
+      RP2040 GPIO_OUT_SET at +0x014, GPIO_OUT_CLR at +0x018; RP2350 GPIO_OUT_SET at +0x018, GPIO_OUT_CLR
+      at +0x020. Pin(25, Pin.OUT) makes the pin an SIO output first. machine.mem8/16/32 are in
+      MicroPython's shared machine module; CircuitPython has no machine module. A wrong address can
+      hard-fault the chip.
+    </aside>
+  </section>
 </section>
 
 <!-- --------- -->
@@ -194,7 +242,7 @@ i2c = I2C(0, scl=Pin(5), sda=Pin(4))
 bme = bme280.BME280(i2c=i2c)
     </code></pre>
     <ul class="list--wide bus-list">
-      <li class="fragment" data-fragment-index="4">Not every part needs a bus: buttons use a plain pin (GPIO), servos use pulses (PWM).</li>
+      <li class="fragment" data-fragment-index="4">Not every part needs a bus: buttons use a plain pin (GPIO), servos use pulses (PWM), analogue sensors a voltage (ADC).</li>
       <li class="fragment" data-fragment-index="5">Some buses might not be built into the microcontroller, but can be implemented in software.</li>
     </ul>
   </div>
@@ -478,6 +526,7 @@ bme = bme280.BME280(i2c=i2c)
 
 <!-- A DRIVER EXAMPLE -->
 <section>
+<section>
   <header class="slide-head">
     <h2>A driver is a small class</h2>
   </header>
@@ -516,6 +565,45 @@ class BME280:
 
   <aside class="notes">
   </aside>
+</section>
+
+<!-- DATASHEET: each number in the class, next to its row in the register map -->
+<section class="slide--small-type">
+  <header class="slide-head">
+    <h2>Where the driver numbers come from</h2>
+  </header>
+
+  <p class="lede">
+    A <b>register</b>, in a sensor, is a memory address connected to the hardware.<br>
+    The datasheet's register map says what each register does.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Register</th><th>The datasheet says</th><th>In the driver</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>0xD0</code> id</td><td>Always reads <code>0x60</code></td><td><code>!= b"\x60"</code>: not a BME280</td></tr>
+      <tr><td><code>0xF4</code> ctrl_meas</td><td>Configure how to measure the temperature in bits 7-5, the pressure (bits 4-2), and mode (1-0)</td><td><code>0x27</code> = <code>001</code> <code>001</code> <code>11</code><br /><span style="font-size: 0.9em">1&nbsp;sample, 1&nbsp;sample, continuous</span></td></tr>
+      <tr><td><code>0xFA</code>…<code>0xFC</code> temp</td><td>Temperature in 20 bits over 3 bytes</td><td><code>b[0] &lt;&lt; 12 | b[1] &lt;&lt; 4 | b[2] &gt;&gt; 4</code></td></tr>
+    </tbody>
+  </table>
+
+  <p class="caption qr-clear">
+    <a href="https://www.bosch-sensortec.com/products/environmental-sensors/humidity-sensors-bme280/" target="_blank" rel="noopener">BME280 datasheet</a>, 5.3 and 4.2.3 ·
+    <a href="https://github.com/adafruit/Adafruit_CircuitPython_BME280" target="_blank" rel="noopener">Adafruit's CircuitPython driver</a>
+  </p>
+
+  <aside class="notes">
+    Vertical slide, skipped live. Bosch BME280 datasheet, revision 1.23 (BST-BME280-DS001-23, January
+    2022). Memory map: Table 18, section 5.3. id: 0x60 (5.4.1). ctrl_meas: osrs_t bits 7-5, osrs_p
+    bits 4-2, mode bits 1-0; 001 is oversampling x1, 11 is normal mode (5.4.5, Tables 22-25). temp:
+    ut[19:12], ut[11:4], and ut[3:0] in bits 7-4 of temp_xlsb (5.4.8, Table 30); reset state 0x80,
+    0x00, 0x00, so 0x80000 before the first measurement. Calibration: 0x88-0xA1 and 0xE1-0xE7 (4.2.2,
+    Table 16); compensation formulas 4.2.3. Adafruit's CircuitPython driver (adafruit_bme280/basic.py)
+    defines the same registers with const(): CHIPID 0xD0, CTRL_MEAS 0xF4, TEMPDATA 0xFA.
+  </aside>
+</section>
 </section>
 
 <!-- ----------- -->

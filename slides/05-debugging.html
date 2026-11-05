@@ -19,7 +19,7 @@
     <li class="fragment"><b>Driver?</b> the wrong defaults, similar but different chip, incomplete implementation?</li>
     <li class="fragment"><b>Wiring?</b> signals swapped, a loose jumper, a bad breadboard or solder joint?</li>
     <li class="fragment"><b>Power?</b> no power to the sensor, wrong voltage, grounds aren't joined?</li>
-    <li class="fragment"><b>Part?</b> is it dead, fake, or a different version?</li>
+    <li class="fragment"><b>Part?</b> is it dead, a different version, or a known chip bug (errata)?</li>
   </ul>
 
   <p class="lede fragment" style="margin-left: 1em;"> &nbsp;Where do we start?</p>
@@ -127,26 +127,26 @@
 
   <section>
     <header class="slide-head">
-      <h2>Wiring: look, wiggle, swap</h2>
+      <h2>Wiring: look, wiggle, slow down, swap</h2>
     </header>
 
     <p class="lede">Fine sometimes, and flaky others? Maybe something moved.</p>
 
-    <div class="cards cards--readable">
+    <div class="cards cards--4">
       <div class="panel" data-label="Look">
         <p>A good solder joint is smooth and concave. Lumpy or grainy may not connect at all. Headers must be soldered, not just pushed in.</p>
       </div>
       <div class="panel" data-label="Wiggle">
         <p>Press on wires and parts as it runs. Comes and goes as you move? A connection. Changes with just a hand nearby? A floating input: add <code>Pin.PULL_UP</code>/<code>DOWN</code>.</p>
       </div>
-      <div class="panel" data-label="Swap">
+      <div class="panel" data-label="Slow down">
+        <p>Lower the bus speed, <code>I2C(0, freq=100000)</code>, or the baud rate. Works now? Suspect the wires or pull-ups, not your code.</p>
+      </div>
+      <!-- fit: the shortest card ends above the QR chip's traces -->
+      <div class="panel panel--fit" data-label="Swap">
         <p>Another wire, another sensor, another board. A part you know works tells you which half is broken.</p>
       </div>
     </div>
-
-    <p class="caption qr-clear">
-      <a href="https://learn.adafruit.com/adafruit-guide-excellent-soldering/common-problems" target="_blank" rel="noopener">Adafruit: common soldering problems</a>
-    </p>
 
     <aside class="notes">
     </aside>
