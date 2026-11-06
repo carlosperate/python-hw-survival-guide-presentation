@@ -48,12 +48,6 @@
     </table>
 
     <aside class="notes">
-      Vertical slide, skipped live. Each tool sees one thing. The Raspberry Pi
-      Debug Probe gives SWD (CMSIS-DAP) with GDB breakpoints and single-step,
-      plus a 3.3 V UART bridge. For a MicroPython user that means flashing,
-      recovering a board whose USB is dead, a UART console and debugging
-      C-level faults; it does not step through Python lines. PPK2: 200 nA to
-      1 A at 100 ksps (Nordic).
     </aside>
   </section>
 </section>
@@ -348,7 +342,7 @@
 <section>
   <section data-ble-badge="ACK">
     <header class="slide-head">
-      <h2>Logic analyser: did the sensor answer?</h2>
+      <h2>Logic analyser: a real view into the signals</h2>
     </header>
 
     <div class="tool tool--screenshot">
@@ -358,11 +352,11 @@
       </div>
       <div>
         <ul>
-          <li><b>Shows</b> the 0s and 1s on 8 wires, decoded into I²C, UART or SPI bytes.</li>
+          <li><b>Shows</b> the 0s and 1s on the bus signals, decodes the data of I²C, UART, SPI, and more.</li>
           <li><b>Use it for:</b> did the sensor answer? What did your code send?</li>
         </ul>
         <div class="panel" data-label="Get one · about €10">
-          <p>A <b>24 MHz 8-channel</b> USB analyser and the open source PulseView. Or a spare Pico.</p>
+          <p>Search for a <b>24 MHz 8-channel</b> USB analyser in AliExpress or Amazon.<br>Use it the open source app PulseView.</p>
         </div>
       </div>
     </div>

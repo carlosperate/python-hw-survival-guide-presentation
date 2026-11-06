@@ -8,61 +8,108 @@
 <!-- What's the difference -->
 <!-- --------------------- -->
 <section>
-  <header class="slide-head">
-    <h2>What's different to "normal" Python</h2>
-  </header>
+  <section>
+    <header class="slide-head">
+      <h2>What's different to "normal" Python</h2>
+    </header>
 
-  <div class="ram-points">
-    <ul class="list--wide list--large">
-      <li>Memory! KBs, maybe MBs, of RAM & flash</li>
-      <li class="fragment" data-fragment-index="2">Run out of RAM? There is no swap, just <code>MemoryError</code></li>
-      <li class="fragment" data-fragment-index="3">CPU frequencies in MHz, not GHz</li>
-      <li class="fragment" data-fragment-index="4">Python standard library is limited</li>
-      <li class="fragment" data-fragment-index="5" data-ble-badge="if it fits">Same language we love, just with tighter constraints</li>
-    </ul>
+    <div class="ram-points">
+      <ul class="list--wide list--large">
+        <li>Memory! KBs, maybe MBs, of RAM & flash</li>
+        <li class="fragment" data-fragment-index="2">CPU frequencies in MHz, not GHz</li>
+        <li class="fragment" data-fragment-index="3">Python standard library is limited</li>
+        <li class="fragment" data-fragment-index="4" data-ble-badge="if it fits">Same language we love, just with tighter constraints</li>
+      </ul>
 
-    <!-- The box shows on the first click, zooms on the next, and goes with the second bullet -->
-    <div class="ram-points__box fragment fade-out" data-fragment-index="2">
-      <div class="ram-scale ram-scale--stacked fragment" data-fragment-index="0">
-        <div class="ram-ladder fragment" data-fragment-index="1">
-          <div class="ram-ladder__board" style="--side: 26.5px; --i: 0"><img class="board-shot" style="--mm: 52" src="/images/boards/microbit-v2.webp" alt="BBC micro:bit V2" /><i></i><span>micro:bit V2<b>128 KB</b></span></div>
-          <div class="ram-ladder__board" style="--side: 38.1px; --i: 1"><img class="board-shot" style="--mm: 51" src="/images/boards/adafruit-feather-rp2040.webp" alt="Adafruit Feather RP2040" /><i></i><span>Feather RP2040<b>264 KB</b></span></div>
-          <div class="ram-ladder__board" style="--side: 53.5px; --i: 2"><img class="board-shot" style="--mm: 51" src="/images/boards/pico-2.webp" alt="Raspberry Pi Pico 2" /><i></i><span>Pico 2<b>520 KB</b></span></div>
-          <div class="ram-ladder__board" style="--side: 212.1px; --i: 3"><i><img class="board-shot" style="--mm: 45" src="/images/boards/arduino-nano-esp32.webp" alt="Arduino Nano ESP32" /></i><span>Nano ESP32<b>8 MB PSRAM</b></span></div>
-        </div>
-        <div class="ram-scale__window">
-          <div class="ram-scale__far">
-            <div class="ram-scale__laptop"><span>16 GB laptop</span></div>
+      <!-- The box shows on the first click, zooms on the next, and goes with the second bullet -->
+      <div class="ram-points__box fragment fade-out" data-fragment-index="2">
+        <div class="ram-scale ram-scale--stacked fragment" data-fragment-index="0">
+          <div class="ram-ladder fragment" data-fragment-index="1">
+            <div class="ram-ladder__board" style="--side: 26.5px; --i: 0"><img class="board-shot" style="--mm: 52" src="/images/boards/microbit-v2.webp" alt="BBC micro:bit V2" /><i></i><span>micro:bit V2<b>128 KB</b></span></div>
+            <div class="ram-ladder__board" style="--side: 38.1px; --i: 1"><img class="board-shot" style="--mm: 51" src="/images/boards/adafruit-feather-rp2040.webp" alt="Adafruit Feather RP2040" /><i></i><span>Feather RP2040<b>264 KB</b></span></div>
+            <div class="ram-ladder__board" style="--side: 53.5px; --i: 2"><img class="board-shot" style="--mm: 51" src="/images/boards/pico-2.webp" alt="Raspberry Pi Pico 2" /><i></i><span>Pico 2<b>520 KB</b></span></div>
+            <div class="ram-ladder__board" style="--side: 212.1px; --i: 3"><i><img class="board-shot" style="--mm: 45" src="/images/boards/arduino-nano-esp32.webp" alt="Arduino Nano ESP32" /></i><span>Nano ESP32<b>8 MB PSRAM</b></span></div>
           </div>
-          <div class="ram-scale__psram">
-            <img class="board-shot ram-scale__board" style="--mm: 63" src="/images/boards/esp32-s3-devkitc-1.webp" alt="Espressif ESP32-S3-DevKitC-1" />
+          <div class="ram-scale__window">
+            <div class="ram-scale__far">
+              <div class="ram-scale__laptop"><span>16 GB laptop</span></div>
+            </div>
+            <div class="ram-scale__psram">
+              <img class="board-shot ram-scale__board" style="--mm: 63" src="/images/boards/esp32-s3-devkitc-1.webp" alt="Espressif ESP32-S3-DevKitC-1" />
+            </div>
           </div>
-        </div>
-        <div class="ram-scale__notes r-stack swap">
-          <p class="ram-scale__note fragment fade-out" data-fragment-index="1">
-            <span class="net">16 MB PSRAM</span>
-            <!-- From the label's end, right then up, stopping under the dot, outside the box -->
-            <svg class="ram-scale__arrow build" viewBox="0 0 1 1" aria-hidden="true">
-              <circle class="via b-fade" style="--d:0" cx="220" cy="24" r="6" />
-              <path class="b-draw" style="--d:1" pathLength="1" d="M228 24 H261 L281 4 V-21" />
-              <path class="b-draw" style="--d:5" pathLength="1" d="M268 -8 L281 -21 L294 -8" />
-            </svg>
-          </p>
-          <p class="ram-scale__label fragment" data-fragment-index="1">ESP32-S3-DevKitC-1<b>16 MB PSRAM</b></p>
+          <div class="ram-scale__notes r-stack swap">
+            <p class="ram-scale__note fragment fade-out" data-fragment-index="1">
+              <span class="net">16 MB PSRAM</span>
+              <!-- From the label's end, right then up, stopping under the dot, outside the box -->
+              <svg class="ram-scale__arrow build" viewBox="0 0 1 1" aria-hidden="true">
+                <circle class="via b-fade" style="--d:0" cx="220" cy="24" r="6" />
+                <path class="b-draw" style="--d:1" pathLength="1" d="M228 24 H261 L281 4 V-21" />
+                <path class="b-draw" style="--d:5" pathLength="1" d="M268 -8 L281 -21 L294 -8" />
+              </svg>
+            </p>
+            <p class="ram-scale__label fragment" data-fragment-index="1">ESP32-S3-DevKitC-1<b>16 MB PSRAM</b></p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <aside class="notes">
-  </aside>
+    <aside class="notes">
+    </aside>
+  </section>
+
+  <!-- ---------- -->
+  <!-- INTERRUPTS -->
+  <!-- ---------- -->
+  <section class="irq-intro">
+    <header class="slide-head">
+      <h2>Something very different: Interrupts</h2>
+    </header>
+
+    <p class="lede">A pin edge or a timer can pause your programme and run an interrupt.</p>
+
+    <div class="cols cols--fit-left cols--fit">
+      <div>
+        <pre class="compact"><code class="language-python" data-trim>
+from machine import Pin
+presses = 0
+
+def on_press(pin):  # the interrupt handler
+    global presses
+    presses += 1    # an int: no new object
+
+button = Pin(BUTTON_PIN, Pin.IN, Pin.PULL_UP)
+# a press pulls the pin low: a falling edge
+button.irq(on_press, Pin.IRQ_FALLING)
+        </code></pre>
+        <p class="caption caption--left">Not on CircuitPython: use <code>countio</code>, <code>keypad</code></p>
+      </div>
+      <ul class="pinout">
+        <li><span class="pinout__pin">Soft Interrupt</span><span class="pinout__net">default for pins: queued, so it can lag. May allocate</span></li>
+        <li><span class="pinout__pin">Hard Interrupt</span><span class="pinout__net"><code>hard=True</code>: runs at once, heap locked: no floats or <code>append()</code></span></li>
+        <li><span class="pinout__pin">Hard → soft</span><span class="pinout__net"><code>micropython.schedule(f, arg)</code><br /><code>f</code> runs soft, soon after</span></li>
+        <li><span class="pinout__pin">Be brief</span><span class="pinout__net">your program waits, no <code>print()</code>, <code>sleep()</code> or filesystem actions</span></li>
+      </ul>
+    </div>
+
+    <p class="caption caption--left qr-clear">
+      Read:
+      <a href="https://docs.micropython.org/en/latest/reference/isr_rules.html" target="_blank" rel="noopener">Writing interrupt handlers</a> |
+      <a href="https://docs.micropython.org/en/latest/library/machine.Pin.html#machine.Pin.irq" target="_blank" rel="noopener">Pin.irq()</a> |
+      <a href="https://docs.micropython.org/en/latest/library/machine.Timer.html" target="_blank" rel="noopener">Timer</a> |
+      <a href="https://docs.micropython.org/en/latest/library/micropython.html#micropython.schedule" target="_blank" rel="noopener">schedule()</a>
+    </p>
+
+    <aside class="notes">
+    </aside>
+  </section>
 </section>
 
 <!-- ---------------------- -->
 <!-- Ways to run out of RAM -->
 <!-- ---------------------- -->
 <section>
-  <section class="is-body-centered" data-ble-badge="out of RAM">
+  <section class="is-body-centered ram-ways" data-ble-badge="out of RAM">
     <header class="slide-head">
       <h2>Common ways to run out of RAM</h2>
     </header>
@@ -71,22 +118,20 @@
       <li><code>MemoryError</code> when an allocation didn't find enough contiguous free memory.</li>
     </ul>
 
-    <br>
     <div class="cards cards--3">
-      <div class="panel fragment" data-label="At import" data-fragment-index="1">
-        <h4>Importing your modules</h4>
-        <p>The traceback ends on an <code>import</code> line.</p>
-      </div>
-      <div class="panel fragment" data-label="One big thing" data-fragment-index="2">
+      <div class="panel fragment" data-label="One big thing" data-fragment-index="1">
         <h4>Large allocations</h4>
-        <p>One list, buffer or string bigger than the largest free block.</p>
+        <p>One list/array, buffer or string larger than available memory.</p>
+      </div>
+      <div class="panel fragment" data-label="At import" data-fragment-index="2">
+        <h4>Importing modules</h4>
+        <p>When we get tracebacks on an <code>import</code> line.</p>
       </div>
       <div class="panel fragment" data-label="The long run" data-fragment-index="3">
-        <h4>Leaks and holes</h4>
+        <h4>Fragmentation & leaks</h4>
         <p>Free memory goes down over time or gets fragmented.</p>
       </div>
     </div>
-    <br>
 
     <ul class="list--wide">
       <li class="fragment" data-fragment-index="5"><code>import gc</code> provides functions to check and manage memory.</li>
@@ -149,6 +194,108 @@ GC: total: 64000, used: 9824, <b class="net">free: 54176</b>
 
     <p class="readout">&nbsp;&nbsp;&nbsp;Control flow is free. Each new object takes at least one 16-byte block.</p>
     <p class="readout">&nbsp;&nbsp;&nbsp;From <a href="https://micropython.org/resources/publish/DPG_FastEfficientMP_PyConAU2018.pdf" target="_blank" rel="noopener">Damien George, PyCon AU 2018</a> | *MicroPython only</p>
+
+    <aside class="notes">
+    </aside>
+  </section>
+</section>
+
+<!-- ------ -->
+<!-- HABITS -->
+<!-- ------ -->
+<section>
+  <section>
+    <header class="slide-head">
+      <h2>Small tweaks to common habits</h2>
+    </header>
+
+    <table class="habits">
+      <tbody class="fade-past">
+        <tr class="fragment" data-fragment-index="0"><td><code>packet[4:20]</code></td><td class="verdict">→</td><td>a <code>memoryview</code> does not copy data</td></tr>
+        <tr class="fragment" data-fragment-index="2"><td><code>uart.read(64)</code></td><td class="verdict">→</td><td><code>uart.readinto(buf)</code> reuses one buffer</td></tr>
+        <tr class="fragment" data-fragment-index="4"><td>magic numbers as globals</td><td class="verdict">→</td><td><code>const()</code></td></tr>
+        <tr class="fragment" data-fragment-index="6"><td>1,000 floats in a list</td><td class="verdict">→</td><td><code>array("f")</code>: ~4 KB, not ~20 KB</td></tr>
+      </tbody>
+    </table>
+
+    <div class="r-stack swap swap--steps qr-clear qr-clear--low">
+      <pre class="code-fix fragment" data-fragment-index="0"><code class="language-python" data-trim data-line-numbers="1|2-3" data-fragment-index="1">
+header = packet[4:20]     # ✕ From a bytearray, copies data
+mv = memoryview(packet)   # ✓ create memoryview
+header = mv[4:20]         # ✓ view into packet, no copy
+      </code></pre>
+      <pre class="code-fix fragment" data-fragment-index="2"><code class="language-python" data-trim data-line-numbers="1|2-3" data-fragment-index="3">
+data = uart.read(64)      # ✕ new bytes object each time
+buf = bytearray(64)       # ✓ create once
+n = uart.readinto(buf)    # ✓ reuse when reading data
+      </code></pre>
+      <pre class="code-fix fragment" data-fragment-index="4"><code class="language-python" data-trim data-line-numbers="1|2-3" data-fragment-index="5">
+REG_ID = 0xD0           # ✕ a global, looked up by name
+from micropython import const
+_REG_ID = const(0xD0)   # ✓ in the bytecode, no global
+      </code></pre>
+      <pre class="code-fix fragment" data-fragment-index="6"><code class="language-python" data-trim data-line-numbers="1|2-3" data-fragment-index="7">
+temps.append(sensor.temperature)  # ✕ ~20 KB of floats
+temps = array("f", [0] * 1000)    # ✓ raw floats: ~4 KB
+temps[i] = sensor.temperature
+      </code></pre>
+    </div>
+
+    <aside class="notes">
+    </aside>
+  </section>
+
+  <!-- --------------- -->
+  <!-- KEEP IT RUNNING -->
+  <!-- --------------- -->
+  <section class="keep-running">
+    <header class="slide-head">
+      <h2>Keeping memory under control</h2>
+    </header>
+
+    <div class="keep-running__grid">
+      <div class="panel" data-label="Watch free memory">
+        <p>Falling over hours? Something grows: a leak.</p>
+        <pre class="compact"><code class="language-python" data-trim>
+gc.collect()
+print(gc.mem_free())  # once a minute
+        </code></pre>
+      </div>
+      <div class="panel" data-label="Collect at a quiet point">
+        <p>Not when an allocation fails mid-task.</p>
+        <pre class="compact"><code class="language-python" data-trim>
+while True:
+    read_sensor()
+    gc.collect()  # the quiet point
+        </code></pre>
+      </div>
+      <div class="panel" data-label="Prove a loop allocates nothing">
+        <p>While locked, any allocation raises an error.</p>
+        <pre class="compact"><code class="language-python" data-trim>
+# MicroPython only
+micropython.heap_lock()
+handle(packet)  # allocates? MemoryError
+micropython.heap_unlock()
+        </code></pre>
+      </div>
+      <div class="panel" data-label="Out of memory? Log, reset">
+        <p>Log the error, then reset to an empty heap.</p>
+        <pre class="compact"><code class="language-python" data-trim>
+try:
+    app.run()
+except MemoryError as e:
+    log_crash(e)     # to crash.log
+    machine.reset()  # a fresh heap
+        </code></pre>
+      </div>
+    </div>
+
+    <p class="caption caption--left qr-clear qr-clear--low">
+      Read:
+      <a href="https://docs.micropython.org/en/latest/library/gc.html" target="_blank" rel="noopener">MicroPython gc</a> ·
+      <a href="https://docs.micropython.org/en/latest/library/micropython.html#micropython.heap_lock" target="_blank" rel="noopener">heap_lock()</a> ·
+      <a href="https://docs.micropython.org/en/latest/reference/constrained.html" target="_blank" rel="noopener">MicroPython on microcontrollers</a>
+    </p>
 
     <aside class="notes">
     </aside>
@@ -266,215 +413,115 @@ import bme280    # a 10 KB .py driver
   </section>
 </section>
 
-<!-- ------ -->
-<!-- HABITS -->
-<!-- ------ -->
-<section>
-  <header class="slide-head">
-    <h2>Small tweaks to common habits</h2>
-  </header>
-
-  <table class="habits">
-    <tbody class="fade-past">
-      <tr class="fragment" data-fragment-index="0"><td><code>packet[4:20]</code></td><td class="verdict">→</td><td>a <code>memoryview</code> does not copy data</td></tr>
-      <tr class="fragment" data-fragment-index="2"><td><code>uart.read(64)</code></td><td class="verdict">→</td><td><code>uart.readinto(buf)</code> reuses one buffer</td></tr>
-      <tr class="fragment" data-fragment-index="4"><td>float maths in a fast loop</td><td class="verdict">→</td><td>ints in smaller units: millivolts, not volts</td></tr>
-      <tr class="fragment" data-fragment-index="6"><td>magic numbers as globals</td><td class="verdict">→</td><td><code>const()</code></td></tr>
-    </tbody>
-  </table>
-
-  <div class="r-stack swap swap--steps qr-clear">
-    <pre class="code-fix fragment" data-fragment-index="0"><code class="language-python" data-trim data-line-numbers="1|2-3" data-fragment-index="1">
-header = packet[4:20]     # ✕ From a bytearray, it copies data
-mv = memoryview(packet)   # ✓ create memoryview
-header = mv[4:20]         # ✓ a new view into packet, no copy
-    </code></pre>
-    <pre class="code-fix fragment" data-fragment-index="2"><code class="language-python" data-trim data-line-numbers="1|2-3" data-fragment-index="3">
-data = uart.read(64)      # ✕ new bytes object each time
-buf = bytearray(64)       # ✓ create once
-n = uart.readinto(buf)    # ✓ reuse when reading data
-    </code></pre>
-    <pre class="code-fix fragment" data-fragment-index="4"><code class="language-python" data-trim data-line-numbers="1-2|1,3" data-fragment-index="5">
-raw = adc.read_u16()
-volts = raw * 3.3 / 65535  # ✕ MicroPython: 2 new floats
-mv = raw * 3300 // 65535   # ✓ millivolts, an int
-    </code></pre>
-    <pre class="code-fix fragment" data-fragment-index="6"><code class="language-python" data-trim data-line-numbers="1|2-3" data-fragment-index="7">
-REG_ID = 0xD0           # ✕ a global, looked up by name
-from micropython import const
-_REG_ID = const(0xD0)   # ✓ in the bytecode, no global
-    </code></pre>
-  </div>
-
-  <aside class="notes">
-  </aside>
-</section>
-
-<!-- -------- -->
-<!-- HABITS 2 -->
-<!-- -------- -->
-<section>
-  <section>
-    <header class="slide-head">
-      <h2>More tweaks: large data & interrupts</h2>
-    </header>
-
-    <table class="habits">
-      <tbody class="fade-past">
-        <tr class="fragment" data-fragment-index="0"><td><code>f.read()</code> on a log file</td><td class="verdict">→</td><td><code>for line in f:</code></td></tr>
-        <tr class="fragment" data-fragment-index="2"><td><code>r.json()</code> on a big reply</td><td class="verdict">→</td><td><code>json.load(r.raw)</code>: parsed as it arrives</td></tr>
-        <tr class="fragment" data-fragment-index="4"><td>allocating in a hard ISR (Interrupt Service Routine)</td><td class="verdict">→</td><td><code>micropython.schedule()</code></td></tr>
-        <tr class="fragment" data-fragment-index="6"><td>1,000 floats in a list</td><td class="verdict">→</td><td><code>array("f")</code>: ~4 KB, not ~20 KB</td></tr>
-      </tbody>
-    </table>
-
-    <div class="r-stack swap swap--steps code-swap qr-clear">
-      <pre class="code-fix fragment" data-fragment-index="0" data-lines="3"><code class="language-python" data-trim data-line-numbers="1|2-3" data-fragment-index="1">
-lines = f.read().split("\n")   # ✕ whole file, then a copy
-for line in f:                 # ✓ one line at a time
-    handle(line)
-      </code></pre>
-      <pre class="code-fix fragment" data-fragment-index="2" data-lines="2"><code class="language-python" data-trim data-line-numbers="1|2" data-fragment-index="3">
-data = r.json()           # ✕ whole body in RAM first
-data = json.load(r.raw)   # ✓ parsed as it arrives
-      </code></pre>
-      <pre class="code-fix fragment" data-fragment-index="4" data-lines="3"><code class="language-python" data-trim data-line-numbers="1-2|1,3" data-fragment-index="5">
-def on_edge(pin):                      # hard IRQ, heap locked
-    events.append(pin.value())         # ✕ MemoryError
-    micropython.schedule(record, pin)  # ✓ may allocate
-      </code></pre>
-      <pre class="code-fix fragment" data-fragment-index="6" data-lines="3"><code class="language-python" data-trim data-line-numbers="1|2-3" data-fragment-index="7">
-temps.append(sensor.temperature)  # ✕ ~20 KB of floats
-temps = array("f", [0] * 1000)    # ✓ raw floats: ~4 KB
-temps[i] = sensor.temperature
-      </code></pre>
-    </div>
-
-    <aside class="notes">
-      Big data: micropython-lib requests' .json() is json.loads(self.content),
-      so the whole body sits in RAM before parsing; r.raw is the body stream.
-      MicroPython's json.load reads its stream one byte at a time
-      (extmod/modjson.c), so only the parsed result is kept. CircuitPython's
-      adafruit_requests already does json.load(self.raw) in .json().
-      Hard ISRs run with the
-      heap locked: "memory allocation failed, heap is locked"; schedule() runs
-      the callback "very soon" when the heap isn't locked (isr_rules.html).
-      CircuitPython has no user interrupt handlers.
-      Floats: ~20 KB vs ~4 KB is computed for 32-bit ports with heap floats
-      (4 B pointer + 16 B float each, vs 4 B per element). Measured on the unix
-      port (64-bit): 40,224 bytes for the list, 4,064 for the array. On
-      CircuitPython floats live in the list slot, so the list is ~4 KB too.
-      Also worth knowing, if asked: build a web page piece by piece instead of
-      one string (constrained.html), CircuitPython's OnDiskBitmap draws from
-      flash instead of loading the image (Adafruit memory-saving tips), and if
-      it is still too big, ask the API for less or use a board with PSRAM.
-      Press down for an introduction to interrupts.
-    </aside>
-  </section>
-
-  <!-- ---------- -->
-  <!-- INTERRUPTS -->
-  <!-- ---------- -->
-  <section class="irq-intro">
-    <header class="slide-head">
-      <h2>Interrupts: code that runs on an event</h2>
-    </header>
-
-    <p class="lede">A pin edge or a timer interrupts your program to run something.</p>
-
-    <div class="cols cols--fit-left cols--fit">
-      <div>
-        <pre class="compact"><code class="language-python" data-trim>
-from machine import Pin
-presses = 0
-
-def on_press(pin):  # the interrupt handler
-    global presses
-    presses += 1    # an int: no new object
-
-button = Pin(BUTTON_PIN, Pin.IN, Pin.PULL_UP)
-# a press pulls the pin low: a falling edge
-button.irq(on_press, Pin.IRQ_FALLING)
-        </code></pre>
-        <p class="caption caption--left">Not on CircuitPython: use <code>countio</code>, <code>keypad</code></p>
-      </div>
-      <ul class="pinout">
-        <li><span class="pinout__pin">Soft Interrupt</span><span class="pinout__net">default for pins: queued, so it can lag. May allocate</span></li>
-        <li><span class="pinout__pin">Hard Interrupt</span><span class="pinout__net"><code>hard=True</code>: runs at once, heap locked: no floats or <code>append()</code></span></li>
-        <li><span class="pinout__pin">Hard → soft</span><span class="pinout__net"><code>micropython.schedule(f, arg)</code><br /><code>f</code> runs soft, soon after</span></li>
-        <li><span class="pinout__pin">Be brief</span><span class="pinout__net">your program waits, no <code>print()</code>, <code>sleep()</code> or filesystem actions</span></li>
-      </ul>
-    </div>
-
-    <p class="caption caption--left qr-clear">
-      Read:
-      <a href="https://docs.micropython.org/en/latest/reference/isr_rules.html" target="_blank" rel="noopener">Writing interrupt handlers</a> |
-      <a href="https://docs.micropython.org/en/latest/library/machine.Pin.html#machine.Pin.irq" target="_blank" rel="noopener">Pin.irq()</a> |
-      <a href="https://docs.micropython.org/en/latest/library/machine.Timer.html" target="_blank" rel="noopener">Timer</a> |
-      <a href="https://docs.micropython.org/en/latest/library/micropython.html#micropython.schedule" target="_blank" rel="noopener">schedule()</a>
-    </p>
-
-    <aside class="notes">
-    </aside>
-  </section>
-</section>
-
 <!-- ------------- -->
 <!-- FRAGMENTATION -->
 <!-- ------------- -->
-<section class="is-body-centered" data-ble-badge="fragmentation">
-  <header class="slide-head">
-    <h2>Memory fragmentation</h2>
-  </header>
+<section>
+  <section class="is-body-centered" data-ble-badge="fragmentation">
+    <header class="slide-head">
+      <h2>Memory fragmentation</h2>
+    </header>
 
-  <div class="r-stack swap">
-    <pre class="compact fragment fade-out" data-fragment-index="1"><code class="language-python" data-trim>
+    <div class="r-stack swap">
+      <pre class="compact fragment fade-out" data-fragment-index="1"><code class="language-python" data-trim>
 readings = []
 for _ in range(9):
     readings.append(read())        # kept: a float, 1 block
     msg = "T=%.1f" % readings[-1]  # dropped next time: a str, 2 blocks
 big_array = bytearray(64)          # 64 bytes: 4 blocks in a row
-    </code><span class="code-tint code-tint--float" style="--line: 3" aria-hidden="true"></span><span class="code-tint code-tint--str fragment fade-out" data-fragment-index="0" style="--line: 4" aria-hidden="true"></span><span class="code-tint code-tint--array fragment" data-fragment-index="0" style="--line: 5" aria-hidden="true"></span></pre>
-    <pre class="compact fragment" data-fragment-index="1"><code class="language-python" data-trim data-line-numbers="1">
+      </code><span class="code-tint code-tint--float" style="--line: 3" aria-hidden="true"></span><span class="code-tint code-tint--str fragment fade-out" data-fragment-index="0" style="--line: 4" aria-hidden="true"></span><span class="code-tint code-tint--array fragment" data-fragment-index="0" style="--line: 5" aria-hidden="true"></span></pre>
+      <pre class="compact fragment" data-fragment-index="1"><code class="language-python" data-trim data-line-numbers="1">
 big_array = bytearray(64)          # first, while the heap is empty
 readings = []
 for _ in range(9):
     readings.append(read())
     msg = "T=%.1f" % readings[-1]
-    </code></pre>
-  </div>
-
-  <p class="kicker">1 square = 1 block = 16 bytes</p>
-  <div class="heap-stack">
-    <pre class="heap-map heap--strip" aria-label="Full: a float and a string per reading">
-FS=FS=FS=FS=FS=FS=FS=FS=FS=
-    </pre>
-    <pre class="heap-map heap--strip fragment" data-fragment-index="0" aria-label="Collected: two-block holes between the floats">
-F..F..F..F..F..F..F..F..FS=
-    </pre>
-    <pre class="heap-map heap--strip fragment" data-fragment-index="1" aria-label="big_array first: the loop fills the space after it">
-A===FS=FF.FS=F..F..F..FS=F.
-    </pre>
-  </div>
-
-  <div class="r-stack swap readouts">
-    <p class="readout fragment fade-out" data-fragment-index="0">the loop fills the heap: each float kept, each string dropped</p>
-    <p class="readout fragment current-visible" data-fragment-index="0">no room for <code>big_array</code>, so the collector frees the strings:<br />16 blocks × 16 B = <b>256 B</b> free, but the biggest hole is 2 blocks, <b>32 B</b></p>
-    <p class="readout fragment" data-fragment-index="1"><span class="verdict--ok">✓</span> the loop fills and frees the space after it; <code>big_array</code> keeps its room</p>
-  </div>
-
-  <div class="r-stack swap">
-    <div class="strip-need fragment current-visible" data-fragment-index="0">
-      <pre class="heap-map heap--strip" aria-label="big_array needs four blocks in a row">
-A===
-      </pre>
-      <p class="readout readout--alert">✕ MemoryError: memory allocation failed, allocating 64 bytes</p>
+      </code></pre>
     </div>
-    <p class="lede fragment" data-fragment-index="1">Allocate big buffers early, right after your imports.<br />And reuse them!</p>
-  </div>
 
-  <aside class="notes">
-  </aside>
+    <p class="kicker">1 square = 1 block = 16 bytes</p>
+    <div class="heap-stack">
+      <pre class="heap-map heap--strip" aria-label="Full: a float and a string per reading">
+FS=FS=FS=FS=FS=FS=FS=FS=FS=
+      </pre>
+      <pre class="heap-map heap--strip fragment" data-fragment-index="0" aria-label="Collected: two-block holes between the floats">
+F..F..F..F..F..F..F..F..FS=
+      </pre>
+      <pre class="heap-map heap--strip fragment" data-fragment-index="1" aria-label="big_array first: the loop fills the space after it">
+A===FS=FF.FS=F..F..F..FS=F.
+      </pre>
+    </div>
+
+    <div class="r-stack swap readouts">
+      <p class="readout fragment fade-out" data-fragment-index="0">the loop fills the heap: each float kept, each string dropped</p>
+      <p class="readout fragment current-visible" data-fragment-index="0">no room for <code>big_array</code>, so the collector frees the strings:<br />16 blocks × 16 B = <b>256 B</b> free, but the biggest hole is 2 blocks, <b>32 B</b></p>
+      <p class="readout fragment" data-fragment-index="1"><span class="verdict--ok">✓</span> the loop fills and frees the space after it; <code>big_array</code> keeps its room</p>
+    </div>
+
+    <div class="r-stack swap">
+      <div class="strip-need fragment current-visible" data-fragment-index="0">
+        <pre class="heap-map heap--strip" aria-label="big_array needs four blocks in a row">
+A===
+        </pre>
+        <p class="readout readout--alert">✕ MemoryError: memory allocation failed, allocating 64 bytes</p>
+      </div>
+      <p class="lede fragment" data-fragment-index="1">Allocate big buffers early, right after your imports.<br />And reuse them!</p>
+    </div>
+
+    <aside class="notes">
+    </aside>
+  </section>
+
+  <!-- ----- -->
+  <!-- LEAKS -->
+  <!-- ----- -->
+  <section class="leaks">
+    <header class="slide-head">
+      <h2>Leaks: bound what grows</h2>
+    </header>
+
+    <div class="cols">
+      <pre class="compact"><code class="language-python" data-trim>
+readings = []
+while True:
+    readings.append(read())  # ✕ forever
+      </code></pre>
+      <pre class="compact"><code class="language-python" data-trim>
+from collections import deque
+readings = deque((), 6)      # ✓ the last 6
+while True:
+    readings.append(read())
+      </code></pre>
+    </div>
+
+    <p class="kicker">1 square = 1 reading · gold: the newest</p>
+    <div class="leaks__strips">
+      <pre class="heap-map heap--small leaks__list" aria-label="A list: one more reading each time, until the heap is full">
+FFFFFFFFFFFFFFFFFFFFFFFFFFF
+      </pre>
+      <p class="readout">the list keeps growing <span class="leaks__error verdict--bad">✕ MemoryError</span></p>
+      <pre class="heap-map heap--small leaks__deque" aria-label="A deque: six readings, the newest replacing the oldest">
+FFFFFF.....................
+      </pre>
+      <p class="readout"><span class="verdict--ok">✓</span> the deque: newest replaces oldest</p>
+    </div>
+
+    <ul class="pinout qr-clear">
+      <li><span class="pinout__pin">Why</span><span class="pinout__net">the collector can't free what the list still points to</span></li>
+      <li><span class="pinout__pin">Spot it</span><span class="pinout__net">if no other allocations happening and <code>gc.collect()</code> + <code>gc.mem_free()</code> shows less free mem over time.</span></li>
+      <li><span class="pinout__pin">Also grows</span><span class="pinout__net">a log string, a cache <code>dict</code>, callbacks added on every reconnect</span></li>
+      <li><span class="pinout__pin">No deque?</span><span class="pinout__net">use an <code>array</code> as a ring buffer</span></li>
+    </ul>
+
+    <p class="caption caption--left qr-clear">
+      Read:
+      <a href="https://docs.micropython.org/en/latest/library/collections.html" target="_blank" rel="noopener">MicroPython collections.deque</a> ·
+      <a href="https://docs.micropython.org/en/latest/reference/constrained.html" target="_blank" rel="noopener">MicroPython on microcontrollers</a>
+    </p>
+
+    <aside class="notes">
+    </aside>
+  </section>
 </section>
 
 <!-- ------ -->
@@ -542,36 +589,38 @@ def checksum(buf) -> int:
     </ul>
 
     <aside class="notes">
-      Measure first: time.ticks_us() around the loop. Then make that one
-      function faster; the rest of the program stays plain Python.
-      @micropython.native compiles the same Python to machine code, "roughly
-      twice the performance of bytecode". @micropython.viper goes further for
-      "integer arithmetic and bit manipulation": typed locals, ptr8/ptr16/ptr32
-      for buffers, and no overflow checks (speed_python.html, "The Viper code
-      emitter"). Both compile here with mpy-cross -march=armv6m.
-      The bars are Adafruit's measurement, not this checksum: a fixed-point
-      Mandelbrot, 160 × 120, up to 64 iterations, median times on a Metro
-      RP2040 with CircuitPython 10.3.0-42-g3cdb20693f, recorded 8 September
-      2026: bytecode 8,335.3 ms, native 4,778.0 ms (1.74×), viper 422.9 ms
-      (19.71×) (CircuitPython Turbo guide, "Measured speed"). The speed-up is
-      for that function, not the whole program.
-      Turbo is not a new mode: it is the same native and viper emitters,
-      reached another way. CircuitPython builds leave the on-board native emitter out
-      (CIRCUITPY_ENABLE_MPY_NATIVE ?= 0, "experimental", circuitpy_mpconfig.mk),
-      so @micropython.native and viper don't compile on the board. The
-      raspberrypi port does load native .mpy files (CIRCUITPY_LOAD_NATIVE ?= 1).
-      Turbo uses that: mpy-cross on your computer compiles the one function for
-      the board's CPU into a .mpy, and a small shim falls back to the Python
-      source when no matching .mpy is installed. RP2040 and RP2350, latest
-      builds (Turbo guide, "How Turbo works"; Electronics For You, 15 September
-      2026).
-      "Viper: no floats" and the wrap-around rule are from Adafruit's PixelDust
-      guide and speed_python.html. Other speed habits (Damien George, PyCon AU
-      2018): use locals, cache methods in locals, const(), and built-ins.
-      Press down for a decorator that times every call.
     </aside>
   </section>
 
+  <!-- ------------ -->
+  <!-- SPEED HABITS -->
+  <!-- ------------ -->
+  <section>
+    <header class="slide-head">
+      <h2>Small tweaks for speed</h2>
+    </header>
+
+    <p class="lede">Time it first, then change only the slow part.</p>
+
+    <table class="habits">
+      <tbody>
+        <tr><td>code at module level</td><td class="verdict">→</td><td>inside a function (<code>def main():</code>) code in global space is slow</td></tr>
+        <tr><td>a method call in a hot loop</td><td class="verdict">→</td><td><code>toggle = led.toggle</code> save it locally, before the loop</td></tr>
+        <tr><td>a Python loop over a buffer</td><td class="verdict">→</td><td>Use built-in functions like <code>sum(buf)</code>, more efficient</td></tr>
+        <tr><td>float maths in a fast loop</td><td class="verdict">→</td><td>Use integers with a larger scale (int millivolts instead of float volts)</td></tr>
+        <tr><td>parsing sensor bytes by hand</td><td class="verdict">→</td><td><code>struct.unpack_from("&lt;hhh", buf)</code>: one call, signs right</td></tr>
+      </tbody>
+    </table>
+
+    <p class="caption caption--left qr-clear qr-clear--low">
+      Read:
+      <a href="https://docs.micropython.org/en/latest/reference/speed_python.html" target="_blank" rel="noopener">Maximising MicroPython speed</a> ·
+      <a href="https://micropython.org/resources/publish/DPG_FastEfficientMP_PyConAU2018.pdf" target="_blank" rel="noopener">Damien George's 2018 talk slides</a>
+    </p>
+
+    <aside class="notes">
+    </aside>
+  </section>
 
   <!-- ---------------- -->
   <!-- TIMING DECORATOR -->
@@ -609,153 +658,6 @@ def timed(f):
 
     <p class="caption qr-clear">
       <a href="https://docs.micropython.org/en/latest/reference/speed_python.html" target="_blank" rel="noopener">MicroPython docs: maximising speed</a>
-    </p>
-
-    <aside class="notes">
-    </aside>
-  </section>
-</section>
-
-<!-- ------ -->
-<!-- MANAGE -->
-<!-- ------ -->
-<section>
-  <section class="is-body-centered">
-    <header class="slide-head">
-      <h2>Keep it running</h2>
-    </header>
-
-    <div class="cols cols--fit cols--wide-right">
-      <ul>
-        <li class="fragment fade-in-then-semi-out" data-fragment-index="0">Watch free memory</li>
-        <li class="fragment fade-in-then-semi-out" data-fragment-index="1">Collect at a quiet point</li>
-        <li class="fragment fade-in-then-semi-out" data-fragment-index="2">Prove a loop allocates nothing</li>
-        <li class="fragment fade-in-then-semi-out" data-fragment-index="3">Out of memory anyway? Log it, reset</li>
-      </ul>
-
-      <div class="r-stack swap">
-        <div class="fragment current-visible" data-fragment-index="0">
-          <pre class="compact"><code class="language-python" data-trim>
-gc.collect()
-print(gc.mem_free())       # once a minute
-readings = deque((), 60)   # falling? bound it
-          </code></pre>
-          <svg class="diagram" viewBox="0 0 520 160" width="520" height="160" role="img">
-            <title>Free memory over hours: a flat line is fine, a falling line is a leak.</title>
-            <line class="axis" x1="10" y1="10" x2="10" y2="140"/>
-            <line class="axis" x1="10" y1="140" x2="510" y2="140"/>
-            <text class="axis-label" x="510" y="158" text-anchor="end">hours →</text>
-            <path class="lane lane--clk" d="M10 34 H500"/>
-            <text class="legend legend--clk" x="24" y="24">flat: fine</text>
-            <path class="lane lane--data" d="M10 50 L500 128"/>
-            <text class="axis-label" x="24" y="96">falling: a leak</text>
-          </svg>
-        </div>
-        <pre class="compact fragment current-visible" data-fragment-index="1"><code class="language-python" data-trim>
-while True:
-    read_sensor()
-    update_display()
-    gc.collect()        # here, never mid-task
-    time.sleep_ms(100)
-        </code></pre>
-        <pre class="compact fragment current-visible" data-fragment-index="2"><code class="language-python" data-trim>
-micropython.heap_lock()    # MicroPython only
-handle(packet)             # allocates? MemoryError
-micropython.heap_unlock()
-        </code></pre>
-        <pre class="compact fragment" data-fragment-index="3"><code class="language-python" data-trim>
-try:
-    app.run()
-except MemoryError as e:
-    log_crash(e)      # append to crash.log
-    machine.reset()   # start on a fresh heap
-        </code></pre>
-      </div>
-    </div>
-
-    <aside class="callout callout--ok fragment qr-clear" data-fragment-index="4" data-label="Survival rule">
-      <p>Measure first. Allocate once. Stream the rest.</p>
-    </aside>
-
-    <aside class="notes">
-      Watch: Adafruit's first tip is to measure, gc.collect() then
-      gc.mem_free() before and after each section, imports included.
-      A falling line is a leak: something the program keeps grows forever,
-      such as a list of readings. Bound it: deque((), 60) keeps the last 60.
-      Not on every board (no deque on SAMD21, nRF52832 or the micro:bit;
-      CircuitPython full builds only); the leak slide below has the details.
-      Schedule: automatic collections run when an allocation fails, so they
-      land wherever you happen to be. A user's 120 Hz callback was delayed
-      every 1.3 s by them (MicroPython Discussion #19676, 2026); collecting on
-      their own schedule stopped the lost callbacks. A collection is "about
-      1ms on the Pyboard" when done frequently (constrained.html), but a
-      measurement in the same thread found the pause depends mostly on how much
-      live data there is to scan: time it with ticks_us on your board.
-      gc.threshold(gc.mem_free() // 4 +
-      gc.mem_alloc()) collects after a quarter of the free heap is used.
-      Prove: heap_lock() makes any allocation raise MemoryError (micropython
-      module docs); CircuitPython leaves it out. Hard ISRs already run with the
-      heap locked: "memory allocation failed, heap is locked".
-      CircuitPython's nearest is memorymonitor.AllocationAlarm, which raises
-      when anything allocates inside its with block; it needs a custom build
-      with CIRCUITPY_MEMORYMONITOR = 1 in mpconfigboard.mk (off by default and
-      on no board in main, 68c72ec; py/gc.c still calls it). Docs:
-      docs.circuitpython.org/en/latest/shared-bindings/memorymonitor/
-      Build: learn.adafruit.com/building-circuitpython/customizing-included-modules
-      Recover: catch MemoryError round the app, log it and reset. By
-      the time the handler runs, the failed call's objects are unreachable, so
-      logging usually finds room; the reset gives a heap with no holes.
-      Each bullet's code shows on the right, one at a time. The graph is a
-      sketch, not a measurement.
-      Press down for the leak on its own.
-    </aside>
-  </section>
-
-  <!-- ----- -->
-  <!-- LEAKS -->
-  <!-- ----- -->
-  <section class="leaks">
-    <header class="slide-head">
-      <h2>Leaks: bound what grows</h2>
-    </header>
-
-    <div class="cols">
-      <pre class="compact"><code class="language-python" data-trim>
-readings = []
-while True:
-    readings.append(read())  # ✕ forever
-      </code></pre>
-      <pre class="compact"><code class="language-python" data-trim>
-from collections import deque
-readings = deque((), 6)      # ✓ the last 6
-while True:
-    readings.append(read())
-      </code></pre>
-    </div>
-
-    <p class="kicker">1 square = 1 reading · gold: the newest</p>
-    <div class="leaks__strips">
-      <pre class="heap-map heap--small leaks__list" aria-label="A list: one more reading each time, until the heap is full">
-FFFFFFFFFFFFFFFFFFFFFFFFFFF
-      </pre>
-      <p class="readout">the list keeps growing <span class="leaks__error verdict--bad">✕ MemoryError</span></p>
-      <pre class="heap-map heap--small leaks__deque" aria-label="A deque: six readings, the newest replacing the oldest">
-FFFFFF.....................
-      </pre>
-      <p class="readout"><span class="verdict--ok">✓</span> the deque: newest replaces oldest</p>
-    </div>
-
-    <ul class="pinout qr-clear">
-      <li><span class="pinout__pin">Why</span><span class="pinout__net">the collector can't free what the list still points to</span></li>
-      <li><span class="pinout__pin">Spot it</span><span class="pinout__net">if no other allocations happening and <code>gc.collect()</code> + <code>gc.mem_free()</code> shows less free mem over time.</span></li>
-      <li><span class="pinout__pin">Also grows</span><span class="pinout__net">a log string, a cache <code>dict</code>, callbacks added on every reconnect</span></li>
-      <li><span class="pinout__pin">No deque?</span><span class="pinout__net">use an <code>array</code> as a ring buffer</span></li>
-    </ul>
-
-    <p class="caption caption--left qr-clear">
-      Read:
-      <a href="https://docs.micropython.org/en/latest/library/collections.html" target="_blank" rel="noopener">MicroPython collections.deque</a> ·
-      <a href="https://docs.micropython.org/en/latest/reference/constrained.html" target="_blank" rel="noopener">MicroPython on microcontrollers</a>
     </p>
 
     <aside class="notes">

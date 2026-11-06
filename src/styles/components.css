@@ -890,11 +890,14 @@
 .reveal .corner-arrow .via {
   fill: var(--pcb-board-deep);
   stroke-width: 3;
+}
+
+.reveal .corner-arrow .draw .via {
   opacity: 0;
   transition: opacity var(--pcb-speed) var(--pcb-ease);
 }
 
-.reveal .corner-arrow .visible .via {
+.reveal .corner-arrow .draw.visible .via {
   opacity: 1;
 }
 
@@ -902,6 +905,11 @@
 .reveal .corner-arrow .draw.visible .head {
   transition-duration: var(--pcb-speed);
   transition-delay: calc(var(--pcb-speed) * 3);
+}
+
+/* An arrow built on arrival (svg.build): the head draws in one beat, as above. */
+.reveal .slides section.present .corner-arrow.build .head {
+  animation-duration: var(--pcb-speed);
 }
 
 /* The QR arrow draws in half the time: it points the way, the slide shouldn't wait for it. */

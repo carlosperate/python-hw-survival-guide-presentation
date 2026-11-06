@@ -33,45 +33,43 @@
   </aside>
 </section>
 
-<!-- ----------------- -->
-<!-- LOOK FOR A DRIVER -->
-<!-- ----------------- -->
+<!-- ----------------------------------------------- -->
+<!-- LOOK FOR A DRIVER; below it, how to install one -->
+<!-- ----------------------------------------------- -->
 <section>
-  <header class="slide-head">
-    <h2>First step: find an existing driver</h2>
-  </header>
+  <section>
+    <header class="slide-head">
+      <h2>First step: find an existing driver</h2>
+    </header>
 
-  <div class="find-driver">
-  <ol>
-    <li><b>Read the </b>official <b>docs</b>. Vendors might provide all you need.</li>
-    <li class="fragment" data-fragment-index="1"><b>Find the chip name</b>. Board name might not be the same as the chip (e.g. <code>BME280</code>).</li>
-    <li class="fragment" data-fragment-index="2">Start with Google, but also use <b>GitHub's search</b> with filters.</li>
-    <li class="fragment" data-fragment-index="3">
-      Check <a href="https://github.com/micropython/micropython-lib/tree/master/micropython/drivers" target="_blank" rel="noopener">micropython-lib</a>,
-      <a href="https://github.com/mcauser/awesome-micropython" target="_blank" rel="noopener">awesome-micropython</a>,
-      <a href="https://github.com/adafruit/awesome-circuitpython" target="_blank" rel="noopener">awesome-circuitpython</a>,
-      vendor's repos (<a href="https://circuitpython.org/libraries" target="_blank" rel="noopener">Adafruit</a>, <a href="https://github.com/sparkfun/" target="_blank" rel="noopener">SparkFun</a>, <a href="https://github.com/pimoroni/" target="_blank" rel="noopener">Pimoroni</a>, <a href="https://github.com/arduino/package-index-py" target="_blank" rel="noopener">Arduino</a>).
-    </li>
-    <li class="fragment" data-fragment-index="4">Check it's for your Python. <br />E.g. <code>machine.I2C</code> is MicroPython; <code>busio</code> is CircuitPython.</li>
-    <li class="fragment" data-fragment-index="5">Only in C or Arduino? Port it, it's a great reference implementation.</li>
-  </ol>
-  <img class="part-shot" src="/images/parts/bme280-adafruit.webp" style="--h: 180px" alt="Adafruit's BME280 breakout, with BME280 printed on it" />
-  </div>
+    <div class="find-driver">
+    <ol>
+      <li><b>Read the </b>official <b>docs</b>. Vendors might provide all you need.</li>
+      <li class="fragment" data-fragment-index="1"><b>Find the chip name</b>. Board name might not be the same as the chip (e.g. <code>BME280</code>).</li>
+      <li class="fragment" data-fragment-index="2">Start with Google, but also use <b>GitHub's search</b> with filters.</li>
+      <li class="fragment" data-fragment-index="3">
+        Check <a href="https://github.com/micropython/micropython-lib/tree/master/micropython/drivers" target="_blank" rel="noopener">micropython-lib</a>,
+        <a href="https://github.com/mcauser/awesome-micropython" target="_blank" rel="noopener">awesome-micropython</a>,
+        <a href="https://github.com/adafruit/awesome-circuitpython" target="_blank" rel="noopener">awesome-circuitpython</a>,
+        vendor's repos (<a href="https://circuitpython.org/libraries" target="_blank" rel="noopener">Adafruit</a>, <a href="https://github.com/sparkfun/" target="_blank" rel="noopener">SparkFun</a>, <a href="https://github.com/pimoroni/" target="_blank" rel="noopener">Pimoroni</a>, <a href="https://github.com/arduino/package-index-py" target="_blank" rel="noopener">Arduino</a>).
+      </li>
+      <li class="fragment" data-fragment-index="4">Check it's for your Python. <br />E.g. <code>machine.I2C</code> is MicroPython; <code>busio</code> is CircuitPython.</li>
+      <li class="fragment" data-fragment-index="5">Only in C or Arduino? Port it, it's a great reference implementation.</li>
+    </ol>
+    <img class="part-shot" src="/images/parts/bme280-adafruit.webp" style="--h: 180px" alt="Adafruit's BME280 breakout, with BME280 printed on it" />
+    </div>
 
-  <aside class="notes">
-  </aside>
-</section>
+    <aside class="notes">
+    </aside>
+  </section>
 
-<!-- ------- -->
-<!-- INSTALL -->
-<!-- ------- -->
-<section>
+  <!-- INSTALL -->
   <section>
     <header class="slide-head">
       <h2>Getting the driver onto your board</h2>
     </header>
 
-    <div class="fragment cols cols--rows"  data-fragment-index="0">
+    <div class="cols cols--rows">
       <div>
         <p class="kicker">MicroPython</p>
         <pre class="terminal compact" data-label="On your PC, over USB"><span class="terminal__in">$ pip install mpremote</span>
@@ -81,9 +79,9 @@
 import bme280_float as bme280
 bme = bme280.BME280(i2c=i2c)
         </code></pre>
-        <p class="caption fragment" data-fragment-index="2">By hand: <code>mpremote cp bme280_float.py :</code></p>
+        <p class="caption">By hand: <code>mpremote cp bme280_float.py :</code></p>
       </div>
-      <div class="fragment" data-fragment-index="0">
+      <div>
         <p class="kicker">CircuitPython</p>
         <pre class="terminal compact" data-label="On your PC, over USB"><span class="terminal__in">$ pip install circup</span>
 <span class="terminal__in">$ circup install adafruit_bme280</span></pre>
@@ -91,7 +89,7 @@ bme = bme280.BME280(i2c=i2c)
 from adafruit_bme280 import basic as bme280
 bme = bme280.Adafruit_BME280_I2C(i2c)
         </code></pre>
-        <p class="caption fragment" data-fragment-index="2">By hand: drag the <code>.mpy</code> into <code>CIRCUITPY/lib</code></p>
+        <p class="caption">By hand: drag the <code>.mpy</code> into <code>CIRCUITPY/lib</code></p>
       </div>
     </div>
 
@@ -212,11 +210,78 @@ mem32[GPIO_OUT_CLR] = 1 &lt;&lt; 25  # "clear" LED off
     </p>
 
     <aside class="notes">
-      Vertical slide, skipped live. Addresses from the pico-sdk register headers: SIO_BASE 0xd0000000;
-      RP2040 GPIO_OUT_SET at +0x014, GPIO_OUT_CLR at +0x018; RP2350 GPIO_OUT_SET at +0x018, GPIO_OUT_CLR
-      at +0x020. Pin(25, Pin.OUT) makes the pin an SIO output first. machine.mem8/16/32 are in
-      MicroPython's shared machine module; CircuitPython has no machine module. A wrong address can
-      hard-fault the chip.
+    </aside>
+  </section>
+
+  <!-- A DRIVER EXAMPLE -->
+  <section>
+    <header class="slide-head">
+      <h2>A driver is a small class</h2>
+    </header>
+
+    <div class="cols cols--fit-left">
+      <pre class="compact"><code class="language-python" data-trim>
+from micropython import const
+_ID = const(0xD0)
+_CTRL = const(0xF4)
+_TEMP = const(0xFA)
+
+class BME280:
+    def __init__(self, i2c, addr=0x76):
+        self.i2c, self.addr = i2c, addr
+        self._buf = bytearray(3)
+        if i2c.readfrom_mem(addr, _ID, 1) != b"\x60":
+            raise OSError("BME280 not found")
+        i2c.writeto_mem(addr, _CTRL, b"\x27")  # wake
+
+    def raw_temperature(self):
+        b = self._buf
+        self.i2c.readfrom_mem_into(self.addr, _TEMP, b)
+        return b[0] &lt;&lt; 12 | b[1] &lt;&lt; 4 | b[2] &gt;&gt; 4
+      </code></pre>
+
+      <div>
+        <ol class="list--dense">
+          <li>Registers as <code>const()</code></li>
+          <li>Take the bus, don't make it: <code>I2C</code>, <code>SoftI2C</code> or a fake one for tests</li>
+          <li>Check the ID, wake it up</li>
+          <li>One buffer, reused</li>
+        </ol>
+      </div>
+    </div>
+
+    <aside class="notes">
+    </aside>
+  </section>
+
+  <!-- DATASHEET: each number in the class, next to its row in the register map -->
+  <section class="slide--small-type">
+    <header class="slide-head">
+      <h2>Where the driver numbers come from</h2>
+    </header>
+
+    <p class="lede">
+      A <b>register</b>, in a sensor, is a memory address connected to the hardware.<br>
+      The datasheet's register map says what each register does.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Register</th><th>The datasheet says</th><th>In the driver</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>0xD0</code> id</td><td>Always reads <code>0x60</code></td><td><code>!= b"\x60"</code>: not a BME280</td></tr>
+        <tr><td><code>0xF4</code> ctrl_meas</td><td>Configure how to measure the temperature in bits 7-5, the pressure (bits 4-2), and mode (1-0)</td><td><code>0x27</code> = <code>001</code> <code>001</code> <code>11</code><br /><span style="font-size: 0.9em">1&nbsp;sample, 1&nbsp;sample, continuous</span></td></tr>
+        <tr><td><code>0xFA</code>…<code>0xFC</code> temp</td><td>Temperature in 20 bits over 3 bytes</td><td><code>b[0] &lt;&lt; 12 | b[1] &lt;&lt; 4 | b[2] &gt;&gt; 4</code></td></tr>
+      </tbody>
+    </table>
+
+    <p class="caption qr-clear">
+      <a href="https://www.bosch-sensortec.com/products/environmental-sensors/humidity-sensors-bme280/" target="_blank" rel="noopener">BME280 datasheet</a>, 5.3 and 4.2.3 ·
+      <a href="https://github.com/adafruit/Adafruit_CircuitPython_BME280" target="_blank" rel="noopener">Adafruit's CircuitPython driver</a>
+    </p>
+
+    <aside class="notes">
     </aside>
   </section>
 </section>
@@ -230,7 +295,7 @@ mem32[GPIO_OUT_CLR] = 1 &lt;&lt; 25  # "clear" LED off
   </header>
 
   <ul class="list--wide bus-list">
-    <li>A <b>bus</b> is the signals between chips & the rules for sending bytes (the protocol).</li>
+    <li>A <b>bus</b> is a set of signals between chips & rules for exchanging data (the protocol).</li>
     <li class="fragment" data-fragment-index="1">Microcontrollers have built-in hardware for common ones like: <b>UART</b>, <b>I²C</b> and <b>SPI</b>.</li>
     <li class="fragment" data-fragment-index="2">You rarely choose: the part's datasheet or product page specifies the bus.</li>
     <li class="fragment" data-fragment-index="3">You still need to know it: it decides which pins you wire, and what bus you hand the driver.</li>
@@ -271,8 +336,7 @@ bme = bme280.BME280(i2c=i2c)
         <tr class="fragment" data-fragment-index="1"><td>Devices</td><td>two, one at each end</td><td><span class="fragment" data-fragment-index="2">many, each at an address</span></td><td><span class="fragment" data-fragment-index="3">many, one CS pin each</span></td></tr>
         <tr class="fragment" data-fragment-index="4"><td>Speed</td><td>9,600 - 115,200 baud (1M+)</td><td>100 or 400 kHz</td><td>1–10+ MHz</td></tr>
         <tr class="fragment" data-fragment-index="5"><td>Extra parts</td><td>none</td><td>pull-up resistors</td><td>often pull-ups on Chip Select</td></tr>
-        <tr class="fragment" data-fragment-index="6"><td>Device detection</td><td>no way to know</td><td><code>scan()</code> lists them</td><td>no: you read 0x00 or 0xFF</td></tr>
-        <tr class="fragment" data-fragment-index="7"><td>Classic mistake</td><td>wrong baud, reads garbage</td><td>two chips at one address clash</td><td>wrong mode: wrong bits, no error</td></tr>
+        <tr class="fragment" data-fragment-index="6"><td>Classic mistake</td><td>wrong baud configured, reads garbage</td><td>two chips with the same address clash</td><td>wrong SPI mode: reads data incorrectly, no errors shown</td></tr>
       </tbody>
     </table>
 
@@ -329,10 +393,6 @@ bme = bme280.BME280(i2c=i2c)
     </div>
     </div>
 
-    <div class="panel fragment" data-label="Keep en eye for this" data-fragment-index="8">
-      <p>Connect GND between boards; 5 V can kill a 3.3 V pin;<br>Not every pin can do every bus; keep wires short</p>
-    </div>
-
     <aside class="notes">
     </aside>
   </section>
@@ -374,12 +434,6 @@ bme = bme280.BME280(i2c=i2c)
     </p>
 
     <aside class="notes">
-      Vertical slide, skipped live. A click per part: idle, START, data, STOP,
-      then where the receiver samples. Line idles HIGH; START is a 1-to-0
-      transition; data LSB first; STOP returns to 1. 8N1 is the usual framing. The default baud rate is per port: 115,200
-      on rp2 and ESP32 (ports/*/machine_uart.c), and the pyboard makes you pass
-      it. 104 µs per bit at 9,600, 8.68 µs at 115,200 (derived). SparkFun
-      Serial; machine.UART docs.
     </aside>
   </section>
 
@@ -463,17 +517,6 @@ bme = bme280.BME280(i2c=i2c)
     <p class="caption caption--left qr-clear">S start · W write · R read · A✓ ACK · Sr repeated start · N NACK · P stop</p>
 
     <aside class="notes">
-      Vertical slide, skipped live. A click per field. Each field's band and cell share a
-      colour; the MCU row is what the microcontroller sends, the BME280 row what the sensor sends.
-      SDA may change only while SCL is LOW; START and STOP are SDA edges while
-      SCL is HIGH; bytes go MSB first, each followed by a ninth-clock ACK; a NACK
-      from a reading controller signals the end (UM10204 3.1.3-3.1.6, 3.1.10).
-      BME280: 7-bit address 0x76 with SDO to GND, chip-ID register 0xD0 = 0x60
-      (datasheet 5.4.1, 6.2). readfrom_mem() is writeto(addr, reg, stop=False)
-      then readfrom(..., stop=True) (extmod/machine_i2c.c): hence the repeated
-      START. 36 clocks: ~0.36 ms at 100 kHz.
-      The code says 0x76; the wire says 0xEC and 0xED: the 8-bit address trap.
-      A logic analyser shows this read, field by field.
     </aside>
   </section>
 
@@ -522,88 +565,6 @@ bme = bme280.BME280(i2c=i2c)
     <aside class="notes">
     </aside>
   </section>
-</section>
-
-<!-- A DRIVER EXAMPLE -->
-<section>
-<section>
-  <header class="slide-head">
-    <h2>A driver is a small class</h2>
-  </header>
-
-  <div class="cols cols--fit-left">
-    <pre class="compact"><code class="language-python" data-trim data-line-numbers="1-4|6-9|10-12|14-17" data-fragment-index="0">
-from micropython import const
-_ID = const(0xD0)
-_CTRL = const(0xF4)
-_TEMP = const(0xFA)
-
-class BME280:
-    def __init__(self, i2c, addr=0x76):
-        self.i2c, self.addr = i2c, addr
-        self._buf = bytearray(3)
-        if i2c.readfrom_mem(addr, _ID, 1) != b"\x60":
-            raise OSError("BME280 not found")
-        i2c.writeto_mem(addr, _CTRL, b"\x27")  # wake
-
-    def raw_temperature(self):
-        b = self._buf
-        self.i2c.readfrom_mem_into(self.addr, _TEMP, b)
-        return b[0] &lt;&lt; 12 | b[1] &lt;&lt; 4 | b[2] &gt;&gt; 4
-    </code></pre>
-
-    <div>
-      <ol class="list--dense">
-        <li>Registers as <code>const()</code></li>
-        <li class="fragment" data-fragment-index="0">Take the bus, don't make it: <code>I2C</code>, <code>SoftI2C</code> or a fake one for tests</li>
-        <li class="fragment" data-fragment-index="1" data-ble-badge="scan()">Check the ID, wake it up</li>
-        <li class="fragment" data-fragment-index="2">One buffer, reused</li>
-      </ol>
-
-    </div>
-  </div>
-
-  <aside class="notes">
-  </aside>
-</section>
-
-<!-- DATASHEET: each number in the class, next to its row in the register map -->
-<section class="slide--small-type">
-  <header class="slide-head">
-    <h2>Where the driver numbers come from</h2>
-  </header>
-
-  <p class="lede">
-    A <b>register</b>, in a sensor, is a memory address connected to the hardware.<br>
-    The datasheet's register map says what each register does.
-  </p>
-
-  <table>
-    <thead>
-      <tr><th>Register</th><th>The datasheet says</th><th>In the driver</th></tr>
-    </thead>
-    <tbody>
-      <tr><td><code>0xD0</code> id</td><td>Always reads <code>0x60</code></td><td><code>!= b"\x60"</code>: not a BME280</td></tr>
-      <tr><td><code>0xF4</code> ctrl_meas</td><td>Configure how to measure the temperature in bits 7-5, the pressure (bits 4-2), and mode (1-0)</td><td><code>0x27</code> = <code>001</code> <code>001</code> <code>11</code><br /><span style="font-size: 0.9em">1&nbsp;sample, 1&nbsp;sample, continuous</span></td></tr>
-      <tr><td><code>0xFA</code>…<code>0xFC</code> temp</td><td>Temperature in 20 bits over 3 bytes</td><td><code>b[0] &lt;&lt; 12 | b[1] &lt;&lt; 4 | b[2] &gt;&gt; 4</code></td></tr>
-    </tbody>
-  </table>
-
-  <p class="caption qr-clear">
-    <a href="https://www.bosch-sensortec.com/products/environmental-sensors/humidity-sensors-bme280/" target="_blank" rel="noopener">BME280 datasheet</a>, 5.3 and 4.2.3 ·
-    <a href="https://github.com/adafruit/Adafruit_CircuitPython_BME280" target="_blank" rel="noopener">Adafruit's CircuitPython driver</a>
-  </p>
-
-  <aside class="notes">
-    Vertical slide, skipped live. Bosch BME280 datasheet, revision 1.23 (BST-BME280-DS001-23, January
-    2022). Memory map: Table 18, section 5.3. id: 0x60 (5.4.1). ctrl_meas: osrs_t bits 7-5, osrs_p
-    bits 4-2, mode bits 1-0; 001 is oversampling x1, 11 is normal mode (5.4.5, Tables 22-25). temp:
-    ut[19:12], ut[11:4], and ut[3:0] in bits 7-4 of temp_xlsb (5.4.8, Table 30); reset state 0x80,
-    0x00, 0x00, so 0x80000 before the first measurement. Calibration: 0x88-0xA1 and 0xE1-0xE7 (4.2.2,
-    Table 16); compensation formulas 4.2.3. Adafruit's CircuitPython driver (adafruit_bme280/basic.py)
-    defines the same registers with const(): CHIPID 0xD0, CTRL_MEAS 0xF4, TEMPDATA 0xFA.
-  </aside>
-</section>
 </section>
 
 <!-- ----------- -->

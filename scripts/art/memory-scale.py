@@ -1,7 +1,4 @@
-"""Writes slides/art/memory-scale.svg: boards placed by RAM (gold axis) and flash (blue axis) on one log scale.
-
-The figures' sources are in the slide's speaker notes.
-"""
+"""Writes slides/art/memory-scale.svg: boards placed by RAM (gold axis) and flash (blue axis) on one log scale."""
 import math
 from pathlib import Path
 
