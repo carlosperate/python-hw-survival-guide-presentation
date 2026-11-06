@@ -94,8 +94,8 @@ class TestGrey(unittest.TestCase):
         import framebuf
 
         fb = framebuf.FrameBuffer(Grey(BADGE).frame(), 800, 480, framebuf.GS2_HMSB)
-        known = {(646, 321): 0, (649, 321): 0, (642, 317): 3, (644, 259): 2, (628, 100): 1}
-        known[(431, 381)] = 0
+        known = {(646, 321): 0, (649, 321): 0, (642, 317): 3, (644, 259): 2, (692, 214): 1}
+        known[(431, 415)] = 0
         for (x, y), level in known.items():
             self.assertEqual(fb.pixel(x, y), level, (x, y))
 

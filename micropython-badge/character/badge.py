@@ -27,12 +27,11 @@ HOLES = ((33, 33), (767, 33), (33, 447), (767, 447))
 OUTWARD = {"left": (-1, 0), "right": (1, 0), "top": (0, -1), "bottom": (0, 1)}
 ALONG = {"left": (0, 1), "right": (0, 1), "top": (1, 0), "bottom": (1, 0)}
 STYLES = {
-    "name": (90, "oxanium", 600),
-    "surname": (38, "oxanium", 600),
+    "name": (120, "oxanium", 600),
+    "surname": (40, "oxanium", 600),
     "title": (26, "oxanium", 600),
     "subtitle": (26, "oxanium", 600),
     "day": (23, "roboto", 450),
-    "room": (23, "roboto", 450),
 }
 SEGMENTS = {"0": "abcdef", "1": "bc", "2": "abged"}
 
@@ -444,12 +443,12 @@ def render():
         )
     # A matched pair from U1 to U2, above the talk's title and down beside it.
     connect(
-        p["right"][6], q["left"][0], [(309, 270), (321, 258), (600, 258), (608, 266), (608, 312)]
+        p["right"][6], q["left"][0], [(309, 270), (321, 282), (596, 282), (608, 294), (608, 319)]
     )
     connect(
         p["right"][7],
         q["left"][1],
-        [(309, 294), (337, 266), (592, 266), (600, 274), (600, 331), (608, 339)],
+        [(309, 294), (313, 290), (592, 290), (600, 298), (600, 331), (608, 339)],
     )
     for i in range(2):
         start, end = q["top"][-1 - i], h[-1 - i]
@@ -459,12 +458,14 @@ def render():
         connect(start, end, [(sx, turn_y), (ex, turn_y - abs(sx - ex))])
 
     # U2's supply through R1, decoupled by C1 and C2 to ground vias.
-    r1 = part(c, 664, 198, "R1")
+    r1 = part(c, 664, 214, "R1", label=(660, 224))
     c1 = part(c, 644, 259, "C1", vertical=True, capacitor=True)
     c2 = part(c, 684, 259, "C2", vertical=True, capacitor=True)
     supply = c.terminal("supply.junction", (704, 274))
-    connect(h[3], r1[0], [(628, 177)], width=3)
-    connect(r1[1], supply, [(692, 198), (704, 210)], width=3)
+    # Supply changes layers to leave the larger name clear.
+    connect(h[3], c.via((628, 62)), width=3)
+    connect(r1[0], c.via((639, 214)), width=3)
+    connect(r1[1], supply, [(692, 214), (704, 226)], width=3)
     connect(supply, q["top"][3], width=3)
     connect(c1[1], q["top"][0], width=3)
     connect(c2[1], q["top"][2], width=3)
@@ -482,15 +483,15 @@ def render():
 
     # The time on a 7-segment display that U2 drives.
     right = seven_segment(
-        c, round(341 + text_width("roboto", 23, 450, "Sunday") + 12), 376, "12:10"
+        c, round(341 + text_width("roboto", 23, 450, "Sunday") + 12), 410, "12:10"
     )
-    c.label(right + 8, 374, "DS1")
+    c.label(right + 8, 408, "DS1")
     pads = []
-    for y in (390, 398):
+    for y in (424, 432):
         c.rect((right, y - 2, right + 4, y + 2), fill=85)
         pads.append(c.terminal("DS1.%d" % y, (right + 4, y)))
-    connect(pads[0], q["left"][4], [(597, 390), (606, 399)])
-    connect(pads[1], q["left"][5], [(583, 398), (604, 419)])
+    connect(pads[0], q["left"][4], [(583, 424), (606, 401), (606, 399)])
+    connect(pads[1], q["left"][5], [(589, 432), (604, 417), (604, 419)])
 
     # U2's bottom pins drop straight onto castellations at the board's edge.
     for name in q["bottom"]:
@@ -506,14 +507,13 @@ def render():
         "jetbrains-mono",
         weight=500,
     )
-    # Optical alignment: every line's ink starts at x = 342.
+    # Optical alignment: each line's ink starts around x = 342.
     lines = [
-        ("name", (335, 110), "Carlos"),
-        ("surname", (339, 203), "Pereira Atencio"),
-        ("title", (340, 303), "Python on Hardware"),
-        ("subtitle", (341, 337), "Survival Guide"),
-        ("day", (341, 379), "Sunday"),
-        ("room", (341, 411), "Aula B5 – Nagarro"),
+        ("name", (334, 100), "Carlos"),
+        ("surname", (340, 212), "Pereira Atencio"),
+        ("title", (340, 329), "Python on Hardware"),
+        ("subtitle", (341, 363), "Survival Guide"),
+        ("day", (341, 413), "Sunday"),
     ]
     for key, position, value in lines:
         size, face, weight = STYLES[key]
