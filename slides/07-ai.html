@@ -1,16 +1,174 @@
 <section class="section-slide is-centered" data-board="section" data-part="07">
   <h2>AI</h2>
   <span class="trace-rule"></span>
-  <p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
+  <p class="lede">Your agent is an expert in Python,<br />but what about your hardware?</p>
 </section>
 
+<!-- THE HOOK: the agent makes the mistakes this talk covered -->
 <section>
-  <header class="slide-head">
-    <h2>Lorem ipsum dolor</h2>
-  </header>
+  <section>
+    <header class="slide-head">
+      <h2>Your agent is new to hardware too</h2>
+    </header>
 
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua.
-  </p>
+    <blockquote class="quote">
+      “Claude forgets that my ESP32 isn’t a full computer”
+      <cite><a href="https://www.howtogeek.com/claude-forgets-that-my-esp32-isnt-a-full-computer-here-are-my-4-fixes/" target="_blank" rel="noopener">Nick Lewis, How-To Geek, September 2026</a></cite>
+    </blockquote>
+
+    <ul class="list--wide">
+      <li class="fragment" data-fragment-index="0">But it is rapidly learning</li>
+      <li class="fragment" data-fragment-index="1">It still reaches for CPython modules, and makes bad assumptions</li>
+      <li class="fragment" data-fragment-index="2">But with enough guidance, it does significantly better</li>
+    </ul>
+
+    <figure class="agent-learning fragment current-visible" data-fragment-index="0">
+      <img src="/images/other/openai-board-assembly-end.webp" data-animated-src="/images/other/openai-board-assembly.webp" width="850" height="856" alt="OpenAI's animation: a circuit board is put together, part by part, into a finished handheld device">
+      <figcaption class="caption"><a href="https://openai.com/index/accelerating-engineering-for-the-physical-world/" target="_blank" rel="noopener">Designed by OpenAI Astra</a></figcaption>
+    </figure>
+
+    <aside class="notes">
+    </aside>
+  </section>
+
+  <section class="benchmarks">
+    <header class="slide-head">
+      <h2>What the benchmarks measured</h2>
+    </header>
+
+    <p class="lede">EmbedBench: 126 small tasks on Arduino, ESP32 and a Pico running MicroPython. It tested 2025 models; around last December/January.</p>
+
+    <dl class="specs">
+      <div><div class="spec__value">55.6%</div><div class="spec__label">Best model, first try, circuit given</div></div>
+      <div><div class="spec__value">65.1%</div><div class="spec__label">Docs and compiler errors fed back</div></div>
+      <div><div class="spec__value">73.8%</div><div class="spec__label">Porting Arduino code to MicroPython (ESP-IDF: 29.4%)</div></div>
+    </dl>
+
+    <ul class="list--wide qr-clear">
+      <li>Typical misses: voltage logic, debouncing and wrong APIs.</li>
+      <li>Second benchmark, PCEval, adds breadboard layout and pins.</li>
+    </ul>
+
+    <p class="caption qr-clear">
+      <a href="https://arxiv.org/abs/2506.11003" target="_blank" rel="noopener">EmbedBench, arXiv 2506.11003</a> · <a href="https://arxiv.org/abs/2601.02404" target="_blank" rel="noopener">PCEval, arXiv 2601.02404</a>
+    </p>
+
+    <aside class="notes">
+      EmbedAgent / EmbedBench, Xu, Cao, Wu et al., arXiv 2506.11003v2 (22 Jan
+      2026), ICSE 2026 research track. pass@1 = passes on the first attempt.
+      55.6%: DeepSeek-R1 with the schematic given (50.0% when it also designed
+      the circuit). 65.1%: the same with retrieval (RAG) and compiler
+      feedback. Migration: Arduino to Pico MicroPython 73.8%, to ESP-IDF 29.4%
+      (Claude 3.7 Sonnet). Misses: 7-segment voltage logic 41-44% of errors on
+      that part, debouncing 39-48%, about 42% syntax or API errors on ESP-IDF.
+      PCEval: Song, Jeon, Lee, arXiv 2601.02404 (31 Dec 2025), 13 models.
+      Not on the slide: Englhardt et al. (CHI EA 2024), GPT-4 wrote working
+      I2C interfaces 66% of the time, and in a 15-person study success at a
+      LoRa sensor rose from 25% to 100%.
+    </aside>
+  </section>
 </section>
+
+<!-- THE SURVIVAL RULE AS STEPS: one per click, its code on the right -->
+<section>
+  <section>
+    <header class="slide-head">
+      <h2>Help your agent</h2>
+    </header>
+
+    <div class="cols cols--fit-left cols--fit">
+      <ul>
+        <li class="fragment fade-in-then-semi-out" data-fragment-index="0">A good <code>AGENTS.md</code> contains info about the hardware and reference code/projects.
+          <ul><li>You can even ask your agent to do a "deep research" and it's usually pretty thorough.</li></ul>
+        </li>
+        <li class="fragment fade-in-then-semi-out" data-fragment-index="1">Give it skills: </li>
+        <li class="fragment fade-in-then-semi-out" data-fragment-index="2">Tell it how to interact with the hardware.</li>
+        <li class="fragment fade-in-then-semi-out" data-fragment-index="3">Give it a goal and a way to measure it.</li>
+      </ul>
+
+      <div class="r-stack swap">
+        <div class="fragment current-visible" data-fragment-index="1">
+          <div class="skill-pair">
+            <div class="panel" data-label="MicroPython">
+              <p><code>mpremote</code> skill, by Andrew Leech</p>
+            </div>
+            <div class="panel" data-label="CircuitPython">
+              <p><code>circuitpython-runner</code>, by Adafruit</p>
+            </div>
+          </div>
+          <p class="caption">No skill? Any agent with a shell can run <code>mpremote</code>.</p>
+        </div>
+        <div class="fragment current-visible" data-fragment-index="2">
+          <p class="kicker">main.py: a REPL beside your app</p>
+          <pre class="compact"><code class="language-python" data-trim>
+import asyncio, aiorepl
+
+async def main():
+    app = asyncio.create_task(sensor_loop())
+    repl = asyncio.create_task(aiorepl.task())
+    await asyncio.gather(app, repl)
+
+asyncio.run(main())
+          </code></pre>
+        </div>
+        <pre class="terminal compact fragment" data-fragment-index="3" data-label="REPL, typed by the agent"><span class="terminal__in">&gt;&gt;&gt; from machine import I2C, Pin</span>
+<span class="terminal__in">&gt;&gt;&gt; i2c = I2C(0, scl=Pin(5), sda=Pin(4))</span>
+<span class="terminal__in">&gt;&gt;&gt; [hex(a) for a in i2c.scan()]</span>
+<span class="terminal__out">['0x76']</span>
+<span class="terminal__in">&gt;&gt;&gt; hex(i2c.readfrom_mem(0x76, 0xD0, 1)[0])</span>
+<span class="terminal__out">'0x60'</span></pre>
+      </div>
+    </div>
+
+    <aside class="notes">
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>Skills that reach the board</h2>
+    </header>
+
+    <p class="lede">A skill is a folder your agent loads: a <code>SKILL.md</code> and scripts. In October 2026 these are new, small projects: read one before you install it.</p>
+
+    <div class="cols">
+      <div>
+        <p class="kicker">MicroPython, by Andrew Leech</p>
+        <ul class="list--dense">
+          <li><code>mpremote</code>: runs code, copies files, keeps one session open</li>
+        </ul>
+      </div>
+      <div>
+        <p class="kicker">CircuitPython, by Adafruit</p>
+        <ul class="list--dense">
+          <li><code>circuitpython-runner</code>: runs code, reads its output</li>
+          <li><code>hw-tests-runner</code>: pytest, on the board</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="text--wide qr-clear">Each agent looks in its own folder: <code>.claude/skills/</code> for Claude Code, <code>.agents/skills/</code> for Codex, <code>.github/skills/</code> for Copilot.</p>
+
+    <p class="caption skill-links qr-clear">
+      <a href="https://github.com/andrewleech/claude-mpy-marketplace" target="_blank" rel="noopener">claude-mpy-marketplace</a> · <a href="https://github.com/adafruit/LLM-Recipes/tree/main/circuitpython" target="_blank" rel="noopener">adafruit/LLM-Recipes</a> · <a href="https://notes.alelec.net/posts/micropython-agentic-embedded/" target="_blank" rel="noopener">Leech: why the REPL suits agents</a>
+    </p>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live.
+      mpremote: a Claude Code plugin with three skills (device-interaction,
+      file-transfer, live-session); claude plugin marketplace add
+      https://github.com/andrewleech/claude-mpy-marketplace, then claude
+      plugin install mpremote@mpy-marketplace. 2 stars, last push 5 Oct 2026.
+      Adafruit's repo was Agent_Skills, now LLM-Recipes: 4 stars, last push
+      5 Jun 2026. Not on the slide: i2c-driver-validator (needs an Arduino
+      and a CircuitPython board with the same breakout: a driver-porting
+      rig), and ViperIDE MCP (claude mcp add viperIDE -- npx -y
+      @andrewleech/viperide-mcp; its page describes MicroPython devices only).
+      Folders: all three agents follow the open Agent Skills format
+      (agentskills.io); VS Code local sessions also read .claude/skills and
+      .agents/skills. Leech's article is the author's argument, not a
+      benchmark. Sources: reports/ai-skills.md.
+    </aside>
+  </section>
+</section>
+

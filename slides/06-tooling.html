@@ -1,7 +1,7 @@
 <section class="section-slide is-centered" data-board="section" data-part="06" data-ble-badge="x-ray specs">
   <h2>Tooling</h2>
   <span class="trace-rule"></span>
-  <p class="lede">Python can't see the wire. These tools can.</p>
+  <p class="lede">Python can't see outside the microcontroller,<br />the right tool at the right time is essential.</p>
 </section>
 
 <!-- WHICH TOOL: the part's problem and overview; what each tool sees sits below -->
@@ -11,27 +11,20 @@
       <h2>Getting down to the wire: which tool?</h2>
     </header>
 
-    <p class="lede">What tools could we use for different hardware problems?</p>
+    <div class="parts tool-wall">
+      <figure class="fragment grow-current" data-fragment-index="0"><img class="part-shot" src="/images/tools/multimeter.webp" alt="A yellow handheld multimeter with its test leads" /><figcaption>Multimeter</figcaption></figure>
+      <figure class="fragment grow-current" data-fragment-index="1"><img class="part-shot" src="/images/tools/usb-meter.webp" alt="A small USB-C power meter with a colour screen showing volts and amps" /><figcaption>USB power meter</figcaption></figure>
+      <figure class="fragment grow-current" data-fragment-index="2"><img class="part-shot" src="/images/tools/ppk2.webp" alt="Nordic's Power Profiler Kit II, a blue board in a clear case" /><figcaption>Power Profiler</figcaption></figure>
+      <figure class="fragment grow-current" data-fragment-index="3"><img class="part-shot" src="/images/tools/bench-supply.webp" alt="A bench power supply with voltage and current displays" /><figcaption>Bench power supply</figcaption></figure>
+      <figure class="fragment grow-current" data-fragment-index="4"><img class="part-shot" src="/images/tools/saleae-logic.webp" alt="A Saleae logic analyser, a small red aluminium box" /><figcaption>Logic analyser</figcaption></figure>
+      <figure class="fragment grow-current" data-fragment-index="5"><img class="part-shot" src="/images/tools/scope.webp" alt="A bench oscilloscope with waveforms on its screen" /><figcaption>Oscilloscope</figcaption></figure>
+      <figure class="fragment grow-current" data-fragment-index="6"><img class="part-shot" src="/images/tools/j-link.webp" alt="A SEGGER J-Link debug probe" /><figcaption>Debug probe</figcaption></figure>
+      <figure class="fragment grow-current" data-fragment-index="7"><img class="part-shot" src="/images/tools/soldering-iron.webp" alt="A soldering station with its iron in the stand" /><figcaption>Soldering iron</figcaption></figure>
+    </div>
 
-    <table class="which-tool table--large qr-clear">
-      <thead>
-        <tr><th>You suspect</th><th>Reach for</th></tr>
-      </thead>
-      <tbody>
-        <tr class="fragment dim-past"><td>No power, a short, a broken wire</td><td>Multimeter</td></tr>
-        <tr class="fragment dim-past"><td>Resets, flat batteries: how much current?</td><td>USB power meter</td></tr>
-        <tr class="fragment dim-past"><td>It won't flash, or USB is busy</td><td>Debug probe</td></tr>
-        <tr class="fragment dim-past"><td>Is the sensor even answering?</td><td>Logic analyser</td></tr>
-        <tr class="fragment dim-past"><td>Noise, dips, glitches</td><td>Oscilloscope</td></tr>
-      </tbody>
-    </table>
+    <p class="text--wide qr-clear fragment" data-fragment-index="8">Tools can be expensive, but we'll focus on good value options.</p>
 
     <aside class="notes">
-      The REPL and print() debug your code; a meter, an analyser and a scope
-      debug the physics. A symptom per row, then the tool for it. Each tool
-      next: what it is for, one cheap thing to buy, and below it, where to
-      learn more. The scope is not a first buy: it sits under the analyser.
-      Down: what each tool sees.
     </aside>
   </section>
 
@@ -77,7 +70,7 @@
       <div>
         <ul>
           <li><b>Shows</b> volts, ohms and amps, and a beep when two points connect.</li>
-          <li><b>Use it for:</b> no power, a wire that isn't connected, a short.</li>
+          <li><b>Use it for:</b> checking power, a wire that isn't connected, a short.</li>
         </ul>
         <div class="panel" data-label="Get one · about €35">
           <p><b>Aneng AN8008</b> or similar: auto-ranging, with a continuity beep. For low-voltage electronics, not mains.</p>
@@ -87,12 +80,6 @@
     </div>
 
     <aside class="notes">
-      Prices read 27 Oct 2026: AN8008 €32–41 on Amazon.de (marketplace sellers,
-      badge names vary, e.g. "Duokon": check the model and reviews). Mark
-      Hennessy's review: "hard to see anything else beating this meter at this
-      price", but "low-energy bench use only". From a shop: UNI-T UT139A, €37.90
-      at Berrybase (check it auto-ranges and beeps). Re-check the week before.
-      Down: three checks and the fuse trap.
     </aside>
   </section>
 
@@ -109,7 +96,7 @@
           <li><b>Current:</b> the meter goes in the circuit, red lead in the mA jack.</li>
         </ol>
         <aside class="callout callout--warn" data-label="Careful!">
-          <p>Don't forget the red lead in the mA jack and check a voltage: the meter shorts the supply and blows its internal fuse. Current reads 0.00 from then on. <b>Move it back to V.</b></p>
+          <p>Measure a voltage with the red lead still in the mA jack, and the meter shorts the supply and blows its internal fuse. Current reads 0.00 from then on.<br /><b>Move it back to V.</b></p>
         </aside>
       </div>
       <div class="panel learn" data-label="Learn more">
@@ -123,12 +110,6 @@
     </div>
 
     <aside class="notes">
-      Vertical slide, skipped live. Continuity only on an unpowered circuit
-      (Adafruit). A short chirp from 3V3 to GND is capacitors charging. In the
-      mA jack the meter is almost a wire: across a supply it is a short, and
-      more than about 200 mA blows the fuse (SparkFun). Move the red lead back
-      to V after measuring current. EEVblog chapters: continuity 6:39, "current
-      measurement is dangerous" 11:10, fuses 12:55.
     </aside>
   </section>
 </section>
@@ -141,24 +122,19 @@
     </header>
 
     <div class="tool">
-      <img class="part-shot" src="/images/tools/usb-meter.webp" style="--h: 190px" alt="A small USB power meter showing volts, amps and watts" />
+      <img class="part-shot" src="/images/tools/usb-meter.webp" style="--h: 190px" alt="A small USB-C power meter with a colour screen showing volts and amps" />
       <div>
         <ul>
           <li><b>Shows</b> the volts and amps going into your board over USB, as it runs.</li>
-          <li><b>Use it for:</b> resets when a motor starts, flat batteries, your power budget.</li>
+          <li><b>Use it for:</b> resets when a motor starts, flat batteries, your power budget and calculate battery life.</li>
         </ul>
-        <div class="panel" data-label="Get one · about €50">
-          <p><b>FNIRSI FNB58</b> or similar: it plugs in between the cable and the board.</p>
+        <div class="panel" data-label="Get one · about €25">
+          <p><b>RD TC66C</b> or any meter that reads to 0.1 mA. It plugs in between the computer and the cable.</p>
         </div>
       </div>
     </div>
 
     <aside class="notes">
-      Prices read 27 Oct 2026: FNB58 €49.95 at Elektor, £54.90 at Kunkune.
-      Current to 0.01 mA on the display, but the last digits are noise
-      (Elektor); it logs 2 to 100 readings a second. Leave its fast-charge (PD)
-      switch off. The photo is its sibling, the FNB48. Re-check prices the week
-      before. Down: what a USB meter misses.
     </aside>
   </section>
 
@@ -177,17 +153,41 @@
         <ul>
           <li><a href="https://learn.adafruit.com/deep-sleep-with-circuitpython/power-consumption" target="_blank" rel="noopener">Adafruit: Deep Sleep with CircuitPython, power</a><span>Written, with PPK2 graphs</span></li>
           <li><a href="https://www.youtube.com/watch?v=LUB8RWzzLWc" target="_blank" rel="noopener">Andreas Spiess: measuring low currents</a><span>Video, 18 min</span></li>
-          <li><a href="https://www.elektormagazine.com/review/fnirsi-fnb58-review" target="_blank" rel="noopener">Elektor: FNIRSI FNB58 review</a><span>Written</span></li>
+          <li><a href="https://lygte-info.dk/review/USBmeter%20RD%20Tech%20USB%20Meter%20TC66C%20UK.html" target="_blank" rel="noopener">HKJ: RD Tech TC66C, tested</a><span>Written, against lab meters</span></li>
           <li><a href="https://www.nordicsemi.com/Products/Development-hardware/Power-Profiler-Kit-2" target="_blank" rel="noopener">Nordic: Power Profiler Kit II</a><span>Product page and specs</span></li>
         </ul>
       </div>
     </div>
 
     <aside class="notes">
-      Vertical slide, skipped live. PPK2: 200 nA to 1 A at 100 kS/s, can power
-      the board itself at 0.8 to 5 V (Nordic); about £70 ex VAT (Farnell,
-      7 Oct 2026). Adafruit's example board: about 50 mA awake. "Resolution is
-      not the same as accuracy" (Elektor).
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>When you need a power profiler</h2>
+    </header>
+
+    <div class="cols learn-wider">
+      <ul>
+        <li><b>Shows current as a graph</b>, 100,000 readings a second: microamps (µA) asleep, milliamps (mA) when running.</li>
+        <li><b>Provides power</b> can also be used as a power source for testing.</li>
+        <li><b>Use it for:</b> battery life. Toggle a pin from Python to mark your code on the graph.</li>
+        <li><b>Nordic's Power Profiler Kit II</b> (PPK2), I generally recommend this product, only downside is price ~€100.</li>
+      </ul>
+      <div class="tool-shots">
+        <img class="part-shot" src="/images/tools/ppk2.webp" style="--h: 110px" alt="Nordic's Power Profiler Kit II, a blue board in a clear case" />
+        <div class="panel learn" data-label="Learn more">
+          <ul>
+            <li><a href="https://learn.adafruit.com/wifi-mailbox-notifier/power-analysis" target="_blank" rel="noopener">Adafruit: Wi-Fi Mailbox Notifier, power</a><span>Written: CircuitPython, the PPK2 as its battery</span></li>
+            <li><a href="https://docs.nordicsemi.com/bundle/ug_ppk2/page/UG/ppk/PPK_user_guide_Intro.html" target="_blank" rel="noopener">Nordic: PPK2 user guide</a><span>Docs: both modes, wiring, the app</span></li>
+            <li><a href="https://github.com/IRNAS/ppk2-api-python" target="_blank" rel="noopener">IRNAS/ppk2-api-python</a><span>GitHub: read it from Python, unofficial</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <aside class="notes">
     </aside>
   </section>
 </section>
@@ -204,7 +204,7 @@
       <div>
         <ul>
           <li><b>Gives you</b> a serial console on the board's UART pins, and SWD: the chip's own debug port.</li>
-          <li><b>Use it for:</b> flashing or rescuing a board without BOOTSEL, and logs when USB is busy.</li>
+          <li><b>Use it for:</b> flashing or rescuing a board without its boot button, and logs when USB is busy.</li>
         </ul>
         <div class="panel" data-label="Get one · about €12">
           <p><b>Raspberry Pi Debug Probe:</b> cables and a case included. For the Pico and other Arm boards at 3.3 V.</p>
@@ -213,12 +213,6 @@
     </div>
 
     <aside class="notes">
-      Prices read 27 Oct 2026: £11.50 at The Pi Hut, €12.20 at Berrybase.
-      In production until at least January 2030. SWD is Arm-only: no ESP32
-      (the S3, C3 and C6 have USB-JTAG built in). The BBC micro:bit has a probe
-      built in (DAPLink). It debugs the C firmware, not your Python lines.
-      Photo: Raspberry Pi's documentation (CC BY-SA 4.0). Down: the probe and
-      your Python, then USB-UART adapters.
     </aside>
   </section>
 
@@ -235,20 +229,14 @@
       </ul>
       <div class="panel learn" data-label="Learn more">
         <ul>
-          <li><a href="https://www.raspberrypi.com/documentation/microcontrollers/debug-probe.html" target="_blank" rel="noopener">Raspberry Pi: Debug Probe documentation</a><span>Written: wiring, flashing, console</span></li>
-          <li><a href="https://docs.micropython.org/en/latest/rp2/quickref.html#uart-serial-bus" target="_blank" rel="noopener">MicroPython rp2 quick reference: UART</a><span>Written: the REPL on a UART</span></li>
+          <li><a href="https://www.raspberrypi.com/documentation/microcontrollers/debug-probe.html" target="_blank" rel="noopener">Raspberry Pi: Debug Probe documentation</a><span>Docs: wiring, flashing, console</span></li>
+          <li><a href="https://docs.micropython.org/en/latest/rp2/quickref.html#uart-serial-bus" target="_blank" rel="noopener">MicroPython rp2 quick reference: UART</a><span>Docs: the REPL on a UART</span></li>
           <li><a href="https://www.youtube.com/watch?v=tDDkz3Xdhuo" target="_blank" rel="noopener">Kevin McAleer: the Raspberry Pi Debug Probe</a><span>Video, 5 min</span></li>
         </ul>
       </div>
     </div>
 
     <aside class="notes">
-      Vertical slide, skipped live. REPL on a UART: os.dupterm() in boot.py,
-      as in the rp2 quick reference from v1.29 (August 2026); older firmware may
-      differ. Flashing uses OpenOCD with the .elf file, not the .uf2; the docs'
-      example targets the RP2040, so change the target for a Pico 2. Python
-      debuggers: GHI's VS Code extension (September 2026), mpdb, mp_debugpy
-      (still an open micropython-lib pull request).
     </aside>
   </section>
 
@@ -266,22 +254,13 @@
       <div class="panel learn" data-label="Learn more">
         <ul>
           <li><a href="https://github.com/raspberrypi/debugprobe" target="_blank" rel="noopener">raspberrypi/debugprobe</a><span>GitHub: firmware for a Pico or Pico 2</span></li>
-          <li><a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/api-guides/jtag-debugging/configure-builtin-jtag.html" target="_blank" rel="noopener">Espressif: built-in JTAG</a><span>Written: the ESP32-S3 page</span></li>
-          <li><a href="https://tech.microbit.org/software/daplink-interface/" target="_blank" rel="noopener">micro:bit: the DAPLink interface</a><span>Written</span></li>
+          <li><a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/api-guides/jtag-debugging/configure-builtin-jtag.html" target="_blank" rel="noopener">Espressif: built-in JTAG</a><span>Docs: the ESP32-S3 page</span></li>
+          <li><a href="https://tech.microbit.org/software/daplink-interface/" target="_blank" rel="noopener">micro:bit: the DAPLink interface</a><span>Docs</span></li>
         </ul>
       </div>
     </div>
 
     <aside class="notes">
-      Vertical slide, skipped live. The debugprobe firmware "can also be run on
-      a Raspberry Pi Pico or Pico 2" (formerly picoprobe); a bare Pico was
-      £3.80 or €4.10 on 27 Oct 2026. ESP32-S3: "has built-in JTAG circuitry
-      and can be debugged without any additional chip. Only a USB cable
-      connected to the D+/D- pins is necessary" (GPIO19/20, ESP-IDF docs); the
-      C3 and C6 have the same USB Serial/JTAG controller, the original ESP32
-      does not. micro:bit: the interface chip runs DAPLink, a CMSIS-DAP probe
-      plus USB serial (tech.microbit.org). Sources: reports/tooling.md and
-      the physical tools research.
     </aside>
   </section>
 
@@ -306,21 +285,6 @@
     <p class="readout qr-clear">Not every probe can debug a Pico's chip: check it supports the RP2040 or RP2350.</p>
 
     <aside class="notes">
-      Vertical slide, skipped live. Prices read 30 Oct 2026, with VAT unless
-      noted. Black Magic Probe V2.3: $74.95 at Adafruit and Mouser; "No
-      'software in the middle' like OpenOCD required", targets Arm Cortex-M
-      and Cortex-A; its firmware also runs on ST-Link v2 clones and Blue Pill
-      or Black Pill boards (black-magic.org). ESP-Prog: 199 SEK at Electrokit,
-      in stock; "automatic firmware download, serial communication, JTAG
-      debugging"; SparkFun's $12 listing is retired. DAP Cat (Electronic Cats):
-      "a low-cost $5.00 USD debug probe" based on DAPLink, with USB serial; RP2040
-      support not stated. MCU-Link: €17.12 at DigiKey Spain, £13.10 ex VAT at
-      Farnell UK with long lead times; it runs NXP's own CMSIS-DAP firmware,
-      and this base model can't run SEGGER's J-Link firmware, the Pro can
-      (NXP UM11931). J-Link EDU Mini: $76 from SEGGER's US shop, £91.20 at The
-      Pi Hut; non-commercial use only. Why the Pico warning: the RP2040 needs
-      multi-drop SWD, and pyOCD refuses probes without it; ST-Link V2 clones
-      lack it.
     </aside>
   </section>
 
@@ -348,20 +312,6 @@
     <p class="readout qr-clear">The exception: a Black Magic Probe runs the GDB server on the probe itself.</p>
 
     <aside class="notes">
-      Vertical slide, skipped live. Raspberry Pi: "To use the Debug Probe,
-      OpenOCD and the GNU Project Debugger (GDB) are required"; flash with
-      openocd -f interface/cmsis-dap.cfg -f target/rp2040.cfg -c "adapter
-      speed 5000" -c "program blink.elf verify reset exit", debug with the same
-      command without program, then target remote localhost:3333 in GDB. The
-      Pico VS Code extension bundles OpenOCD and GDB. pyOCD is a Python
-      package (pip install pyocd; pyocd flash -t rp2040 blink.elf) with
-      built-in rp2040 and rp2350 targets; its RP2 code carries the flash
-      algorithm it loads at 0x20000000, and refuses probes without SWD sequence
-      support, which the RP2040's multi-drop SWD needs (pyOCD,
-      target/family/target_rp2.py, v0.46.0, October 2026). Both take .elf,
-      .hex or .bin files, not a .uf2. ESP32 chips use Espressif's own OpenOCD.
-      Black Magic: "No 'software in the middle' like OpenOCD required"
-      (black-magic.org).
     </aside>
   </section>
 
@@ -381,8 +331,8 @@
       </div>
       <div class="panel learn" data-label="Learn more">
         <ul>
-          <li><a href="https://learn.sparkfun.com/tutorials/serial-communication/all" target="_blank" rel="noopener">SparkFun: Serial Communication</a><span>Written: see "Common Pitfalls"</span></li>
-          <li><a href="https://learn.sparkfun.com/tutorials/logic-levels/all" target="_blank" rel="noopener">SparkFun: Logic Levels</a><span>Written: why 3.3 V</span></li>
+          <li><a href="https://learn.sparkfun.com/tutorials/serial-communication/all" target="_blank" rel="noopener">SparkFun: Serial Communication</a><span>Docs: see "Common Pitfalls"</span></li>
+          <li><a href="https://learn.sparkfun.com/tutorials/logic-levels/all" target="_blank" rel="noopener">SparkFun: Logic Levels</a><span>Docs: why 3.3 V</span></li>
           <li><a href="https://www.youtube.com/watch?v=sTHckUyxwp8" target="_blank" rel="noopener">Rohde & Schwarz: Understanding UART</a><span>Video, 6 min</span></li>
           <li><a href="https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers/all" target="_blank" rel="noopener">SparkFun: installing CH340 drivers</a><span>Written</span></li>
         </ul>
@@ -390,11 +340,6 @@
     </div>
 
     <aside class="notes">
-      Vertical slide, skipped live. The Debug Probe already has a 3.3 V UART.
-      Waveshare CP2102 USB UART Board (USB-C), £4.80 at The Pi Hut, with a
-      3.3/5 V jumper; or Soldered's CH340 board, £4.60, fixed at 3.3 V (27 Oct
-      2026). Most Espressif boards carry a CP210x or FTDI bridge, clones a
-      CH340.
     </aside>
   </section>
 </section>
@@ -417,24 +362,12 @@
           <li><b>Use it for:</b> did the sensor answer? What did your code send?</li>
         </ul>
         <div class="panel" data-label="Get one · about €10">
-          <p>A <b>24 MHz 8-channel</b> USB analyser and the free PulseView. Or a spare Pico.</p>
+          <p>A <b>24 MHz 8-channel</b> USB analyser and the open source PulseView. Or a spare Pico.</p>
         </div>
       </div>
     </div>
 
-    <aside class="callout callout--ok fragment qr-clear qr-clear--low" data-label="Survival rule">
-      <p>A €10 logic analyser shows you the truth.</p>
-    </aside>
-
     <aside class="notes">
-      The analyser, and what it shows in PulseView: an I2C write to a DS1307
-      clock at 0x68, decoded (PulseView 0.4.1 manual).
-      Prices read 27 Oct 2026: €9.75 at TinyTronics, €19.95 at Elektor, £26.30
-      at The Pi Hut (SparkFun's unit, the one in its PulseView guide). A bare
-      Pico is £3.80 or €4.10; buy the original Pico for this, early Pico 2
-      boards have a GPIO input bug (erratum E9). Down: what you'll see, Python
-      view and wire view, getting started, and when you need a scope.
-      Next: AI.
     </aside>
   </section>
 
@@ -443,7 +376,7 @@
       <h2>What you'll see</h2>
     </header>
 
-    <p class="kicker">A good read: the chip ID, 0x60</p>
+    <p class="kicker">A good read: chip ID 60</p>
       <svg class="diagram" viewBox="0 0 1050 130" width="1050" height="130" role="img">
         <title>Decoded capture: start, address write 76, ACK, data write D0, ACK, start repeat, address read 76, ACK, data read 60, NACK, stop</title>
 <text class="lane-label" x="0" y="23">D1 SCL</text>
@@ -476,32 +409,9 @@
 <g class="ann ann--ctl"><rect x="505" y="96" width="38" height="26" rx="3"/><text x="524" y="114">P</text></g>
       </svg>
     <p class="readout readout--alert">OSError: [Errno 5] EIO · Python says <i>that</i>. The wire says <i>why</i>.</p>
+    <p class="caption caption--left qr-clear">D0, D1: channels · S start · Sr restart · A ACK · N NACK · P stop · hex</p>
 
     <aside class="notes">
-      Vertical slide, skipped live. Drawn mock-ups of PulseView's I²C decoder:
-      replace with screenshots of your own captures. The same read as on the
-      Drivers slide: address 76 write, register D0, repeated start, 76 read,
-      60, NACK. Change the address to 0x77 and the chip never ACKs.
-    </aside>
-  </section>
-
-  <section class="is-centered">
-    <header class="slide-head">
-      <h2>Python view, wire view</h2>
-    </header>
-
-    <table class="mapping">
-      <tbody>
-        <tr class="fragment dim-past"><td><code>0x76</code></td><td>→</td><td><code>EC</code> write · <code>ED</code> read</td></tr>
-        <tr class="fragment dim-past"><td><code>0xD0</code></td><td>→</td><td><code>D0</code></td></tr>
-        <tr class="fragment dim-past"><td><code>b'\x60'</code></td><td>←</td><td><code>60</code>, then NACK</td></tr>
-      </tbody>
-    </table>
-
-    <aside class="notes">
-      Vertical slide, skipped live. i2c.readfrom_mem(0x76, 0xD0, 1): the
-      address shifted left with the R/W bit, the register pointer, and the
-      byte that came back.
     </aside>
   </section>
 
@@ -519,8 +429,8 @@
       </ul>
       <div class="panel learn" data-label="Learn more">
         <ul>
-          <li><a href="https://learn.sparkfun.com/tutorials/using-the-usb-logic-analyzer-with-sigrok-pulseview/all" target="_blank" rel="noopener">SparkFun: USB Logic Analyzer with PulseView</a><span>Written: install to decoded UART</span></li>
-          <li><a href="https://sigrok.org/wiki/Getting_started_with_a_logic_analyzer" target="_blank" rel="noopener">sigrok: Getting started with a logic analyzer</a><span>Written: decode a sample, no hardware</span></li>
+          <li><a href="https://learn.sparkfun.com/tutorials/using-the-usb-logic-analyzer-with-sigrok-pulseview/all" target="_blank" rel="noopener">SparkFun: USB Logic Analyzer with PulseView</a><span>Docs: install to decoded UART</span></li>
+          <li><a href="https://sigrok.org/wiki/Getting_started_with_a_logic_analyzer" target="_blank" rel="noopener">sigrok: Getting started with a logic analyzer</a><span>Docs: decode a sample, no hardware</span></li>
           <li><a href="https://github.com/gusmanb/logicanalyzer" target="_blank" rel="noopener">gusmanb/logicanalyzer</a><span>GitHub: a Pico as a 24-channel analyser</span></li>
           <li><a href="https://www.youtube.com/watch?v=u1DYs2I-_lU" target="_blank" rel="noopener">element14: Instrument Basics, Logic Analyzer</a><span>Video, 12 min</span></li>
         </ul>
@@ -528,12 +438,6 @@
     </div>
 
     <aside class="notes">
-      Vertical slide, skipped live. Clones copy Saleae's USB IDs; sigrok says
-      they "illegally ship the software of the original product". Use
-      PulseView. Its last stable release is 0.4.2 (2020): use a nightly.
-      sigrok.org's HTTPS certificate had expired on 27 Oct 2026: check the link
-      before the talk. The Pico analyser's README calls its docs "a bit
-      outdated".
     </aside>
   </section>
 
@@ -561,11 +465,6 @@
     </div>
 
     <aside class="notes">
-      Vertical slide, skipped live. Prices read 27 Oct 2026: 2C53T €84.90 at
-      Berrybase (2 channels, 50 MHz, with a meter and signal generator); DHO802
-      €391.51 at Batronix, on back-order, or €313.22 ex VAT at eleshop.eu.
-      Photo: a Rigol DS1074Z, an older sibling. Weak pull-ups show as slow,
-      rounded I²C edges.
     </aside>
   </section>
 </section>

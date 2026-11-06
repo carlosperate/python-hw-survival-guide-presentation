@@ -652,37 +652,41 @@
   padding-bottom: 0.34em;
 }
 
-.reveal table.buses {
-  margin-bottom: 16px;
-}
-
-/* Seven rows and a panel under them, clear of the footer. */
+/* Six rows, only the last on two lines, so the table ends above the QR chip. */
 .reveal table.buses :is(th, td) {
-  padding-top: 0.32em;
-  padding-bottom: 0.32em;
+  padding-top: 0.26em;
+  padding-bottom: 0.26em;
 }
 
-/* The panel under it hugs its text, clear of the QR traces; a step down, so its label clears the last row. */
-.reveal .buses-wrap + .panel {
-  margin-top: 14px;
-  width: fit-content;
-  font-size: var(--pcb-text-dense);
-}
-
-/* Fixed columns, so the wiring drawn under each one lines up with it. */
+/* Fixed columns, wide enough that the rows above the wiring stay on one line, so the wiring
+   drawn under each column lines up with it. "Classic mistake" wraps; SPI takes the rest. */
 .reveal .buses-wrap {
-  --bus-label: 16%;
+  --bus-label: 136px;
+  --bus-uart: 312px;
+  --bus-i2c: 328px;
   position: relative;
 }
 
 .reveal table.buses {
   table-layout: fixed;
-  font-size: 0.74em;
+  font-size: 24px;
 }
 
-/* Wide enough for "Device detection" on one line. */
 .reveal table.buses th:first-child {
   width: var(--bus-label);
+}
+
+.reveal table.buses th:nth-child(2) {
+  width: var(--bus-uart);
+}
+
+.reveal table.buses th:nth-child(3) {
+  width: var(--bus-i2c);
+}
+
+/* Less room after each column than the theme gives, so its longest line fits. */
+.reveal table.buses :is(th, td):not(:last-child) {
+  padding-right: 0.6em;
 }
 
 /* Nothing to its right, so the SPI column gets the room back. */
@@ -690,14 +694,14 @@
   padding-right: 0;
 }
 
-/* Over the rows still to come: top is the bottom of the devices row. */
+/* Over the rows still to come: just under the devices row. Each track plus the gap is its column. */
 .reveal .bus-wiring {
   position: absolute;
-  top: 176px;
+  top: 196px;
   left: var(--bus-label);
   right: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: calc(var(--bus-uart) - 24px) calc(var(--bus-i2c) - 24px) 1fr;
   gap: 24px;
   padding-right: 24px;
 }
@@ -705,7 +709,7 @@
 /* Short enough to stay clear of the QR chip at the bottom right. */
 .reveal .bus-wiring svg {
   width: auto;
-  height: 200px;
+  height: 192px;
   max-width: 100%;
 }
 
@@ -1038,6 +1042,49 @@
   background: color-mix(in srgb, var(--pcb-gold) calc(clamp(0, 1 - max(var(--d), -1 * var(--d)), 1) * 100%), var(--pcb-blue));
 }
 
+/* ---------- The keep-running slide ---------- */
+
+/* Four practices in a 2×2 grid, each a line over its code, then the links:
+   narrow enough to end short of the QR's escapes, and above the footer rail. */
+.reveal .keep-running {
+  --pcb-code-size-compact: 15px;
+  --pcb-code-pad: 10px 14px;
+}
+
+.reveal .keep-running__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 30px 28px;
+  width: 920px;
+}
+
+.reveal .keep-running .panel {
+  padding: 18px 18px 14px;
+}
+
+.reveal .keep-running .panel p {
+  margin: 0 0 8px;
+  font-size: 20px;
+  color: var(--pcb-silk-dim);
+}
+
+.reveal .slides .keep-running .panel > pre.compact {
+  width: 100%;
+  margin: 0;
+}
+
+.reveal .keep-running__grid + .caption {
+  margin-top: 18px;
+}
+
+/* ---------- Common ways to run out of RAM ---------- */
+
+/* Room for the cards' labels above them, and less than two line breaks took, so the body
+   still centres with space under the title. */
+.reveal .ram-ways .cards {
+  margin: 18px 0 40px;
+}
+
 /* ---------- The owl slide ---------- */
 
 /* Short enough to clear the QR's escape trace at the bottom right. */
@@ -1056,6 +1103,21 @@
 .reveal .owl svg {
   width: 100%;
   height: 254px;
+}
+
+/* The meme's owl on paper in the silkscreen white, so it doesn't glare on the projector. */
+.reveal svg .om-paper {
+  fill: var(--pcb-silk);
+}
+
+.reveal svg .om-sketch {
+  mix-blend-mode: multiply;
+}
+
+/* The line traced round the drawing, which stays as the board's edge; owl-pcb.css loads later. */
+.reveal svg.owl-meme .om-pen {
+  stroke: var(--pcb-gold-deep);
+  stroke-width: 2.4;
 }
 
 /* Second click: both steps shrink up together to make room for the topics below. */
@@ -1636,10 +1698,52 @@
   padding-top: 22px;
   padding-bottom: 22px;
 }
-/* The device, then what it shows on screen. */
+/* The tool wall: two rows of four across the slide, ending above the QR chip. The enlarged photo
+   grows inwards from its corner of the grid, over the others, which dim so it reads on its own. */
+.reveal .tool-wall {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 28px;
+  gap: 18px 28px;
+}
+
+.reveal .tool-wall img.part-shot {
+  height: 120px;
+}
+
+/* Smaller than body text: the enlarged one's grows with it. */
+.reveal .tool-wall figcaption {
+  font-size: 20px;
+}
+
+.reveal .tool-wall figure {
+  transform-origin: var(--ox, center) var(--oy, bottom);
+}
+
+.reveal .tool-wall figure:nth-child(-n + 4) {
+  --oy: top;
+}
+
+.reveal .tool-wall figure:nth-child(4n + 1) {
+  --ox: left;
+}
+
+.reveal .tool-wall figure:nth-child(4n) {
+  --ox: right;
+}
+
+.reveal .tool-wall:has(.current-fragment) figure:not(.current-fragment) {
+  opacity: 0.35;
+}
+
+/* The line under the wall sits apart from it, low on the slide. */
+.reveal .tool-wall + p {
+  margin-top: 44px;
+}
+
+/* The device, then what it shows on screen, a little apart. */
 .reveal .tool-shots {
   display: grid;
-  gap: 12px;
+  gap: 32px;
 }
 
 .reveal img.tool-screenshot {
@@ -1709,19 +1813,112 @@
   margin-bottom: 0.2em;
 }
 
-/* The two skills on the steps slide, one above the other. */
-.reveal .skill-pair {
-  display: grid;
-  gap: 34px;
+/* Help your agent: each bullet's example on the right, with room for a REPL line. */
+.reveal .help-agent .cols {
+  grid-template-columns: minmax(0, 1fr) 520px;
+  gap: 40px;
 }
 
-.reveal .skill-pair .panel p {
+.reveal .help-agent pre.terminal {
+  padding-inline: 20px;
+}
+
+/* Each layer its own height, not the tallest one's. */
+.reveal .help-agent .r-stack > * {
+  align-self: start;
+}
+
+/* The sub-bullet smaller, so the last bullet ends above the footer rail. */
+.reveal .help-agent li ul {
+  font-size: var(--pcb-text-dense);
+}
+
+.reveal .help-agent li li:last-child {
+  margin-bottom: 0;
+}
+
+.reveal .help-agent .panel p {
   margin: 0;
 }
 
+/* The skills, one group per panel. */
+.reveal .skill-groups {
+  display: grid;
+  gap: 30px;
+}
+
+.reveal .skill-groups .panel {
+  padding: 24px 24px 16px;
+  font-size: var(--pcb-text-dense);
+}
+
+.reveal .skill-groups .skill-by {
+  color: var(--pcb-silk-dim);
+}
+
+.reveal .skill-groups code {
+  white-space: nowrap;
+}
+
+.reveal .skill-groups .caption {
+  margin-top: -6px;
+  text-align: left;
+}
+
+/* Skills that reach the board: one panel per job, two by two. */
+.reveal .skill-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 34px 28px;
+  margin-top: 30px;
+}
+
+.reveal .skill-grid .panel {
+  padding: 24px 24px 16px;
+  font-size: var(--pcb-text-dense);
+}
+
+.reveal .skill-grid p {
+  margin: 0;
+}
+
+.reveal .skill-grid code {
+  white-space: nowrap;
+}
+
+.reveal .skills-board .skill-links {
+  margin-top: 26px;
+}
+
+/* Folder names without their chips, so the line fits beside the QR. */
+.reveal .skills-board .skill-links code {
+  padding: 0;
+  border: 0;
+  background: none;
+}
 /* Links under the skills list start at the gutter, so they end short of the QR. */
 .reveal .skill-links {
   text-align: left;
+}
+
+/* OpenAI's board animation, out of the flow: it goes before the bullets that need its space. */
+.reveal .agent-learning {
+  position: absolute;
+  top: 166px;
+  right: var(--pcb-pad-x);
+  width: 340px;
+  margin: 0;
+}
+
+.reveal .agent-learning img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Close under the image, so it ends above the QR's vias. */
+.reveal .agent-learning .caption {
+  margin-top: 4px;
 }
 
 /* ---------- The interrupts slide ---------- */

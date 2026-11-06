@@ -23,14 +23,14 @@ def n(v):
     return f'{round(v, 1):g}'
 
 
-# name, image, aspect, width in mm (micro:bits a touch under their 52 mm), RAM, flash, CPU, photo centre (None: over its RAM via)
+# name, image, aspect, width in mm (micro:bits under their 52 mm, Pi Zero under its 65 mm to clear its panel label), RAM, flash, CPU, photo centre (None: over its RAM via)
 BOARDS = [
     ('micro:bit V1', 'microbit-v1.webp', 700 / 519, 46, 16 * KB, 256 * KB, '16 MHz', 86),
     ('micro:bit V2', 'microbit-v2.webp', 700 / 545, 46, 128 * KB, 512 * KB, '64 MHz', 205),
     ('Pyboard D', 'pyboard-d.webp', 700 / 533, 33.5, 256 * KB, 4.5 * MB, '216 MHz', 306),
     ('Pico 2', 'pico-2.webp', 800 / 325, 51, 520 * KB, 4 * MB, '150 MHz', 398),
     ('Nano ESP32', 'arduino-nano-esp32.webp', 700 / 291, 45, 8.5 * MB, 16 * MB, '240 MHz', 505),
-    ('Pi Zero 2 W', 'pi-zero-2-w.webp', 700 / 412, 65, 512 * MB, 32 * GB, '1 GHz', None),
+    ('Pi Zero 2 W', 'pi-zero-2-w.webp', 700 / 412, 58, 512 * MB, 32 * GB, '1 GHz', None),
     ('Raspberry Pi 5', 'raspberry-pi-5.webp', 800 / 609, 85, 8 * GB, 32 * GB, '2.4 GHz', None),
 ]
 
@@ -64,22 +64,27 @@ def board(i, name, img, aspect, mm, ram, flash, cpu, cx):
 
 
 def panels():
-    """One board panel per group, shown on the slide's one click and drawn under everything else."""
+    """One board panel per group, drawn under everything else: the computers' on the first click, the microcontrollers' on the second."""
     bottom = H - 1
     mcu = f'M0 0 H590 V{bottom} H0 Z'
     # The computers' panel cuts its corner at 45° to stay clear of the QR's escapes.
     sbc = f'M688 0 H1096 V{bottom - 46} L{1096 - 46} {bottom} H688 Z'
-    return [f'<path class="ms-zone" d="{mcu}"/>', f'<path class="ms-zone" d="{sbc}"/>',
-            '<text class="ms-zone-label" x="16" y="28">MICROCONTROLLERS</text>',
-            '<text class="ms-zone-label" x="704" y="28">SINGLE-BOARD</text>',
-            '<text class="ms-zone-label" x="704" y="50">COMPUTERS</text>']
+    return [
+        '<g class="fragment" data-fragment-index="0">'
+        f'<path class="ms-zone" d="{sbc}"/>'
+        '<text class="ms-zone-label" x="704" y="28">SINGLE-BOARD</text>'
+        '<text class="ms-zone-label" x="704" y="50">COMPUTERS</text></g>',
+        '<g class="fragment" data-fragment-index="1">'
+        f'<path class="ms-zone" d="{mcu}"/>'
+        '<text class="ms-zone-label" x="16" y="28">MICROCONTROLLERS</text></g>',
+    ]
 
 
 def build():
     left, right = x(10 * KB) - 16, x(100 * GB) + 14
     o = ['<defs><filter id="ms-shadow" x="-20%" y="-20%" width="140%" height="160%">'
          '<feDropShadow class="ms-shadow" dx="0" dy="8" stdDeviation="6"/></filter></defs>']
-    o.append('<g class="fragment" data-fragment-index="0">' + ''.join(panels()) + '</g>')
+    o.extend(panels())
     o.append(f'<path class="ms-axis ms-axis--ram" d="M{n(left)} {RAM_Y} H{n(right)}"/>')
     o.append(f'<path class="ms-axis ms-axis--flash" d="M{n(left)} {FLASH_Y} H{n(right)}"/>')
     o.append(f'<text class="ms-axis-label ms-axis-label--ram" x="8" y="{RAM_Y + 6}">RAM</text>')

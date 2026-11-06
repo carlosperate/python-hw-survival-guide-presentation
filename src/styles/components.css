@@ -952,3 +952,17 @@
 .reveal .slides section .fragment.dim-past.current-fragment {
   color: var(--pcb-silk);
 }
+
+/* Every item shows from the start; only the current one is enlarged. Where it grows from
+   (transform-origin) is up to its container. */
+.reveal .slides section .fragment.grow-current {
+  opacity: 1;
+  visibility: inherit;
+  transition: transform var(--pcb-speed) var(--pcb-ease), opacity var(--pcb-speed) var(--pcb-ease);
+}
+
+.reveal .slides section .fragment.grow-current.current-fragment {
+  position: relative;
+  z-index: 2;
+  transform: scale(var(--grow, 1.8));
+}

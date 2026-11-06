@@ -15,6 +15,7 @@ import Phone from './plugins/phone/plugin.js';
 import Magnifier from './plugins/magnifier/plugin.js';
 import SlideAxis from './plugins/slide-axis/plugin.js';
 import BleBadge from './plugins/ble-badge/plugin.js';
+import ReplayImage from './plugins/replay-image/plugin.js';
 import Board from './plugins/board/plugin.js';
 
 const deck = new Reveal({
@@ -40,7 +41,7 @@ const deck = new Reveal({
   scrollActivationWidth: null,
   // B connects the Sticky badge (ble-badge) rather than blacking the screen.
   pause: false,
-  plugins: [Notes, Highlight, HeapMap, Phone, Magnifier, SlideAxis, BleBadge, Board],
+  plugins: [Notes, Highlight, HeapMap, Phone, Magnifier, SlideAxis, BleBadge, ReplayImage, Board],
 });
 
 deck.initialize();
