@@ -75,8 +75,9 @@ uv run python character/slides.py   # the slides' animations, in build/previews/
 uv run python character/badge.py    # the badge, in build/previews/
 ```
 
-The badge reads the deck's photo, QR code and fonts: run `npm ci` in the deck's folder first. It
-shows in four greys, which needs the port's firmware with `Display.show_grey()`.
+The badge uses `character/images/profile-background-halfway.png`, halfway between the original
+photo and 37.1's lighter background. The presentation keeps its original photo. The QR code and
+fonts come from the deck: run `npm ci` there first. Four greys need the port's `Display.show_grey()`.
 
 Then load `device/` again.
 

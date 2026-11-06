@@ -1,6 +1,6 @@
 # The conference badge: a development board in four greys, with the portrait and the QR code as
 # its chips. Run it for a preview in build/previews/; export.py writes it to device/idle/ for the
-# board. It reads the deck's photo, QR code and fonts, so the deck needs `npm ci` first.
+# board. It reads its own portrait copy and the deck's QR code and fonts (`npm ci` first).
 import math
 import os
 import re
@@ -15,7 +15,7 @@ from face import H, W
 
 HERE = Path(__file__).resolve().parent
 DECK = HERE.parents[1]  # the deck's checkout, which holds this programme
-PHOTO = DECK / "public/images/profil-pic.jpg"
+PHOTO = HERE / "images/profile-background-halfway.png"
 QR_SVG = DECK / "public/images/qr.svg"
 FONTS = DECK / "node_modules/@fontsource-variable"
 PREVIEW = HERE.parent / "build/previews/badge.png"
@@ -144,7 +144,7 @@ class Board:
         self.text(x, y, value, 10, "jetbrains-mono", weight=500)
 
     def photo(self, x, y, width, height):
-        # Head and shoulders of the deck's portrait, dithered to the four greys.
+        # Badge-only portrait with a lighter background, dithered to the four greys.
         source = Image.open(PHOTO).convert("L").crop((190, 125, 1070, 1120))
         source = ImageOps.fit(source, (width * SCALE, height * SCALE), centering=(0.5, 0.35))
         source = ImageEnhance.Contrast(source).enhance(1.02)
