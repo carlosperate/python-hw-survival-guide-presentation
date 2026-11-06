@@ -868,21 +868,6 @@
   padding-top: 22px;
 }
 
-.reveal .rules-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px 28px;
-  margin-bottom: 24px;
-}
-
-.reveal .rules-list .panel {
-  padding: 20px 26px 14px;
-}
-
-.reveal .rules-list p {
-  font-size: var(--pcb-text-dense);
-}
-
 .reveal .cards .readout {
   font-size: var(--pcb-text-label);
 }
@@ -1131,7 +1116,7 @@
 }
 
 /* Just under the shrunk panels: they end at 175 + 0.75 × 338 ≈ 429. */
-/* Two columns, read top to bottom. */
+/* Two columns, read top to bottom. The conclusion's owl slide shows them again. */
 .reveal .owl-topics {
   position: absolute;
   top: 452px;
@@ -1164,6 +1149,58 @@
 .reveal .owl:has(> .fragment.visible) svg.breadboard .bb-halo {
   animation: none;
   opacity: 1;
+}
+
+/* ---------- The rest of the owl slide ---------- */
+
+/* The intro's meme, large and centred, the owl built from parts over it. */
+.reveal .owl-rest {
+  width: 620px;
+  margin: 0 auto;
+  transform-origin: top center;
+}
+
+.reveal .owl-rest svg {
+  width: 620px;
+  height: 449px;
+}
+
+/* Click 1 shrinks the meme to end above the recap: 175 + 0.55 × 449 ≈ 422. It stays small on
+   click 2, while the covered block is hidden but still .visible. The transition is here only, so
+   going back snaps. */
+.reveal .slides section:has(.owl-recap__covered.visible) > .owl-rest {
+  transform: scale(0.55);
+  transition: transform calc(var(--pcb-speed) * 2) var(--pcb-ease);
+}
+
+/* Under the shrunk meme, centred: what the talk covered. */
+.reveal .owl-recap {
+  position: absolute;
+  top: 432px;
+  left: 0;
+  right: 0;
+  display: grid;
+  text-align: center;
+}
+
+.reveal .owl-recap > * {
+  grid-area: 1 / 1;
+  align-self: center;
+}
+
+.reveal .owl-recap p {
+  max-width: 30em;
+  margin: 0 auto 8px;
+}
+
+/* The owl slide's topic list, placed in the recap instead of on the slide, its items still left-aligned. */
+.reveal .owl-recap .owl-topics {
+  position: static;
+  text-align: left;
+}
+
+.reveal .slides section .owl-recap__covered.fragment.visible {
+  transition-delay: var(--pcb-speed);
 }
 
 /* ---------- The deck map slide ---------- */
@@ -1819,8 +1856,52 @@
   gap: 40px;
 }
 
-.reveal .help-agent pre.terminal {
-  padding-inline: 20px;
+/* The agent's loop: change, run, measure, compare; you only at the goal and the evidence. */
+.reveal svg.agent-loop {
+  display: block;
+  width: 520px;
+  height: auto;
+  overflow: visible;
+}
+
+.reveal svg.agent-loop .loop-node rect {
+  fill: color-mix(in srgb, var(--pcb-board-panel) 82%, transparent);
+  stroke: color-mix(in srgb, var(--pcb-gold) 34%, transparent);
+  stroke-width: 1.5;
+}
+
+/* The measure closes the loop, so it is the one in gold. */
+.reveal svg.agent-loop .loop-node--measure rect {
+  fill: color-mix(in srgb, var(--pcb-gold) 14%, var(--pcb-board-panel));
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg.agent-loop .loop-label {
+  font-family: var(--pcb-font-body);
+  font-size: 22px;
+  fill: var(--pcb-silk);
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.reveal svg.agent-loop .loop-you {
+  font-family: var(--pcb-font-mono);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  fill: var(--pcb-silk-dim);
+  dominant-baseline: central;
+}
+
+.reveal svg.agent-loop .loop-mark {
+  font-family: var(--pcb-font-mono);
+  font-size: 20px;
+  fill: var(--pcb-silk-dim);
+  dominant-baseline: central;
+}
+
+.reveal svg.agent-loop .loop-mark--ok {
+  fill: var(--pcb-led-green);
 }
 
 /* Each layer its own height, not the tallest one's. */
@@ -1828,13 +1909,22 @@
   align-self: start;
 }
 
-/* The sub-bullet smaller, so the last bullet ends above the footer rail. */
-.reveal .help-agent li ul {
-  font-size: var(--pcb-text-dense);
+/* The webcam photo, narrower than the column so its caption ends above the QR. */
+.reveal .help-agent .agent-eyes {
+  width: 470px;
+  margin: 0;
 }
 
-.reveal .help-agent li li:last-child {
-  margin-bottom: 0;
+.reveal .agent-eyes img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--pcb-gold) 34%, transparent);
+}
+
+.reveal .agent-eyes .caption {
+  text-align: left;
 }
 
 .reveal .help-agent .panel p {
@@ -1884,6 +1974,15 @@
 
 .reveal .skill-grid code {
   white-space: nowrap;
+}
+
+/* A linked name's chip hides the link's dashed line, so the chip carries it. */
+.reveal .skills-board a:has(> code) {
+  border-bottom: 0;
+}
+
+.reveal .skills-board a > code {
+  border-bottom: 1px dashed color-mix(in srgb, var(--pcb-gold) 70%, transparent);
 }
 
 .reveal .skills-board .skill-links {

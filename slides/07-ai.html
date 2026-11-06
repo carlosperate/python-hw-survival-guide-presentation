@@ -69,54 +69,94 @@
   </section>
 </section>
 
-<!-- THE SURVIVAL RULE AS STEPS: one per click, its code on the right -->
+<!-- THE SURVIVAL RULE AS STEPS: one per click, its example on the right -->
 <section>
-  <section>
+  <section class="help-agent">
     <header class="slide-head">
       <h2>Help your agent</h2>
     </header>
 
-    <div class="cols cols--fit-left cols--fit">
-      <ul>
-        <li class="fragment fade-in-then-semi-out" data-fragment-index="0">A good <code>AGENTS.md</code> contains info about the hardware and reference code/projects.
-          <ul><li>You can even ask your agent to do a "deep research" and it's usually pretty thorough.</li></ul>
-        </li>
-        <li class="fragment fade-in-then-semi-out" data-fragment-index="1">Give it skills: </li>
-        <li class="fragment fade-in-then-semi-out" data-fragment-index="2">Tell it how to interact with the hardware.</li>
-        <li class="fragment fade-in-then-semi-out" data-fragment-index="3">Give it a goal and a way to measure it.</li>
+    <div class="cols cols--fit">
+      <!-- fade-past: the third bullet stays bright for both of its clicks -->
+      <ul class="fade-past">
+        <li class="fragment" data-fragment-index="0">A good <code>AGENTS.md</code> contains info about the hardware and reference code/projects.</li>
+        <li class="fragment" data-fragment-index="1">Give it skills</li>
+        <li class="fragment" data-fragment-index="2">Tell it how to interact with the hardware.</li>
+        <li class="fragment" data-fragment-index="4">Give it a goal and a way to measure it.</li>
       </ul>
 
       <div class="r-stack swap">
-        <div class="fragment current-visible" data-fragment-index="1">
-          <div class="skill-pair">
-            <div class="panel" data-label="MicroPython">
-              <p><code>mpremote</code> skill, by Andrew Leech</p>
-            </div>
-            <div class="panel" data-label="CircuitPython">
-              <p><code>circuitpython-runner</code>, by Adafruit</p>
-            </div>
+        <div class="panel prompt fragment current-visible" data-fragment-index="0" data-label="Your prompt">
+          <p>/deep-research MicroPython on <em>[your board]</em> with <em>[your modules]</em>: pins, drivers and known problems. Generate a <code>AGENTS.md</code>, with links and references to similar projects using this hardware.</p>
+        </div>
+        <div class="skill-groups fragment current-visible" data-fragment-index="1">
+          <div class="panel" data-label="MicroPython">
+            <p><code>mpremote</code>: runs code, copies files</p>
+            <p class="skill-by">by Andrew Leech</p>
           </div>
-          <p class="caption">No skill? Any agent with a shell can run <code>mpremote</code>.</p>
+          <div class="panel" data-label="CircuitPython">
+            <p><code>circuitpython-runner</code>: runs code</p>
+            <p><code>hw-tests-runner</code>: tests on the board</p>
+            <p class="skill-by">by Adafruit</p>
+          </div>
+          <p class="caption">more skills below ↓</p>
         </div>
         <div class="fragment current-visible" data-fragment-index="2">
-          <p class="kicker">main.py: a REPL beside your app</p>
-          <pre class="compact"><code class="language-python" data-trim>
-import asyncio, aiorepl
+          <p class="kicker">My badge's AGENTS.md, abridged</p>
+          <pre class="compact"><code class="language-markdown" data-trim>
+## The unit
 
-async def main():
-    app = asyncio.create_task(sensor_loop())
-    repl = asyncio.create_task(aiorepl.task())
-    await asyncio.gather(app, repl)
-
-asyncio.run(main())
+- Know the device's port before opening
+  any serial port. Always pass the port.
+- mpremote reset doesn't reset this board:
+  make reset pulses EN, with esptool.
+- mpremote's Ctrl-C stops the programme
+  until a reset: leave the unit reset.
           </code></pre>
         </div>
-        <pre class="terminal compact fragment" data-fragment-index="3" data-label="REPL, typed by the agent"><span class="terminal__in">&gt;&gt;&gt; from machine import I2C, Pin</span>
-<span class="terminal__in">&gt;&gt;&gt; i2c = I2C(0, scl=Pin(5), sda=Pin(4))</span>
-<span class="terminal__in">&gt;&gt;&gt; [hex(a) for a in i2c.scan()]</span>
-<span class="terminal__out">['0x76']</span>
-<span class="terminal__in">&gt;&gt;&gt; hex(i2c.readfrom_mem(0x76, 0xD0, 1)[0])</span>
-<span class="terminal__out">'0x60'</span></pre>
+        <figure class="agent-eyes fragment current-visible" data-fragment-index="3">
+          <img src="/images/other/hw-webcam.webp" width="940" height="752" alt="A webcam on an arm points down at the e-paper badge on a desk beside a laptop, with a USB-C power meter in the badge's cable">
+          <figcaption class="caption">Give you agent eyes</figcaption>
+        </figure>
+        <div class="fragment" data-fragment-index="4">
+          <svg class="agent-loop build" viewBox="0 0 520 400" width="520" height="400" role="img" aria-label="A loop. You set the goal. The agent iterates on the code, runs it on the board, measures it, and compares with the goal: not yet, and it goes round again; met, and the agent is done and provides evidence.">
+            <g class="b-fade" style="--d:0">
+              <text class="loop-you" x="10" y="14">YOU SET THE GOAL</text>
+              <path class="arrow" d="M120 28 V 54" />
+            </g>
+            <g class="loop-node b-fade" style="--d:2">
+              <rect x="10" y="60" width="220" height="80" rx="10" />
+              <text class="loop-label" x="120" y="87">Agent iterates</text>
+              <text class="loop-label" x="120" y="114">on the code</text>
+            </g>
+            <path class="arrow b-fade" style="--d:4" d="M232 100 H 284" />
+            <g class="loop-node b-fade" style="--d:5">
+              <rect x="290" y="60" width="220" height="80" rx="10" />
+              <text class="loop-label" x="400" y="87">Runs it on</text>
+              <text class="loop-label" x="400" y="114">the board</text>
+            </g>
+            <path class="arrow b-fade" style="--d:7" d="M400 142 V 224" />
+            <g class="loop-node loop-node--measure b-fade" style="--d:8">
+              <rect x="290" y="230" width="220" height="80" rx="10" />
+              <text class="loop-label" x="400" y="270">Measures it</text>
+            </g>
+            <path class="arrow b-fade" style="--d:10" d="M288 270 H 236" />
+            <g class="loop-node b-fade" style="--d:11">
+              <rect x="10" y="230" width="220" height="80" rx="10" />
+              <text class="loop-label" x="120" y="257">Compares with</text>
+              <text class="loop-label" x="120" y="284">the goal</text>
+            </g>
+            <g class="b-fade" style="--d:13">
+              <path class="arrow" d="M120 228 V 146" />
+              <text class="loop-mark" x="134" y="187">✕ not yet</text>
+            </g>
+            <g class="b-fade" style="--d:15">
+              <path class="arrow" d="M120 312 V 352" />
+              <text class="loop-mark loop-mark--ok" x="134" y="333">✓ met</text>
+              <text class="loop-you" x="10" y="380">AGENT DONE & PROVIDES EVIDENCE</text>
+            </g>
+          </svg>
+        </div>
       </div>
     </div>
 
@@ -124,50 +164,32 @@ asyncio.run(main())
     </aside>
   </section>
 
-  <section>
+  <section class="skills-board">
     <header class="slide-head">
-      <h2>Skills that reach the board</h2>
+      <h2>Skills that count</h2>
     </header>
 
-    <p class="lede">A skill is a folder your agent loads: a <code>SKILL.md</code> and scripts. In October 2026 these are new, small projects: read one before you install it.</p>
+    <p class="text--wide">A skill is a folder with a <a href="https://agentskills.io" target="_blank" rel="noopener"><code>SKILL.md</code></a> and scripts. Read them before installing them.</p>
 
-    <div class="cols">
-      <div>
-        <p class="kicker">MicroPython, by Andrew Leech</p>
-        <ul class="list--dense">
-          <li><code>mpremote</code>: runs code, copies files, keeps one session open</li>
-        </ul>
+    <div class="skill-grid">
+      <div class="panel" data-label="MicroPython · Andrew Leech">
+        <p><a href="https://github.com/andrewleech/claude-mpy-marketplace/tree/main/plugins/mpremote" target="_blank" rel="noopener"><code>mpremote</code></a>: runs code on the board, copies files, keeps one session open.</p>
       </div>
-      <div>
-        <p class="kicker">CircuitPython, by Adafruit</p>
-        <ul class="list--dense">
-          <li><code>circuitpython-runner</code>: runs code, reads its output</li>
-          <li><code>hw-tests-runner</code>: pytest, on the board</li>
-        </ul>
+      <div class="panel" data-label="CircuitPython · Adafruit">
+        <p><a href="https://github.com/adafruit/LLM-Recipes/tree/main/circuitpython/circuitpython-runner" target="_blank" rel="noopener"><code>circuitpython-runner</code></a> runs code; <a href="https://github.com/adafruit/LLM-Recipes/tree/main/circuitpython/hw-tests-runner" target="_blank" rel="noopener"><code>hw-tests-runner</code></a> runs tests on the board.</p>
+      </div>
+      <div class="panel" data-label="Any board · Arduino first">
+        <p><a href="https://github.com/wedsamuel1230/embedded-engineering-skills/tree/main/skills/datasheet-interpreter" target="_blank" rel="noopener"><code>datasheet-interpreter</code></a> and <a href="https://github.com/wedsamuel1230/embedded-engineering-skills/tree/main/skills/wiring-safety-check" target="_blank" rel="noopener"><code>wiring-safety-check</code></a>.</p>
+      </div>
+      <div class="panel" data-label="MicroPython · FreakStudio">
+        <p><a href="https://github.com/FreakStudioCN/MicroPython_Skills_EN/tree/main/upy-gen-driver" target="_blank" rel="noopener"><code>upy-gen-driver</code></a> writes a driver from a datasheet; <a href="https://github.com/FreakStudioCN/MicroPython_Skills_EN/tree/main/upy-slim-driver" target="_blank" rel="noopener"><code>upy-slim-driver</code></a> cuts its RAM.</p>
       </div>
     </div>
 
-    <p class="text--wide qr-clear">Each agent looks in its own folder: <code>.claude/skills/</code> for Claude Code, <code>.agents/skills/</code> for Codex, <code>.github/skills/</code> for Copilot.</p>
-
     <p class="caption skill-links qr-clear">
-      <a href="https://github.com/andrewleech/claude-mpy-marketplace" target="_blank" rel="noopener">claude-mpy-marketplace</a> · <a href="https://github.com/adafruit/LLM-Recipes/tree/main/circuitpython" target="_blank" rel="noopener">adafruit/LLM-Recipes</a> · <a href="https://notes.alelec.net/posts/micropython-agentic-embedded/" target="_blank" rel="noopener">Leech: why the REPL suits agents</a>
-    </p>
+      <a href="https://notes.alelec.net/posts/micropython-agentic-embedded/" target="_blank" rel="noopener">Andrew Leech: why the REPL suits agents</a></p>
 
     <aside class="notes">
-      Vertical slide: read on its own, skipped live.
-      mpremote: a Claude Code plugin with three skills (device-interaction,
-      file-transfer, live-session); claude plugin marketplace add
-      https://github.com/andrewleech/claude-mpy-marketplace, then claude
-      plugin install mpremote@mpy-marketplace. 2 stars, last push 5 Oct 2026.
-      Adafruit's repo was Agent_Skills, now LLM-Recipes: 4 stars, last push
-      5 Jun 2026. Not on the slide: i2c-driver-validator (needs an Arduino
-      and a CircuitPython board with the same breakout: a driver-porting
-      rig), and ViperIDE MCP (claude mcp add viperIDE -- npx -y
-      @andrewleech/viperide-mcp; its page describes MicroPython devices only).
-      Folders: all three agents follow the open Agent Skills format
-      (agentskills.io); VS Code local sessions also read .claude/skills and
-      .agents/skills. Leech's article is the author's argument, not a
-      benchmark. Sources: reports/ai-skills.md.
     </aside>
   </section>
 </section>

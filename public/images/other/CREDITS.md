@@ -11,3 +11,7 @@
   - Source: [Accelerating engineering for the physical world](https://openai.com/index/accelerating-engineering-for-the-physical-world/)
   - Author: OpenAI
   - Licence: none given; shown to illustrate the article, with credit
+- `hw-webcam.webp`: a webcam on an arm over the badge, with a USB-C power meter in its cable,
+  cropped to 5:4
+  - Author: Carlos Pereira Atencio, the speaker's own photo
+  - Licence: the speaker's own

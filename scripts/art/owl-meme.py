@@ -14,8 +14,8 @@ ART = Path(__file__).resolve().parents[2] / 'slides' / 'art'
 DRAW_W, DRAW_H = 530, 384
 OWL_AT = (236, 4)
 
-# The drawing shows on its own for a moment before the trace starts, in quarter beats.
-HOLD = 12
+# The drawing shows on its own for about 3 s before the trace starts, in quarter beats (65 ms each).
+HOLD = 46
 
 # Traced from the drawing: tufts, head, body, then the tail below the branch.
 OWL = ('M99 2 C104 10 110 22 116 30 C128 26 150 26 164 34 C170 26 176 18 181 13 '

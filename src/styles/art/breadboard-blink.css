@@ -1,7 +1,8 @@
 /*
   Step 1 of the owl slide, slides/art/breadboard-blink.svg: a Pico on a
   breadboard blinking one LED. The Pico reuses owl-pcb.css's op-* classes, so
-  the two boards share a mask.
+  the two boards share a mask. maker-owl.svg draws its breadboards and wires
+  with these bb-* classes.
 */
 
 /* Step 1 blinks like the classic example: a second on, a second off. */

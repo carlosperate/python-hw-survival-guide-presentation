@@ -1,6 +1,7 @@
 /*
   Step 2 of the owl slide, slides/art/owl-pcb.svg: an owl-shaped board perched
-  on a pin header. breadboard-blink.svg draws its Pico with these classes too.
+  on a pin header. breadboard-blink.svg draws its Pico with these classes too,
+  and maker-owl.svg its boards.
 */
 
 /* Traces are copper under the mask: the mask's own colour, lighter. */

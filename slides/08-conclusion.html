@@ -1,22 +1,45 @@
 <section class="section-slide is-centered" data-board="section" data-part="08">
   <h2>Conclusion</h2>
   <span class="trace-rule"></span>
-  <p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
 </section>
 
+<!-- THE REST OF THE OWL: the intro's meme, built from parts -->
 <section>
   <header class="slide-head">
-    <h2>Lorem ipsum dolor</h2>
+    <h2>The rest of the owl</h2>
   </header>
 
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua.
-  </p>
+  <!-- The intro's owl, large: the meme's drawing builds into the owl board on arrival. Click 1: it shrinks
+       up as an owl built from parts takes the board's place, and the intro's topics come back under it. -->
+  <div class="r-stack owl-rest">
+    <!-- @include slides/art/owl-meme.svg -->
+    <div class="fragment" data-fragment-index="0">
+      <!-- @include slides/art/maker-owl.svg -->
+    </div>
+  </div>
+
+  <!-- Click 1: what the talk covered. Click 2: it fades out, leaving the owl. -->
+  <div class="owl-recap">
+    <div class="fragment fade-out" data-fragment-index="1">
+      <div class="owl-recap__covered fragment" data-fragment-index="0">
+        <p>Together we've covered:</p>
+        <ul class="owl-topics">
+          <li>Device Resources</li>
+          <li>Drivers</li>
+          <li>Debugging</li>
+          <li>Tooling</li>
+          <li>AI</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <aside class="notes">
+  </aside>
 </section>
 
 <!-- CLOSING -->
-<section class="cover is-centered" data-board="cover">
+<section class="cover is-centered" data-board="cover" data-ble-badge="thank you">
   <div class="cover__main">
     <h1>Thank you</h1>
     <p class="cover__sub">
