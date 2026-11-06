@@ -99,7 +99,7 @@
     </header>
 
     <ul class="list--wide power-checks">
-      <li class="fragment" data-fragment-index="0"><b>Cable:</b> Some USB cable only charge. Use a known&#8209;good data cable.</li>
+      <li class="fragment" data-fragment-index="0"><b>Cables:</b> Some USB cable only charge. Use a known&#8209;good data cable.</li>
       <li class="fragment" data-fragment-index="1"><b>Battery banks:</b> Some switch off when the board draws too little current.</li>
       <li class="fragment" data-fragment-index="2"><b>Voltage:</b> Ensure the right voltage level is used for your device and any components.</li>
       <li class="fragment" data-fragment-index="3"><b>Ground:</b> Has to be shared by every board and supply. Breadboard rails can be split.</li>
@@ -215,8 +215,8 @@
         <tr class="fragment dim-past" data-fragment-index="0"><td>Tracebacks, <code>print()</code></td><td>Stdout is serial via USB cable: keep a terminal open</td></tr>
         <tr class="fragment dim-past" data-fragment-index="1"><td><code>logging</code></td><td>With filesystem access you can log into a file </td></tr>
         <tr class="fragment dim-past" data-fragment-index="2"><td>REPL</td><td>An interactive shell can poke the live hardware</td></tr>
-        <tr class="fragment dim-past" data-fragment-index="3"><td><code>unittest</code></td><td>Install it with mip; tests can use the real hardware</td></tr>
-        <tr class="fragment dim-past" data-fragment-index="4"><td>Time/profile</td><td>time it on the chip, or on a spare pin ↓</td></tr>
+        <tr class="fragment dim-past" data-fragment-index="3"><td>Time/profile</td><td>time it on the chip, or on a spare pin</td></tr>
+        <tr class="fragment dim-past" data-fragment-index="4"><td><code>unittest</code></td><td>run it on-device, or use <a href="https://github.com/planetinnovation/micropython-mock-machine" target="_blank" rel="noopener">micropython-mock-machine</a> on PC</td></tr>
       </tbody>
     </table>
 
@@ -233,15 +233,15 @@ except Exception as e:
       <pre class="terminal fragment current-visible" data-fragment-index="2" data-label="The REPL, over USB"><span class="terminal__in">&gt;&gt;&gt; i2c.scan()        # ask the live bus</span>
 <span class="terminal__out">[118]</span>
 <span class="terminal__in">&gt;&gt;&gt; led.value(1)      # and the LED lights up</span></pre>
-      <pre class="terminal fragment current-visible" data-fragment-index="3" data-label="Tests on the board"><span class="terminal__in">$ mpremote mip install unittest</span>
-<span class="terminal__in">$ mpremote mount . run test_readings.py</span>
-<span class="terminal__out">test_in_range (TestBME280) ... ok</span>
-<span class="terminal__out">OK</span></pre>
-      <pre class="fragment" data-fragment-index="4"><code class="language-python" data-trim>
+      <pre class="fragment current-visible" data-fragment-index="3"><code class="language-python" data-trim>
 t0 = time.ticks_us()
 read_sensor()
 print(time.ticks_diff(time.ticks_us(), t0), "µs")
       </code></pre>
+      <pre class="terminal fragment" data-fragment-index="4" data-label="Tests on the board"><span class="terminal__in">$ mpremote mip install unittest</span>
+<span class="terminal__in">$ mpremote mount . run test_readings.py</span>
+<span class="terminal__out">test_in_range (TestBME280) ... ok</span>
+<span class="terminal__out">OK</span></pre>
     </div>
 
     <aside class="notes">
@@ -360,53 +360,56 @@ main()                   # Ctrl-C any time
   </section>
 </section>
 
-<!-- ---------------- -->
-<!-- WHY DID IT RESET -->
-<!-- ---------------- -->
-<section class="slide--small-type">
-  <header class="slide-head">
-    <h2>Why did it reset?</h2>
-  </header>
-
-  <p class="text--wide"><code>machine.reset_cause()</code> says why the board last started. Ask first thing in <code>main.py</code>.</p>
-
-  <ul class="pinout pinout--wide">
-    <li><span class="pinout__pin">PWRON_RESET</span><span class="pinout__net">power came on: plugged in, or the supply dipped (a brownout)</span></li>
-    <li><span class="pinout__pin">HARD_RESET</span><span class="pinout__net">the reset button, <code>machine.reset()</code>, or a crash in C</span></li>
-    <li><span class="pinout__pin">WDT_RESET</span><span class="pinout__net">the watchdog: your code hung and stopped feeding it</span></li>
-    <li><span class="pinout__pin">DEEPSLEEP_RESET</span><span class="pinout__net">it woke from <code>machine.deepsleep()</code></span></li>
-    <li><span class="pinout__pin">SOFT_RESET</span><span class="pinout__net">Ctrl-D or your editor restarted MicroPython, not the chip</span></li>
-  </ul>
-
-  <p class="readout qr-clear">Not every board tells them all apart: what it can't, it reports as one of the others.</p>
-
-  <aside class="notes">
-  </aside>
-</section>
-
 <!-- ------------------ -->
 <!-- NOT TALKING TO YOU -->
 <!-- ------------------ -->
-<section class="slide--small-type">
-  <header class="slide-head">
-    <h2>When the board won't talk to you</h2>
-  </header>
+<section>
+  <section class="slide--small-type" data-ble-badge="won't answer">
+    <header class="slide-head">
+      <h2>When the board won't talk to you</h2>
+    </header>
 
-  <p class="lede">You saved a <code>main.py</code> and now your editor can't connect.<br>A common issue is an endless loop in the code.</p>
+    <p class="lede">You saved a <code>main.py</code> and now your editor can't connect.<br>A common issue is an endless loop in the code.</p>
 
-  <table class="recover table--large">
-    <thead>
-      <tr><th></th><th>MicroPython</th><th>CircuitPython</th></tr>
-    </thead>
-    <tbody>
-      <tr class="fragment dim-past"><td>Stop your code</td><td>Ctrl-C, then <code>os.remove("main.py")</code></td><td>Ctrl-C, then fix <code>code.py</code></td></tr>
-      <tr class="fragment dim-past"><td>Skip your code</td><td>Safe mode, on some boards</td><td>Double reset within 1 s</td></tr>
-      <tr class="fragment dim-past"><td>Start clean</td><td>Erase the flash, reflash</td><td>The board's erase file, reinstall</td></tr>
-    </tbody>
-  </table>
+    <table class="recover table--large">
+      <thead>
+        <tr><th></th><th>MicroPython</th><th>CircuitPython</th></tr>
+      </thead>
+      <tbody>
+        <tr class="fragment dim-past"><td>Stop your code</td><td>Ctrl-C, then <code>os.remove("main.py")</code></td><td>Ctrl-C, then fix <code>code.py</code></td></tr>
+        <tr class="fragment dim-past"><td>Skip your code</td><td>Safe mode, on some boards</td><td>Double reset within 1 s</td></tr>
+        <tr class="fragment dim-past"><td>Start clean</td><td>Erase the flash, reflash</td><td>The board's erase file, reinstall</td></tr>
+      </tbody>
+    </table>
 
-  <p class="readout fragment qr-clear">Erasing deletes your files too. Back them up, don't keep them only on the board.</p>
+    <p class="readout fragment qr-clear">Erasing deletes your files too. Back them up, don't keep them only on the board.</p>
 
-  <aside class="notes">
-  </aside>
+    <aside class="notes">
+    </aside>
+  </section>
+
+  <!-- ---------------- -->
+  <!-- WHY DID IT RESET -->
+  <!-- ---------------- -->
+  <section class="slide--small-type">
+    <header class="slide-head">
+      <h2>Why did it reset?</h2>
+    </header>
+
+    <p class="text--wide"><code>machine.reset_cause()</code> says why the board last started. Ask first thing in <code>main.py</code>.</p>
+
+    <ul class="pinout pinout--wide">
+      <li><span class="pinout__pin">PWRON_RESET</span><span class="pinout__net">power came on: plugged in, or the supply dipped (a brownout)</span></li>
+      <li><span class="pinout__pin">HARD_RESET</span><span class="pinout__net">the reset button, <code>machine.reset()</code>, or a crash in C</span></li>
+      <li><span class="pinout__pin">WDT_RESET</span><span class="pinout__net">the watchdog: your code hung and stopped feeding it</span></li>
+      <li><span class="pinout__pin">DEEPSLEEP_RESET</span><span class="pinout__net">it woke from <code>machine.deepsleep()</code></span></li>
+      <li><span class="pinout__pin">SOFT_RESET</span><span class="pinout__net">Ctrl-D or your editor restarted MicroPython, not the chip</span></li>
+    </ul>
+
+    <p class="readout qr-clear">Not every board tells them all apart: what it can't, it reports as one of the others.</p>
+
+    <aside class="notes">
+      Vertical slide: read on its own, skipped live.
+    </aside>
+  </section>
 </section>

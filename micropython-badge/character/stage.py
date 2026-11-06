@@ -1,6 +1,6 @@
 # Props for the slides' animations (slides.py), drawn over the face as props.py's are. Unlike the
 # character's own, some carry a label in the deck's JetBrains Mono, and some need the eyes'
-# centres: a lens over an eye, glasses round both.
+# centres: a lens over an eye, glasses round both, a zip over the mouth.
 import math
 
 from PIL import Image, ImageDraw
@@ -239,6 +239,35 @@ def flag(d):
     d.line([(x, y + 3 * s), (x + n * s, y + 3 * s + n * 6)], fill=0, width=6)
 
 
+def laptop(d, screen, flash=False):
+    """A laptop on the left, its screen saying screen; flash, a burst behind it."""
+    if flash:
+        burst(d, 165, 255, 70, 112, 14, 8)
+    d.rounded_rectangle((30, 170, 300, 340), 14, fill=255, outline=0, width=10)
+    d.polygon([(10, 352), (320, 352), (300, 384), (30, 384)], fill=0)
+    label(d, 165, 255, screen, 52 if len(screen) < 4 else 40)
+
+
+def zipped(d, eyes):
+    """A zip across the mouth: it won't talk. 156 px under the eyes is within 4 px of every
+    style's mouth."""
+    ((x1, y1), (x2, y2)), z = eyes
+    x, y = (x1 + x2) / 2, (y1 + y2) / 2 + 156 * z + 10
+    thick_line(d, (x - 80, y), (x + 80, y), 10)
+    for k in range(-70, 71, 20):
+        d.line((x + k, y - 12, x + k, y + 12), fill=0, width=6)
+    d.rounded_rectangle((x + 78, y - 6, x + 104, y + 30), 6, fill=0)
+    oval(d, x + 91, y + 20, 5, 5, 255)
+
+
+def sweat(d, x, y):
+    pts = [(x, y - 34)] + [
+        (x + 16 * math.cos(math.radians(a)), y + 16 * math.sin(math.radians(a)))
+        for a in range(-30, 211, 10)
+    ]
+    d.polygon(pts, fill=255, outline=0, width=7)
+
+
 def draw(img, d, name, args, eyes):
     """One of these props, by name; eyes: the eyes' centres and the face's zoom."""
     if name == "daze":
@@ -259,12 +288,18 @@ def draw(img, d, name, args, eyes):
         chip(d, *args)
     elif name == "bubble":
         bubble(d, *args)
-    elif name in ("lens", "specs") and eyes is None and len(args) < 2:
+    elif name == "laptop":
+        laptop(d, *args)
+    elif name == "sweat":
+        sweat(d, *args)
+    elif name in ("lens", "specs", "zip") and eyes is None and len(args) < 2:
         raise ValueError(name + " needs the eyes' centres: draw it through idle.render()")
     elif name == "lens":  # over an eye (0 or 1), or at a point
         lens(img, d, *(eyes[0][args[0]] if len(args) == 1 else args))
     elif name == "specs":
         specs(d, eyes)
+    elif name == "zip":
+        zipped(d, eyes)
     elif name == "wire":
         wire(d, *args)
     elif name == "probes":

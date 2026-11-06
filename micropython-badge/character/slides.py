@@ -179,6 +179,56 @@ def detective():  # "New sensor ready to go, but..": a lens over each eye, then 
     ]
 
 
+def hello():  # "When the board won't talk to you": zipped shut until the laptop sends ^C
+    at = dict(fx=560, fy=230, zoom=0.78)
+
+    def asks(text, w):
+        return ("bubble", 200, 70, w, 100, (170, 160), text, 44)
+
+    return [
+        (pose(), 1200),
+        (pose(**at, gx=-0.8, props=(("laptop", "..."), ("zip",))), 900),
+        (
+            pose(**at, gx=-0.8, lid=0.2, props=(("laptop", "..."), asks("hello?", 250), ("zip",))),
+            900,
+        ),
+        (
+            pose(
+                **at,
+                gx=0.6,
+                gy=-0.6,
+                btilt=-10,
+                lid=0.25,
+                props=(("laptop", "..."), asks("hello??", 270), ("zip",), ("sweat", 700, 120)),
+            ),
+            900,
+        ),
+        (
+            pose(
+                **dict(at, fx=530),
+                gx=-0.8,
+                scale=1.06,
+                pupil=0.7,
+                lift=20,
+                props=(("laptop", "^C", True), ("zip",)),
+            ),
+            900,
+        ),
+        (
+            pose(
+                **at,
+                gx=-0.8,
+                lift=12,
+                mouth="o",
+                props=(("laptop", "^C"), ("bubble", 240, 60, 180, 90, (360, 130), ">>>", 52)),
+            ),
+            1200,
+        ),
+        (pose(eyes="happy", mouth="grin", lift=10, **HAPPY), 1500),
+        *END,
+    ]
+
+
 def xray():  # the Tooling divider: it can't see the wire, then sees its bits through glasses
     top = dict(fy=170, zoom=0.82)
 
@@ -265,6 +315,7 @@ SLIDES = {
     "f1": racer(),
     "scan": scan(),
     "bug": detective(),
+    "hello": hello(),
     "specs": xray(),
     "beep": beep(),
     "ack": ack(),
