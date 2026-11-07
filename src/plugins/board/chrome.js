@@ -75,13 +75,8 @@ function store(key, value) {
   }
 }
 
-function initial(param, options) {
-  const fromUrl = new URLSearchParams(location.search).get(param);
-  if (options.includes(fromUrl)) return fromUrl;
-
-  const saved = stored(`pcb:${param}`);
-  return options.includes(saved) ? saved : options[0];
-}
+// Saved only when chosen, with ?theme=, T or a number key, so a new default reaches every other browser.
+const THEME_KEY = 'pcb:theme-choice';
 
 // A base theme's CSS is scoped by data-base-theme, so it also styles the themes built on it.
 function markTheme(name) {
@@ -90,7 +85,9 @@ function markTheme(name) {
 }
 
 export function chooseTheme() {
-  const name = initial('theme', THEMES);
+  const fromUrl = new URLSearchParams(location.search).get('theme');
+  if (THEMES.includes(fromUrl)) store(THEME_KEY, fromUrl);
+  const name = [fromUrl, stored(THEME_KEY)].find((option) => THEMES.includes(option)) ?? THEMES[0];
   markTheme(name);
   return name;
 }
@@ -132,7 +129,6 @@ export function mountBoardChrome(deck, startTheme) {
     tracesEl.innerHTML = cover;
     partsEl.innerHTML = parts;
     markTheme(name);
-    store('pcb:theme', name);
     // Themes change type sizes and gutters; let reveal re-measure.
     deck.layout();
   }
@@ -147,25 +143,12 @@ export function mountBoardChrome(deck, startTheme) {
   function switchTheme(name) {
     theme = name;
     applyTheme(name);
+    store(THEME_KEY, name);
     toast();
     // Keep the URL shareable: reloading or copying it keeps the theme.
     const url = new URL(location.href);
     url.searchParams.set('theme', name);
     history.replaceState(history.state, '', url);
-  }
-
-  /* Reveal centres the slide rectangle in the viewport, so deriving the
-     position from the scale is independent of how `.slides` is boxed.
-     Layout sizes, as reveal uses: the magnifier scales the viewport, board and all. */
-  function place() {
-    const { width, height } = deck.getConfig();
-    const viewport = deck.getViewportElement();
-    const scale = deck.getScale() || 1;
-
-    board.style.left = `${(viewport.offsetWidth - width * scale) / 2}px`;
-    board.style.top = `${(viewport.offsetHeight - height * scale) / 2}px`;
-    board.style.transform = `scale(${scale})`;
-    board.classList.add('is-placed');
   }
 
   function sync() {
@@ -199,7 +182,6 @@ export function mountBoardChrome(deck, startTheme) {
     return;
   }
 
-  deck.on('resize', place);
   deck.on('slidechanged', (event) => {
     sync();
     pulse('is-rx');
@@ -225,7 +207,8 @@ export function mountBoardChrome(deck, startTheme) {
     );
   });
 
-  place();
+  // board.css places it from reveal's --slide-scale, which reveal's layout has set by 'ready'.
+  board.classList.add('is-placed');
   sync();
   startAmbient(deck, board);
 }

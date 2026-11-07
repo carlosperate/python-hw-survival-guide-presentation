@@ -46,7 +46,7 @@
 
   <!-- Swap --left for --right to point at whichever side of the screen you stand on.
        It draws once the slide has faded in; the first click removes it. -->
-  <svg class="corner-arrow corner-arrow--right build" viewBox="0 0 160 120" aria-hidden="true">
+  <svg class="corner-arrow corner-arrow--left build" viewBox="0 0 160 120" aria-hidden="true">
     <g class="fragment fade-out" data-fragment-index="0">
       <circle class="via b-fade" style="--d: 6" cx="226" cy="14" r="7" />
       <path class="b-draw" pathLength="1" style="--d: 6" d="M219 14 H118 L14 118" />
@@ -110,18 +110,11 @@
 
     <!-- @include slides/art/deck-map.svg -->
 
-    <p class="lede fragment" data-fragment-index="1">
+    <!-- data-board-qr: while this shows, the board's QR moves out of its chip, large, beside it. -->
+    <p class="lede fragment" data-fragment-index="1" data-board-qr="large">
       Scan the QR to follow along during the talk,<br />or at your own pace.
       <span class="deck-url">https://pycones2026.embeddedlog.com</span>
     </p>
-
-    <svg class="corner-arrow corner-arrow--qr" viewBox="0 0 360 108" aria-hidden="true">
-      <g class="draw fragment" data-fragment-index="1">
-        <circle class="via" cx="74" cy="14" r="7" />
-        <path pathLength="1" d="M81 14 H266 L346 94" />
-        <path class="head" pathLength="1" d="M346 60 V94 H312" />
-      </g>
-    </svg>
 
     <aside class="notes">
     </aside>

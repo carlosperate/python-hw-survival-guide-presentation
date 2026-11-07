@@ -86,10 +86,13 @@
   padding-bottom: .55em;
   border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk) 10%, transparent);
 }
+/* Right-aligned to end about one letter before the text (2.4em here is 1.7em of the item's). */
 [data-theme="refined"] .reveal ol li::before {
   top: .15em;
+  width: 2.4em;
   font-size: .7em;
   font-weight: 500;
+  text-align: right;
 }
 
 /* Cover: typography owns the left two thirds; the package owns the right. */

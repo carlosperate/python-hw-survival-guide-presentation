@@ -2,15 +2,19 @@
    traces tented under the mask, metal only where pads and vias are exposed.
    The cover is the exception: its copper shows, in the Python logo's colours. */
 :root[data-theme="hybrid-matte"] {
-  /* A saturated green, a step darker than hybrid's: about 16:1 for body text,
-     since projectors lift dark tones. Copper and LEDs are hybrid's; silk is whiter. */
+  /* A saturated green, a step darker than hybrid's, under brighter silk, since
+     projectors lift dark tones: 17:1 for body text, 9:1 for the faintest. */
   --pcb-board-deep: #011709;
   --pcb-board: #021f10;
   --pcb-board-hi: #052817;
   --pcb-board-panel: #042514;
-  --pcb-silk: #fafaf6;
-  --pcb-silk-dim: #c6d1c3;
-  --pcb-silk-mute: #8fa48b;
+  --pcb-silk: #ffffff;
+  --pcb-silk-dim: #dfe7dc;
+  --pcb-silk-mute: #aebfaa;
+  /* Hybrid's 350 thins out on a projector, and its faded steps go too dark. */
+  --pcb-body-weight: 400;
+  --pcb-past-opacity: 0.65;
+  --hybrid-code-dim-opacity: 0.75;
   --matte-tent: #2f7d47;
   --matte-tent-low: #1f6150;
 }

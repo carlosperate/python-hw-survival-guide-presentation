@@ -1605,15 +1605,6 @@
 
 /* ---------- Debugging ---------- */
 
-/* Closer bullets, so the links line ends inside the safe area. */
-.reveal .solder ul {
-  margin-bottom: 0.4em;
-}
-
-.reveal .solder li {
-  margin-bottom: 0.4em;
-}
-
 /* The suspect leads each line, so it reads first from the back. */
 .reveal .suspects b {
   font-size: 1.15em;
@@ -1638,6 +1629,25 @@
 /* The largest size that keeps each step on one line, so the picture under step 4 fits. */
 .reveal ol.method {
   font-size: calc(var(--pcb-text) * 0.9);
+}
+
+/* The last click draws the hairline under its step in gold, as highlight-trace
+   does, centred on the 1px border. Going back snaps. */
+.reveal .slides section .method__split.fragment {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 3px;
+  opacity: 1;
+  visibility: inherit;
+  background: linear-gradient(var(--pcb-gold), var(--pcb-gold)) no-repeat left / 0 100%;
+  transition: none;
+}
+
+.reveal .slides section .method__split.fragment.visible {
+  background-size: 100% 100%;
+  transition: background-size calc(var(--pcb-speed) * 2) var(--pcb-ease);
 }
 
 /* Hangs under its list item, over the next one, which is still hidden. */
@@ -1686,30 +1696,6 @@
 .reveal table.recover td:first-child {
   white-space: nowrap;
   color: var(--pcb-gold);
-}
-
-.reveal svg .joint-board {
-  fill: var(--pcb-board-panel);
-  stroke: color-mix(in srgb, var(--pcb-gold) 34%, transparent);
-}
-
-.reveal svg .joint-pad,
-.reveal svg .joint-pin {
-  fill: var(--pcb-gold-deep);
-}
-
-.reveal svg .joint-solder {
-  fill: var(--pcb-silk-dim);
-}
-
-.reveal svg .joint-solder--bad {
-  fill: var(--pcb-silk-mute);
-}
-
-.reveal svg .joint-name {
-  font-size: 17px;
-  text-anchor: middle;
-  fill: var(--pcb-silk);
 }
 
 /* The longest "costs memory" bullet still fits its half-width panel on one line. */

@@ -51,6 +51,9 @@
   --pcb-code-size-compact: 18px;
   --pcb-code-pad-compact: 18px 22px;
 
+  /* Earlier steps, once the next one shows. */
+  --pcb-past-opacity: 0.5;
+
   /* Motion. Everything animated in the theme reads one of these. */
   --pcb-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --pcb-speed: 260ms;

@@ -226,10 +226,13 @@
   border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk) 18%, transparent);
 }
 
+/* Right-aligned to end about one letter before the text (2.4em here is 1.7em of the item's). */
 :root[data-theme="schematic"] .reveal ol li::before {
   top: 0.15em;
+  width: 2.4em;
   font-size: 0.7em;
   font-weight: 500;
+  text-align: right;
 }
 
 :root[data-theme="schematic"] .reveal .specs {

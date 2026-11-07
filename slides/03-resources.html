@@ -453,8 +453,8 @@ A===FS=FF.FS=F..F..F..FS=F.
     </div>
 
     <div class="r-stack swap readouts">
-      <p class="readout fragment fade-out" data-fragment-index="0">the loop fills the heap: each float kept, each string dropped</p>
-      <p class="readout fragment current-visible" data-fragment-index="0">no room for <code>big_array</code>, so the collector frees the strings:<br />16 blocks × 16 B = <b>256 B</b> free, but the biggest hole is 2 blocks, <b>32 B</b></p>
+      <p class="readout fragment fade-out" data-fragment-index="0">The loop fills the heap: each float kept, each string dropped</p>
+      <p class="readout fragment current-visible" data-fragment-index="0">No room for <code>big_array</code>, so the collector frees the strings:<br />We have <b>256 B</b> free, but the biggest hole is 2 blocks = <b>32 B</b></p>
       <p class="readout fragment" data-fragment-index="1"><span class="verdict--ok">✓</span> the loop fills and frees the space after it; <code>big_array</code> keeps its room</p>
     </div>
 

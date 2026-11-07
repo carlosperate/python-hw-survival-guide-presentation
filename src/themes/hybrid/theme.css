@@ -5,6 +5,7 @@
   --pcb-heading-weight: 520;
   --pcb-body-weight: 350;
   --pcb-code-size: 24px;
+  --hybrid-code-dim-opacity: 0.6;
   --hybrid-font-title: "Oxanium Variable", var(--pcb-font-display);
 }
 
@@ -24,9 +25,12 @@
   opacity: 0.7;
 }
 
-/* Centred in this frame's QFN body (x 1120-1212, y 587-679), 10px lower than classic's. */
+/* Nearly fills this frame's QFN body (x 1120-1212, y 587-679), 4px in so the
+   body's edge still shows: the larger the cells, the further back a phone can scan it. */
 [data-base-theme="hybrid"] .board__qr {
-  bottom: 51px;
+  right: 72px;
+  bottom: 45px;
+  width: 84px;
 }
 
 /* Clears the via left of the QFN, which sits level with the slide count. */
@@ -254,10 +258,13 @@
   border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk) 18%, transparent);
 }
 
+/* Right-aligned to end about one letter before the text (2.4em here is 1.7em of the item's). */
 [data-base-theme="hybrid"] .reveal ol li::before {
   top: 0.15em;
+  width: 2.4em;
   font-size: 0.7em;
   font-weight: 500;
+  text-align: right;
 }
 
 [data-base-theme="hybrid"] .reveal .specs {
@@ -280,7 +287,7 @@
 
 /* Lines outside the current step stay readable. */
 [data-base-theme="hybrid"] .reveal .hljs.has-highlights tr:not(.highlight-line) {
-  opacity: 0.6;
+  opacity: var(--hybrid-code-dim-opacity);
 }
 
 /* The rail stays in the code well's padding, clear of the line numbers. */

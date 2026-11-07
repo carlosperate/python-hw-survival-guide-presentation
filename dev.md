@@ -64,15 +64,15 @@ Most components, with examples, are on the slides in `slides/09-demo.html`
 
 ## Themes
 
-Hybrid is the default. **T** cycles themes on the same slide, a number key
+Hybrid-matte is the default. **T** cycles themes on the same slide, a number key
 picks one, `?theme=<name>` picks one too, and the browser remembers the last
 choice. If a browser still opens in an old theme, press 1 or add
-`?theme=hybrid` once.
+`?theme=hybrid-matte` once.
 
 | Key | Theme | What it is |
 |---|---|---|
-| 1 | [hybrid](http://localhost:5173/presentation?theme=hybrid) | Default. Classic's board and palette, Oxanium titles, heavier type, a chip wired to the pin header on the cover, clean part dividers |
-| 2 | [hybrid-matte](http://localhost:5173/presentation?theme=hybrid-matte) | Hybrid on a flat, darker mask with the traces tented under it; the cover's traces are the Python logo's yellow and blue |
+| 1 | [hybrid-matte](http://localhost:5173/presentation?theme=hybrid-matte) | Default. Hybrid on a flat, darker mask with the traces tented under it; the cover's traces are the Python logo's yellow and blue |
+| 2 | [hybrid](http://localhost:5173/presentation?theme=hybrid) | Classic's board and palette, Oxanium titles, heavier type, a chip wired to the pin header on the cover, clean part dividers |
 | 3 | [schematic](http://localhost:5173/presentation?theme=schematic) | Each slide is a KiCad schematic sheet on paper, with a title block and the I2C circuit on the cover |
 | 4 | [classic](http://localhost:5173/presentation?theme=classic) | The original board from `reports/mockup/mockup1.png`, light Roboto throughout |
 | 5 | [refined](http://localhost:5173/presentation?theme=refined) | Cooler, bluer solder mask, heavier type, a QFN wired to a header on the cover, a small routing detail on content slides |

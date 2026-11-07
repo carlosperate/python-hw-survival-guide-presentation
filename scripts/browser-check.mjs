@@ -46,7 +46,7 @@ const MIN_BODY_PX = 12;
 const BODY_PX = 27;
 
 function args() {
-  const opts = { browsers: 'chromium,firefox,webkit', devices: 'all', slides: '', theme: 'hybrid',
+  const opts = { browsers: 'chromium,firefox,webkit', devices: 'all', slides: '', theme: 'hybrid-matte',
     base: 'http://localhost:5173/presentation', out: '.screenshots' };
   const argv = process.argv.slice(2);
   for (let i = 0; i < argv.length; i += 2) opts[argv[i].replace(/^--/, '')] = argv[i + 1];

@@ -331,10 +331,10 @@ bme = bme280.BME280(i2c=i2c)
         <tr><th></th><th>UART</th><th>I²C</th><th>SPI</th></tr>
       </thead>
       <tbody>
-        <tr><td>Used for</td><td>GPS, radios, another board</td><td>sensors, clocks, small OLEDs</td><td>colour screens, SD cards</td></tr>
+        <tr><td>Used for</td><td>GPS, radios, another board</td><td>sensors, small OLEDs</td><td>colour screens, SD cards</td></tr>
         <tr class="fragment" data-fragment-index="1"><td>Wires</td><td>TX → RX, crossed</td><td><span class="fragment" data-fragment-index="2">SDA, SCL</span></td><td><span class="fragment" data-fragment-index="3">SCK, COPI, CIPO + CS each</span></td></tr>
         <tr class="fragment" data-fragment-index="1"><td>Devices</td><td>two, one at each end</td><td><span class="fragment" data-fragment-index="2">many, each at an address</span></td><td><span class="fragment" data-fragment-index="3">many, one CS pin each</span></td></tr>
-        <tr class="fragment" data-fragment-index="4"><td>Speed</td><td>9,600 - 115,200 baud (1M+)</td><td>100 or 400 kHz</td><td>1–10+ MHz</td></tr>
+        <tr class="fragment" data-fragment-index="4"><td>Speed</td><td>9,600 - 115,200 baud (1M+)</td><td>100 Khz or 400 kHz</td><td>1–10+ MHz</td></tr>
         <tr class="fragment" data-fragment-index="5"><td>Extra parts</td><td>none</td><td>pull-up resistors</td><td>often pull-ups on Chip Select</td></tr>
         <tr class="fragment" data-fragment-index="6"><td>Classic mistake</td><td>wrong baud configured, reads garbage</td><td>two chips with the same address clash</td><td>wrong SPI mode: reads data incorrectly, no errors shown</td></tr>
       </tbody>

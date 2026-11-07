@@ -414,7 +414,12 @@
 /* Like fade-in-then-semi-out, but an item stays bright until the next item shows,
    not just for its own click. */
 .reveal .fade-past > .fragment.visible:has(~ .fragment.visible) {
-  opacity: 0.5;
+  opacity: var(--pcb-past-opacity);
+}
+
+/* reveal's own fade, at the same strength. */
+.reveal .fragment.fade-in-then-semi-out.visible:not(.current-fragment) {
+  opacity: var(--pcb-past-opacity);
 }
 
 /* A ✕ line, then its fix on the next click: the fix is hidden until its step,
@@ -878,15 +883,6 @@
   transform: scaleX(-1);
 }
 
-/* Ends up-left of the QR footprint and its escapes, aimed at the code. */
-.reveal .corner-arrow--qr {
-  left: 732px;
-  top: 441px;
-  bottom: auto;
-  width: 360px;
-  height: 108px;
-}
-
 .reveal .corner-arrow .via {
   fill: var(--pcb-board-deep);
   stroke-width: 3;
@@ -910,15 +906,6 @@
 /* An arrow built on arrival (svg.build): the head draws in one beat, as above. */
 .reveal .slides section.present .corner-arrow.build .head {
   animation-duration: var(--pcb-speed);
-}
-
-/* The QR arrow draws in half the time: it points the way, the slide shouldn't wait for it. */
-.reveal .corner-arrow--qr .draw path {
-  transition-duration: calc(var(--pcb-speed) * 1.5);
-}
-
-.reveal .corner-arrow--qr .draw.visible .head {
-  transition-delay: calc(var(--pcb-speed) * 1.5);
 }
 
 /* ---------- Fragments ---------- */

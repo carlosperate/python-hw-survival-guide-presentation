@@ -36,7 +36,7 @@ for (const [name, layers] of Object.entries(themes)) {
 }
 
 // T cycles in this order, the first is the default; others follow alphabetically.
-const PREFERRED = ['hybrid', 'hybrid-matte', 'schematic', 'classic', 'refined'];
+const PREFERRED = ['hybrid-matte', 'hybrid', 'schematic', 'classic', 'refined'];
 
 const complete = (name) => themes[name]?.frame && themes[name]?.cover;
 

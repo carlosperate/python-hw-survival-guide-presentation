@@ -1,7 +1,7 @@
 /*
-  The board chrome: everything drawn behind the slides. `.board` is positioned
-  and scaled onto reveal's slide rectangle by chrome.js, so px inside it are
-  deck px and line up with slide content.
+  The board chrome: everything drawn behind the slides. `.board` sits on
+  reveal's slide rectangle, so px inside it are deck px and line up with slide
+  content.
 */
 
 :root {
@@ -13,20 +13,21 @@
   box-sizing: border-box;
 }
 
+/* Centred in the viewport as reveal centres .slides, at the scale reveal sets on every layout. */
 .board {
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 1280px;
   height: 720px;
+  transform: scale(var(--slide-scale)) translate(-50%, -50%);
   transform-origin: 0 0;
   pointer-events: none;
   z-index: 0;
   /* Set, not inherited: print mounts the board inside the slides. */
   text-align: start;
   letter-spacing: normal;
-  /* Stays hidden until chrome.js has measured the slide rect, so it never
-     flashes in the wrong place on first paint. */
+  /* Hidden until reveal's first layout has set --slide-scale. */
   opacity: 0;
   transition: opacity 180ms linear;
 }
@@ -199,8 +200,20 @@
   right: 78px;
   bottom: 61px;
   width: 72px;
-  transition: width 260ms var(--pcb-ease), right 260ms var(--pcb-ease),
-    bottom 260ms var(--pcb-ease);
+  /* Its box, not a transform: it rests crisp at every size, so it scans. */
+  transition: width calc(var(--pcb-speed) * 2) var(--pcb-ease),
+    right calc(var(--pcb-speed) * 2) var(--pcb-ease),
+    bottom calc(var(--pcb-speed) * 2) var(--pcb-ease);
+}
+
+/* Keyed off reveal's .visible: while a fragment with data-board-qr="large" shows,
+   on the present slide or its PDF page, the QR leaves its chip for this spot
+   beside the "Scan the QR" lede, clear of the escapes at x 1001. */
+:root:not(.reveal-print) .reveal-viewport:has(.slides section.present:not(.stack) [data-board-qr="large"].visible) .board__qr,
+.pdf-page:has([data-board-qr="large"].visible) .board__qr {
+  right: 300px;
+  bottom: 90px;
+  width: 190px;
 }
 
 .board__qr img {
@@ -345,6 +358,8 @@
 
 /* Export: chrome.js puts a board in each page, where the page puts its slide. */
 .reveal-print .board {
-  position: absolute;
+  top: 0;
+  left: 0;
   opacity: 1;
+  transform: none;
 }
