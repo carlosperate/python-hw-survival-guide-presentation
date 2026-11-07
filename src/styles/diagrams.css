@@ -1153,7 +1153,7 @@
 
 /* ---------- The rest of the owl slide ---------- */
 
-/* The intro's meme, large and centred, the owl built from parts over it. */
+/* The intro's meme, large and centred, the real owl's video over it. */
 .reveal .owl-rest {
   width: 620px;
   margin: 0 auto;
@@ -1165,38 +1165,67 @@
   height: 449px;
 }
 
-/* Click 1 shrinks the meme to end above the recap: 175 + 0.55 × 449 ≈ 422. It stays small on
-   click 2, while the covered block is hidden but still .visible. The transition is here only, so
-   going back snaps. */
+/* Paper over the owl board, and the video where the board was, clear of the "2.": 207 × 368 at
+   x 290, y 8 of the meme's 530 × 384. It is a photo lying on the paper, so it casts the photo shadow. */
+.reveal .owl-rest__real {
+  position: relative;
+  width: 620px;
+  height: 449px;
+}
+
+.reveal .owl-rest__real video {
+  position: absolute;
+  left: 54.72%;
+  top: 2.08%;
+  width: 39.06%;
+  height: 95.83%;
+  object-fit: cover;
+  border-radius: 4px;
+  filter: drop-shadow(0 6px 8px color-mix(in srgb, var(--pcb-board-deep) 45%, transparent));
+}
+
+/* The credit beside the full-size meme's top-right corner, clear of the QR below it. */
+.reveal .owl-rest__credit {
+  position: absolute;
+  top: 186px;
+  left: 968px;
+  width: 228px;
+  margin: 0;
+  text-align: left;
+}
+
+/* Click 1 shrinks the meme to end above the recap: 175 + 0.62 × 449 ≈ 453. Click 2 takes it back
+   to full size for the video; that rule comes later, so it wins while both match. */
 .reveal .slides section:has(.owl-recap__covered.visible) > .owl-rest {
-  transform: scale(0.55);
+  transform: scale(0.62);
   transition: transform calc(var(--pcb-speed) * 2) var(--pcb-ease);
 }
 
-/* Under the shrunk meme, centred: what the talk covered. */
-.reveal .owl-recap {
-  position: absolute;
-  top: 432px;
-  left: 0;
-  right: 0;
-  display: grid;
-  text-align: center;
+.reveal .slides section:has(.owl-rest__real.visible) > .owl-rest {
+  transform: none;
 }
 
-.reveal .owl-recap > * {
-  grid-area: 1 / 1;
-  align-self: center;
+/* Under the shrunk meme: what the talk covered, as one block 48px left of centre, so its lead-in
+   starts where the list does. */
+.reveal .owl-recap {
+  position: absolute;
+  top: 463px;
+  left: 0;
+  right: 96px;
+  display: grid;
+  justify-items: center;
 }
 
 .reveal .owl-recap p {
-  max-width: 30em;
-  margin: 0 auto 8px;
+  margin: 0 0 8px;
 }
 
-/* The owl slide's topic list, placed in the recap instead of on the slide, its items still left-aligned. */
+/* The owl slide's topic list, placed in the recap instead of on the slide: three columns of two,
+   read top to bottom like the intro's, so the short "AI" column ends well clear of the QR. */
 .reveal .owl-recap .owl-topics {
   position: static;
-  text-align: left;
+  grid-template-rows: repeat(2, auto);
+  gap: 6px 64px;
 }
 
 .reveal .slides section .owl-recap__covered.fragment.visible {

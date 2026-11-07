@@ -3,22 +3,28 @@
   <span class="trace-rule"></span>
 </section>
 
-<!-- THE REST OF THE OWL: the intro's meme, built from parts -->
+<!-- THE REST OF THE OWL: the intro's meme, and a real owl -->
 <section>
   <header class="slide-head">
     <h2>The rest of the owl</h2>
   </header>
 
   <!-- The intro's owl, large: the meme's drawing builds into the owl board on arrival. Click 1: it shrinks
-       up as an owl built from parts takes the board's place, and the intro's topics come back under it. -->
+       up and the intro's topics come back under it. Click 2: they go, paper covers the board and a video
+       of a real cardboard owl plays in its place. -->
   <div class="r-stack owl-rest">
     <!-- @include slides/art/owl-meme.svg -->
-    <div class="fragment" data-fragment-index="0">
-      <!-- @include slides/art/maker-owl.svg -->
+    <div class="owl-rest__real fragment" data-fragment-index="1">
+      <svg class="diagram" viewBox="0 0 530 384" width="530" height="384" aria-hidden="true">
+        <path class="om-paper" d="M282 0 H530 V384 H236 V192 H282 Z" />
+      </svg>
+      <video data-src="/images/other/owlio.mp4" poster="/images/other/owlio-poster.webp" data-autoplay muted playsinline preload="auto" aria-label="A mechatronic owl made of cardboard. His eyes glow blue as he scans the room, then he looks to camera, his eyes pulse red, and he waggles his wings in excitement."></video>
     </div>
   </div>
 
-  <!-- Click 1: what the talk covered. Click 2: it fades out, leaving the owl. -->
+  <p class="caption owl-rest__credit fragment" data-fragment-index="1"><a href="https://bsky.app/profile/jjsanderson.bsky.social/post/3mznwqwzx6k2u" target="_blank" rel="noopener">Owlio</a>, by Jonathan Sanderson, Northumbria University, and Tanwen Sanderson, age 7</p>
+
+  <!-- Click 1: what the talk covered. Click 2: it fades out as the video comes in. -->
   <div class="owl-recap">
     <div class="fragment fade-out" data-fragment-index="1">
       <div class="owl-recap__covered fragment" data-fragment-index="0">
