@@ -3,8 +3,9 @@ from pathlib import Path
 
 ART = Path(__file__).resolve().parents[2] / 'slides' / 'art'
 W, H, GAP, ROW = 96, 54, 40, 82
-LABEL_W = 200  # 'Extra details ↓' as rendered
-INSET = 40  # labels start this far in from the content edge
+LABEL_W = 267  # 'Extra details ↓' as rendered at 24px
+INSET = 0  # labels start this far in from the content edge
+LABEL_LINE = 30  # between the detail labels' baselines
 X0 = INSET + LABEL_W + 20
 XS = [X0 + k * (W + GAP) for k in range(6)]
 STACKS = {1: ['links', 'sources'], 3: ['code'], 4: ['sources', 'links']}
@@ -75,7 +76,7 @@ def build():
                    f'<rect class="map-current b-flash" style="--d:{d}" x="{x}" y="0" width="{W}" height="{H}" rx="4"/></g>')
         if k < len(XS) - 1:
             out.append(f'<path class="map-link b-draw" pathLength="1" style="--d:{d + 2}" d="M{x + W} {n(mid)} H{x + W + GAP}"/>')
-    out.append(f'<text class="map-label b-fade" style="--d:0" x="{n(X0 - 20)}" y="{n(mid + 6)}" text-anchor="end">The talk →</text>')
+    out.append(f'<text class="map-label b-fade" style="--d:0" x="{n(X0 - 20)}" y="{n(mid + 8)}" text-anchor="end">The talk →</text>')
 
     # The details: one click shows them all.
     det, links, vias = [], [], []
@@ -91,7 +92,7 @@ def build():
     out.append(f'  <path class="map-via" d="{" ".join(vias)}"/>')
     out += ['  ' + d for d in det]
     for i, word in enumerate(('Extra details ↓', 'resources&nbsp;&nbsp;', 'links&nbsp;&nbsp;')):
-        out.append(f'  <text class="map-label map-label--detail" x="{n(X0 - 20)}" y="{n(ROW + mid + 24 * i)}" text-anchor="end">{word}</text>')
+        out.append(f'  <text class="map-label map-label--detail" x="{n(X0 - 20)}" y="{n(ROW + mid + LABEL_LINE * i)}" text-anchor="end">{word}</text>')
     out.append('</g>')
     return out
 

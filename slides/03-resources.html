@@ -204,7 +204,7 @@ GC: total: 64000, used: 9824, <b class="net">free: 54176</b>
 <!-- HABITS -->
 <!-- ------ -->
 <section>
-  <section>
+  <section class="tweaks-memory">
     <header class="slide-head">
       <h2>Small tweaks to common habits</h2>
     </header>
@@ -319,45 +319,45 @@ import bme280    # a 10 KB .py driver
       <svg class="diagram" viewBox="0 0 1110 360" width="1110" height="360" role="img">
         <title>RAM used while importing bme280: as .py it climbs to 28 KB while parsing and compiling, then drops to 6.5 KB, and with only 20 KB free it fails on the way up. As .mpy it never climbs past 6.7 KB; from ROMFS it holds 4.1 KB and frozen 1.2 KB.</title>
         <line class="axis" x1="90" y1="10" x2="90" y2="320"/>
-        <line class="axis" x1="90" y1="320" x2="900" y2="320"/>
-        <text class="axis-label" x="78" y="327" text-anchor="end">0</text>
-        <text class="axis-label" x="78" y="227" text-anchor="end">10 KB</text>
-        <text class="axis-label" x="78" y="127" text-anchor="end">20 KB</text>
-        <text class="axis-label" x="78" y="27" text-anchor="end">30 KB</text>
-        <text class="axis-label" x="900" y="352" text-anchor="end">time →</text>
+        <line class="axis" x1="90" y1="320" x2="880" y2="320"/>
+        <text class="axis-label" x="78" y="328" text-anchor="end">0</text>
+        <text class="axis-label" x="78" y="228" text-anchor="end">10 KB</text>
+        <text class="axis-label" x="78" y="128" text-anchor="end">20 KB</text>
+        <text class="axis-label" x="78" y="28" text-anchor="end">30 KB</text>
+        <text class="axis-label" x="880" y="354" text-anchor="end">time →</text>
         <g class="draw fragment" data-fragment-index="0">
           <path class="lane lane--data" pathLength="1" d="M90 320 H140 L620 140"/>
           <text class="axis-label" x="395" y="205" text-anchor="end">parse</text>
         </g>
         <g class="draw fragment" data-fragment-index="1">
           <path class="lane lane--data" pathLength="1" d="M620 140 L780 36"/>
-          <text class="axis-label" x="685" y="80" text-anchor="end">compile</text>
+          <text class="axis-label" x="702" y="78" text-anchor="end">compile</text>
         </g>
         <g class="draw fragment" data-fragment-index="2">
-          <path class="lane lane--data" pathLength="1" d="M780 36 L792 255 H900"/>
+          <path class="lane lane--data" pathLength="1" d="M780 36 L792 255 H880"/>
           <text class="axis-label" x="800" y="42">peak 28 KB</text>
-          <text class="axis-label" x="912" y="262">stays 6.5 KB</text>
+          <text class="axis-label" x="892" y="259">stays 6.5 KB</text>
         </g>
         <g class="fragment" data-fragment-index="3">
-          <path class="threshold" d="M90 120 H900"/>
-          <text class="axis-label axis-label--alert" x="912" y="127">only 20 KB free</text>
+          <path class="threshold" d="M90 120 H880"/>
+          <text class="axis-label axis-label--alert" x="892" y="128">only 20 KB free</text>
           <text class="cross" x="651" y="129">✕</text>
           <text class="console" x="640" y="105" text-anchor="end">MemoryError</text>
         </g>
         <g class="draw fragment" data-fragment-index="4">
-          <path class="lane lane--clk" pathLength="1" d="M90 320 H140 L158 253 H900"/>
+          <path class="lane lane--clk" pathLength="1" d="M90 320 H140 L158 253 H880"/>
           <text class="legend legend--clk" x="168" y="243">.mpy</text>
         </g>
         <g class="draw fragment" data-fragment-index="5">
-          <path class="lane lane--frame" pathLength="1" d="M90 320 H140 L154 279 H900"/>
-          <path class="lane lane--frame" pathLength="1" d="M90 320 H140 L150 308 H900"/>
-          <text class="axis-label" x="912" y="286">ROMFS 4.1 KB</text>
-          <text class="axis-label" x="912" y="315">frozen 1.2 KB</text>
+          <path class="lane lane--frame" pathLength="1" d="M90 320 H140 L154 279 H880"/>
+          <path class="lane lane--frame" pathLength="1" d="M90 320 H140 L150 308 H880"/>
+          <text class="axis-label" x="892" y="288">ROMFS 4.1 KB</text>
+          <text class="axis-label" x="892" y="317">frozen 1.2 KB</text>
         </g>
       </svg>
     </div>
 
-    <div class="r-stack swap readouts">
+    <div class="r-stack swap readouts qr-clear">
       <p class="readout fragment current-visible" data-fragment-index="0">Parse: the whole file becomes a tree of nodes, in RAM.</p>
       <p class="readout fragment current-visible" data-fragment-index="1">Compile: the tree becomes bytecode, while the tree is still there.</p>
       <p class="readout fragment current-visible" data-fragment-index="2">Then the tree is freed. The bytecode stays.</p>
@@ -417,7 +417,7 @@ import bme280    # a 10 KB .py driver
 <!-- FRAGMENTATION -->
 <!-- ------------- -->
 <section>
-  <section class="is-body-centered" data-ble-badge="fragmentation">
+  <section class="is-body-centered fragmentation" data-ble-badge="fragmentation">
     <header class="slide-head">
       <h2>Memory fragmentation</h2>
     </header>

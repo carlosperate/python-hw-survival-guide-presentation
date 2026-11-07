@@ -790,6 +790,22 @@
   padding-bottom: 0.14em;
 }
 
+/* Memory fragmentation: the grey lines under the heap strip, above label size. */
+.reveal .fragmentation .readouts .readout {
+  font-size: 24px;
+}
+
+/* Small tweaks to common habits: four rows and one snippet, so both can be larger.
+   The longest line, 59 characters, fills the box at 25px with narrower side padding. */
+.reveal .tweaks-memory {
+  --pcb-code-size: 25px;
+  --pcb-code-pad: 22px 18px;
+}
+
+.reveal .tweaks-memory table.habits {
+  font-size: 28px;
+}
+
 /* Every tip of a part in one table: rows end above the QR's top vias. */
 .reveal table.habits--all {
   font-size: 23px;
@@ -1295,13 +1311,17 @@
 /* ---------- The import slide ---------- */
 
 /* The line being imported sits in the chart's empty top-left, so the curve reads as that line's trace. */
+/* Narrower sides keep the import box clear of "compile" at 20px. */
 .reveal .import-chart {
+  --pcb-code-size-compact: 20px;
+  --pcb-code-pad-compact: 18px 16px;
   position: relative;
 }
 
-/* Read from the back of the hall: the chart's labels at the deck's label size. */
-.reveal .import-chart svg :is(.axis-label, .legend, .console) {
-  font-size: var(--pcb-text-label);
+/* Read from the back of the hall: the chart's labels and the line under it, above label size. */
+.reveal .import-chart svg :is(.axis-label, .legend, .console),
+.reveal .import-chart ~ .readouts .readout {
+  font-size: 24px;
 }
 
 .reveal .slides .import-chart > pre {
