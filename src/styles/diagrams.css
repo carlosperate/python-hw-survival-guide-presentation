@@ -672,6 +672,17 @@
   font-size: 24px;
 }
 
+/* The bus names and row names are what the eye looks up first. */
+.reveal table.buses th,
+.reveal table.buses td:first-child {
+  font-weight: 700;
+  color: var(--pcb-gold);
+}
+
+.reveal table.buses th {
+  font-size: 24px;
+}
+
 .reveal table.buses th:first-child {
   width: var(--bus-label);
 }
@@ -826,8 +837,7 @@
   width: 920px;
 }
 
-.reveal table.matrix td:first-child,
-.reveal table.buses td:first-child {
+.reveal table.matrix td:first-child {
   color: var(--pcb-silk-dim);
 }
 
@@ -1326,7 +1336,7 @@
 
 .reveal .slides .import-chart > pre {
   position: absolute;
-  left: 104px;
+  left: 139px;
   top: 4px;
   width: auto;
   margin: 0;

@@ -313,44 +313,45 @@ except MemoryError as e:
 
     <div class="import-chart">
       <pre class="compact"><code class="language-python" data-trim>
-import bme280    # a 10 KB .py driver
+import bme280  # a 10 KB .py driver
       </code></pre>
 
       <svg class="diagram" viewBox="0 0 1110 360" width="1110" height="360" role="img">
         <title>RAM used while importing bme280: as .py it climbs to 28 KB while parsing and compiling, then drops to 6.5 KB, and with only 20 KB free it fails on the way up. As .mpy it never climbs past 6.7 KB; from ROMFS it holds 4.1 KB and frozen 1.2 KB.</title>
-        <line class="axis" x1="90" y1="10" x2="90" y2="320"/>
-        <line class="axis" x1="90" y1="320" x2="880" y2="320"/>
-        <text class="axis-label" x="78" y="328" text-anchor="end">0</text>
-        <text class="axis-label" x="78" y="228" text-anchor="end">10 KB</text>
-        <text class="axis-label" x="78" y="128" text-anchor="end">20 KB</text>
-        <text class="axis-label" x="78" y="28" text-anchor="end">30 KB</text>
+        <line class="axis" x1="125" y1="10" x2="125" y2="320"/>
+        <line class="axis" x1="125" y1="320" x2="880" y2="320"/>
+        <text class="axis-label" x="25" y="165" text-anchor="middle" transform="rotate(-90 25 165)">RAM used →</text>
+        <text class="axis-label" x="113" y="328" text-anchor="end">0</text>
+        <text class="axis-label" x="113" y="228" text-anchor="end">10 KB</text>
+        <text class="axis-label" x="113" y="128" text-anchor="end">20 KB</text>
+        <text class="axis-label" x="113" y="28" text-anchor="end">30 KB</text>
         <text class="axis-label" x="880" y="354" text-anchor="end">time →</text>
         <g class="draw fragment" data-fragment-index="0">
-          <path class="lane lane--data" pathLength="1" d="M90 320 H140 L620 140"/>
-          <text class="axis-label" x="395" y="205" text-anchor="end">parse</text>
+          <path class="lane lane--data" pathLength="1" d="M125 320 H173 L632 140"/>
+          <text class="axis-label" x="416" y="205" text-anchor="end">parse</text>
         </g>
         <g class="draw fragment" data-fragment-index="1">
-          <path class="lane lane--data" pathLength="1" d="M620 140 L780 36"/>
-          <text class="axis-label" x="702" y="78" text-anchor="end">compile</text>
+          <path class="lane lane--data" pathLength="1" d="M632 140 L784 36"/>
+          <text class="axis-label" x="710" y="78" text-anchor="end">compile</text>
         </g>
         <g class="draw fragment" data-fragment-index="2">
-          <path class="lane lane--data" pathLength="1" d="M780 36 L792 255 H880"/>
-          <text class="axis-label" x="800" y="42">peak 28 KB</text>
+          <path class="lane lane--data" pathLength="1" d="M784 36 L796 255 H880"/>
+          <text class="axis-label" x="804" y="42">peak 28 KB</text>
           <text class="axis-label" x="892" y="259">stays 6.5 KB</text>
         </g>
         <g class="fragment" data-fragment-index="3">
-          <path class="threshold" d="M90 120 H880"/>
+          <path class="threshold" d="M125 120 H880"/>
           <text class="axis-label axis-label--alert" x="892" y="128">only 20 KB free</text>
-          <text class="cross" x="651" y="129">✕</text>
-          <text class="console" x="640" y="105" text-anchor="end">MemoryError</text>
+          <text class="cross" x="661" y="129">✕</text>
+          <text class="console" x="651" y="105" text-anchor="end">MemoryError</text>
         </g>
         <g class="draw fragment" data-fragment-index="4">
-          <path class="lane lane--clk" pathLength="1" d="M90 320 H140 L158 253 H880"/>
-          <text class="legend legend--clk" x="168" y="243">.mpy</text>
+          <path class="lane lane--clk" pathLength="1" d="M125 320 H173 L190 253 H880"/>
+          <text class="legend legend--clk" x="200" y="243">.mpy</text>
         </g>
         <g class="draw fragment" data-fragment-index="5">
-          <path class="lane lane--frame" pathLength="1" d="M90 320 H140 L154 279 H880"/>
-          <path class="lane lane--frame" pathLength="1" d="M90 320 H140 L150 308 H880"/>
+          <path class="lane lane--frame" pathLength="1" d="M125 320 H173 L186 279 H880"/>
+          <path class="lane lane--frame" pathLength="1" d="M125 320 H173 L182 308 H880"/>
           <text class="axis-label" x="892" y="288">ROMFS 4.1 KB</text>
           <text class="axis-label" x="892" y="317">frozen 1.2 KB</text>
         </g>

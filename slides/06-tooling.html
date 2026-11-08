@@ -50,6 +50,156 @@
     <aside class="notes">
     </aside>
   </section>
+
+  <!-- DEBUG PROBE: a second way into the board -->
+  <section>
+    <header class="slide-head">
+      <h2>Debug probe</h2>
+    </header>
+
+    <div class="tool">
+      <img class="part-shot" src="/images/tools/debug-probe.webp" style="--h: 140px" alt="The Raspberry Pi Debug Probe board" />
+      <div>
+        <ul>
+          <li><b>Gives you</b> a serial console on the board's UART pins, and SWD: the chip's own debug port.</li>
+          <li><b>Use it for:</b> flashing or rescuing a board without its boot button, and logs when USB is busy.</li>
+        </ul>
+        <div class="panel" data-label="About €12">
+          <p><b>Raspberry Pi Debug Probe:</b> cables and a case included. For the Pico and other Arm boards at 3.3 V.</p>
+        </div>
+      </div>
+    </div>
+
+    <aside class="notes">
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>The probe and your Python</h2>
+    </header>
+
+    <div class="cols cols--wide-left">
+      <ul>
+        <li><b>A console:</b> bridges UART from the board to a different USB port. MicroPython can copy its REPL there.</li>
+        <li><b>Flashing:</b> SWD writes new firmware with no button to press.</li>
+        <li><b>Debugging</b> means the C firmware running the Python code, not your <code>.py</code>.</li>
+      </ul>
+      <div class="panel learn" data-label="Learn more">
+        <ul>
+          <li><a href="https://www.raspberrypi.com/documentation/microcontrollers/debug-probe.html" target="_blank" rel="noopener">Raspberry Pi: Debug Probe documentation</a><span>Docs: wiring, flashing, console</span></li>
+          <li><a href="https://docs.micropython.org/en/latest/rp2/quickref.html#uart-serial-bus" target="_blank" rel="noopener">MicroPython rp2 quick reference: UART</a><span>Docs: the REPL on a UART</span></li>
+          <li><a href="https://www.youtube.com/watch?v=tDDkz3Xdhuo" target="_blank" rel="noopener">Kevin McAleer: the Raspberry Pi Debug Probe</a><span>Video, 5 min</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <aside class="notes">
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>You may already have a probe</h2>
+    </header>
+
+    <div class="cols cols--wide-left">
+      <ul>
+        <li><b>A spare Pico:</b> flash Raspberry Pi's debugprobe firmware and it works as a Debug Probe, for about €4.</li>
+        <li><b>ESP32-S3, C3 or C6:</b> USB-JTAG is built into the chip. One USB cable, then OpenOCD.</li>
+        <li><b>BBC micro:bit:</b> its second chip is a probe and a serial port, called DAPLink.</li>
+      </ul>
+      <div class="panel learn" data-label="Learn more">
+        <ul>
+          <li><a href="https://github.com/raspberrypi/debugprobe" target="_blank" rel="noopener">raspberrypi/debugprobe</a><span>GitHub: firmware for a Pico or Pico 2</span></li>
+          <li><a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/api-guides/jtag-debugging/configure-builtin-jtag.html" target="_blank" rel="noopener">Espressif: built-in JTAG</a><span>Docs: the ESP32-S3 page</span></li>
+          <li><a href="https://tech.microbit.org/software/daplink-interface/" target="_blank" rel="noopener">micro:bit: the DAPLink interface</a><span>Docs</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <aside class="notes">
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>Other low-cost probes</h2>
+    </header>
+
+    <table class="probes">
+      <thead>
+        <tr><th>Probe</th><th>About</th><th>For</th><th>Worth knowing</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><a href="https://black-magic.org/" target="_blank" rel="noopener">Black Magic Probe</a></td><td>€66</td><td>Arm chips</td><td>GDB server built in: no OpenOCD</td></tr>
+        <tr><td><a href="https://docs.espressif.com/projects/esp-dev-kits/en/latest/other/esp-prog/user_guide.html" target="_blank" rel="noopener">ESP-Prog</a></td><td>€17</td><td>Original ESP32</td><td>Espressif's own: JTAG, flashing and serial</td></tr>
+        <tr><td><a href="https://www.segger.com/products/debug-probes/j-link/models/j-link-edu-mini/" target="_blank" rel="noopener">J&#8209;Link EDU Mini</a></td><td>$76</td><td>Most Arm chips</td><td>Education version of SEGGER's professional J&#8209;Link: non-commercial only</td></tr>
+        <tr><td><a href="https://docs.px4.io/main/en/debug/probe_mculink.html" target="_blank" rel="noopener">NXP MCU-Link</a></td><td>€17</td><td>Arm chips</td><td>CMSIS-DAP, as DAPLink probes speak</td></tr>
+        <tr><td><a href="https://github.com/electroniccats/dap-cat-programmer" target="_blank" rel="noopener">DAP Cat</a></td><td>$5</td><td>Arm chips</td><td>Open source CMSIS-DAP, with serial</td></tr>
+      </tbody>
+    </table>
+
+    <p class="readout qr-clear">Not every probe can debug a Pico's chip: check it supports the RP2040 or RP2350.</p>
+
+    <aside class="notes">
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>A probe needs OpenOCD or pyOCD</h2>
+    </header>
+
+    <div class="chain">
+      <div class="panel chain__node" data-label="You">VS Code</div>
+      <div class="chain__link" data-net="GDB"></div>
+      <div class="panel chain__node" data-label="Laptop">OpenOCD or pyOCD</div>
+      <div class="chain__link" data-net="USB"></div>
+      <div class="panel chain__node" data-label="Probe">CMSIS-DAP</div>
+      <div class="chain__link" data-net="SWD"></div>
+      <div class="panel chain__node" data-label="Board">Microcontroller</div>
+    </div>
+
+    <ul class="list--wide">
+      <li><b>The probe only moves bits</b> between USB and the chip's debug port.</li>
+      <li><b>The tool knows your chip:</b> its memory, its cores, and a small program it loads into RAM to write the flash.</li>
+      <li><b>It serves GDB and VS Code:</b> breakpoints, single steps, registers.</li>
+    </ul>
+
+    <p class="readout qr-clear">The exception: a Black Magic Probe runs the GDB server on the probe itself.</p>
+
+    <aside class="notes">
+    </aside>
+  </section>
+
+  <section>
+    <header class="slide-head">
+      <h2>USB-UART adapters: about €5</h2>
+    </header>
+
+    <div class="cols cols--wide-left">
+      <div>
+        <img class="part-shot" src="/images/tools/usb-uart.webp" style="--h: 92px" alt="A red USB to serial adapter stick" />
+        <ul>
+          <li><b>Set it to 3.3 V:</b> 5 V can damage a 3.3 V board.</li>
+          <li><b>Cross the wires:</b> TX to RX, RX to TX, and GND to GND.</li>
+          <li><b>Often built in:</b> most ESP32 boards and the micro:bit have one. Some, like the ESP32-CAM, don't.</li>
+        </ul>
+      </div>
+      <div class="panel learn" data-label="Learn more">
+        <ul>
+          <li><a href="https://learn.sparkfun.com/tutorials/serial-communication/all" target="_blank" rel="noopener">SparkFun: Serial Communication</a><span>Docs: see "Common Pitfalls"</span></li>
+          <li><a href="https://learn.sparkfun.com/tutorials/logic-levels/all" target="_blank" rel="noopener">SparkFun: Logic Levels</a><span>Docs: why 3.3 V</span></li>
+          <li><a href="https://www.youtube.com/watch?v=sTHckUyxwp8" target="_blank" rel="noopener">Rohde & Schwarz: Understanding UART</a><span>Video, 6 min</span></li>
+          <li><a href="https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers/all" target="_blank" rel="noopener">SparkFun: installing CH340 drivers</a><span>Written</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <aside class="notes">
+    </aside>
+  </section>
 </section>
 
 <!-- MULTIMETER: the first tool to buy -->
@@ -178,158 +328,6 @@
             <li><a href="https://github.com/IRNAS/ppk2-api-python" target="_blank" rel="noopener">IRNAS/ppk2-api-python</a><span>GitHub: read it from Python, unofficial</span></li>
           </ul>
         </div>
-      </div>
-    </div>
-
-    <aside class="notes">
-    </aside>
-  </section>
-</section>
-
-<!-- DEBUG PROBE: a second way into the board -->
-<section>
-  <section>
-    <header class="slide-head">
-      <h2>Debug probe</h2>
-    </header>
-
-    <div class="tool">
-      <img class="part-shot" src="/images/tools/debug-probe.webp" style="--h: 140px" alt="The Raspberry Pi Debug Probe board" />
-      <div>
-        <ul>
-          <li><b>Gives you</b> a serial console on the board's UART pins, and SWD: the chip's own debug port.</li>
-          <li><b>Use it for:</b> flashing or rescuing a board without its boot button, and logs when USB is busy.</li>
-        </ul>
-        <div class="panel" data-label="About €12">
-          <p><b>Raspberry Pi Debug Probe:</b> cables and a case included. For the Pico and other Arm boards at 3.3 V.</p>
-        </div>
-      </div>
-    </div>
-
-    <aside class="notes">
-    </aside>
-  </section>
-
-  <section>
-    <header class="slide-head">
-      <h2>The probe and your Python</h2>
-    </header>
-
-    <div class="cols cols--wide-left">
-      <ul>
-        <li><b>A console:</b> its U port on GP0 and GP1, TX to RX, GND first. MicroPython can copy its REPL there.</li>
-        <li><b>Flashing:</b> SWD writes new firmware with no button to press.</li>
-        <li><b>Debugging</b> means the C firmware, not your <code>.py</code>. Python debuggers are only now arriving.</li>
-      </ul>
-      <div class="panel learn" data-label="Learn more">
-        <ul>
-          <li><a href="https://www.raspberrypi.com/documentation/microcontrollers/debug-probe.html" target="_blank" rel="noopener">Raspberry Pi: Debug Probe documentation</a><span>Docs: wiring, flashing, console</span></li>
-          <li><a href="https://docs.micropython.org/en/latest/rp2/quickref.html#uart-serial-bus" target="_blank" rel="noopener">MicroPython rp2 quick reference: UART</a><span>Docs: the REPL on a UART</span></li>
-          <li><a href="https://www.youtube.com/watch?v=tDDkz3Xdhuo" target="_blank" rel="noopener">Kevin McAleer: the Raspberry Pi Debug Probe</a><span>Video, 5 min</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <aside class="notes">
-    </aside>
-  </section>
-
-  <section>
-    <header class="slide-head">
-      <h2>You may already have a probe</h2>
-    </header>
-
-    <div class="cols cols--wide-left">
-      <ul>
-        <li><b>A spare Pico:</b> flash Raspberry Pi's debugprobe firmware and it works as a Debug Probe, for about €4.</li>
-        <li><b>ESP32-S3, C3 or C6:</b> USB-JTAG is built into the chip. One USB cable, then OpenOCD.</li>
-        <li><b>BBC micro:bit:</b> its second chip is a probe and a serial port, called DAPLink.</li>
-      </ul>
-      <div class="panel learn" data-label="Learn more">
-        <ul>
-          <li><a href="https://github.com/raspberrypi/debugprobe" target="_blank" rel="noopener">raspberrypi/debugprobe</a><span>GitHub: firmware for a Pico or Pico 2</span></li>
-          <li><a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/api-guides/jtag-debugging/configure-builtin-jtag.html" target="_blank" rel="noopener">Espressif: built-in JTAG</a><span>Docs: the ESP32-S3 page</span></li>
-          <li><a href="https://tech.microbit.org/software/daplink-interface/" target="_blank" rel="noopener">micro:bit: the DAPLink interface</a><span>Docs</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <aside class="notes">
-    </aside>
-  </section>
-
-  <section>
-    <header class="slide-head">
-      <h2>Other low-cost probes</h2>
-    </header>
-
-    <table class="probes">
-      <thead>
-        <tr><th>Probe</th><th>About</th><th>For</th><th>Worth knowing</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><a href="https://black-magic.org/" target="_blank" rel="noopener">Black Magic Probe</a></td><td>€66</td><td>Arm chips</td><td>GDB server built in: no OpenOCD</td></tr>
-        <tr><td><a href="https://docs.espressif.com/projects/esp-dev-kits/en/latest/other/esp-prog/user_guide.html" target="_blank" rel="noopener">ESP-Prog</a></td><td>€17</td><td>Original ESP32</td><td>Espressif's own: JTAG, flashing and serial</td></tr>
-        <tr><td><a href="https://www.segger.com/products/debug-probes/j-link/models/j-link-edu-mini/" target="_blank" rel="noopener">J&#8209;Link EDU Mini</a></td><td>$76</td><td>Most Arm chips</td><td>Education version of SEGGER's professional J&#8209;Link: non-commercial only</td></tr>
-        <tr><td><a href="https://docs.px4.io/main/en/debug/probe_mculink.html" target="_blank" rel="noopener">NXP MCU-Link</a></td><td>€17</td><td>Arm chips</td><td>CMSIS-DAP, as DAPLink probes speak</td></tr>
-        <tr><td><a href="https://github.com/electroniccats/dap-cat-programmer" target="_blank" rel="noopener">DAP Cat</a></td><td>$5</td><td>Arm chips</td><td>Open source CMSIS-DAP, with serial</td></tr>
-      </tbody>
-    </table>
-
-    <p class="readout qr-clear">Not every probe can debug a Pico's chip: check it supports the RP2040 or RP2350.</p>
-
-    <aside class="notes">
-    </aside>
-  </section>
-
-  <section>
-    <header class="slide-head">
-      <h2>A probe needs OpenOCD or pyOCD</h2>
-    </header>
-
-    <div class="chain">
-      <div class="panel chain__node" data-label="You">VS Code</div>
-      <div class="chain__link" data-net="GDB"></div>
-      <div class="panel chain__node" data-label="Laptop">OpenOCD or pyOCD</div>
-      <div class="chain__link" data-net="USB"></div>
-      <div class="panel chain__node" data-label="Probe">CMSIS-DAP</div>
-      <div class="chain__link" data-net="SWD"></div>
-      <div class="panel chain__node" data-label="Board">Microcontroller</div>
-    </div>
-
-    <ul class="list--wide">
-      <li><b>The probe only moves bits</b> between USB and the chip's debug port.</li>
-      <li><b>The tool knows your chip:</b> its memory, its cores, and a small program it loads into RAM to write the flash.</li>
-      <li><b>It serves GDB and VS Code:</b> breakpoints, single steps, registers.</li>
-    </ul>
-
-    <p class="readout qr-clear">The exception: a Black Magic Probe runs the GDB server on the probe itself.</p>
-
-    <aside class="notes">
-    </aside>
-  </section>
-
-  <section>
-    <header class="slide-head">
-      <h2>USB-UART adapters: about €5</h2>
-    </header>
-
-    <div class="cols cols--wide-left">
-      <div>
-        <img class="part-shot" src="/images/tools/usb-uart.webp" style="--h: 92px" alt="A red USB to serial adapter stick" />
-        <ul>
-          <li><b>Set it to 3.3 V:</b> 5 V can damage a 3.3 V board.</li>
-          <li><b>Cross the wires:</b> TX to RX, RX to TX, and GND to GND.</li>
-          <li><b>Often built in:</b> most ESP32 boards and the micro:bit have one. Some, like the ESP32-CAM, don't.</li>
-        </ul>
-      </div>
-      <div class="panel learn" data-label="Learn more">
-        <ul>
-          <li><a href="https://learn.sparkfun.com/tutorials/serial-communication/all" target="_blank" rel="noopener">SparkFun: Serial Communication</a><span>Docs: see "Common Pitfalls"</span></li>
-          <li><a href="https://learn.sparkfun.com/tutorials/logic-levels/all" target="_blank" rel="noopener">SparkFun: Logic Levels</a><span>Docs: why 3.3 V</span></li>
-          <li><a href="https://www.youtube.com/watch?v=sTHckUyxwp8" target="_blank" rel="noopener">Rohde & Schwarz: Understanding UART</a><span>Video, 6 min</span></li>
-          <li><a href="https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers/all" target="_blank" rel="noopener">SparkFun: installing CH340 drivers</a><span>Written</span></li>
-        </ul>
       </div>
     </div>
 

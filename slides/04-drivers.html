@@ -336,7 +336,7 @@ bme = bme280.BME280(i2c=i2c)
         <tr class="fragment" data-fragment-index="1"><td>Devices</td><td>two, one at each end</td><td><span class="fragment" data-fragment-index="2">many, each at an address</span></td><td><span class="fragment" data-fragment-index="3">many, one CS pin each</span></td></tr>
         <tr class="fragment" data-fragment-index="4"><td>Speed</td><td>9,600 - 115,200 baud (1M+)</td><td>100 Khz or 400 kHz</td><td>1–10+ MHz</td></tr>
         <tr class="fragment" data-fragment-index="5"><td>Extra parts</td><td>none</td><td>pull-up resistors</td><td>often pull-ups on Chip Select</td></tr>
-        <tr class="fragment" data-fragment-index="6"><td>Classic mistake</td><td>wrong baud configured, reads garbage</td><td>two chips with the same address clash</td><td>wrong SPI mode: reads data incorrectly, no errors shown</td></tr>
+        <tr class="fragment" data-fragment-index="6"><td>Watch out for</td><td>wrong baud configured, reads garbage</td><td>two chips with the same address clash</td><td>wrong SPI mode: reads data incorrectly, no errors shown</td></tr>
       </tbody>
     </table>
 
@@ -437,6 +437,52 @@ bme = bme280.BME280(i2c=i2c)
     </aside>
   </section>
 
+  <!-- SPI: a click per step; segment, cursor and caption share an index -->
+  <section>
+    <header class="slide-head">
+      <h2>SPI: to read, you must write</h2>
+    </header>
+
+    <p>SPI has a clock, a wire each way and a chip-select (CS) per device. Every tick moves one bit each way.</p>
+
+    <p class="readout"><code>cs(0); spi.write_readinto(b'\xD0\x00', buf); cs(1)</code> → <b>buf[1] == 0x60</b></p>
+
+    <svg class="diagram diagram--spaced" viewBox="0 -6 820 262" width="760" height="243" role="img">
+      <title>SPI mode 0: controller sends 0xD0 then a dummy byte while the BME280 returns 0x60</title>
+  <text class="lane-label" x="0" y="23">CS</text>
+  <text class="lane-label" x="0" y="79">SCK</text>
+  <text class="lane-label lane-label--data" x="0" y="135">COPI</text>
+  <text class="lane-label lane-label--data" x="0" y="191">CIPO</text>
+  <g class="wave-base"><path class="lane lane--frame" pathLength="1" d="M62 0 H84"/><path class="lane lane--clk" pathLength="1" d="M62 90 H84"/><path class="lane lane--data" pathLength="1" d="M62 112 H84"/><path class="lane lane--data lane--in" pathLength="1" d="M62 185 H84"/></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="1" x="84" y="-4" width="40" height="244"/>
+  <g class="draw fragment" data-fragment-index="1"><path class="lane lane--frame" pathLength="1" d="M84 0 H104 V34 H124"/><path class="lane lane--clk" pathLength="1" d="M84 90 H124"/><path class="lane lane--data" pathLength="1" d="M84 112 H124"/><path class="lane lane--data lane--in" pathLength="1" d="M84 185 H124"/></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="2" x="124" y="-4" width="320" height="244"/>
+  <g class="draw fragment" data-fragment-index="2"><path class="lane lane--frame" pathLength="1" d="M124 34 H444"/><path class="lane lane--clk" pathLength="1" d="M124 90 H144 V56 H164 V90 H184 V56 H204 V90 H224 V56 H244 V90 H264 V56 H284 V90 H304 V56 H324 V90 H344 V56 H364 V90 H384 V56 H404 V90 H424 V56 H444 V90 H444"/><path class="lane lane--data" pathLength="1" d="M124 112 H204 V146 H244 V112 H284 V146 H444"/><path class="lane lane--data lane--in" pathLength="1" d="M124 185 H444 V202 H444"/><text class="bit" x="144" y="106">1</text><text class="bit" x="184" y="106">1</text><text class="bit" x="224" y="106">0</text><text class="bit" x="264" y="106">1</text><text class="bit" x="304" y="106">0</text><text class="bit" x="344" y="106">0</text><text class="bit" x="384" y="106">0</text><text class="bit" x="424" y="106">0</text><text class="hex" x="284" y="232">0xD0 · bit 7 = read</text></g>
+  <g class="fragment" data-fragment-index="2"><rect class="dontcare" x="124" y="166" width="320" height="38"/><text class="hex" x="284" y="190">don't care</text></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="3" x="444" y="-4" width="320" height="244"/>
+  <g class="draw fragment" data-fragment-index="3"><path class="lane lane--frame" pathLength="1" d="M444 34 H764"/><path class="lane lane--clk" pathLength="1" d="M444 90 H464 V56 H484 V90 H504 V56 H524 V90 H544 V56 H564 V90 H584 V56 H604 V90 H624 V56 H644 V90 H664 V56 H684 V90 H704 V56 H724 V90 H744 V56 H764 V90 H764"/><path class="lane lane--data" pathLength="1" d="M444 146 H764"/><path class="lane lane--data lane--in" pathLength="1" d="M444 202 H484 V168 H564 V202 H764"/><text class="bit" x="464" y="162">0</text><text class="bit" x="504" y="162">1</text><text class="bit" x="544" y="162">1</text><text class="bit" x="584" y="162">0</text><text class="bit" x="624" y="162">0</text><text class="bit" x="664" y="162">0</text><text class="bit" x="704" y="162">0</text><text class="bit" x="744" y="162">0</text><text class="hex" x="604" y="232">0x60 · chip id</text></g>
+  <rect class="wave-cursor fragment current-visible" data-fragment-index="4" x="764" y="-4" width="40" height="244"/>
+  <g class="draw fragment" data-fragment-index="4"><path class="lane lane--frame" pathLength="1" d="M764 34 H784 V0 H804"/><path class="lane lane--clk" pathLength="1" d="M764 90 H804"/><path class="lane lane--data" pathLength="1" d="M764 146 H774 V112 H804"/><path class="lane lane--data lane--in" pathLength="1" d="M764 202 H774 V185 H804"/></g>
+    </svg>
+
+    <div class="r-stack">
+      <p class="readout fragment fade-out" data-fragment-index="1">Idle: CS is HIGH, so the sensor ignores the bus.</p>
+      <p class="readout fragment current-visible" data-fragment-index="1"><code>cs(0)</code>: CS goes LOW and selects the BME280.</p>
+      <p class="readout fragment current-visible" data-fragment-index="2">Byte 1: the microcontroller sends 0xD0, the ID register (bit 7 = read). The reply is ignored.</p>
+      <p class="readout fragment current-visible" data-fragment-index="3">Byte 2: the microcontroller sends a dummy 0x00. Its 8 clocks shift 0x60 back on CIPO.</p>
+      <p class="readout fragment" data-fragment-index="4"><code>cs(1)</code>: done. No ACK, so no <code>scan()</code>: reading a known ID register is SPI's <code>scan()</code>.</p>
+    </div>
+
+    <p class="caption qr-clear">
+      COPI/CIPO: MOSI/MISO on many boards ·
+      <a href="https://docs.micropython.org/en/latest/library/machine.SPI.html" target="_blank" rel="noopener">machine.SPI</a> ·
+      <a href="https://www.bosch-sensortec.com/products/environmental-sensors/humidity-sensors-bme280/" target="_blank" rel="noopener">BME280 datasheet</a>
+    </p>
+
+    <aside class="notes">
+    </aside>
+  </section>
+
   <!-- I2C CHIP-ID READ: waveform segment, packet cell and side note share an index -->
   <section>
     <header class="slide-head">
@@ -520,115 +566,6 @@ bme = bme280.BME280(i2c=i2c)
     </aside>
   </section>
 
-  <!-- SPI: a click per step; segment, cursor and caption share an index -->
-  <section>
-    <header class="slide-head">
-      <h2>SPI: to read, you must write</h2>
-    </header>
-
-    <p>SPI has a clock, a wire each way and a chip-select (CS) per device. Every tick moves one bit each way.</p>
-
-    <p class="readout"><code>cs(0); spi.write_readinto(b'\xD0\x00', buf); cs(1)</code> → <b>buf[1] == 0x60</b></p>
-
-    <svg class="diagram diagram--spaced" viewBox="0 -6 820 262" width="760" height="243" role="img">
-      <title>SPI mode 0: controller sends 0xD0 then a dummy byte while the BME280 returns 0x60</title>
-  <text class="lane-label" x="0" y="23">CS</text>
-  <text class="lane-label" x="0" y="79">SCK</text>
-  <text class="lane-label lane-label--data" x="0" y="135">COPI</text>
-  <text class="lane-label lane-label--data" x="0" y="191">CIPO</text>
-  <g class="wave-base"><path class="lane lane--frame" pathLength="1" d="M62 0 H84"/><path class="lane lane--clk" pathLength="1" d="M62 90 H84"/><path class="lane lane--data" pathLength="1" d="M62 112 H84"/><path class="lane lane--data lane--in" pathLength="1" d="M62 185 H84"/></g>
-  <rect class="wave-cursor fragment current-visible" data-fragment-index="1" x="84" y="-4" width="40" height="244"/>
-  <g class="draw fragment" data-fragment-index="1"><path class="lane lane--frame" pathLength="1" d="M84 0 H104 V34 H124"/><path class="lane lane--clk" pathLength="1" d="M84 90 H124"/><path class="lane lane--data" pathLength="1" d="M84 112 H124"/><path class="lane lane--data lane--in" pathLength="1" d="M84 185 H124"/></g>
-  <rect class="wave-cursor fragment current-visible" data-fragment-index="2" x="124" y="-4" width="320" height="244"/>
-  <g class="draw fragment" data-fragment-index="2"><path class="lane lane--frame" pathLength="1" d="M124 34 H444"/><path class="lane lane--clk" pathLength="1" d="M124 90 H144 V56 H164 V90 H184 V56 H204 V90 H224 V56 H244 V90 H264 V56 H284 V90 H304 V56 H324 V90 H344 V56 H364 V90 H384 V56 H404 V90 H424 V56 H444 V90 H444"/><path class="lane lane--data" pathLength="1" d="M124 112 H204 V146 H244 V112 H284 V146 H444"/><path class="lane lane--data lane--in" pathLength="1" d="M124 185 H444 V202 H444"/><text class="bit" x="144" y="106">1</text><text class="bit" x="184" y="106">1</text><text class="bit" x="224" y="106">0</text><text class="bit" x="264" y="106">1</text><text class="bit" x="304" y="106">0</text><text class="bit" x="344" y="106">0</text><text class="bit" x="384" y="106">0</text><text class="bit" x="424" y="106">0</text><text class="hex" x="284" y="232">0xD0 · bit 7 = read</text></g>
-  <g class="fragment" data-fragment-index="2"><rect class="dontcare" x="124" y="166" width="320" height="38"/><text class="hex" x="284" y="190">don't care</text></g>
-  <rect class="wave-cursor fragment current-visible" data-fragment-index="3" x="444" y="-4" width="320" height="244"/>
-  <g class="draw fragment" data-fragment-index="3"><path class="lane lane--frame" pathLength="1" d="M444 34 H764"/><path class="lane lane--clk" pathLength="1" d="M444 90 H464 V56 H484 V90 H504 V56 H524 V90 H544 V56 H564 V90 H584 V56 H604 V90 H624 V56 H644 V90 H664 V56 H684 V90 H704 V56 H724 V90 H744 V56 H764 V90 H764"/><path class="lane lane--data" pathLength="1" d="M444 146 H764"/><path class="lane lane--data lane--in" pathLength="1" d="M444 202 H484 V168 H564 V202 H764"/><text class="bit" x="464" y="162">0</text><text class="bit" x="504" y="162">1</text><text class="bit" x="544" y="162">1</text><text class="bit" x="584" y="162">0</text><text class="bit" x="624" y="162">0</text><text class="bit" x="664" y="162">0</text><text class="bit" x="704" y="162">0</text><text class="bit" x="744" y="162">0</text><text class="hex" x="604" y="232">0x60 · chip id</text></g>
-  <rect class="wave-cursor fragment current-visible" data-fragment-index="4" x="764" y="-4" width="40" height="244"/>
-  <g class="draw fragment" data-fragment-index="4"><path class="lane lane--frame" pathLength="1" d="M764 34 H784 V0 H804"/><path class="lane lane--clk" pathLength="1" d="M764 90 H804"/><path class="lane lane--data" pathLength="1" d="M764 146 H774 V112 H804"/><path class="lane lane--data lane--in" pathLength="1" d="M764 202 H774 V185 H804"/></g>
-    </svg>
-
-    <div class="r-stack">
-      <p class="readout fragment fade-out" data-fragment-index="1">Idle: CS is HIGH, so the sensor ignores the bus.</p>
-      <p class="readout fragment current-visible" data-fragment-index="1"><code>cs(0)</code>: CS goes LOW and selects the BME280.</p>
-      <p class="readout fragment current-visible" data-fragment-index="2">Byte 1: the microcontroller sends 0xD0, the ID register (bit 7 = read). The reply is ignored.</p>
-      <p class="readout fragment current-visible" data-fragment-index="3">Byte 2: the microcontroller sends a dummy 0x00. Its 8 clocks shift 0x60 back on CIPO.</p>
-      <p class="readout fragment" data-fragment-index="4"><code>cs(1)</code>: done. No ACK, so no <code>scan()</code>: reading a known ID register is SPI's <code>scan()</code>.</p>
-    </div>
-
-    <p class="caption qr-clear">
-      COPI/CIPO: MOSI/MISO on many boards ·
-      <a href="https://docs.micropython.org/en/latest/library/machine.SPI.html" target="_blank" rel="noopener">machine.SPI</a> ·
-      <a href="https://www.bosch-sensortec.com/products/environmental-sensors/humidity-sensors-bme280/" target="_blank" rel="noopener">BME280 datasheet</a>
-    </p>
-
-    <aside class="notes">
-    </aside>
-  </section>
-</section>
-
-<!-- ----------- -->
-<!-- WIRING TIPS -->
-<!-- ----------- -->
-<section>
-  <section>
-    <header class="slide-head">
-      <h2>Before you blame the driver</h2>
-    </header>
-
-    <div class="cards cards--3 cards--titled">
-      <div class="panel fragment" data-label="Share GND">
-        <p>For every board and power supply. Signals need the common ground.</p>
-      </div>
-      <div class="panel fragment" data-label="Motors: own supply">
-        <p>Servos and LED strips can require too much power and affect the power stability of the board.</p>
-      </div>
-      <div class="panel fragment" data-label="I²C pull-ups">
-        <p>Long wires add capacitance & might need stronger pull-ups (↓ resistance). Remember boards/modules might already have pull-ups!</p>
-      </div>
-      <div class="panel fragment" data-label="Most pins: 3.3 V only">
-        <p>Check the part's supply range and its logic level.<br />A 5 V signal can damage a 3.3 V pin.</p>
-      </div>
-      <div class="panel fragment" data-label="Level shifting">
-        <p>A chip that converts 5 V signals into 3.3 V ones, and vice versa. For I²C, buy one sold as I²C-safe.</p>
-      </div>
-      <div class="panel panel--fit fragment" data-label="Special pins">
-        <p>Boot, input-only, LED and button pins: read the pinout.</p>
-      </div>
-    </div>
-
-    <aside class="notes">
-    </aside>
-  </section>
-
-  <section>
-    <header class="slide-head">
-      <h2>Why weak pull-ups fail</h2>
-    </header>
-    
-    <p class="lede">The pull-up resistor lifts the line.<br />The weaker it is (higher resistance), the slower the rise: at 400 kHz, it should raise within 300 ns max.</p>
-
-    <svg class="diagram" viewBox="0 0 780 280" width="664" height="238" role="img">
-      <title>RC rise of SDA with a 4.7 kilo-ohm and a 50 kilo-ohm pull-up</title>
-<line class="axis" x1="70" y1="10" x2="70" y2="250"/>
-<line class="axis" x1="70" y1="250" x2="770" y2="250"/>
-<line class="threshold" x1="70" y1="82" x2="770" y2="82"/>
-<text class="axis-label" x="0" y="87">0.7 VDD</text>
-<line class="threshold" x1="70" y1="178" x2="770" y2="178"/>
-<text class="axis-label" x="0" y="183">0.3 VDD</text>
-<line class="limit" x1="140" y1="10" x2="140" y2="250"/>
-<text class="lane-note lane-note--start" x="148" y="272">300 ns limit (400 kHz)</text>
-<g><path class="lane lane--clk" pathLength="1" d="M70 250 L77 221.2 L84 195.9 L91 173.6 L98 154 L105 136.8 L112 121.6 L119 108.2 L126 96.4 L133 86.1 L140 77 L147 68.9 L154 61.9 L161 55.7 L168 50.2 L175 45.4 L182 41.1 L189 37.4 L196 34.1 L203 31.2 L210 28.7 L217 26.4 L224 24.5 L231 22.7 L238 21.2 L245 19.9 L252 18.7 L259 17.6 L266 16.7 L273 15.9 L280 15.2 L287 14.6 L294 14 L301 13.6 L308 13.1 L315 12.8 L322 12.4 L329 12.1 L336 11.9 L343 11.7 L350 11.5 L357 11.3 L364 11.1 L371 11 L378 10.9 L385 10.8 L392 10.7 L399 10.6 L406 10.5 L413 10.5 L420 10.4 L427 10.4 L434 10.3 L441 10.3 L448 10.2 L455 10.2 L462 10.2 L469 10.2 L476 10.1 L483 10.1 L490 10.1 L497 10.1 L504 10.1 L511 10.1 L518 10.1 L525 10.1 L532 10.1 L539 10 L546 10 L553 10 L560 10 L567 10 L574 10 L581 10 L588 10 L595 10 L602 10 L609 10 L616 10 L623 10 L630 10 L637 10 L644 10 L651 10 L658 10 L665 10 L672 10 L679 10 L686 10 L693 10 L700 10 L707 10 L714 10 L721 10 L728 10 L735 10 L742 10 L749 10 L756 10 L763 10 L770 10"/><text class="legend legend--clk" x="560" y="190">━ 4.7 kΩ</text></g>
-<g><path class="lane lane--data" pathLength="1" d="M70 250 L77 247.1 L84 244.3 L91 241.5 L98 238.8 L105 236 L112 233.3 L119 230.7 L126 228 L133 225.4 L140 222.9 L147 220.3 L154 217.8 L161 215.3 L168 212.9 L175 210.5 L182 208.1 L189 205.7 L196 203.4 L203 201.1 L210 198.8 L217 196.5 L224 194.3 L231 192.1 L238 189.9 L245 187.8 L252 185.7 L259 183.6 L266 181.5 L273 179.5 L280 177.4 L287 175.4 L294 173.5 L301 171.5 L308 169.6 L315 167.7 L322 165.8 L329 164 L336 162.1 L343 160.3 L350 158.5 L357 156.7 L364 155 L371 153.3 L378 151.5 L385 149.9 L392 148.2 L399 146.5 L406 144.9 L413 143.3 L420 141.7 L427 140.1 L434 138.6 L441 137.1 L448 135.5 L455 134 L462 132.6 L469 131.1 L476 129.7 L483 128.2 L490 126.8 L497 125.4 L504 124.1 L511 122.7 L518 121.3 L525 120 L532 118.7 L539 117.4 L546 116.1 L553 114.9 L560 113.6 L567 112.4 L574 111.2 L581 109.9 L588 108.8 L595 107.6 L602 106.4 L609 105.3 L616 104.1 L623 103 L630 101.9 L637 100.8 L644 99.7 L651 98.6 L658 97.6 L665 96.5 L672 95.5 L679 94.5 L686 93.5 L693 92.5 L700 91.5 L707 90.5 L714 89.6 L721 88.6 L728 87.7 L735 86.8 L742 85.8 L749 84.9 L756 84 L763 83.2 L770 82.3"/><text class="legend legend--data" x="560" y="214">━ 50 kΩ (Pico internal)</text></g>
-<text class="axis-label" x="600" y="274">time (µs) · 50 pF bus</text>
-    </svg>
-
-    <p class="readout">Rise time: 4.7 kΩ <b>~0.2 µs</b> ✓ ; 50 kΩ <b>~2.1 µs</b> ✕ <br>Five 4.7 kΩ in parallel (multiple modules with pulls) = 940 Ω, too low</p>
-
-    <aside class="notes">
-    </aside>
-  </section>
-
   <!-- I2C PULL-UPS: why they add up, then the one chip that never lets go -->
   <section class="slide--small-type">
     <header class="slide-head">
@@ -683,51 +620,6 @@ bme = bme280.BME280(i2c=i2c)
         <p><b>Fix:</b> drive GPIO to pulse SCL up to nine times, until SDA goes HIGH, then start I²C again. Or power-cycle the sensor.</p>
       </div>
     </div>
-
-    <aside class="notes">
-    </aside>
-  </section>
-
-  <!-- POWER BUDGET: what the board gives your parts, what one pin gives, how to check -->
-  <section class="slide--small-type">
-    <header class="slide-head">
-      <h2>Power budget</h2>
-    </header>
-
-    <ul class="list--wide">
-      <li>Every part draws current, normally in milliamps (mA).</li>
-      <li>Board power supply only provides only so much; microcontroller pins are more limited.</li>
-    </ul>
-
-    <div class="cols power">
-      <div class="panel" data-label="From the 3V3 pin">
-        <table>
-          <tbody>
-            <tr><td>Pico, Pico 2</td><td>under 300 mA</td></tr>
-            <tr><td>micro:bit V1 · V2</td><td>90 · 190 mA</td></tr>
-            <tr><td>Adafruit Feather</td><td>500 mA peak</td></tr>
-            <tr><td>USB 2.0 port, in total</td><td>500 mA</td></tr>
-          </tbody>
-        </table>
-        <p>On an ESP32, Wi-Fi alone can take 240 mA of it.</p>
-      </div>
-
-      <div class="panel" data-label="From one GPIO pin">
-        <table>
-          <tbody>
-            <tr><td>RP2040/2350 · Pico 1 & 2</td><td>4 mA, up to 12</td></tr>
-            <tr><td>ESP32</td><td>20 mA, up to 40</td></tr>
-            <tr><td>micro:bit V2</td><td>1–4 mA</td></tr>
-          </tbody>
-        </table>
-        <p>Fine for an LED and a 330 Ω resistor, about 4 mA. <br />Not enough for a motor.</p>
-      </div>
-    </div>
-
-    <ul class="power-check">
-      <li><b>Add up</b> the datasheets: BME280 under 1 mA · OLED ~20 mA · NeoPixel up to 60 mA · servo, hundreds.</li>
-      <li><b>Measure</b> with a USB power meter, or a multimeter in series.</li>
-    </ul>
 
     <aside class="notes">
     </aside>

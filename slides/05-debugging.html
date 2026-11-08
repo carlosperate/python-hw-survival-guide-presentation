@@ -127,6 +127,51 @@
     </aside>
   </section>
 
+  <!-- POWER BUDGET: what the board gives your parts, what one pin gives, how to check -->
+  <section class="slide--small-type">
+    <header class="slide-head">
+      <h2>Power budget</h2>
+    </header>
+
+    <ul class="list--wide">
+      <li>Every part draws current, normally in milliamps (mA).</li>
+      <li>Board power supply only provides only so much; microcontroller pins are more limited.</li>
+    </ul>
+
+    <div class="cols power">
+      <div class="panel" data-label="From the 3V3 pin">
+        <table>
+          <tbody>
+            <tr><td>Pico, Pico 2</td><td>under 300 mA</td></tr>
+            <tr><td>micro:bit V1 · V2</td><td>90 · 190 mA</td></tr>
+            <tr><td>Adafruit Feather</td><td>500 mA peak</td></tr>
+            <tr><td>USB 2.0 port, in total</td><td>500 mA</td></tr>
+          </tbody>
+        </table>
+        <p>On an ESP32, Wi-Fi alone can take 240 mA of it.</p>
+      </div>
+
+      <div class="panel" data-label="From one GPIO pin">
+        <table>
+          <tbody>
+            <tr><td>RP2040/2350 · Pico 1 & 2</td><td>4 mA, up to 12</td></tr>
+            <tr><td>ESP32</td><td>20 mA, up to 40</td></tr>
+            <tr><td>micro:bit V2</td><td>1–4 mA</td></tr>
+          </tbody>
+        </table>
+        <p>Fine for an LED and a 330 Ω resistor, about 4 mA. <br />Not enough for a motor.</p>
+      </div>
+    </div>
+
+    <ul class="power-check">
+      <li><b>Add up</b> the datasheets: BME280 under 1 mA · OLED ~20 mA · NeoPixel up to 60 mA · servo, hundreds.</li>
+      <li><b>Measure</b> with a USB power meter, or a multimeter in series.</li>
+    </ul>
+
+    <aside class="notes">
+    </aside>
+  </section>
+
   <section>
     <header class="slide-head">
       <h2>Wiring: look, wiggle, slow down, swap</h2>
