@@ -88,7 +88,7 @@
 }
 
 /* A copper pour under the mask: a lighter fill with a ridge where the mask thins.
-   Filled, it can't sit behind a title, so it shrinks to clear "Python on Hardware". */
+   Filled, it can't sit behind a title, so it shrinks to clear "Python meets Hardware". */
 :root[data-theme="hybrid-matte"] .reveal .section-slide::before {
   font-size: 270px;
   color: color-mix(in srgb, var(--matte-tent) 40%, transparent);

@@ -1,4 +1,4 @@
-# Python on Hardware, The Missing Survival Guide
+# Python meets Hardware: The Missing Survival Guide
 
 Presentation for the PyCon ES 2026 talk.
 
