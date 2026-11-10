@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" fill="none" role="presentation">
   <!--
-    Classic's routing with a part at its centre: the gold bus lands on U1's
+    Routing with a part at its centre: the gold bus lands on U1's
     north pads, leaves by the south pads onto vias and returns on the blue
     layer; the east pads fan out to the J1 header. The Python mark is slide
     markup placed inside U1 by theme.css.

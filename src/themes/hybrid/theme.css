@@ -1,5 +1,5 @@
-/* Classic's board and palette with refined's type weights, its part-centred
-   cover, clean section dividers and quieter content components. */
+/* Heavier type, a part-centred cover, clean section dividers and quieter
+   content components over the shared board and palette. */
 :root[data-base-theme="hybrid"] {
   --pcb-display-weight: 570;
   --pcb-heading-weight: 520;

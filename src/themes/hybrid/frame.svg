@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" fill="none" role="presentation">
   <!--
-    Classic's frame, grouped so theme.css can clear or dim parts: the QR's QFN
+    The board frame, grouped so theme.css can clear or dim parts: the QR's QFN
     and its escapes are one group, and each edge stub is its own.
   -->
   <defs>
