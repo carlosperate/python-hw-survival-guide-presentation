@@ -1,5 +1,6 @@
 {
   "name": "python-hw-survival-guide-presentation",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "engines": {
