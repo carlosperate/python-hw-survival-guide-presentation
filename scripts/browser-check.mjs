@@ -5,6 +5,7 @@
  */
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium, firefox, webkit } from 'playwright';
+import { freshOutputDir } from './output-dir.mjs';
 
 // Phone sizes from StatCounter (Spain, Europe and worldwide, Sep 2026) and
 // DeviceAtlas (May 2026). Sizes are CSS pixels.
@@ -47,7 +48,7 @@ const BODY_PX = 27;
 
 function args() {
   const opts = { browsers: 'chromium,firefox,webkit', devices: 'all', slides: '', theme: 'hybrid-matte',
-    base: 'http://localhost:5173/presentation', out: '.screenshots' };
+    base: 'http://localhost:5173/presentation', out: '.screenshots/deck' };
   const argv = process.argv.slice(2);
   for (let i = 0; i < argv.length; i += 2) opts[argv[i].replace(/^--/, '')] = argv[i + 1];
   return opts;
@@ -124,6 +125,7 @@ try {
   console.error(`Nothing at ${opts.base}. Start the deck with npm run dev first.`);
   process.exit(1);
 }
+await freshOutputDir(opts.out);
 
 const results = [];
 const probe = await chromium.launch();

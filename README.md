@@ -17,10 +17,11 @@ The audience landing page is <http://localhost:5173/> and deck at
 | Space / → | Next step |
 | ↓ | Additional slides are sometimes available vertically down |
 | S | Speaker notes |
+| O or Esc | Overview of every slide |
 | T | Switch visual theme (hybrid-matte the default) |
 | F | Full screen |
 | M (pressed down) | Magnifier glass on mouse pointer |
-| B | Connect the reTerminal Sticky badge (Chrome) |
+| B | Connect the reTerminal Sticky badge (Chrome, Web Bluetooth) |
 | ? | All shortcuts |
 
 Built with [reveal.js](https://revealjs.com) and [Vite](https://vite.dev).

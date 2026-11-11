@@ -6,6 +6,7 @@ import { chromium, firefox, webkit } from 'playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:net';
+import { freshOutputDir } from './output-dir.mjs';
 
 const options = { base: 'http://localhost:5173/', browsers: 'chrome,firefox,webkit,safari', devices: 'all', out: '.screenshots/landing' };
 for (let i = 2; i < process.argv.length; i += 2) {
@@ -27,7 +28,7 @@ const names = options.devices === 'all' ? Object.keys(sizes)
   : options.devices.split(',');
 for (const name of names) if (!sizes[name]) throw new Error(`Unknown device: ${name}`);
 const report = { created: new Date().toISOString(), url: options.base, results: [], startupErrors: [] };
-await mkdir(options.out, { recursive: true });
+await freshOutputDir(options.out);
 
 // Runs unchanged through Playwright and Safari's JavaScript execution endpoint.
 function inspectPage() {
