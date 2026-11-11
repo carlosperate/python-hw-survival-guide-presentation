@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Python meets Hardware Survival Guide, PyCon ES 2026 presentation by Carlos Pereira Atencio." />
+    <title>Python meets Hardware Survival Guide | Carlos Pereira Atencio</title>
+    <!-- Link previews. Cards need absolute URLs: the deck URL the QR encodes.
+         The image is made by scripts/social-card.mjs. -->
+    <link rel="canonical" href="https://pycones2026.embeddedlog.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://pycones2026.embeddedlog.com/" />
+    <meta property="og:title" content="Python meets Hardware Survival Guide" />
+    <meta property="og:description" content="PyConES 2026 talk by Carlos Pereira Atencio, the slides, source code and links." />
+    <meta property="og:image" content="https://pycones2026.embeddedlog.com/images/social-card.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The talk's cover slide, drawn as a circuit board: the title, a chip with the Python logo, and a QR code to the slides." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/pycones2026/images/favicon.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/pycones2026/images/favicon.svg" type="image/svg+xml" sizes="any" />
+    <script defer src="https://an.embeddedlog.com/script.js" data-website-id="614c5a41-7536-47f3-8c2d-5762c1fbfcb7"></script>
+    <script type="module" crossorigin src="/pycones2026/assets/fonts-DE7wdHZL.js"></script>
+    <link rel="stylesheet" crossorigin href="/pycones2026/assets/fonts-CKMIUHNe.css">
+    <link rel="stylesheet" crossorigin href="/pycones2026/assets/landing-B_IJJQFy.css">
+  </head>
+  <body>
+    <div class="landing-art" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" fill="none" role="presentation">
+  <!--
+    Routing with a part at its centre: the gold bus lands on U1's
+    north pads, leaves by the south pads onto vias and returns on the blue
+    layer; the east pads fan out to the J1 header. The Python mark is slide
+    markup placed inside U1 by theme.css.
+    U1 body 896-1040 x 200-344, pads on a 24px pitch; J1 pads x 1136, 36px pitch.
+  -->
+  <defs>
+    <symbol id="via-gold" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="12" fill="var(--pcb-gold, #FDCA42)" />
+      <circle cx="12" cy="12" r="5.2" fill="var(--pcb-board, #002E18)" />
+    </symbol>
+    <symbol id="via-blue" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="12" fill="var(--pcb-blue, #3FA0F0)" />
+      <circle cx="12" cy="12" r="5.2" fill="var(--pcb-board, #002E18)" />
+    </symbol>
+    <!-- Edge traces run off the board and are cut flush with the outline's inner
+         edge: the outline path inset by 1px, so keep the two in step. A clip, not
+         a mask, because Chrome rasterises masks onto every PDF page. -->
+    <clipPath id="cover-board-inside">
+      <path d="M 46.4 19 H 1233.6 L 1261 46.4 V 673.6 L 1233.6 701 H 46.4 L 19 673.6 V 46.4 Z" />
+    </clipPath>
+  </defs>
+
+  <!-- Top-layer bus, fanned onto U1's north pads: outermost to the farthest pad. -->
+  <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="2.6" stroke-opacity="0.82"
+     stroke-linecap="round" stroke-linejoin="round" clip-path="url(#cover-board-inside)">
+    <path d="M 500 0 V 36 L 528 64 H 964 L 992 92 V 186" />
+    <path d="M 487 0 V 49 L 515 77 H 940 L 968 105 V 186" />
+    <path d="M 474 0 V 62 L 502 90 H 916 L 944 118 V 186" />
+  </g>
+
+  <!-- South pads onto a via fence; three nets carry on down on the blue layer. -->
+  <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="2" stroke-opacity="0.82" stroke-linecap="round">
+    <path d="M 920 358 V 384 M 944 358 V 384 M 968 358 V 384 M 992 358 V 384 M 1016 358 V 384" />
+  </g>
+  <g stroke="var(--pcb-blue, #3FA0F0)" stroke-width="2.6" stroke-opacity="0.82"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 992 384 V 572 L 964 600 H 150" />
+    <path d="M 968 384 V 559 L 940 587 H 178" />
+    <path d="M 944 384 V 546 L 916 574 H 206" />
+  </g>
+
+  <!-- East pads fanned out to J1; the middle net runs straight. -->
+  <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="2" stroke-opacity="0.82"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 1054 224 H 1070 L 1094 200 H 1136" />
+    <path d="M 1054 248 H 1082 L 1094 236 H 1136" />
+    <path d="M 1054 272 H 1136" />
+    <path d="M 1054 296 H 1082 L 1094 308 H 1136" />
+    <path d="M 1054 320 H 1070 L 1094 344 H 1136" />
+  </g>
+
+  <!-- West and spare north pads stitched to vias, staggered to keep clearance. -->
+  <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="2" stroke-opacity="0.82" stroke-linecap="round">
+    <path d="M 882 224 H 862 M 882 248 H 846 M 882 272 H 862 M 882 296 H 846 M 882 320 H 862" />
+    <path d="M 920 186 V 164 M 1016 186 V 164" />
+  </g>
+
+  <!-- Power pair: 18px apart along the run, so each end via clears the other trace. -->
+  <g stroke="var(--pcb-gold, #FDCA42)" stroke-width="5" stroke-opacity="0.82"
+     stroke-linecap="round" stroke-linejoin="round" clip-path="url(#cover-board-inside)">
+    <path d="M 0 690 H 213 L 263 640 H 960" />
+    <path d="M 0 677 H 200 L 255 622 H 934" />
+  </g>
+
+  <!-- U1: pads, body and silkscreen corner marks. -->
+  <g fill="var(--pcb-gold, #FDCA42)" fill-opacity="0.85">
+    <path d="M 916 186 h 8 v 14 h -8 z M 940 186 h 8 v 14 h -8 z M 964 186 h 8 v 14 h -8 z M 988 186 h 8 v 14 h -8 z M 1012 186 h 8 v 14 h -8 z" />
+    <path d="M 916 344 h 8 v 14 h -8 z M 940 344 h 8 v 14 h -8 z M 964 344 h 8 v 14 h -8 z M 988 344 h 8 v 14 h -8 z M 1012 344 h 8 v 14 h -8 z" />
+    <path d="M 882 220 h 14 v 8 h -14 z M 882 244 h 14 v 8 h -14 z M 882 268 h 14 v 8 h -14 z M 882 292 h 14 v 8 h -14 z M 882 316 h 14 v 8 h -14 z" />
+    <path d="M 1040 220 h 14 v 8 h -14 z M 1040 244 h 14 v 8 h -14 z M 1040 268 h 14 v 8 h -14 z M 1040 292 h 14 v 8 h -14 z M 1040 316 h 14 v 8 h -14 z" />
+  </g>
+  <rect x="896" y="200" width="144" height="144" rx="4"
+        fill="var(--pcb-board-deep, #001B0E)" stroke="var(--pcb-silk, #F5F3E8)" stroke-opacity="0.3" stroke-width="1.5" />
+  <circle cx="908" cy="212" r="3" fill="var(--pcb-silk, #F5F3E8)" fill-opacity="0.45" />
+  <path d="M 902 190 H 886 V 206 M 1050 338 V 354 H 1034"
+        stroke="var(--pcb-silk, #F5F3E8)" stroke-opacity="0.5" stroke-width="1.5" />
+
+  <!-- J1 outline; the pads and labels are HTML in parts.html. -->
+  <rect x="1116" y="180" width="40" height="184" rx="3"
+        stroke="var(--pcb-silk, #F5F3E8)" stroke-opacity="0.26" stroke-width="1.5" />
+
+  <g>
+    <use href="#via-gold" x="912.8" y="376.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="936.8" y="376.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="960.8" y="376.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="984.8" y="376.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="1008.8" y="376.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="854.8" y="216.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="838.8" y="240.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="854.8" y="264.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="838.8" y="288.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="854.8" y="312.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="912.8" y="156.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="1008.8" y="156.8" width="14.3" height="14.3" />
+    <use href="#via-blue" x="142.8" y="592.8" width="14.3" height="14.3" />
+    <use href="#via-blue" x="170.8" y="579.8" width="14.3" height="14.3" />
+    <use href="#via-blue" x="198.8" y="566.8" width="14.3" height="14.3" />
+    <use href="#via-gold" x="951" y="631" width="18" height="18" />
+    <use href="#via-gold" x="925" y="613" width="18" height="18" />
+  </g>
+</svg>
+
+    </div>
+    <main class="landing">
+      <div class="landing__surface" aria-hidden="true"></div>
+      <header class="profile">
+        <!-- Routes extend beneath the centred portrait so responsive scaling cannot leave a gap. -->
+        <svg class="profile__routes" viewBox="0 0 440 224" aria-hidden="true" fill="none">
+          <g class="route--gold">
+            <path d="M220 48H82L58 24H16 M220 68H74L50 44H16" />
+            <path class="route--lower" d="M220 154H358L382 178H424 M220 174H350L374 198H424" />
+            <circle cx="10" cy="24" r="5"/><circle cx="10" cy="44" r="5"/>
+            <circle class="route--lower" cx="430" cy="178" r="5"/><circle class="route--lower" cx="430" cy="198" r="5"/>
+          </g>
+          <g class="route--blue">
+            <path class="route--lower" d="M220 160H78L54 184H16" />
+            <path d="M220 54H362L386 30H424" />
+            <circle class="route--lower" cx="10" cy="184" r="5"/><circle cx="430" cy="30" r="5"/>
+          </g>
+        </svg>
+        <div class="profile__frame">
+          <img class="profile__photo" src="/pycones2026/images/profil-pic.jpg" width="200" height="200" alt="Carlos Pereira Atencio" />
+        </div>
+        <nav class="socials" aria-label="Social media">
+          <a class="social" href="https://github.com/carlosperate" rel="me" aria-label="Carlos on GitHub" title="GitHub">
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.9 18.3 5.2 18.3 5.2c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.4c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z" /></svg>
+          </a>
+          <a class="social social--bluesky" href="https://bsky.app/profile/carlosperate.bsky.social" rel="me" aria-label="Carlos on Bluesky" title="Bluesky">
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path d="M5.202 1.522C7.954 3.588 10.914 7.776 12 10.023c1.087-2.247 4.046-6.435 6.798-8.501C20.784.03 24-1.124 24 2.546c0 .733-.42 6.163-.667 7.044-.856 3.064-3.978 3.845-6.755 3.372 4.854.826 6.089 3.562 3.422 6.298-5.065 5.195-7.28-1.304-7.848-2.969-.104-.305-.153-.448-.152-.326-.001-.122-.048.021-.152.326-.568 1.665-2.783 8.164-7.848 2.969-2.667-2.736-1.432-5.472 3.422-6.298-2.777.473-5.899-.308-6.755-3.372C.42 8.71 0 3.279 0 2.546 0-1.124 3.216.03 5.202 1.522Z" /></svg>
+          </a>
+          <a class="social" href="https://www.linkedin.com/in/carlos-pa/" rel="me" aria-label="Carlos on LinkedIn" title="LinkedIn">
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.049c.476-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286ZM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124ZM7.119 20.452H3.555V9h3.564v11.452ZM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0Z" /></svg>
+          </a>
+        </nav>
+        <p class="profile__name">Carlos Pereira Atencio</p>
+        <p class="profile__bio">Embedded Software Lead @<br />Micro:bit Educational Foundation</p>
+      </header>
+
+      <section class="talk" aria-labelledby="talk-title">
+        <div class="talk__heading">
+          <h1 id="talk-title">Python meets Hardware<br /><span>Survival Guide</span></h1>
+          <img class="talk__mark" src="/pycones2026/images/python-mark.svg" width="42" height="42" alt="" />
+        </div>
+        <div class="talk__rule" aria-hidden="true"></div>
+        <p class="talk__event">PyCon ES 2026</p>
+        <a class="presentation-link" href="./presentation">
+          <span>Open presentation</span><span class="presentation-link__arrow" aria-hidden="true"><svg class="link-arrow" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" focusable="false"><path d="M6 18 18 6M9 6h9v9" /></svg></span>
+        </a>
+      </section>
+      <nav class="links" aria-label="Related links">
+        <a class="link" href="https://github.com/carlosperate/python-hw-survival-guide-presentation"><span>Presentation Repository</span><span class="link__arrow" aria-hidden="true"><svg class="link-arrow" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" focusable="false"><path d="M6 18 18 6M9 6h9v9" /></svg></span></a>
+        <!-- <a class="link" href="https://www.embeddedlog.com/" rel="me"><span>Website</span><span class="link__arrow" aria-hidden="true"><svg class="link-arrow" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" focusable="false"><path d="M6 18 18 6M9 6h9v9" /></svg></span></a-->
+        <a class="link" href="https://pretalx.com/pycones-2026/speaker/MWGD3P/" rel="me"><span>About me</span><span class="link__arrow" aria-hidden="true"><svg class="link-arrow" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" focusable="false"><path d="M6 18 18 6M9 6h9v9" /></svg></span></a>
+      </nav>
+    </main>
+  </body>
+</html>
