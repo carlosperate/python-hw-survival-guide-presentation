@@ -88,18 +88,20 @@
   text-wrap: balance;
 }
 
+/* Only the covers have an h1. */
 .reveal h1 {
-  font-size: 98px;
+  font-size: 83px;
   font-weight: var(--pcb-display-weight);
   line-height: 0.98;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
+  margin-bottom: 30px;
 }
 
 .reveal h2 {
   font-size: 57px;
   font-weight: var(--pcb-heading-weight);
   line-height: 1.08;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.005em;
 }
 
 .reveal h3 {
@@ -129,11 +131,6 @@
 .reveal em {
   color: var(--pcb-silk);
   font-style: italic;
-}
-
-.reveal small {
-  font-size: 0.72em;
-  color: var(--pcb-silk-dim);
 }
 
 .reveal a {
@@ -180,33 +177,29 @@
 
 .reveal ol {
   counter-reset: pcb-step;
+  max-width: 34em;
 }
 
 .reveal ol li {
   counter-increment: pcb-step;
+  padding-left: 2.6em;
+  margin-bottom: 0.8em;
+  padding-bottom: 0.55em;
+  border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk) 18%, transparent);
 }
 
+/* Right-aligned to end about one letter before the text (2.4em here is 1.7em of the item's). */
 .reveal ol li::before {
   content: counter(pcb-step);
   position: absolute;
   left: 0;
-  top: 0.18em;
+  top: 0.15em;
+  width: 2.4em;
   font-family: var(--pcb-font-mono);
-  font-size: 0.66em;
-  font-weight: 600;
+  font-size: 0.7em;
+  font-weight: 500;
+  text-align: right;
   color: var(--pcb-gold);
-}
-
-.reveal li ul,
-.reveal li ol {
-  margin: 0.5em 0 0;
-}
-
-.reveal li ul li::before {
-  border-color: var(--pcb-silk-mute);
-  border-width: 2px;
-  width: 9px;
-  height: 9px;
 }
 
 /* ---------- Code ---------- */
@@ -234,7 +227,7 @@
   width: 100%;
   margin: 0 0 0.6em;
   font-size: var(--pcb-code-size);
-  line-height: 1.5;
+  line-height: 1.48;
   box-shadow: none;
 }
 
@@ -294,6 +287,28 @@
   background: color-mix(in srgb, var(--pcb-gold) 6%, transparent);
 }
 
+/* Lines outside the current step stay readable. */
+.reveal .hljs.has-highlights tr:not(.highlight-line) {
+  opacity: var(--pcb-code-dim-opacity);
+}
+
+/* A gold rail marks the current lines, in the code well's padding, clear of the line numbers. */
+.reveal .hljs .highlight-line .hljs-ln-numbers {
+  position: relative;
+  color: var(--pcb-gold);
+  opacity: 1;
+}
+
+.reveal .hljs .highlight-line .hljs-ln-numbers::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--pcb-gold);
+}
+
 /* The band spans the code well, not just the longest highlighted line;
    line-numbered code keeps its listing's size, not the table text size. */
 .reveal pre code table.hljs-ln {
@@ -329,6 +344,11 @@
   border-bottom-color: color-mix(in srgb, var(--pcb-gold) 45%, transparent);
 }
 
+/* Follow wide comparison rows without striping the Highlight plugin's tables. */
+.reveal table:not(.hljs-ln) > tbody > tr:nth-child(even) {
+  background: color-mix(in srgb, var(--pcb-silk) 4%, transparent);
+}
+
 /* ---------- Reveal furniture ---------- */
 
 .reveal .progress {
@@ -341,18 +361,16 @@
   color: var(--pcb-controls-color);
 }
 
-/* The arrows' look, shared with the .nav-arrows picture on slides; themes set these. */
-:root {
-  --pcb-controls-color: var(--pcb-gold);
-  --pcb-chevron-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 20.5'%3E%3Cpath d='M2.5 2.5 18 18 33.5 2.5' fill='none' stroke='%23000' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  --pcb-chevron-color: var(--pcb-gold);
-}
-
 /* Vertical slides are skipped live, so the down arrow streams on arrival and
-   every 20s. Reveal's bounce, which stops once anyone goes down, is off. */
-.reveal .controls .navigate-down {
+   every 20s. Reveal's bounce, which stops once anyone goes down, is off.
+   The .nav-arrows picture on a slide draws the same pair. */
+.reveal .controls .navigate-down,
+.reveal .nav-arrows__down {
   --chevron-step: 1.25em;
   color: var(--pcb-chevron-color);
+}
+
+.reveal .controls .navigate-down {
   bottom: -0.8em; /* room for the bottom chevron to slide off */
 }
 
@@ -368,7 +386,9 @@
 }
 
 .reveal .controls .navigate-down::before,
-.reveal .controls .navigate-down::after {
+.reveal .controls .navigate-down::after,
+.reveal .nav-arrows__down::before,
+.reveal .nav-arrows__down::after {
   content: "";
   position: absolute;
   left: 0;
@@ -379,20 +399,24 @@
   mask: var(--pcb-chevron-mask) center / 100% 100% no-repeat;
 }
 
-.reveal .controls .navigate-down::before {
+.reveal .controls .navigate-down::before,
+.reveal .nav-arrows__down::before {
   opacity: 0.45;
 }
 
-.reveal .controls .navigate-down::after {
+.reveal .controls .navigate-down::after,
+.reveal .nav-arrows__down::after {
   top: calc(0.2em + var(--chevron-step));
 }
 
 /* Restarts on each arrival. */
-.reveal .controls .navigate-down.enabled::before {
+.reveal .controls .navigate-down.enabled::before,
+.reveal .slides section.present .nav-arrows__down::before {
   animation: chevron-stream-top 20s 1s infinite;
 }
 
-.reveal .controls .navigate-down.enabled::after {
+.reveal .controls .navigate-down.enabled::after,
+.reveal .slides section.present .nav-arrows__down::after {
   animation: chevron-stream-bottom 20s 1s infinite;
 }
 
@@ -412,7 +436,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .reveal .controls .navigate-down.enabled::before,
-  .reveal .controls .navigate-down.enabled::after {
+  .reveal .controls .navigate-down.enabled::after,
+  .reveal .slides section.present .nav-arrows__down::before,
+  .reveal .slides section.present .nav-arrows__down::after {
     animation: none;
   }
 }

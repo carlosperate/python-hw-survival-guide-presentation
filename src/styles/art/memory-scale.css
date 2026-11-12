@@ -52,10 +52,6 @@
   stroke: var(--pcb-blue);
 }
 
-.reveal svg :is(.ms-name, .ms-cpu, .ms-tick-label, .ms-axis-label) {
-  font-family: var(--pcb-font-mono);
-}
-
 .reveal svg :is(.ms-name, .ms-cpu, .ms-tick-label) {
   font-size: 14px;
 }
@@ -95,7 +91,6 @@
 
 /* One board panel per group: the computers' on the first click, the microcontrollers' on the second. */
 .reveal svg .ms-zone-label {
-  font-family: var(--pcb-font-mono);
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.14em;

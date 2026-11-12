@@ -65,31 +65,3 @@
   grid-area: 1 / 1;
   background: var(--pcb-board);
 }
-
-.reveal .heap-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-  max-width: none;
-  margin: 14px 0 0;
-  font-family: var(--pcb-font-mono);
-  font-size: 14px;
-  color: var(--pcb-silk-dim);
-}
-
-.reveal .heap-legend li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-}
-
-.reveal .heap-legend li::before {
-  content: none;
-}
-
-.reveal .heap-legend .heap__cell {
-  display: inline-block;
-  --cell: 14px;
-}

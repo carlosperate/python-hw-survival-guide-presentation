@@ -61,7 +61,6 @@
 }
 
 .reveal svg :is(.ds-name, .ds-side) {
-  font-family: var(--pcb-font-mono);
   font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -82,8 +81,7 @@
   fill: var(--pcb-silk-mute);
 }
 
-.reveal svg :is(.ds-file, .ds-code, .ds-pin, .ds-part-name) {
-  font-family: var(--pcb-font-mono);
+.reveal svg :is(.ds-file, .ds-pin, .ds-part-name) {
   font-size: 18px;
 }
 
@@ -94,10 +92,6 @@
 .reveal svg .ds-file {
   font-size: 20px;
   fill: var(--pcb-silk-dim);
-}
-
-.reveal svg .ds-code {
-  fill: var(--pcb-yellow);
 }
 
 .reveal svg .ds-note {
@@ -120,7 +114,6 @@
 }
 
 .reveal svg .ds-chip-name {
-  font-family: var(--pcb-font-mono);
   font-size: 26px;
   font-weight: 600;
   letter-spacing: 0.08em;

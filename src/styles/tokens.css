@@ -31,14 +31,14 @@
   --pcb-pad-y: 58px;
   --pcb-rail-y: 34px;
 
-  /* Type. Roboto at light weights, after quarto-revealjs-clean. */
+  /* Type. Display is for titles and numerals; each theme sets its own. */
   --pcb-font-display: "Roboto Variable", system-ui, sans-serif;
   --pcb-font-body: "Roboto Variable", system-ui, sans-serif;
   --pcb-font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --pcb-display-weight: 350;
-  --pcb-heading-weight: 400;
-  --pcb-body-weight: 300;
+  --pcb-display-weight: 570;
+  --pcb-heading-weight: 520;
+  --pcb-body-weight: 350;
 
   /* Text: body copy; dense blocks (tables, cards, lists); mono labels and captions. */
   --pcb-text: 30px;
@@ -46,13 +46,20 @@
   --pcb-text-label: 20px;
 
   /* Code listings, and the .compact ones on dense slides: type size and the well's padding. */
-  --pcb-code-size: 22px;
+  --pcb-code-size: 24px;
   --pcb-code-pad: 26px 30px;
   --pcb-code-size-compact: 18px;
   --pcb-code-pad-compact: 18px 22px;
 
-  /* Earlier steps, once the next one shows. */
+  /* Earlier steps once the next one shows, and code lines outside the current step. */
   --pcb-past-opacity: 0.5;
+  --pcb-code-dim-opacity: 0.6;
+
+  /* Reveal's arrows and the .nav-arrows picture of them. Gold arrows over the QR's
+     gold escapes read as more copper; only the down arrow, which has to be noticed, is gold. */
+  --pcb-controls-color: var(--pcb-silk-mute);
+  --pcb-chevron-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 20.5'%3E%3Cpath d='M2.5 2.5 18 18 33.5 2.5' fill='none' stroke='%23000' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --pcb-chevron-color: var(--pcb-gold);
 
   /* Motion. Everything animated in the theme reads one of these. */
   --pcb-ease: cubic-bezier(0.22, 0.61, 0.36, 1);

@@ -14,7 +14,7 @@
   /* Hybrid's 350 thins out on a projector, and its faded steps go too dark. */
   --pcb-body-weight: 400;
   --pcb-past-opacity: 0.65;
-  --hybrid-code-dim-opacity: 0.75;
+  --pcb-code-dim-opacity: 0.75;
   --matte-tent: #2f7d47;
   --matte-tent-low: #1f6150;
 }
@@ -66,9 +66,11 @@
   border-color: var(--pcb-gold);
 }
 
-:root[data-theme="hybrid-matte"] .hybrid__led-trace,
-:root[data-theme="hybrid-matte"] .board__rail-trace {
+:root[data-theme="hybrid-matte"] .hybrid__led-trace {
   stroke: var(--matte-tent);
+}
+
+:root[data-theme="hybrid-matte"] .board__rail-trace {
   background: var(--matte-tent);
 }
 
@@ -102,10 +104,6 @@
 
 :root[data-theme="hybrid-matte"] .reveal .hljs .highlight-line {
   background: color-mix(in srgb, var(--matte-tent) 32%, transparent);
-}
-
-:root[data-theme="hybrid-matte"] .reveal svg .chip--you rect {
-  fill: color-mix(in srgb, var(--matte-tent) 30%, var(--pcb-board-panel));
 }
 
 :root[data-theme="hybrid-matte"] .reveal svg .pkt.current-fragment rect {

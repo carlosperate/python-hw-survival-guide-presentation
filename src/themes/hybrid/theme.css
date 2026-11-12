@@ -1,12 +1,9 @@
-/* Heavier type, a part-centred cover, clean section dividers and quieter
-   content components over the shared board and palette. */
+/* The shared board with a part-centred cover: U1 and the J1 header, LEDs and
+   silkscreen, drawn in deck coordinates. */
 :root[data-base-theme="hybrid"] {
-  --pcb-display-weight: 570;
-  --pcb-heading-weight: 520;
-  --pcb-body-weight: 350;
-  --pcb-code-size: 24px;
-  --hybrid-code-dim-opacity: 0.6;
-  --hybrid-font-title: "Oxanium Variable", var(--pcb-font-display);
+  /* Oxanium's chamfered corners echo the 45° traces. Titles and numerals only:
+     quotes and body copy stay on Roboto. */
+  --pcb-font-display: "Oxanium Variable", var(--pcb-font-body);
 }
 
 /* ---------- Board: cover and section ---------- */
@@ -25,41 +22,24 @@
   opacity: 0.7;
 }
 
-/* Nearly fills this frame's QFN body (x 1120-1212, y 587-679), 4px in so the
-   body's edge still shows: the larger the cells, the further back a phone can scan it. */
-[data-base-theme="hybrid"] .board__qr {
-  right: 72px;
-  bottom: 45px;
-  width: 84px;
+/* Section dividers carry a large ghosted number on the right, so the parts
+   that live there come off. */
+.board[data-board="section"] :is(.board__pins, .board__leds) {
+  display: none;
 }
 
-/* Clears the via left of the QFN, which sits level with the slide count. */
-[data-base-theme="hybrid"] .board__rail {
-  right: 294px;
-}
-
-[data-base-theme="hybrid"] .board[data-board="cover"] .board__qr {
-  right: 84px;
-  bottom: 58px;
-  width: 128px;
-}
-
-/* The bus would run through the ghosted part number. */
-[data-base-theme="hybrid"] .board[data-board="section"] .board__art {
-  opacity: 0;
+/* The cover's LED block occupies the fiducial's corner. */
+.board[data-board="cover"] #fiducial {
+  display: none;
 }
 
 /* LEDs are drawn as footprints in deck coordinates; only the labels are HTML. */
-[data-base-theme="hybrid"] .board__leds {
+.board__leds {
+  position: absolute;
   inset: 0;
-  width: auto;
-  padding: 0;
-  border: 0;
-  background: none;
-  display: block;
 }
 
-[data-base-theme="hybrid"] .board__leds svg {
+.board__leds svg {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -164,20 +144,34 @@
 }
 
 /* J1: pads at x 1136 on a 36px pitch, matching the fan-out in cover.svg. */
-[data-base-theme="hybrid"] .board__pins {
+.board__pins {
+  position: absolute;
   top: 189px;
-  right: auto;
   left: 1125px;
+  display: grid;
   grid-template-columns: 22px auto;
+  align-items: center;
   justify-items: start;
   gap: 14px 16px;
 }
 
-[data-base-theme="hybrid"] .board__pin-pad {
+.board__pin-net {
+  font-family: var(--pcb-font-mono);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--pcb-silk-dim);
+}
+
+.board__pin-pad {
+  width: 22px;
+  height: 22px;
+  border: 5px solid color-mix(in srgb, var(--pcb-gold) 85%, transparent);
+  border-radius: 50%;
   background: var(--pcb-board-deep);
 }
 
-[data-base-theme="hybrid"] .board__pin-pad--first {
+.board__pin-pad--first {
   border-radius: 3px;
 }
 
@@ -202,113 +196,3 @@
   letter-spacing: 0.14em;
 }
 
-/* The mark sits inside U1's body (x 896-1040, y 200-344), under its label. */
-[data-base-theme="hybrid"] .reveal .cover__mark {
-  left: 924px;
-  top: 228px;
-  right: auto;
-  width: 88px;
-  height: 88px;
-}
-
-/* ---------- Type ---------- */
-
-/* Oxanium's chamfered corners echo the 45° traces. Titles and numerals only:
-   quotes and body copy stay on Roboto. */
-[data-base-theme="hybrid"] .reveal :is(h1, h2, h3, h4),
-[data-base-theme="hybrid"] .reveal .section-slide::before,
-[data-base-theme="hybrid"] .reveal .spec__value {
-  font-family: var(--hybrid-font-title);
-}
-
-[data-base-theme="hybrid"] .reveal h2 {
-  letter-spacing: -0.005em;
-}
-
-[data-base-theme="hybrid"] .reveal .cover h1 {
-  letter-spacing: -0.015em;
-}
-
-/* The speaker block shares the title's left edge; the rule sits above it. */
-[data-base-theme="hybrid"] .reveal .cover__sub {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 22px;
-}
-
-/* ---------- Components ---------- */
-
-[data-base-theme="hybrid"] .reveal .slide-head::after {
-  background: linear-gradient(to right, var(--pcb-blue) 0 46%, var(--pcb-gold) 46% 100%);
-}
-
-/* Follow wide comparison rows without striping the Highlight plugin's tables. */
-[data-base-theme="hybrid"] .reveal table:not(.hljs-ln) > tbody > tr:nth-child(even) {
-  background: color-mix(in srgb, var(--pcb-silk) 4%, transparent);
-}
-
-[data-base-theme="hybrid"] .reveal ol:not(.list--wide) {
-  max-width: 34em;
-}
-
-[data-base-theme="hybrid"] .reveal ol li {
-  padding-left: 2.6em;
-  margin-bottom: 0.8em;
-  padding-bottom: 0.55em;
-  border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk) 18%, transparent);
-}
-
-/* Right-aligned to end about one letter before the text (2.4em here is 1.7em of the item's). */
-[data-base-theme="hybrid"] .reveal ol li::before {
-  top: 0.15em;
-  width: 2.4em;
-  font-size: 0.7em;
-  font-weight: 500;
-  text-align: right;
-}
-
-[data-base-theme="hybrid"] .reveal .specs {
-  gap: 32px;
-}
-
-[data-base-theme="hybrid"] .reveal .specs > div {
-  padding-top: 25px;
-  border-top: 2px solid var(--pcb-blue);
-}
-
-[data-base-theme="hybrid"] .reveal .spec__value {
-  font-weight: 520;
-  letter-spacing: -0.015em;
-}
-
-[data-base-theme="hybrid"] .reveal pre {
-  line-height: 1.48;
-}
-
-/* Lines outside the current step stay readable. */
-[data-base-theme="hybrid"] .reveal .hljs.has-highlights tr:not(.highlight-line) {
-  opacity: var(--hybrid-code-dim-opacity);
-}
-
-/* The rail stays in the code well's padding, clear of the line numbers. */
-[data-base-theme="hybrid"] .reveal .hljs .highlight-line .hljs-ln-numbers {
-  position: relative;
-  color: var(--pcb-gold);
-  opacity: 1;
-}
-
-[data-base-theme="hybrid"] .reveal .hljs .highlight-line .hljs-ln-numbers::before {
-  content: "";
-  position: absolute;
-  left: -7px;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: var(--pcb-gold);
-}
-
-/* Gold arrows on top of the QR's gold escapes read as more copper; only the
-   down arrow, which has to be noticed, stays gold. */
-:root[data-base-theme="hybrid"] {
-  --pcb-controls-color: var(--pcb-silk-mute);
-}

@@ -18,7 +18,14 @@
   --pcb-display-weight: 600;
   --pcb-heading-weight: 600;
   --pcb-body-weight: 400;
-  --pcb-code-size: 24px;
+  /* Titles and numerals only: body copy stays on Roboto. */
+  --pcb-font-display: var(--pcb-font-mono);
+  /* Opacity washes coloured code out on paper, so lines outside the step go grey instead (below). */
+  --pcb-code-dim-opacity: 1;
+  /* The down arrow is sheet furniture, in the frame's red like the progress bar;
+     theme.css's chevron with 4px lines, as a data URI can't read a variable. */
+  --pcb-chevron-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 20.5'%3E%3Cpath d='M2.5 2.5 18 18 33.5 2.5' fill='none' stroke='%23000' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --pcb-chevron-color: var(--schem-frame);
   --schem-frame: #840000;
   --schem-wire: #009600;
   --schem-body: #ffffc2;
@@ -77,24 +84,17 @@
 
 :root[data-theme="schematic"] .reveal .cover__mark {
   left: 872px;
-  right: auto;
   top: 226px;
   width: 72px;
   height: 72px;
 }
 
-/* The QR and the sheet number sit in the title block's cells. */
-:root[data-theme="schematic"] .board__qr {
+/* The QR and the sheet number sit in the title block's cells. The cover hides
+   the title block, so its QR stays large. */
+:root[data-theme="schematic"] .board:not([data-board="cover"]) .board__qr {
   right: 37px;
   bottom: 40px;
   width: 64px;
-}
-
-/* The cover hides the title block, so its QR stays large. */
-:root[data-theme="schematic"] .board[data-board="cover"] .board__qr {
-  right: 84px;
-  bottom: 58px;
-  width: 128px;
 }
 
 :root[data-theme="schematic"] .board__qr img {
@@ -106,14 +106,6 @@
 :root[data-theme="schematic"] .reveal .controls {
   right: auto;
   left: calc(var(--r-controls-spacing) + 10em);
-}
-
-/* The down arrow is sheet furniture, in the frame's red like the progress bar. */
-:root[data-theme="schematic"] {
-  --pcb-controls-color: var(--pcb-silk-mute);
-  /* theme.css's chevron with 4px lines; a data URI can't read a variable. */
-  --pcb-chevron-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 20.5'%3E%3Cpath d='M2.5 2.5 18 18 33.5 2.5' fill='none' stroke='%23000' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  --pcb-chevron-color: var(--schem-frame);
 }
 
 :root[data-theme="schematic"] .board__rail {
@@ -140,13 +132,6 @@
 
 /* ---------- Type and components ---------- */
 
-/* Titles and numerals only: body copy stays on Roboto. */
-:root[data-theme="schematic"] .reveal :is(h1, h2, h3, h4),
-:root[data-theme="schematic"] .reveal .section-slide::before,
-:root[data-theme="schematic"] .reveal .spec__value {
-  font-family: var(--pcb-font-mono);
-}
-
 :root[data-theme="schematic"] .reveal h2 {
   font-size: 50px;
   letter-spacing: -0.02em;
@@ -172,13 +157,6 @@
 
 :root[data-theme="schematic"] .reveal h4 {
   font-size: 23px;
-}
-
-/* The speaker block shares the title's left edge. */
-:root[data-theme="schematic"] .reveal .cover__sub {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 22px;
 }
 
 /* The heading rule is a wire, starting on a junction. */
@@ -210,50 +188,6 @@
   color: var(--schem-ref);
 }
 
-/* Follow wide comparison rows without striping the Highlight plugin's tables. */
-:root[data-theme="schematic"] .reveal table:not(.hljs-ln) > tbody > tr:nth-child(even) {
-  background: color-mix(in srgb, var(--pcb-silk) 4%, transparent);
-}
-
-:root[data-theme="schematic"] .reveal ol:not(.list--wide) {
-  max-width: 34em;
-}
-
-:root[data-theme="schematic"] .reveal ol li {
-  padding-left: 2.6em;
-  margin-bottom: 0.8em;
-  padding-bottom: 0.55em;
-  border-bottom: 1px solid color-mix(in srgb, var(--pcb-silk) 18%, transparent);
-}
-
-/* Right-aligned to end about one letter before the text (2.4em here is 1.7em of the item's). */
-:root[data-theme="schematic"] .reveal ol li::before {
-  top: 0.15em;
-  width: 2.4em;
-  font-size: 0.7em;
-  font-weight: 500;
-  text-align: right;
-}
-
-:root[data-theme="schematic"] .reveal .specs {
-  gap: 32px;
-}
-
-:root[data-theme="schematic"] .reveal .specs > div {
-  padding-top: 25px;
-  border-top: 2px solid var(--pcb-blue);
-}
-
-:root[data-theme="schematic"] .reveal .spec__value {
-  font-weight: 520;
-  letter-spacing: -0.015em;
-}
-
-/* No :root, so .compact's line-height still outranks this. */
-[data-theme="schematic"] .reveal pre {
-  line-height: 1.48;
-}
-
 :root[data-theme="schematic"] .reveal pre code {
   border-color: color-mix(in srgb, var(--pcb-silk) 22%, transparent);
 }
@@ -270,7 +204,6 @@
 /* A divider is a hierarchical sheet: the part number in the sheet box, its file below. */
 :root[data-theme="schematic"] .reveal section.section-slide::before,
 :root[data-theme="schematic"] .reveal section.section-slide::after {
-  box-sizing: border-box;
   width: 330px;
 }
 
@@ -320,30 +253,9 @@
   stroke: none;
 }
 
-/* Opacity washes coloured code out on paper, so lines outside the step go grey instead. */
-:root[data-theme="schematic"] .reveal .hljs.has-highlights tr:not(.highlight-line) {
-  opacity: 1;
-}
-
+/* Lines outside the step go grey instead of fading. */
 :root[data-theme="schematic"] .reveal .hljs.has-highlights tr:not(.highlight-line) :is(td, span) {
   color: var(--pcb-silk-mute);
-}
-
-/* The rail stays in the code well's padding, clear of the line numbers. */
-:root[data-theme="schematic"] .reveal .hljs .highlight-line .hljs-ln-numbers {
-  position: relative;
-  color: var(--pcb-gold);
-  opacity: 1;
-}
-
-:root[data-theme="schematic"] .reveal .hljs .highlight-line .hljs-ln-numbers::before {
-  content: "";
-  position: absolute;
-  left: -7px;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: var(--pcb-gold);
 }
 
 :root[data-theme="schematic"] .reveal :is(pre code, pre.terminal) {
