@@ -7,6 +7,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:net';
 import { freshOutputDir } from './output-dir.mjs';
+import { DEVICES, deviceNames } from './devices.mjs';
 
 const options = { base: 'http://localhost:5173/', browsers: 'chrome,firefox,webkit,safari', devices: 'all', out: '.screenshots/landing' };
 for (let i = 2; i < process.argv.length; i += 2) {
@@ -14,19 +15,8 @@ for (let i = 2; i < process.argv.length; i += 2) {
   if (!(name in options) || !process.argv[i + 1]) throw new Error(`Unknown or incomplete option: ${process.argv[i]}`);
   options[name] = process.argv[i + 1];
 }
-const sizes = {
-  projector: [1280, 720], 'projector-4x3': [1024, 768], laptop: [1440, 900], desktop: [1920, 1080], ultrawide: [2560, 1440],
-  'iphone-11': [414, 896], 'galaxy-a': [384, 832], 'android-budget': [360, 800], redmi: [393, 873],
-  'iphone-12': [390, 844], 'iphone-17': [402, 874], 'galaxy-s': [360, 780], pixel: [412, 915], 'pro-max': [440, 956], zoomed: [320, 693],
-};
-const desktopNames = Object.keys(sizes).slice(0, 5);
-const phoneNames = Object.keys(sizes).slice(5);
-for (const name of phoneNames) sizes[`${name}-landscape`] = [...sizes[name]].reverse();
-const names = options.devices === 'all' ? Object.keys(sizes)
-  : options.devices === 'desktop' ? desktopNames
-  : options.devices === 'phones' ? [...phoneNames, ...phoneNames.map(n => `${n}-landscape`)]
-  : options.devices.split(',');
-for (const name of names) if (!sizes[name]) throw new Error(`Unknown device: ${name}`);
+const sizes = Object.fromEntries(Object.entries(DEVICES).map(([name, d]) => [name, [d.width, d.height]]));
+const names = deviceNames(options.devices);
 const report = { created: new Date().toISOString(), url: options.base, results: [], startupErrors: [] };
 await freshOutputDir(options.out);
 
@@ -73,8 +63,9 @@ async function checkPlaywright(name) {
   try {
     for (const device of names) {
       const [width, height] = sizes[device];
-      const mobile = !desktopNames.includes(device) && name !== 'firefox';
-      const context = await browser.newContext({ viewport: { width, height }, ...(mobile ? { isMobile: true, hasTouch: true, deviceScaleFactor: 2 } : {}) });
+      const d = DEVICES[device];
+      const mobile = d.mobile && name !== 'firefox';
+      const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: d.dpr ?? 1, ...(mobile ? { isMobile: true, hasTouch: true } : {}) });
       try {
         const page = await context.newPage();
         const errors = [];

@@ -1,41 +1,12 @@
 /*
- * Screenshots the running deck in Chromium, Firefox and WebKit at desktop and
- * phone sizes, and reports how large body text ends up on each screen.
+ * Screenshots the running deck in Chromium, Firefox and WebKit on the devices in
+ * devices.mjs, and reports how large body text ends up on each screen.
  * Needs `npm run dev` running. See AGENTS.md, "Testing in browsers".
  */
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium, firefox, webkit } from 'playwright';
 import { freshOutputDir } from './output-dir.mjs';
-
-// Phone sizes from StatCounter (Spain, Europe and worldwide, Sep 2026) and
-// DeviceAtlas (May 2026). Sizes are CSS pixels.
-const DEVICES = {
-  'projector':        { width: 1280, height: 720 },
-  'laptop':           { width: 1440, height: 900, dpr: 2 },
-  'iphone-11-class':  { width: 414, height: 896, dpr: 2, mobile: true },
-  'galaxy-a-ultra':   { width: 384, height: 832, dpr: 2.8125, mobile: true },
-  'android-budget':   { width: 360, height: 800, dpr: 3, mobile: true },
-  'redmi-xiaomi':     { width: 393, height: 873, dpr: 2.75, mobile: true },
-  'iphone-12-16e':    { width: 390, height: 844, dpr: 3, mobile: true },
-  'iphone-17':        { width: 402, height: 874, dpr: 3, mobile: true },
-  'galaxy-s-base':    { width: 360, height: 780, dpr: 3, mobile: true },
-  'pixel':            { width: 412, height: 915, dpr: 2.625, mobile: true },
-  'iphone-pro-max':   { width: 440, height: 956, dpr: 3, mobile: true },
-  'zoomed-320':       { width: 320, height: 693, dpr: 3, mobile: true },
-};
-
-// Every phone is tested both ways up.
-for (const [name, d] of Object.entries(DEVICES)) {
-  if (d.mobile) DEVICES[`${name}-landscape`] = { ...d, width: d.height, height: d.width };
-}
-
-const GROUPS = {
-  desktop: ['projector', 'laptop'],
-  phones: Object.keys(DEVICES).filter((name) => DEVICES[name].mobile),
-};
-GROUPS.portrait = GROUPS.phones.filter((name) => !name.endsWith('-landscape'));
-GROUPS.landscape = GROUPS.phones.filter((name) => name.endsWith('-landscape'));
-GROUPS.all = [...GROUPS.desktop, ...GROUPS.phones];
+import { DEVICES, deviceNames as namesFor } from './devices.mjs';
 
 const BROWSERS = { chromium, firefox, webkit };
 
@@ -66,7 +37,7 @@ async function slideList(browser, opts) {
 
 async function check(name, opts, slides, results) {
   const browser = await BROWSERS[name].launch();
-  const deviceNames = GROUPS[opts.devices] ?? opts.devices.split(',');
+  const deviceNames = namesFor(opts.devices);
 
   for (const device of deviceNames) {
     const d = DEVICES[device];
