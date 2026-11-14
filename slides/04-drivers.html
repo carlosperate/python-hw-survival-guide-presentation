@@ -43,7 +43,7 @@
     </header>
 
     <div class="find-driver">
-    <ol>
+    <ol class="list--dense" style="font-size: 27px">
       <li><b>Read the </b>official <b>docs</b>. Vendors might provide all you need.</li>
       <li class="fragment" data-fragment-index="1"><b>Find the chip name</b>. Board name might not be the same as the chip (e.g. <code>BME280</code>).</li>
       <li class="fragment" data-fragment-index="2">Start with Google, but also use <b>GitHub's search</b> with filters.</li>
@@ -294,7 +294,7 @@ class BME280:
     <h2>Which communication bus?</h2>
   </header>
 
-  <ul class="list--wide bus-list">
+  <ul style="font-size: 29px">
     <li>A <b>bus</b> is a set of signals between chips & rules for exchanging data (the protocol).</li>
     <li class="fragment" data-fragment-index="1">Microcontrollers have built-in hardware for common ones like: <b>UART</b>, <b>I²C</b> and <b>SPI</b>.</li>
     <li class="fragment" data-fragment-index="2">You rarely choose: the part's datasheet or product page specifies the bus.</li>
@@ -306,7 +306,7 @@ class BME280:
 i2c = I2C(0, scl=Pin(5), sda=Pin(4))
 bme = bme280.BME280(i2c=i2c)
     </code></pre>
-    <ul class="list--wide bus-list">
+    <ul style="font-size: 29px">
       <li class="fragment" data-fragment-index="4">Not every part needs a bus: buttons use a plain pin (GPIO), servos use pulses (PWM), analogue sensors a voltage (ADC).</li>
       <li class="fragment" data-fragment-index="5">Some buses might not be built into the microcontroller, but can be implemented in software.</li>
     </ul>
@@ -348,10 +348,10 @@ bme = bme280.BME280(i2c=i2c)
         <rect class="bw-box" x="204" y="20" width="96" height="140" rx="6"/>
         <text class="bw-name" x="48" y="52">board</text>
         <text class="bw-name" x="252" y="52">GPS</text>
-        <text class="bw-pin" x="88" y="95" text-anchor="end">TX</text>
-        <text class="bw-pin" x="88" y="135" text-anchor="end">RX</text>
-        <text class="bw-pin" x="212" y="95">TX</text>
-        <text class="bw-pin" x="212" y="135">RX</text>
+        <text class="bw-pin fill-silk-dim" x="88" y="95" text-anchor="end">TX</text>
+        <text class="bw-pin fill-silk-dim" x="88" y="135" text-anchor="end">RX</text>
+        <text class="bw-pin fill-silk-dim" x="212" y="95">TX</text>
+        <text class="bw-pin fill-silk-dim" x="212" y="135">RX</text>
         <path class="bw-wire" d="M96 89 L204 129 M204 89 L96 129"/>
       </svg>
       <svg class="diagram fragment" data-fragment-index="2" viewBox="0 0 300 240" role="img">
@@ -359,9 +359,9 @@ bme = bme280.BME280(i2c=i2c)
         <rect class="bw-box" x="60" y="0" width="180" height="44" rx="6"/>
         <text class="bw-name" x="150" y="29">controller</text>
         <path class="bw-wire" d="M120 44 V84 M20 84 H280 M30 180 V84 M165 180 V84 M238 180 V84"/>
-        <path class="bw-wire bw-wire--clk" d="M140 44 V112 M20 112 H280 M60 180 V112 M185 180 V112 M262 180 V112"/>
-        <g class="bw-dot"><circle cx="120" cy="84" r="4"/><circle cx="30" cy="84" r="4"/><circle cx="165" cy="84" r="4"/><circle cx="238" cy="84" r="4"/></g>
-        <g class="bw-dot bw-dot--clk"><circle cx="140" cy="112" r="4"/><circle cx="60" cy="112" r="4"/><circle cx="185" cy="112" r="4"/><circle cx="262" cy="112" r="4"/></g>
+        <path class="bw-wire stroke-blue" d="M140 44 V112 M20 112 H280 M60 180 V112 M185 180 V112 M262 180 V112"/>
+        <g class="fill-gold"><circle cx="120" cy="84" r="4"/><circle cx="30" cy="84" r="4"/><circle cx="165" cy="84" r="4"/><circle cx="238" cy="84" r="4"/></g>
+        <g class="fill-blue"><circle cx="140" cy="112" r="4"/><circle cx="60" cy="112" r="4"/><circle cx="185" cy="112" r="4"/><circle cx="262" cy="112" r="4"/></g>
         <text class="bw-line" x="90" y="90">SDA</text>
         <text class="bw-line" x="90" y="118">SCL</text>
         <rect class="bw-box" x="0" y="180" width="92" height="48" rx="6"/>
@@ -375,16 +375,16 @@ bme = bme280.BME280(i2c=i2c)
         <title>SPI: a controller on the left drives SCK, COPI and CIPO out of its right side to two peripherals stacked on the right, with a chip-select wire to each</title>
         <rect class="bw-box" x="0" y="0" width="130" height="250" rx="6"/>
         <text class="bw-name" x="65" y="28">controller</text>
-        <text class="bw-pin" x="122" y="52" text-anchor="end">CS</text>
-        <text class="bw-pin" x="122" y="98" text-anchor="end">SCK</text>
-        <text class="bw-pin" x="122" y="134" text-anchor="end">COPI</text>
-        <text class="bw-pin" x="122" y="170" text-anchor="end">CIPO</text>
-        <text class="bw-pin" x="122" y="216" text-anchor="end">CS</text>
-        <path class="bw-wire bw-wire--clk" d="M130 92 H150 M150 64 V198 M150 64 H200 M150 198 H200"/>
+        <text class="bw-pin fill-silk-dim" x="122" y="52" text-anchor="end">CS</text>
+        <text class="bw-pin fill-silk-dim" x="122" y="98" text-anchor="end">SCK</text>
+        <text class="bw-pin fill-silk-dim" x="122" y="134" text-anchor="end">COPI</text>
+        <text class="bw-pin fill-silk-dim" x="122" y="170" text-anchor="end">CIPO</text>
+        <text class="bw-pin fill-silk-dim" x="122" y="216" text-anchor="end">CS</text>
+        <path class="bw-wire stroke-blue" d="M130 92 H150 M150 64 V198 M150 64 H200 M150 198 H200"/>
         <path class="bw-wire" d="M130 128 H164 M164 80 V182 M164 80 H200 M164 182 H200 M130 164 H200 M178 164 V96 H200"/>
-        <path class="bw-wire bw-wire--cs" d="M130 46 H200 M130 210 H200"/>
-        <g class="bw-dot bw-dot--clk"><circle cx="150" cy="92" r="4"/></g>
-        <g class="bw-dot"><circle cx="164" cy="128" r="4"/><circle cx="178" cy="164" r="4"/></g>
+        <path class="bw-wire stroke-silk-dim" d="M130 46 H200 M130 210 H200"/>
+        <g class="fill-blue"><circle cx="150" cy="92" r="4"/></g>
+        <g class="fill-gold"><circle cx="164" cy="128" r="4"/><circle cx="178" cy="164" r="4"/></g>
         <rect class="bw-box" x="200" y="0" width="130" height="112" rx="6"/>
         <rect class="bw-box" x="200" y="138" width="130" height="112" rx="6"/>
         <text class="bw-name" x="265" y="62">peripheral</text>
@@ -403,13 +403,13 @@ bme = bme280.BME280(i2c=i2c)
       <h2>UART: no clock, so agree in advance</h2>
     </header>
 
-    <p>UART sends bytes one bit at a time from TX to the other end's RX. There is no clock wire, so both ends agree on the speed, the baud rate, in advance.</p>
+    <p class="measure">UART sends bytes one bit at a time from TX to the other end's RX. There is no clock wire, so both ends agree on the speed, the baud rate, in advance.</p>
 
     <p class="readout"><code>'A'</code> = 0x41 = <b>0100 0001</b> · sent least significant bit (LSB) first</p>
 
     <svg class="diagram" viewBox="0 0 900 130" width="1112" height="161" role="img">
       <title>UART frame for the letter A: start bit, 1 0 0 0 0 0 1 0, stop bit</title>
-  <text class="lane-label lane-label--data" x="0" y="63">TX</text>
+  <text class="lane-label fill-gold" x="0" y="63">TX</text>
   <g class="wave-base"><path class="lane lane--data" pathLength="1" d="M70 40 H134"/><text class="slot" x="102" y="110">idle</text></g>
   <rect class="wave-cursor fragment current-visible" data-fragment-index="1" x="134" y="8" width="64" height="112"/>
   <g class="draw fragment" data-fragment-index="1"><path class="lane lane--data" pathLength="1" d="M134 40 V74 H198"/><text class="slot slot--frame" x="166" y="110">START</text></g>
@@ -443,7 +443,7 @@ bme = bme280.BME280(i2c=i2c)
       <h2>SPI: to read, you must write</h2>
     </header>
 
-    <p>SPI has a clock, a wire each way and a chip-select (CS) per device. Every tick moves one bit each way.</p>
+    <p class="measure">SPI has a clock, a wire each way and a chip-select (CS) per device. Every tick moves one bit each way.</p>
 
     <p class="readout"><code>cs(0); spi.write_readinto(b'\xD0\x00', buf); cs(1)</code> → <b>buf[1] == 0x60</b></p>
 
@@ -451,18 +451,18 @@ bme = bme280.BME280(i2c=i2c)
       <title>SPI mode 0: controller sends 0xD0 then a dummy byte while the BME280 returns 0x60</title>
   <text class="lane-label" x="0" y="23">CS</text>
   <text class="lane-label" x="0" y="79">SCK</text>
-  <text class="lane-label lane-label--data" x="0" y="135">COPI</text>
-  <text class="lane-label lane-label--data" x="0" y="191">CIPO</text>
-  <g class="wave-base"><path class="lane lane--frame" pathLength="1" d="M62 0 H84"/><path class="lane lane--clk" pathLength="1" d="M62 90 H84"/><path class="lane lane--data" pathLength="1" d="M62 112 H84"/><path class="lane lane--data lane--in" pathLength="1" d="M62 185 H84"/></g>
+  <text class="lane-label fill-gold" x="0" y="135">COPI</text>
+  <text class="lane-label fill-gold" x="0" y="191">CIPO</text>
+  <g class="wave-base"><path class="lane stroke-silk-dim" pathLength="1" d="M62 0 H84"/><path class="lane lane--clk" pathLength="1" d="M62 90 H84"/><path class="lane lane--data" pathLength="1" d="M62 112 H84"/><path class="lane lane--data lane--in" pathLength="1" d="M62 185 H84"/></g>
   <rect class="wave-cursor fragment current-visible" data-fragment-index="1" x="84" y="-4" width="40" height="244"/>
-  <g class="draw fragment" data-fragment-index="1"><path class="lane lane--frame" pathLength="1" d="M84 0 H104 V34 H124"/><path class="lane lane--clk" pathLength="1" d="M84 90 H124"/><path class="lane lane--data" pathLength="1" d="M84 112 H124"/><path class="lane lane--data lane--in" pathLength="1" d="M84 185 H124"/></g>
+  <g class="draw fragment" data-fragment-index="1"><path class="lane stroke-silk-dim" pathLength="1" d="M84 0 H104 V34 H124"/><path class="lane lane--clk" pathLength="1" d="M84 90 H124"/><path class="lane lane--data" pathLength="1" d="M84 112 H124"/><path class="lane lane--data lane--in" pathLength="1" d="M84 185 H124"/></g>
   <rect class="wave-cursor fragment current-visible" data-fragment-index="2" x="124" y="-4" width="320" height="244"/>
-  <g class="draw fragment" data-fragment-index="2"><path class="lane lane--frame" pathLength="1" d="M124 34 H444"/><path class="lane lane--clk" pathLength="1" d="M124 90 H144 V56 H164 V90 H184 V56 H204 V90 H224 V56 H244 V90 H264 V56 H284 V90 H304 V56 H324 V90 H344 V56 H364 V90 H384 V56 H404 V90 H424 V56 H444 V90 H444"/><path class="lane lane--data" pathLength="1" d="M124 112 H204 V146 H244 V112 H284 V146 H444"/><path class="lane lane--data lane--in" pathLength="1" d="M124 185 H444 V202 H444"/><text class="bit" x="144" y="106">1</text><text class="bit" x="184" y="106">1</text><text class="bit" x="224" y="106">0</text><text class="bit" x="264" y="106">1</text><text class="bit" x="304" y="106">0</text><text class="bit" x="344" y="106">0</text><text class="bit" x="384" y="106">0</text><text class="bit" x="424" y="106">0</text><text class="hex" x="284" y="232">0xD0 · bit 7 = read</text></g>
+  <g class="draw fragment" data-fragment-index="2"><path class="lane stroke-silk-dim" pathLength="1" d="M124 34 H444"/><path class="lane lane--clk" pathLength="1" d="M124 90 H144 V56 H164 V90 H184 V56 H204 V90 H224 V56 H244 V90 H264 V56 H284 V90 H304 V56 H324 V90 H344 V56 H364 V90 H384 V56 H404 V90 H424 V56 H444 V90 H444"/><path class="lane lane--data" pathLength="1" d="M124 112 H204 V146 H244 V112 H284 V146 H444"/><path class="lane lane--data lane--in" pathLength="1" d="M124 185 H444 V202 H444"/><text class="bit" x="144" y="106">1</text><text class="bit" x="184" y="106">1</text><text class="bit" x="224" y="106">0</text><text class="bit" x="264" y="106">1</text><text class="bit" x="304" y="106">0</text><text class="bit" x="344" y="106">0</text><text class="bit" x="384" y="106">0</text><text class="bit" x="424" y="106">0</text><text class="hex" x="284" y="232">0xD0 · bit 7 = read</text></g>
   <g class="fragment" data-fragment-index="2"><rect class="dontcare" x="124" y="166" width="320" height="38"/><text class="hex" x="284" y="190">don't care</text></g>
   <rect class="wave-cursor fragment current-visible" data-fragment-index="3" x="444" y="-4" width="320" height="244"/>
-  <g class="draw fragment" data-fragment-index="3"><path class="lane lane--frame" pathLength="1" d="M444 34 H764"/><path class="lane lane--clk" pathLength="1" d="M444 90 H464 V56 H484 V90 H504 V56 H524 V90 H544 V56 H564 V90 H584 V56 H604 V90 H624 V56 H644 V90 H664 V56 H684 V90 H704 V56 H724 V90 H744 V56 H764 V90 H764"/><path class="lane lane--data" pathLength="1" d="M444 146 H764"/><path class="lane lane--data lane--in" pathLength="1" d="M444 202 H484 V168 H564 V202 H764"/><text class="bit" x="464" y="162">0</text><text class="bit" x="504" y="162">1</text><text class="bit" x="544" y="162">1</text><text class="bit" x="584" y="162">0</text><text class="bit" x="624" y="162">0</text><text class="bit" x="664" y="162">0</text><text class="bit" x="704" y="162">0</text><text class="bit" x="744" y="162">0</text><text class="hex" x="604" y="232">0x60 · chip id</text></g>
+  <g class="draw fragment" data-fragment-index="3"><path class="lane stroke-silk-dim" pathLength="1" d="M444 34 H764"/><path class="lane lane--clk" pathLength="1" d="M444 90 H464 V56 H484 V90 H504 V56 H524 V90 H544 V56 H564 V90 H584 V56 H604 V90 H624 V56 H644 V90 H664 V56 H684 V90 H704 V56 H724 V90 H744 V56 H764 V90 H764"/><path class="lane lane--data" pathLength="1" d="M444 146 H764"/><path class="lane lane--data lane--in" pathLength="1" d="M444 202 H484 V168 H564 V202 H764"/><text class="bit" x="464" y="162">0</text><text class="bit" x="504" y="162">1</text><text class="bit" x="544" y="162">1</text><text class="bit" x="584" y="162">0</text><text class="bit" x="624" y="162">0</text><text class="bit" x="664" y="162">0</text><text class="bit" x="704" y="162">0</text><text class="bit" x="744" y="162">0</text><text class="hex" x="604" y="232">0x60 · chip id</text></g>
   <rect class="wave-cursor fragment current-visible" data-fragment-index="4" x="764" y="-4" width="40" height="244"/>
-  <g class="draw fragment" data-fragment-index="4"><path class="lane lane--frame" pathLength="1" d="M764 34 H784 V0 H804"/><path class="lane lane--clk" pathLength="1" d="M764 90 H804"/><path class="lane lane--data" pathLength="1" d="M764 146 H774 V112 H804"/><path class="lane lane--data lane--in" pathLength="1" d="M764 202 H774 V185 H804"/></g>
+  <g class="draw fragment" data-fragment-index="4"><path class="lane stroke-silk-dim" pathLength="1" d="M764 34 H784 V0 H804"/><path class="lane lane--clk" pathLength="1" d="M764 90 H804"/><path class="lane lane--data" pathLength="1" d="M764 146 H774 V112 H804"/><path class="lane lane--data lane--in" pathLength="1" d="M764 202 H774 V185 H804"/></g>
     </svg>
 
     <div class="r-stack">
@@ -508,11 +508,11 @@ bme = bme280.BME280(i2c=i2c)
   <rect class="band band--nack fragment" data-fragment-index="8" x="784" y="184" width="40" height="170"/>
   <rect class="band band--ctl fragment" data-fragment-index="9" x="824" y="184" width="40" height="170"/>
   <text class="lane-label" x="0" y="45">SCL</text>
-  <text class="lane-label lane-label--data" x="0" y="101">SDA</text>
+  <text class="lane-label fill-gold" x="0" y="101">SDA</text>
   <text class="lane-label lane-label--who" x="0" y="137">MCU</text>
   <text class="lane-label lane-label--who" x="0" y="165">BME280</text>
   <text class="lane-label" x="0" y="225">SCL</text>
-  <text class="lane-label lane-label--data" x="0" y="281">SDA</text>
+  <text class="lane-label fill-gold" x="0" y="281">SDA</text>
   <text class="lane-label lane-label--who" x="0" y="317">MCU</text>
   <text class="lane-label lane-label--who" x="0" y="345">BME280</text>
   <g class="wave-base"><path class="lane lane--clk" pathLength="1" d="M64 22 H104"/><path class="lane lane--data" pathLength="1" d="M64 78 H104"/></g>
@@ -572,37 +572,37 @@ bme = bme280.BME280(i2c=i2c)
       <h2>I²C: resistors pull HIGH, chips pull LOW</h2>
     </header>
 
-    <ul class="list--wide pullups-intro">
+    <ul class="pullups-intro list--tight">
       <li>Pull-up resistors hold SDA (data) and SCL (clock) HIGH, at 3.3 V.</li>
       <li>The microcontroller and the I²C device pull the lines LOW to communicate.</li>
     </ul>
 
-    <div class="cols cols--wide-left pullups">
+    <div class="cols cols--wide-left pullups" style="--panel-pad: 22px 26px 16px">
       <div class="panel" data-label="Pull-ups add up">
         <svg class="diagram" viewBox="0 0 520 150" width="520" height="150" role="img">
           <title>Three breakouts on one bus, each with a 4.7 kilo-ohm pull-up from 3V3 to SDA; together they act as 1.6 kilo-ohms</title>
           <text class="lane-label" x="0" y="25">3V3</text>
-          <text class="lane-label lane-label--data" x="0" y="145">SDA</text>
+          <text class="lane-label fill-gold" x="0" y="145">SDA</text>
           <path class="rail" d="M56 20 H331"/>
           <path class="lane lane--data" d="M56 140 H331"/>
           <rect class="board-outline" x="67" y="30" width="84" height="100" rx="6"/>
           <text class="board-name" x="91" y="48">board 1</text>
           <path class="resistor" d="M85 20 V58 L76 66 L94 74 L76 82 L94 90 L76 98 L94 106 L85 114 V140"/>
           <text class="ohms" x="96" y="91">4.7 kΩ</text>
-          <circle class="node" cx="85" cy="20" r="5"/>
-          <circle class="node" cx="85" cy="140" r="5"/>
+          <circle class="fill-gold" cx="85" cy="20" r="5"/>
+          <circle class="fill-gold" cx="85" cy="140" r="5"/>
           <rect class="board-outline" x="157" y="30" width="84" height="100" rx="6"/>
           <text class="board-name" x="181" y="48">board 2</text>
           <path class="resistor" d="M175 20 V58 L166 66 L184 74 L166 82 L184 90 L166 98 L184 106 L175 114 V140"/>
           <text class="ohms" x="186" y="91">4.7 kΩ</text>
-          <circle class="node" cx="175" cy="20" r="5"/>
-          <circle class="node" cx="175" cy="140" r="5"/>
+          <circle class="fill-gold" cx="175" cy="20" r="5"/>
+          <circle class="fill-gold" cx="175" cy="140" r="5"/>
           <rect class="board-outline" x="247" y="30" width="84" height="100" rx="6"/>
           <text class="board-name" x="271" y="48">board 3</text>
           <path class="resistor" d="M265 20 V58 L256 66 L274 74 L256 82 L274 90 L256 98 L274 106 L265 114 V140"/>
           <text class="ohms" x="276" y="91">4.7 kΩ</text>
-          <circle class="node" cx="265" cy="20" r="5"/>
-          <circle class="node" cx="265" cy="140" r="5"/>
+          <circle class="fill-gold" cx="265" cy="20" r="5"/>
+          <circle class="fill-gold" cx="265" cy="140" r="5"/>
           <text class="ohms-note" x="348" y="56">Together, in parallel,</text>
           <text class="ohms-note" x="348" y="78">they lower the resistance:</text>
           <text class="ohms ohms--sum" x="348" y="112">1.6 kΩ</text>

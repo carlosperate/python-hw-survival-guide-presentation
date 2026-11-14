@@ -50,12 +50,12 @@ def board(i, name, img, aspect, mm, ram, flash, cpu, cx):
     return [
         f'<g class="b-rise" style="--d:{2 + 4 * i}">',
         f'  <image href="/images/boards/{img}" x="{n(cx - w / 2)}" y="{n(FLOOR - h)}" width="{n(w)}" height="{n(h)}" filter="url(#ms-shadow)"/>',
-        f'  <text class="ms-name" x="{n(cx)}" y="146" text-anchor="middle">{name}</text>',
+        f'  <text class="ms-name fill-silk-dim" x="{n(cx)}" y="146" text-anchor="middle">{name}</text>',
         f'  <text class="ms-cpu" x="{n(cx)}" y="165" text-anchor="middle">{cpu}</text>',
-        f'  <path class="ms-trace" d="{leader(cx, rx)}"/>',
+        f'  <path class="ms-trace stroke-gold" d="{leader(cx, rx)}"/>',
         f'  <path class="ms-link" d="M{n(rx)} {RAM_Y + 6} L{n(fx)} {FLASH_Y - 6}" mask="url(#ms-label-gaps)"/>',
-        f'  <circle class="ms-via ms-via--ram" cx="{n(rx)}" cy="{RAM_Y}" r="5"/>',
-        f'  <circle class="ms-via ms-via--flash" cx="{n(fx)}" cy="{FLASH_Y}" r="5"/>',
+        f'  <circle class="ms-via stroke-gold" cx="{n(rx)}" cy="{RAM_Y}" r="5"/>',
+        f'  <circle class="ms-via stroke-blue" cx="{n(fx)}" cy="{FLASH_Y}" r="5"/>',
         '</g>',
     ]
 
@@ -82,10 +82,10 @@ def build():
     o = ['<defs><filter id="ms-shadow" x="-20%" y="-20%" width="140%" height="160%">'
          '<feDropShadow class="ms-shadow" dx="0" dy="8" stdDeviation="6"/></filter></defs>']
     o.extend(panels())
-    o.append(f'<path class="ms-axis ms-axis--ram" d="M{n(left)} {RAM_Y} H{n(right)}"/>')
-    o.append(f'<path class="ms-axis ms-axis--flash" d="M{n(left)} {FLASH_Y} H{n(right)}"/>')
-    o.append(f'<text class="ms-axis-label ms-axis-label--ram" x="8" y="{RAM_Y + 6}">RAM</text>')
-    o.append(f'<text class="ms-axis-label ms-axis-label--flash" x="8" y="{FLASH_Y + 6}">FLASH</text>')
+    o.append(f'<path class="ms-axis stroke-gold" d="M{n(left)} {RAM_Y} H{n(right)}"/>')
+    o.append(f'<path class="ms-axis stroke-blue" d="M{n(left)} {FLASH_Y} H{n(right)}"/>')
+    o.append(f'<text class="ms-axis-label fill-gold" x="8" y="{RAM_Y + 6}">RAM</text>')
+    o.append(f'<text class="ms-axis-label fill-blue" x="8" y="{FLASH_Y + 6}">FLASH</text>')
     ticks, labels, gaps = [], [], []
     for k, label in enumerate(['10 KB', '100 KB', '1 MB', '10 MB', '100 MB', '1 GB', '10 GB', '100 GB']):
         tx = AX0 + k * DECADE
@@ -95,7 +95,7 @@ def build():
                 labels.append(f'<text class="ms-tick-label" x="{tx}" y="{y}" text-anchor="middle">{label}</text>')
             w = len(label) * 9.6 + 10  # 14px mono with its tracking
             gaps.append(f'<rect x="{n(tx - w / 2)}" y="{RAM_Y + 14}" width="{n(w)}" height="20"/>')
-    o.append(f'<path class="ms-tick" d="{" ".join(ticks)}"/>')
+    o.append(f'<path class="ms-tick stroke-silk-mute" d="{" ".join(ticks)}"/>')
     # The dotted links break where they cross the RAM scale's labels.
     o[0] = o[0].replace('</defs>', f'<mask id="ms-label-gaps" maskUnits="userSpaceOnUse" x="0" y="0" width="{W}" height="{H}">'
                         f'<rect width="{W}" height="{H}" fill="#fff"/><g fill="#000">{"".join(gaps)}</g></mask></defs>')

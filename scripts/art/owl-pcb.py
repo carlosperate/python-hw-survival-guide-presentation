@@ -125,7 +125,7 @@ def chip(x, y, kind, rot, w, h):
     cap = w * 0.2
     return (f'<g transform="translate({n(x)} {n(y)}) rotate({rot})">'
             f'<rect class="op-{kind}" x="{n(-w / 2)}" y="{n(-h / 2)}" width="{n(w)}" height="{n(h)}"/>'
-            f'<path class="op-tin" d="M{n(-w / 2)} {n(-h / 2)}h{n(cap)}v{n(h)}h{n(-cap)}z M{n(w / 2 - cap)} {n(-h / 2)}h{n(cap)}v{n(h)}h{n(-cap)}z"/></g>')
+            f'<path class="fill-silk-dim" d="M{n(-w / 2)} {n(-h / 2)}h{n(cap)}v{n(h)}h{n(-cap)}z M{n(w / 2 - cap)} {n(-h / 2)}h{n(cap)}v{n(h)}h{n(-cap)}z"/></g>')
 
 
 def text(x, y, s, cls='op-text', anchor=None):
@@ -255,20 +255,20 @@ def build():
     # ---- Copper you can see: pads, holes, vias, fiducials ----
     pads_l = [(50 + 10 * i, pad_y) for i in range(10)]
     pads_r = [(340 + 10 * i, pad_y) for i in range(10)]
-    b.role('<rect class="op-gold" x="46.6" y="246.6" width="6.8" height="6.8" rx="0.6"/>'
-           f'<path class="op-gold" d="{via_path(pads_l[1:] + pads_r, 3.4)}"/>'
-           f'<path class="op-hole" d="{via_path(pads_l + pads_r, 1.5)}"/>', 'fade', 16)
+    b.role('<rect class="fill-gold" x="46.6" y="246.6" width="6.8" height="6.8" rx="0.6"/>'
+           f'<path class="fill-gold" d="{via_path(pads_l[1:] + pads_r, 3.4)}"/>'
+           f'<path class="fill-board-deep" d="{via_path(pads_l + pads_r, 1.5)}"/>', 'fade', 16)
     for shape, d in wing_feathers:
-        b.role(f'<path class="op-clear-ring" d="{shape}"/><path class="op-gold" d="{shape}"/>', 'fade', d)
+        b.role(f'<path class="op-clear-ring" d="{shape}"/><path class="fill-gold" d="{shape}"/>', 'fade', d)
     b.role(f'<path class="op-via" d="{via_path(wing_vias, 1.8)}"/>', 'fade', 18)
     other_vias = list(flash_vias) + [(191, 189), (222, 132), (258, 132), (196, 128), (284, 128),
                                      (222, 210), (224, 201.5), (246, 199.5), (222.67, 218.5), (257.33, 218.5), (178, 212), (302, 212),
                                      (223.5, 145), (256.5, 145), (217.5, 192.5), (256, 191.5), (288.3, 154.33 - 5.3), (288.3, 163.67 + 4)]
     b.role(f'<path class="op-via" d="{via_path(other_vias)}"/>', 'fade', 17)
     for mxh in (28, 452):
-        b.role(f'<circle class="op-gold" cx="{mxh}" cy="240" r="7.5"/><circle class="op-hole" cx="{mxh}" cy="240" r="4.2"/>', 'fade', 15)
+        b.role(f'<circle class="fill-gold" cx="{mxh}" cy="240" r="7.5"/><circle class="fill-board-deep" cx="{mxh}" cy="240" r="4.2"/>', 'fade', 15)
     for fx in (186, 294):
-        b.role(f'<circle class="op-clear" cx="{fx}" cy="40" r="4.2"/><circle class="op-gold" cx="{fx}" cy="40" r="1.8"/>', 'fade', 15)
+        b.role(f'<circle class="op-clear" cx="{fx}" cy="40" r="4.2"/><circle class="fill-gold" cx="{fx}" cy="40" r="1.8"/>', 'fade', 15)
 
     # ---- Silkscreen ----
     silk = ['<rect class="op-silk" x="43" y="243" width="104" height="14" rx="1"/>',
@@ -288,7 +288,7 @@ def build():
     def soic(x, y, w2, h2, legs_y, dot):
         d = ' '.join(f'M{n(x - w2 / 2 - 4)} {n(ly - 1)}h4v2h-4z M{n(x + w2 / 2)} {n(ly - 1)}h4v2h-4z' for ly in legs_y)
         return (f'<rect class="op-ic" x="{n(x - w2 / 2)}" y="{n(y - h2 / 2)}" width="{w2}" height="{h2}" rx="1"/>'
-                f'<path class="op-tin" d="{d}"/><circle class="op-silk-dot" cx="{n(dot[0])}" cy="{n(dot[1])}" r="0.9"/>')
+                f'<path class="fill-silk-dim" d="{d}"/><circle class="op-silk-dot" cx="{n(dot[0])}" cy="{n(dot[1])}" r="0.9"/>')
 
     ticks = []
     for o in offs:
@@ -296,14 +296,14 @@ def build():
                   f'M{n(cx - h - 2)} {n(cy + o - 0.55)}v1.1h2.4v-1.1z', f'M{n(cx + h - 0.4)} {n(cy + o - 0.55)}v1.1h2.4v-1.1z']
     m = 28 * 0.62
     b.role(f'<rect class="op-ic" x="{cx - h}" y="{cy - h}" width="28" height="28" rx="1"/>'
-           f'<path class="op-tin" d="{" ".join(ticks)}"/>'
+           f'<path class="fill-silk-dim" d="{" ".join(ticks)}"/>'
            f'<image href="/images/python-mark.svg" x="{n(cx - m / 2)}" y="{n(cy - m / 2)}" width="{n(m)}" height="{n(m)}"/>'
            f'<circle class="op-silk-dot" cx="{cx - h + 2.6}" cy="{cy - h + 2.6}" r="0.9"/>', 'place', 20)
     b.role(soic(u2x, 166, 14, 20, legs, (u2x + 4.5, 173.5)), 'place', 21)
     b.role('<rect class="op-metal" x="263" y="152.5" width="12" height="9.5" rx="1.2"/>'
            '<rect class="op-metal-top" x="264.5" y="154" width="9" height="6.5" rx="0.8"/>', 'place', 22)
     b.role(soic(235, 210, 8, 12, [], (232.5, 206.5)) +
-           '<path class="op-tin" d="M227 205h4v2h-4z M227 209h4v2h-4z M227 213h4v2h-4z M239 205h4v2h-4z M239 213h4v2h-4z"/>', 'place', 23)
+           '<path class="fill-silk-dim" d="M227 205h4v2h-4z M227 209h4v2h-4z M227 213h4v2h-4z M239 205h4v2h-4z M239 213h4v2h-4z"/>', 'place', 23)
     passives = [(229, 145, 'cap', 0), (251, 145, 'cap', 0), (222, 186, 'cap', 90), (256, 186, 'cap', 90),
                 (191, 181, 'cap', 90), (281, 154.33 - 5.3, 'cap', 0), (281, 163.67 + 4, 'cap', 0)]
     for i, (x, y, kind, rot) in enumerate(passives):
@@ -313,11 +313,11 @@ def build():
             b.role(chip(xr if side == 1 else 480 - xr, y0 + 7, 'res', 0, 4, 2), 'place', 25 + i)
 
     # USB-C receptacle: stainless shell, shell legs in plated slots, a fine-pitch pad row behind it.
-    slots = ''.join(f'<rect class="op-gold" x="{sx - 3.5}" y="{sy - 5}" width="7" height="10" rx="3.5"/>'
-                    f'<rect class="op-hole" x="{sx - 1.6}" y="{sy - 3.4}" width="3.2" height="6.8" rx="1.6"/>'
+    slots = ''.join(f'<rect class="fill-gold" x="{sx - 3.5}" y="{sy - 5}" width="7" height="10" rx="3.5"/>'
+                    f'<rect class="fill-board-deep" x="{sx - 1.6}" y="{sy - 3.4}" width="3.2" height="6.8" rx="1.6"/>'
                     for sx in (218.5, 261.5) for sy in (236, 251))
     pads = ' '.join(f'M{n(x - 0.6)} 224h1.2v4.4h-1.2z' for x in usb_pads)
-    b.role(slots + f'<path class="op-gold" d="{pads}"/>', 'fade', 16)
+    b.role(slots + f'<path class="fill-gold" d="{pads}"/>', 'fade', 16)
     b.role('<rect class="op-metal" x="222" y="230" width="36" height="29" rx="2"/>'
            '<rect class="op-metal-top" x="223.5" y="231.5" width="33" height="26" rx="1.4"/>'
            '<path class="op-metal-edge" d="M224 234.2 H256"/>'
@@ -328,7 +328,7 @@ def build():
            '<path class="op-metal-edge" d="M222 241 h-2.5 M222 246 h-2.5 M258 241 h2.5 M258 246 h2.5"/>', 'place', 28)
 
     # Feet gripping the branch.
-    b.role(''.join(f'<rect class="op-gold" x="{fx + dx - 2}" y="{236 + abs(dx) // 3}" width="4" height="11" rx="2"/>'
+    b.role(''.join(f'<rect class="fill-gold" x="{fx + dx - 2}" y="{236 + abs(dx) // 3}" width="4" height="11" rx="2"/>'
                    for fx in (200, 280) for dx in (-7, 0, 7)), 'fade', 17)
 
     # ---- The eyes and beak, switched on last ----
@@ -342,9 +342,9 @@ def build():
                     + ''.join(f'<rect class="op-led-on" x="{n(cxe + 25 * math.cos(a) - 2.2)}" y="{n(cye + 25 * math.sin(a) - 2.2)}" width="4.4" height="4.4" rx="0.5"/>'
                               for a in (math.pi * 2 * k / 12 for k in range(12)))
                     + f'<circle class="op-iris" cx="{cxe}" cy="{cye}" r="10"/>'
-                      f'<circle class="op-hole" cx="{cxe}" cy="{cye}" r="5"/>'
-                      f'<circle class="op-shine" cx="{cxe + 3}" cy="{cye - 3}" r="1.8"/>')
-    b.role('<path class="op-gold" d="M240 112 L247 120 L240 130 L233 120 Z"/>', 'fade', 16)
+                      f'<circle class="fill-board-deep" cx="{cxe}" cy="{cye}" r="5"/>'
+                      f'<circle class="fill-silk" cx="{cxe + 3}" cy="{cye - 3}" r="1.8"/>')
+    b.role('<path class="fill-gold" d="M240 112 L247 120 L240 130 L233 120 Z"/>', 'fade', 16)
     b.role(''.join(eyes), 'glow', 34)
     return b
 

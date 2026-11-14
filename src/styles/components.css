@@ -62,17 +62,6 @@
   font-size: 1.16em;
   line-height: 1.45;
   color: var(--pcb-silk-dim);
-  max-width: none;
-}
-
-/* Lists that read better on one line than wrapped at the usual measure. */
-.reveal :is(ul, ol).list--wide {
-  max-width: none;
-}
-
-/* The same for a paragraph. */
-.reveal p.text--wide {
-  max-width: none;
 }
 
 /* A short list on a roomy slide: read from the back of the hall. */
@@ -97,6 +86,11 @@
   padding-bottom: 0.4em;
 }
 
+/* Items closer than the theme's list rhythm, at the same size. */
+.reveal :is(ul, ol).list--tight li {
+  margin-bottom: 0.3em;
+}
+
 /* Inline net / signal name. */
 .reveal .net {
   font-family: var(--pcb-font-mono);
@@ -118,7 +112,6 @@
 
 .reveal .caption {
   margin: 14px 0 0;
-  max-width: none;
   text-align: center;
   font-family: var(--pcb-font-mono);
   font-size: var(--pcb-text-label);
@@ -145,7 +138,6 @@
   align-items: flex-start;
   gap: 22px;
   margin: 0;
-  max-width: none;
   font-family: var(--pcb-font-mono);
   font-size: 30px;
   font-weight: 400;
@@ -177,7 +169,6 @@
   align-items: center;
   gap: 16px;
   margin: 0;
-  max-width: none;
   font-family: var(--pcb-font-mono);
   font-size: 15px;
   font-weight: 500;
@@ -274,9 +265,10 @@
 }
 
 /* Raised board area for a diagram or a code listing. */
+/* A slide whose panels need less room sets --panel-pad on their container. */
 .reveal .panel {
   position: relative;
-  padding: 30px 32px;
+  padding: var(--panel-pad, 30px 32px);
   border-radius: 10px;
   background: color-mix(in srgb, var(--pcb-board-panel) 82%, transparent);
   border: 1px solid color-mix(in srgb, var(--pcb-gold) 34%, transparent);
@@ -540,7 +532,6 @@
 }
 
 .reveal .pinout {
-  max-width: none;
   font-family: var(--pcb-font-mono);
   font-size: var(--pcb-text-dense);
 }
@@ -610,10 +601,6 @@
   grid-template-columns: auto 1fr;
   align-items: center;
   gap: 56px;
-}
-
-.reveal .bio ul {
-  max-width: none;
 }
 
 .reveal .bio__photo,

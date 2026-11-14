@@ -10,3 +10,6 @@
 @import "./art/memory-scale.css";
 @import "./art/owl-pcb.css";
 @import "./art/ram-scale.css";
+
+/* Last, so a colour class overrides a drawing's own base colour. */
+@import "./colours.css";

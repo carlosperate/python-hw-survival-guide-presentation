@@ -1,0 +1,44 @@
+/*
+  Plain colours for drawings, named after their tokens. Imported last, so a colour class
+  overrides the base colour a drawing's own class sets.
+*/
+
+.reveal svg .fill-gold {
+  fill: var(--pcb-gold);
+}
+
+.reveal svg .fill-blue {
+  fill: var(--pcb-blue);
+}
+
+.reveal svg .fill-silk {
+  fill: var(--pcb-silk);
+}
+
+.reveal svg .fill-silk-dim {
+  fill: var(--pcb-silk-dim);
+}
+
+.reveal svg .fill-silk-mute {
+  fill: var(--pcb-silk-mute);
+}
+
+.reveal svg .fill-board-deep {
+  fill: var(--pcb-board-deep);
+}
+
+.reveal svg .stroke-gold {
+  stroke: var(--pcb-gold);
+}
+
+.reveal svg .stroke-blue {
+  stroke: var(--pcb-blue);
+}
+
+.reveal svg .stroke-silk-dim {
+  stroke: var(--pcb-silk-dim);
+}
+
+.reveal svg .stroke-silk-mute {
+  stroke: var(--pcb-silk-mute);
+}

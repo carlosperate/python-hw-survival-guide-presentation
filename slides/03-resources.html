@@ -14,7 +14,7 @@
     </header>
 
     <div class="ram-points">
-      <ul class="list--wide list--large">
+      <ul class="list--large">
         <li>Memory! KBs, maybe MBs, of RAM & flash</li>
         <li class="fragment" data-fragment-index="2">CPU frequencies in MHz, not GHz</li>
         <li class="fragment" data-fragment-index="3">Python standard library is limited</li>
@@ -32,7 +32,7 @@
           </div>
           <div class="ram-scale__window">
             <div class="ram-scale__far">
-              <div class="ram-scale__laptop"><span>16 GB laptop</span></div>
+              <div class="ram-scale__laptop" style="width: 300px; height: 300px"><span>16 GB laptop</span></div>
             </div>
             <div class="ram-scale__psram">
               <img class="board-shot ram-scale__board" style="--mm: 63" src="/images/boards/esp32-s3-devkitc-1.webp" alt="Espressif ESP32-S3-DevKitC-1" />
@@ -70,7 +70,7 @@
 
     <div class="cols cols--fit-left cols--fit">
       <div>
-        <pre class="compact"><code class="language-python" data-trim>
+        <pre class="compact" style="margin: 0"><code class="language-python" data-trim>
 from machine import Pin
 presses = 0
 
@@ -82,9 +82,9 @@ button = Pin(BUTTON_PIN, Pin.IN, Pin.PULL_UP)
 # a press pulls the pin low: a falling edge
 button.irq(on_press, Pin.IRQ_FALLING)
         </code></pre>
-        <p class="caption caption--left">Not on CircuitPython: use <code>countio</code>, <code>keypad</code></p>
+        <p class="caption caption--left" style="margin-top: 12px; font-size: 18px">Not on CircuitPython: use <code>countio</code>, <code>keypad</code></p>
       </div>
-      <ul class="pinout">
+      <ul class="pinout" style="margin: 0; font-size: 20px">
         <li><span class="pinout__pin">Soft Interrupt</span><span class="pinout__net">default for pins: queued, so it can lag. May allocate</span></li>
         <li><span class="pinout__pin">Hard Interrupt</span><span class="pinout__net"><code>hard=True</code>: runs at once, heap locked: no floats or <code>append()</code></span></li>
         <li><span class="pinout__pin">Hard → soft</span><span class="pinout__net"><code>micropython.schedule(f, arg)</code><br /><code>f</code> runs soft, soon after</span></li>
@@ -109,16 +109,16 @@ button.irq(on_press, Pin.IRQ_FALLING)
 <!-- Ways to run out of RAM -->
 <!-- ---------------------- -->
 <section>
-  <section class="is-body-centered ram-ways" data-ble-badge="out of RAM">
+  <section class="is-body-centered" data-ble-badge="out of RAM">
     <header class="slide-head">
       <h2>Common ways to run out of RAM</h2>
     </header>
 
-    <ul class="list--wide">
+    <ul>
       <li><code>MemoryError</code> when an allocation didn't find enough contiguous free memory.</li>
     </ul>
 
-    <div class="cards cards--3">
+    <div class="cards cards--3" style="margin: 18px 0 40px">
       <div class="panel fragment" data-label="One big thing" data-fragment-index="1">
         <h4>Large allocations</h4>
         <p>One list/array, buffer or string larger than available memory.</p>
@@ -133,7 +133,7 @@ button.irq(on_press, Pin.IRQ_FALLING)
       </div>
     </div>
 
-    <ul class="list--wide">
+    <ul>
       <li class="fragment" data-fragment-index="5"><code>import gc</code> provides functions to check and manage memory.</li>
     </ul>
 
@@ -171,9 +171,9 @@ GC: total: 64000, used: 9824, <b class="net">free: 54176</b>
       <h2>Which lines cost memory?</h2>
     </header>
 
-    <div class="cols cols--fit cost-lists">
+    <div class="cols cols--fit">
       <div class="panel" data-label="Allocates">
-        <ul>
+        <ul style="font-size: 28px">
           <li><code>import</code>, <code>def</code>, <code>class</code></li>
           <li>a new list, dict, str or bytes</li>
           <li><code>s + t</code>, <code>f"{t}"</code>, <code>data[4:20]</code></li>
@@ -182,7 +182,7 @@ GC: total: 64000, used: 9824, <b class="net">free: 54176</b>
         </ul>
       </div>
       <div class="panel" data-label="No allocations">
-        <ul>
+        <ul style="font-size: 28px">
           <li><code>if</code>, <code>for</code>, <code>while</code>, <code>try</code></li>
           <li>locals, small-int maths: <code>n += 1</code></li>
           <li>calling a function or a method</li>
@@ -204,12 +204,12 @@ GC: total: 64000, used: 9824, <b class="net">free: 54176</b>
 <!-- HABITS -->
 <!-- ------ -->
 <section>
-  <section class="tweaks-memory">
+  <section style="--pcb-code-size: 25px; --pcb-code-pad: 22px 18px">
     <header class="slide-head">
       <h2>Small tweaks to common habits</h2>
     </header>
 
-    <table class="habits">
+    <table class="habits" style="font-size: 28px">
       <tbody class="fade-past">
         <tr class="fragment" data-fragment-index="0"><td><code>packet[4:20]</code></td><td class="verdict">→</td><td>a <code>memoryview</code> does not copy data</td></tr>
         <tr class="fragment" data-fragment-index="2"><td><code>uart.read(64)</code></td><td class="verdict">→</td><td><code>uart.readinto(buf)</code> reuses one buffer</td></tr>
@@ -248,7 +248,7 @@ temps[i] = sensor.temperature
   <!-- --------------- -->
   <!-- KEEP IT RUNNING -->
   <!-- --------------- -->
-  <section class="keep-running">
+  <section class="keep-running" style="--panel-pad: 18px 18px 14px; --pcb-code-size-compact: 15px">
     <header class="slide-head">
       <h2>Keeping memory under control</h2>
     </header>
@@ -290,7 +290,7 @@ except MemoryError as e:
       </div>
     </div>
 
-    <p class="caption caption--left qr-clear qr-clear--low">
+    <p class="caption caption--left qr-clear qr-clear--low" style="margin-top: 18px">
       Read:
       <a href="https://docs.micropython.org/en/latest/library/gc.html" target="_blank" rel="noopener">MicroPython gc</a> ·
       <a href="https://docs.micropython.org/en/latest/library/micropython.html#micropython.heap_lock" target="_blank" rel="noopener">heap_lock()</a> ·
@@ -347,11 +347,11 @@ import bme280  # a 10 KB .py driver
         </g>
         <g class="draw fragment" data-fragment-index="4">
           <path class="lane lane--clk" pathLength="1" d="M125 320 H173 L190 253 H880"/>
-          <text class="legend legend--clk" x="200" y="243">.mpy</text>
+          <text class="legend fill-blue" x="200" y="243">.mpy</text>
         </g>
         <g class="draw fragment" data-fragment-index="5">
-          <path class="lane lane--frame" pathLength="1" d="M125 320 H173 L186 279 H880"/>
-          <path class="lane lane--frame" pathLength="1" d="M125 320 H173 L182 308 H880"/>
+          <path class="lane stroke-silk-dim" pathLength="1" d="M125 320 H173 L186 279 H880"/>
+          <path class="lane stroke-silk-dim" pathLength="1" d="M125 320 H173 L182 308 H880"/>
           <text class="axis-label" x="892" y="288">ROMFS 4.1 KB</text>
           <text class="axis-label" x="892" y="317">frozen 1.2 KB</text>
         </g>
@@ -374,12 +374,12 @@ import bme280  # a 10 KB .py driver
   <!-- -------------------- -->
   <!-- .MPY, ROMFS & FROZEN -->
   <!-- -------------------- -->
-  <section class="is-body-centered mpy-homes">
+  <section class="is-body-centered">
     <header class="slide-head">
       <h2>Where your .mpy lives</h2>
     </header>
 
-    <p class="lede">A <code>.mpy</code> is a <code>.py</code> already compiled by <a href="https://github.com/micropython/micropython/tree/master/mpy-cross" target="_blank" rel="noopener">mpy-cross</a> on your computer. Different locations provide different trade-offs.</p>
+    <p class="lede" style="margin-bottom: 22px">A <code>.mpy</code> is a <code>.py</code> already compiled by <a href="https://github.com/micropython/micropython/tree/master/mpy-cross" target="_blank" rel="noopener">mpy-cross</a> on your computer. Different locations provide different trade-offs.</p>
 
     <table class="mpy-table qr-clear">
       <thead>
@@ -418,7 +418,7 @@ import bme280  # a 10 KB .py driver
 <!-- FRAGMENTATION -->
 <!-- ------------- -->
 <section>
-  <section class="is-body-centered fragmentation" data-ble-badge="fragmentation">
+  <section class="is-body-centered" data-ble-badge="fragmentation">
     <header class="slide-head">
       <h2>Memory fragmentation</h2>
     </header>
@@ -454,9 +454,9 @@ A===FS=FF.FS=F..F..F..FS=F.
     </div>
 
     <div class="r-stack swap readouts">
-      <p class="readout fragment fade-out" data-fragment-index="0">The loop fills the heap: each float kept, each string dropped</p>
-      <p class="readout fragment current-visible" data-fragment-index="0">No room for <code>big_array</code>, so the collector frees the strings:<br />We have <b>256 B</b> free, but the biggest hole is 2 blocks = <b>32 B</b></p>
-      <p class="readout fragment" data-fragment-index="1"><span class="verdict--ok">✓</span> the loop fills and frees the space after it; <code>big_array</code> keeps its room</p>
+      <p class="readout fragment fade-out" data-fragment-index="0" style="font-size: 24px">The loop fills the heap: each float kept, each string dropped</p>
+      <p class="readout fragment current-visible" data-fragment-index="0" style="font-size: 24px">No room for <code>big_array</code>, so the collector frees the strings:<br />We have <b>256 B</b> free, but the biggest hole is 2 blocks = <b>32 B</b></p>
+      <p class="readout fragment" data-fragment-index="1" style="font-size: 24px"><span class="verdict--ok">✓</span> the loop fills and frees the space after it; <code>big_array</code> keeps its room</p>
     </div>
 
     <div class="r-stack swap">
@@ -482,12 +482,12 @@ A===
     </header>
 
     <div class="cols">
-      <pre class="compact"><code class="language-python" data-trim>
+      <pre class="compact" style="margin: 0"><code class="language-python" data-trim>
 readings = []
 while True:
     readings.append(read())  # ✕ forever
       </code></pre>
-      <pre class="compact"><code class="language-python" data-trim>
+      <pre class="compact" style="margin: 0"><code class="language-python" data-trim>
 from collections import deque
 readings = deque((), 6)      # ✓ the last 6
 while True:
@@ -495,8 +495,8 @@ while True:
       </code></pre>
     </div>
 
-    <p class="kicker">1 square = 1 reading · gold: the newest</p>
-    <div class="leaks__strips">
+    <p class="kicker" style="margin: 22px 0 0">1 square = 1 reading · gold: the newest</p>
+    <div class="leaks__strips" style="margin-top: 10px">
       <pre class="heap-map heap--small leaks__list" aria-label="A list: one more reading each time, until the heap is full">
 FFFFFFFFFFFFFFFFFFFFFFFFFFF
       </pre>
@@ -507,14 +507,14 @@ FFFFFF.....................
       <p class="readout"><span class="verdict--ok">✓</span> the deque: newest replaces oldest</p>
     </div>
 
-    <ul class="pinout qr-clear">
+    <ul class="pinout qr-clear" style="margin-top: 14px; font-size: 18px">
       <li><span class="pinout__pin">Why</span><span class="pinout__net">the collector can't free what the list still points to</span></li>
       <li><span class="pinout__pin">Spot it</span><span class="pinout__net">if no other allocations happening and <code>gc.collect()</code> + <code>gc.mem_free()</code> shows less free mem over time.</span></li>
       <li><span class="pinout__pin">Also grows</span><span class="pinout__net">a log string, a cache <code>dict</code>, callbacks added on every reconnect</span></li>
       <li><span class="pinout__pin">No deque?</span><span class="pinout__net">use an <code>array</code> as a ring buffer</span></li>
     </ul>
 
-    <p class="caption caption--left qr-clear">
+    <p class="caption caption--left qr-clear" style="margin-top: 14px">
       Read:
       <a href="https://docs.micropython.org/en/latest/library/collections.html" target="_blank" rel="noopener">MicroPython collections.deque</a> ·
       <a href="https://docs.micropython.org/en/latest/reference/constrained.html" target="_blank" rel="noopener">MicroPython on microcontrollers</a>
@@ -566,16 +566,16 @@ def checksum(buf) -> int:
         <svg class="diagram" viewBox="0 0 560 196" width="560" height="196" role="img">
           <title>Adafruit's fixed-point Mandelbrot on a Metro RP2040: bytecode 8,335 ms, native 4,778 ms, viper 423 ms.</title>
           <text class="bar-name" x="0" y="40">bytecode</text>
-          <path class="bar bar--dim" d="M120 34 H500"/>
+          <path class="bar stroke-silk-mute" d="M120 34 H500"/>
           <text class="axis-label" x="120" y="70">8,335 ms</text>
           <g class="fragment" data-fragment-index="0">
             <text class="bar-name" x="0" y="110">native</text>
-            <path class="bar bar--blue" d="M120 104 H338"/>
+            <path class="bar stroke-blue" d="M120 104 H338"/>
             <text class="axis-label" x="348" y="109">4,778 ms · 1.7×</text>
           </g>
           <g class="fragment" data-fragment-index="1">
             <text class="bar-name" x="0" y="170">viper</text>
-            <path class="bar bar--gold" d="M120 164 H139"/>
+            <path class="bar stroke-gold" d="M120 164 H139"/>
             <text class="axis-label" x="149" y="169">423 ms · 19.7×</text>
           </g>
         </svg>

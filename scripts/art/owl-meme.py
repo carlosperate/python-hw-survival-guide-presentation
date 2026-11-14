@@ -68,7 +68,7 @@ def passive(x, y, rot=0, kind='res', w=6, h=3):
     """A two-terminal SMD part: body, tinned ends."""
     cap = w * 0.22
     return at(x, y, rot, f'<rect class="op-{kind}" x="{n(-w / 2)}" y="{n(-h / 2)}" width="{n(w)}" height="{n(h)}"/>'
-                         f'<path class="op-tin" d="M{n(-w / 2)} {n(-h / 2)}h{n(cap)}v{n(h)}h{n(-cap)}z '
+                         f'<path class="fill-silk-dim" d="M{n(-w / 2)} {n(-h / 2)}h{n(cap)}v{n(h)}h{n(-cap)}z '
                          f'M{n(w / 2 - cap)} {n(-h / 2)}h{n(cap)}v{n(h)}h{n(-cap)}z"/>')
 
 
@@ -81,7 +81,7 @@ def ic(x, y, w, h, legs, rot=0, sides=2):
             py = -h / 2 + (k + 0.5) * h / legs - 0.5
             pins.append(f'M{n(-w / 2 - 1.8)} {n(py)}h1.8v1h-1.8z M{n(w / 2)} {n(py)}h1.8v1h-1.8z')
     return at(x, y, rot, f'<rect class="op-ic" x="{n(-w / 2)}" y="{n(-h / 2)}" width="{n(w)}" height="{n(h)}" rx="0.6"/>'
-                         f'<path class="op-tin" d="{" ".join(pins)}"/>'
+                         f'<path class="fill-silk-dim" d="{" ".join(pins)}"/>'
                          f'<circle class="op-silk-dot" cx="{n(-w / 2 + 1.4)}" cy="{n(-h / 2 + 1.4)}" r="0.5"/>')
 
 
@@ -102,8 +102,8 @@ def eye(cx, cy):
     return (led_ring(cx, cy, 'op-led') +
             f'<circle class="op-lcd" cx="{cx}" cy="{cy}" r="9"/>'
             f'<circle class="op-iris" cx="{cx}" cy="{cy}" r="5.6"/>'
-            f'<circle class="op-hole" cx="{cx}" cy="{cy}" r="2.8"/>'
-            f'<circle class="op-shine" cx="{n(cx + 2)}" cy="{n(cy - 2.2)}" r="1.2"/>')
+            f'<circle class="fill-board-deep" cx="{cx}" cy="{cy}" r="2.8"/>'
+            f'<circle class="fill-silk" cx="{n(cx + 2)}" cy="{n(cy - 2.2)}" r="1.2"/>')
 
 
 def feathers():
@@ -126,7 +126,8 @@ def board():
     out = []
 
     # Once the mask covers the drawing, the pencil left round it goes too; "2." and the circles stay.
-    out.append('<path class="om-paper b-fade" style="--d:18" d="M46 -4 H294 V378 H0 V188 H46 Z"/>')
+    # The paper in the silkscreen white, so it doesn't glare on the projector.
+    out.append('<path class="fill-silk b-fade" style="--d:18" d="M46 -4 H294 V378 H0 V188 H46 Z"/>')
 
     # Traced round the drawing first, then the mask covers it: one board from two shapes.
     out.append(f'<path class="op-edge om-pen b-draw" pathLength="1" style="--d:0" d="{OWL}"/>')
@@ -178,7 +179,7 @@ def board():
     # The eyes where the drawing's are, unlit for now, and the beak between them.
     for k, (x, y) in enumerate(EYES):
         out.append(f'<g class="b-place" style="--d:{24 + k}">{eye(x, y)}</g>')
-    out.append('<path class="op-gold b-place" style="--d:25" d="M136 86 L140 93 L136 101 L132 93 Z"/>')
+    out.append('<path class="fill-gold b-place" style="--d:25" d="M136 86 L140 93 L136 101 L132 93 Z"/>')
 
     # Wings: resistor arrays, top down. Belly: each feather a V of two 0603 parts, resistors and
     # capacitors by rows, a via under every other; they go down row by row.
@@ -193,10 +194,10 @@ def board():
         out.append(f'<g class="b-place" style="--d:{26 + row}">{v}</g>')
 
     # Talons over the branch, its header pins and the USB-C on the tail.
-    talons = ''.join(f'<rect class="op-gold" x="{n(x - 1.5)}" y="{n(branch_top(x) - 4)}" width="3" height="8" rx="1.5"/>'
+    talons = ''.join(f'<rect class="fill-gold" x="{n(x - 1.5)}" y="{n(branch_top(x) - 4)}" width="3" height="8" rx="1.5"/>'
                      for x in (94, 100, 106, 162, 168, 174))
     out.append(f'<g class="b-place" style="--d:28">{talons}</g>')
-    pins = ''.join(f'<circle class="op-gold" cx="{x}" cy="0" r="2.8"/><circle class="op-hole" cx="{x}" cy="0" r="1.3"/>'
+    pins = ''.join(f'<circle class="fill-gold" cx="{x}" cy="0" r="2.8"/><circle class="fill-board-deep" cx="{x}" cy="0" r="1.3"/>'
                    for x in list(range(16, 76, 9)) + list(range(198, 276, 9)))
     out.append(f'<g class="b-fade" style="--d:27"><g transform="{BRANCH_G}">{pins}</g></g>')
     out.append('<g class="b-place" style="--d:30"><rect class="op-metal" x="119" y="340" width="24" height="11" rx="2"/>'
@@ -212,7 +213,7 @@ def board():
 def build():
     return f'''<svg xmlns="http://www.w3.org/2000/svg" class="diagram owl-pcb owl-pcb--green build owl-meme" viewBox="0 0 {DRAW_W} {DRAW_H}" width="{DRAW_W}" height="{DRAW_H}" role="img">
   <title>The "How to draw an owl" meme: 1. two circles; 2. the owl, traced and built as an owl-shaped circuit board perched on a pin-header branch</title>
-  <rect class="om-paper" width="{DRAW_W}" height="{DRAW_H}" rx="3"/>
+  <rect class="fill-silk" width="{DRAW_W}" height="{DRAW_H}" rx="3"/>
   <image class="om-sketch" href="/images/other/owl-meme-drawing.png" width="{DRAW_W}" height="{DRAW_H}"/>
   <g transform="translate({OWL_AT[0]} {OWL_AT[1]})">
   {board()}

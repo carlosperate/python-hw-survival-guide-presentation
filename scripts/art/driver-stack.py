@@ -42,8 +42,8 @@ def build():
 
     # On entry only the divide and two empty boxes; each turns into its layers on a click.
     out.append(f'<path class="ds-split b-fade" style="--d:0" d="M0 {SPLIT_Y} H{W}"/>')
-    out.append(f'<text class="ds-side b-fade" style="--d:0" x="{BAR_X}" y="{SPLIT_Y - 6}">SOFTWARE ↑</text>')
-    out.append(f'<text class="ds-side b-fade" style="--d:0" x="{BAR_X}" y="{SPLIT_Y + 22}">HARDWARE ↓</text>')
+    out.append(f'<text class="ds-side fill-silk-mute b-fade" style="--d:0" x="{BAR_X}" y="{SPLIT_Y - 6}">SOFTWARE ↑</text>')
+    out.append(f'<text class="ds-side fill-silk-mute b-fade" style="--d:0" x="{BAR_X}" y="{SPLIT_Y + 22}">HARDWARE ↓</text>')
     soft_h = last * PITCH + BAR_H
     out.append(f'<g class="b-fade" style="--d:1"><g class="fragment fade-out" data-fragment-index="{last}">'
                f'<rect class="ds-box" x="{BAR_X}" y="0" width="{BAR_W}" height="{soft_h}" rx="6"/></g></g>')
@@ -56,9 +56,9 @@ def build():
         you = ' ds-layer--you' if i == 1 else ''
         out.append(f'<g class="fragment" data-fragment-index="{i}">'
                    f'<rect class="ds-layer{you}" x="{BAR_X}" y="{y}" width="{BAR_W}" height="{BAR_H}" rx="6"/>'
-                   f'<text class="ds-name{" ds-name--you" if i == 1 else ""}" x="{BAR_X + 18}" y="{y + 32}">{name}</text>'
+                   f'<text class="ds-name{" fill-gold" if i == 1 else ""}" x="{BAR_X + 18}" y="{y + 32}">{name}</text>'
                    + (f'<text class="ds-file" x="{BAR_X + BAR_W - 18}" y="{y + 32}">{file}</text>' if file else '')
-                   + (f'<circle class="ds-flow-start" cx="{FLOW_X}" cy="{mid(0)}" r="5"/>' if i == 0 else '')
+                   + (f'<circle class="fill-gold" cx="{FLOW_X}" cy="{mid(0)}" r="5"/>' if i == 0 else '')
                    + '</g>')
         if i:
             out.append(f'<g class="draw fragment" data-fragment-index="{i}">{flow(mid(i - 1), mid(i))}</g>')
@@ -68,7 +68,7 @@ def build():
                f'<rect class="ds-chip" x="{BAR_X}" y="{CHIP_Y}" width="{BAR_W}" height="{CHIP_H}" rx="10"/>'
                f'<text class="ds-chip-name" x="{BAR_X + 24}" y="{CHIP_Y + 42}">MICROCONTROLLER</text>'
                + ''.join(f'<text class="ds-pin" x="{BAR_X + BAR_W - 14}" y="{y + 6}">{p}</text>'
-                         f'<rect class="ds-pad" x="{BAR_X + BAR_W}" y="{y - 5}" width="10" height="10"/>'
+                         f'<rect class="fill-gold" x="{BAR_X + BAR_W}" y="{y - 5}" width="10" height="10"/>'
                          for p, y in zip(PINS, PIN_YS)) + '</g>')
     out.append(f'<g class="draw fragment" data-fragment-index="{chip_at}">{flow(mid(last), CHIP_Y + 40)}</g>')
     pad = BAR_X + BAR_W + 10

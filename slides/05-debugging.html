@@ -14,7 +14,7 @@
 
   <p class="lede">...but nothing happens, not even an error. Could it be the...</p>
 
-  <ul class="list--wide suspects">
+  <ul class="suspects">
     <li class="fragment"><b>Code?</b> the wrong pins, the wrong config, the wrong constructor?</li>
     <li class="fragment"><b>Driver?</b> the wrong defaults, similar but different chip, incomplete implementation?</li>
     <li class="fragment"><b>Wiring?</b> signals swapped, a loose jumper, a bad breadboard or solder joint?</li>
@@ -37,7 +37,7 @@
       <h2>Stop guessing, start debugging</h2>
     </header>
 
-    <ol class="method list--wide">
+    <ol style="font-size: calc(var(--pcb-text) * 0.9)">
       <li class="fragment" data-fragment-index="0"><b>Look first:</b> Disconnect power, inspect for damage, heat, a burnt smell? Check cables</li>
       <li class="fragment" data-fragment-index="1"><b>Check power:</b> Measuring voltage & ground, check signal directions and pins.
         <span class="method__split fragment" data-fragment-index="5" aria-hidden="true"></span>
@@ -46,9 +46,9 @@
       <li class="fragment" data-fragment-index="3"><b>Change one thing at a time:</b> and write down what you changed.
         <div class="meme fragment current-visible" data-fragment-index="3">
           <img src="/images/other/mythbusters-writing-it-down.jpg" alt="Adam Savage on MythBusters, holding up a clipboard" />
-          <blockquote class="quote quote--aside">
+          <blockquote class="quote" style="max-width: none; padding-left: 24px; font-size: 30px">
             "Remember kids, the only difference between screwing around and science is writing it down."
-            <cite>Adam Savage, MythBusters</cite>
+            <cite style="margin-top: 10px">Adam Savage, MythBusters</cite>
           </blockquote>
         </div>
       </li>
@@ -65,14 +65,14 @@
     </header>
 
     <div class="cols">
-      <ol class="rules-nine">
+      <ol style="font-size: var(--pcb-text-dense)">
         <li>Understand the system</li>
         <li>Make it fail</li>
         <li>Quit thinking and look</li>
         <li>Divide and conquer</li>
         <li>Change one thing at a time</li>
       </ol>
-      <ol class="rules-nine" start="6">
+      <ol start="6" style="font-size: var(--pcb-text-dense); counter-reset: pcb-step 5">
         <li>Keep an audit trail</li>
         <li>Check the plug</li>
         <li>Get a fresh view</li>
@@ -100,7 +100,7 @@
       <h2>Check power &amp; cables</h2>
     </header>
 
-    <ul class="list--wide power-checks">
+    <ul class="power-checks">
       <li class="fragment" data-fragment-index="0"><b>Cables:</b> Some USB cable only charge. Use a known&#8209;good data cable.</li>
       <li class="fragment" data-fragment-index="1"><b>Battery banks:</b> Some switch off when the board draws too little current.</li>
       <li class="fragment" data-fragment-index="2"><b>Voltage:</b> Ensure the right voltage level is used for your device and any components.</li>
@@ -120,7 +120,7 @@
       <line class="marker" x1="323" y1="26" x2="323" y2="134"/><text class="lane-note" x="323" y="14">Wi-Fi TX burst, motor starts, etc</text>
       <path class="lane lane--data" d="M323 48 C352 51 367 109 382 113 S 413 115 430 103"/>
       <text class="cross" x="374" y="100">✕</text><text class="console" x="323" y="160">Brownout detector was triggered</text>
-      <path class="lane lane--data" d="M430 103 V134 H488 C518 134 537 48 576 48 H770"/><text class="console console--ok" x="770" y="36" text-anchor="end">reset_cause() == PWRON_RESET</text>
+      <path class="lane lane--data" d="M430 103 V134 H488 C518 134 537 48 576 48 H770"/><text class="console fill-silk" x="770" y="36" text-anchor="end">reset_cause() == PWRON_RESET</text>
     </svg>
 
     <aside class="notes">
@@ -133,12 +133,12 @@
       <h2>Power budget</h2>
     </header>
 
-    <ul class="list--wide">
+    <ul>
       <li>Every part draws current, normally in milliamps (mA).</li>
       <li>Board power supply only provides only so much; microcontroller pins are more limited.</li>
     </ul>
 
-    <div class="cols power">
+    <div class="cols power" style="--panel-pad: 22px 26px 18px">
       <div class="panel" data-label="From the 3V3 pin">
         <table>
           <tbody>
@@ -163,7 +163,7 @@
       </div>
     </div>
 
-    <ul class="power-check">
+    <ul class="list--tight" style="font-size: 0.68em; max-width: 860px">
       <li><b>Add up</b> the datasheets: BME280 under 1 mA · OLED ~20 mA · NeoPixel up to 60 mA · servo, hundreds.</li>
       <li><b>Measure</b> with a USB power meter, or a multimeter in series.</li>
     </ul>
@@ -207,7 +207,7 @@
       <h2>Why did it reset?</h2>
     </header>
 
-    <p class="text--wide"><code>machine.reset_cause()</code> says why the board last started. Ask first thing in <code>main.py</code>.</p>
+    <p><code>machine.reset_cause()</code> says why the board last started. Ask first thing in <code>main.py</code>.</p>
 
     <ul class="pinout pinout--wide">
       <li><span class="pinout__pin">PWRON_RESET</span><span class="pinout__net">power came on: plugged in, or the supply dipped (a brownout)</span></li>
@@ -261,7 +261,7 @@
       <h2>Most of your debugging habits still work</h2>
     </header>
 
-    <table class="habits habits--tight habits--split habits--snug">
+    <table class="habits habits--tight habits--snug" style="font-size: 27px">
       <tbody>
         <tr class="fragment dim-past" data-fragment-index="0"><td>Tracebacks, <code>print()</code></td><td>Stdout is serial via USB cable: keep a terminal open</td></tr>
         <tr class="fragment dim-past" data-fragment-index="1"><td><code>logging</code></td><td>With filesystem access you can log into a file </td></tr>
@@ -319,7 +319,7 @@ print(time.ticks_diff(time.ticks_us(), t0))
 
     <svg class="diagram" viewBox="0 -28 920 136" width="920" height="136" role="img">
       <title>Logic analyser, drawn: the debug pin pulses once per interrupt; one pulse runs long, then the pulses stop while the interrupts keep coming</title>
-<text class="lane-label lane-label--data" x="0" y="23">DEBUG PIN</text>
+<text class="lane-label fill-gold" x="0" y="23">DEBUG PIN</text>
 <text class="lane-label" x="0" y="87">INTERRUPT</text>
 <path class="lane lane--data" d="M0 34 H138 V0 H162 V34 H233 V0 H257 V34 H328 V0 H392 V34 H423 V0 H447 V34 H518 V0 H542 V34 H900"/>
 <rect class="lane-mask" x="320" y="-6" width="80" height="46"/><path class="lane lane--data lane--alert" d="M320 34 H328 V0 H392 V34 H400"/><text class="lane-note" x="360" y="-14">ran long: slow or blocking code</text>
@@ -346,9 +346,9 @@ print(time.ticks_diff(time.ticks_us(), t0))
     <p class="lede">GHI Electronics has recently released a MicroPython Debugger.</p>
 
     <div class="cols">
-      <div class="breakpoints__cards">
+      <div class="breakpoints__cards" style="--panel-pad: 22px 26px 14px">
         <div class="panel" data-label="What you get">
-          <p>Breakpoints, stepping, variables and watch in the Python code.</p>
+          <p class="measure">Breakpoints, stepping, variables and watch in the Python code.</p>
           <p>Via USB cable, no debug probe needed.</p>
           <p>Runs as a VS Code extension.</p>
         </div>
@@ -358,9 +358,9 @@ print(time.ticks_diff(time.ticks_us(), t0))
           <p>Multiple <a href="https://github.com/ghi-electronics/micropython-vsc-extension#known-limits" target="_blank" rel="noopener">limitations listed on their documentation</a>.</p>
         </div>
       </div>
-      <div class="breakpoints__shot">
+      <div>
         <img class="tool-screenshot" src="/images/tools/ghi-micropython-debugger.png" alt="VS Code paused on a breakpoint in main.py: the line highlighted, cnt = 4 under Locals, a watch on count, the call stack and the program's output" />
-        <p class="caption caption--left">
+        <p class="caption caption--left" style="margin-top: 8px">
           <a href="https://marketplace.visualstudio.com/items?itemName=ghielectronics.micropython-debugger" target="_blank" rel="noopener">MicroPython Debugger</a>
         </p>
       </div>
@@ -400,7 +400,7 @@ main()                   # Ctrl-C any time
 <span class="terminal__out">{'reading': 4095}</span></pre>
     </div>
 
-    <ul class="list--dense list--wide qr-clear">
+    <ul class="list--dense qr-clear">
       <li>An uncaught exception keeps them too: <code>main.py</code> and the REPL share their globals.</li>
       <li>You can look, and manually execute code, but not step through. </li>
       <li>Only for MicroPython, CircuitPython starts a fresh REPL each time.</li>

@@ -16,7 +16,7 @@
       <cite><a href="https://www.howtogeek.com/claude-forgets-that-my-esp32-isnt-a-full-computer-here-are-my-4-fixes/" target="_blank" rel="noopener">Nick Lewis, How-To Geek, September 2026</a></cite>
     </blockquote>
 
-    <ul class="list--wide">
+    <ul>
       <li class="fragment" data-fragment-index="0">But it is rapidly learning</li>
       <li class="fragment" data-fragment-index="1">It still reaches for CPython modules, and makes bad assumptions</li>
       <li class="fragment" data-fragment-index="2">But with enough guidance, it does significantly better</li>
@@ -24,7 +24,7 @@
 
     <figure class="agent-learning fragment current-visible" data-fragment-index="0">
       <img src="/images/other/openai-board-assembly-end.webp" data-animated-src="/images/other/openai-board-assembly.webp" width="850" height="856" alt="OpenAI's animation: a circuit board is put together, part by part, into a finished handheld device">
-      <figcaption class="caption"><a href="https://openai.com/index/accelerating-engineering-for-the-physical-world/" target="_blank" rel="noopener">Designed by OpenAI Astra</a></figcaption>
+      <figcaption class="caption" style="margin-top: 4px"><a href="https://openai.com/index/accelerating-engineering-for-the-physical-world/" target="_blank" rel="noopener">Designed by OpenAI Astra</a></figcaption>
     </figure>
 
     <aside class="notes">
@@ -38,13 +38,13 @@
 
     <p class="lede">EmbedBench: 126 small tasks on Arduino, ESP32 and a Pico running MicroPython. It tested 2025 models; around last December/January.</p>
 
-    <dl class="specs">
+    <dl class="specs" style="margin-bottom: 12px">
       <div><div class="spec__value">55.6%</div><div class="spec__label">Best model, first try, circuit given</div></div>
       <div><div class="spec__value">65.1%</div><div class="spec__label">Docs and compiler errors fed back</div></div>
       <div><div class="spec__value">73.8%</div><div class="spec__label">Porting Arduino code to MicroPython (ESP-IDF: 29.4%)</div></div>
     </dl>
 
-    <ul class="list--wide qr-clear">
+    <ul class="qr-clear">
       <li>Typical misses: voltage logic, debouncing and wrong APIs.</li>
       <li>Second benchmark, PCEval, adds breadboard layout and pins.</li>
     </ul>
@@ -76,7 +76,7 @@
       <h2>Help your agent</h2>
     </header>
 
-    <div class="cols cols--fit">
+    <div class="cols cols--fit" style="grid-template-columns: minmax(0, 1fr) 520px; gap: 40px">
       <!-- fade-past: the third bullet stays bright for both of its clicks -->
       <ul class="fade-past">
         <li class="fragment" data-fragment-index="0">A good <code>AGENTS.md</code> contains info about the hardware and reference code/projects.</li>
@@ -99,7 +99,7 @@
             <p><code>hw-tests-runner</code>: tests on the board</p>
             <p class="skill-by">by Adafruit</p>
           </div>
-          <p class="caption">more skills below ↓</p>
+          <p class="caption caption--left" style="margin-top: -6px">more skills below ↓</p>
         </div>
         <div class="fragment current-visible" data-fragment-index="2">
           <p class="kicker">My badge's AGENTS.md, abridged</p>
@@ -114,9 +114,9 @@
   until a reset: leave the unit reset.
           </code></pre>
         </div>
-        <figure class="agent-eyes fragment current-visible" data-fragment-index="3">
+        <figure class="agent-eyes fragment current-visible" data-fragment-index="3" style="width: 470px; margin: 0">
           <img src="/images/other/hw-webcam.webp" width="940" height="752" alt="A webcam on an arm points down at the e-paper badge on a desk beside a laptop, with a USB-C power meter in the badge's cable">
-          <figcaption class="caption">Give you agent eyes</figcaption>
+          <figcaption class="caption" style="text-align: left">Give you agent eyes</figcaption>
         </figure>
         <div class="fragment" data-fragment-index="4">
           <svg class="agent-loop build" viewBox="0 0 520 400" width="520" height="400" role="img" aria-label="A loop. You set the goal. The agent iterates on the code, runs it on the board, measures it, and compares with the goal: not yet, and it goes round again; met, and the agent is done and provides evidence.">
@@ -169,7 +169,7 @@
       <h2>Skills that count</h2>
     </header>
 
-    <p class="text--wide">A skill is a folder with a <a href="https://agentskills.io" target="_blank" rel="noopener"><code>SKILL.md</code></a> and scripts. Read them before installing them.</p>
+    <p>A skill is a folder with a <a href="https://agentskills.io" target="_blank" rel="noopener"><code>SKILL.md</code></a> and scripts. Read them before installing them.</p>
 
     <div class="skill-grid">
       <div class="panel" data-label="MicroPython · Andrew Leech">
@@ -186,7 +186,7 @@
       </div>
     </div>
 
-    <p class="caption skill-links qr-clear">
+    <p class="caption caption--left skill-links qr-clear" style="margin-top: 26px">
       <a href="https://notes.alelec.net/posts/micropython-agentic-embedded/" target="_blank" rel="noopener">Andrew Leech: why the REPL suits agents</a></p>
 
     <aside class="notes">

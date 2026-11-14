@@ -31,14 +31,6 @@
   stroke-width: 3.2;
 }
 
-.reveal svg .op-gold {
-  fill: var(--pcb-gold);
-}
-
-.reveal svg .op-hole {
-  fill: var(--pcb-board-deep);
-}
-
 .reveal svg .op-via {
   fill: var(--pcb-board-deep);
   stroke: color-mix(in srgb, var(--pcb-gold) 70%, var(--op-mask));
@@ -70,10 +62,6 @@
   fill: var(--pcb-board-deep);
   stroke: color-mix(in srgb, var(--pcb-silk-mute) 55%, transparent);
   stroke-width: 0.8;
-}
-
-.reveal svg .op-tin {
-  fill: var(--pcb-silk-dim);
 }
 
 .reveal svg .op-metal {
@@ -111,10 +99,6 @@
 
 .reveal svg .op-iris {
   fill: var(--pcb-yellow);
-}
-
-.reveal svg .op-shine {
-  fill: var(--pcb-silk);
 }
 
 .reveal svg .op-clear {

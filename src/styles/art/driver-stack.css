@@ -46,8 +46,8 @@
   stroke-width: 1;
 }
 
-/* Where the layers will go, before they arrive. */
-.reveal svg .ds-box {
+/* Where the layers will go, before they arrive, and the software/hardware divide. */
+.reveal svg :is(.ds-box, .ds-split) {
   fill: none;
   stroke: var(--pcb-silk-mute);
   stroke-width: 1.5;
@@ -73,14 +73,6 @@
   fill: var(--pcb-silk);
 }
 
-.reveal svg .ds-name--you {
-  fill: var(--pcb-gold);
-}
-
-.reveal svg .ds-side {
-  fill: var(--pcb-silk-mute);
-}
-
 .reveal svg :is(.ds-file, .ds-pin, .ds-part-name) {
   font-size: 18px;
 }
@@ -98,13 +90,6 @@
   font-family: var(--pcb-font-body);
   font-size: 19px;
   fill: var(--pcb-silk-dim);
-}
-
-.reveal svg .ds-split {
-  fill: none;
-  stroke: var(--pcb-silk-mute);
-  stroke-width: 1.5;
-  stroke-dasharray: 6 6;
 }
 
 .reveal svg .ds-chip {
@@ -125,10 +110,6 @@
   font-size: 20px;
   letter-spacing: -0.04em;
   fill: var(--pcb-silk);
-}
-
-.reveal svg .ds-pad {
-  fill: var(--pcb-gold);
 }
 
 .reveal svg .ds-trace {
@@ -158,10 +139,6 @@
 
 .reveal svg .ds-flow {
   stroke-width: 3;
-}
-
-.reveal svg .ds-flow-start {
-  fill: var(--pcb-gold);
 }
 
 .reveal svg .ds-hot {

@@ -14,22 +14,9 @@
   stroke-width: 2;
 }
 
-.reveal svg .ms-axis--ram,
-.reveal svg .ms-trace {
-  stroke: var(--pcb-gold);
-}
-
-.reveal svg .ms-axis--flash {
-  stroke: var(--pcb-blue);
-}
-
 .reveal svg .ms-trace {
   stroke-width: 2.6;
   stroke-linejoin: round;
-}
-
-.reveal svg .ms-tick {
-  stroke: var(--pcb-silk-mute);
 }
 
 /* Not a trace: it only says which flash belongs to which RAM, so it may cross another. */
@@ -44,33 +31,13 @@
   stroke-width: 2.6;
 }
 
-.reveal svg .ms-via--ram {
-  stroke: var(--pcb-gold);
-}
-
-.reveal svg .ms-via--flash {
-  stroke: var(--pcb-blue);
-}
-
 .reveal svg :is(.ms-name, .ms-cpu, .ms-tick-label) {
   font-size: 14px;
-}
-
-.reveal svg .ms-name {
-  fill: var(--pcb-silk-dim);
 }
 
 .reveal svg .ms-cpu {
   font-weight: 600;
   fill: var(--pcb-silk);
-}
-
-.reveal svg .ms-axis-label--ram {
-  fill: var(--pcb-gold);
-}
-
-.reveal svg .ms-axis-label--flash {
-  fill: var(--pcb-blue);
 }
 
 .reveal svg .ms-tick-label {

@@ -117,8 +117,12 @@
 
 /* ---------- Body copy ---------- */
 
+/* Text fills its column; a paragraph that would run too long in a wide space takes .measure. */
 .reveal p {
   margin: 0 0 0.75em;
+}
+
+.reveal .measure {
   max-width: 24em;
 }
 
@@ -153,7 +157,6 @@
   margin: 0 0 0.6em;
   padding: 0;
   list-style: none;
-  max-width: 26em;
 }
 
 .reveal ul li,
@@ -177,7 +180,6 @@
 
 .reveal ol {
   counter-reset: pcb-step;
-  max-width: 34em;
 }
 
 .reveal ol li {

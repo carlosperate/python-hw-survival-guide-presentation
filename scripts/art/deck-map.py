@@ -17,8 +17,8 @@ def n(v):
 
 
 def frame(x, y, detail):
-    cls = 'map-slide map-slide--detail' if detail else 'map-slide'
-    title = 'map-title map-title--detail' if detail else 'map-title'
+    cls = 'map-slide stroke-blue' if detail else 'map-slide'
+    title = 'map-title stroke-blue' if detail else 'map-title'
     return (f'<rect class="{cls}" x="{x}" y="{y}" width="{W}" height="{H}" rx="4"/>'
             f'<path class="{title}" d="M{x + 10} {y + 12} H{x + 46}"/>')
 
@@ -33,34 +33,34 @@ def content(kind, x, y):
     if kind == 'wave':
         clk = 'M{0} {1} h6 v-8 h6 v8 h6 v-8 h6 v8 h6 v-8 h6 v8 h6 v-8 h6 v8 h6'.format(x + 12, y + 32)
         sda = 'M{0} {1} h10 l3 -8 h18 l3 8 h12 l3 -8 h14 l3 8 h10'.format(x + 12, y + 46)
-        return f'<path class="map-wave map-wave--clk" d="{clk}"/><path class="map-wave" d="{sda}"/>'
+        return f'<path class="map-wave map-wave--clk" d="{clk}"/><path class="map-wave stroke-gold" d="{sda}"/>'
     if kind == 'code':
-        return (f'<rect class="map-well" x="{x + 10}" y="{y + 18}" width="{W - 20}" height="28" rx="2"/>'
-                f'<path class="map-code map-code--kw" d="M{x + 15} {y + 25} h12 M{x + 15} {y + 39} h8"/>'
-                f'<path class="map-code" d="M{x + 30} {y + 25} h30 M{x + 21} {y + 32} h40 M{x + 26} {y + 39} h22"/>'
+        return (f'<rect class="fill-board-deep" x="{x + 10}" y="{y + 18}" width="{W - 20}" height="28" rx="2"/>'
+                f'<path class="map-code stroke-blue" d="M{x + 15} {y + 25} h12 M{x + 15} {y + 39} h8"/>'
+                f'<path class="map-code stroke-silk-dim" d="M{x + 30} {y + 25} h30 M{x + 21} {y + 32} h40 M{x + 26} {y + 39} h22"/>'
                 f'<path class="map-code map-code--str" d="M{x + 64} {y + 32} h14"/>')
     if kind == 'heap':
         cells = []
         for r in range(4):
             for c in range(11):
                 k = (r * 11 + c) * 7 % 10
-                cls = 'map-cell--a' if k < 3 else 'map-cell--f' if k < 5 else 'map-cell--x' if k == 9 else 'map-cell'
+                cls = 'fill-gold' if k < 3 else 'fill-blue' if k < 5 else 'fill-silk-mute' if k == 9 else 'map-cell'
                 cells.append(f'<rect class="{cls}" x="{x + 10 + c * 7}" y="{y + 18 + r * 7}" width="5" height="5" rx="0.8"/>')
         return ''.join(cells)
     if kind == 'chart':
         bars = [14, 22, 18, 30, 26]
         return ('<path class="map-axis" d="M{0} {1} H{2}"/>'.format(x + 10, y + 46, x + 86) +
-                ''.join(f'<rect class="map-bar{" map-bar--hi" if i == 3 else ""}" x="{x + 14 + i * 14}" y="{y + 46 - b}" width="9" height="{b}"/>'
+                ''.join(f'<rect class="map-bar{" fill-gold" if i == 3 else ""}" x="{x + 14 + i * 14}" y="{y + 46 - b}" width="9" height="{b}"/>'
                         for i, b in enumerate(bars)))
     if kind == 'rule':
         return (f'<rect class="map-rule" x="{x + 10}" y="{y + 18}" width="{W - 20}" height="28" rx="3"/>'
                 f'<path class="map-rule-text" d="M{x + 16} {y + 27} h24 M{x + 16} {y + 35} h56 M{x + 16} {y + 41} h40"/>')
     if kind == 'links':
         return (lines(x, y, [52, 64]) +
-                f'<path class="map-link-text" d="M{x + 10} {y + 38} H{x + 60} M{x + 10} {y + 45} H{x + 50}"/>'
-                f'<path class="map-link-icon" d="M{x + 72} {y + 44} l8 -8 m-6 0 h6 v6"/>')
+                f'<path class="map-link-text stroke-blue" d="M{x + 10} {y + 38} H{x + 60} M{x + 10} {y + 45} H{x + 50}"/>'
+                f'<path class="map-link-icon stroke-blue" d="M{x + 72} {y + 44} l8 -8 m-6 0 h6 v6"/>')
     if kind == 'sources':
-        return ''.join(f'<circle class="map-dot" cx="{x + 12}" cy="{y + 22 + 7 * i}" r="1.6"/>' for i in range(4)) + \
+        return ''.join(f'<circle class="fill-blue" cx="{x + 12}" cy="{y + 22 + 7 * i}" r="1.6"/>' for i in range(4)) + \
             '<path class="map-text" d="' + ' '.join(f'M{x + 18} {y + 22 + 7 * i} H{x + 18 + w}' for i, w in enumerate([60, 48, 66, 38])) + '"/>'
     raise ValueError(kind)
 
@@ -88,11 +88,11 @@ def build():
             det.append(frame(XS[k], y, True) + content(kind, XS[k], y))
             links.append(f'M{n(cx)} {H + 9 if depth == 1 else (depth - 1) * ROW + H} V{y}')
     out.append('<g class="fragment" data-fragment-index="0">')
-    out.append(f'  <path class="map-link map-link--detail" d="{" ".join(links)}"/>')
+    out.append(f'  <path class="map-link stroke-blue" d="{" ".join(links)}"/>')
     out.append(f'  <path class="map-via" d="{" ".join(vias)}"/>')
     out += ['  ' + d for d in det]
     for i, word in enumerate(('Extra details ↓', 'resources&nbsp;&nbsp;', 'links&nbsp;&nbsp;')):
-        out.append(f'  <text class="map-label map-label--detail" x="{n(X0 - 20)}" y="{n(ROW + mid + LABEL_LINE * i)}" text-anchor="end">{word}</text>')
+        out.append(f'  <text class="map-label fill-blue" x="{n(X0 - 20)}" y="{n(ROW + mid + LABEL_LINE * i)}" text-anchor="end">{word}</text>')
     out.append('</g>')
     return out
 

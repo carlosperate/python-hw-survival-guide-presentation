@@ -18,18 +18,18 @@ def ring(x, y, r):
 
 
 def wire(d, colour, ends):
-    pins = ''.join(f'<circle class="bb-pin" cx="{x}" cy="{y}" r="2.2"/>' for x, y in ends)
+    pins = ''.join(f'<circle class="fill-silk-dim" cx="{x}" cy="{y}" r="2.2"/>' for x, y in ends)
     return (pins + f'<path class="bb-wire-edge" d="{d}"/>'
-            f'<path class="bb-wire bb-wire--{colour}" d="{d}"/>')
+            f'<path class="bb-wire stroke-{colour}" d="{d}"/>')
 
 
 def board():
     o = []
     o.append('<defs>'
              '<pattern id="bb-holes" width="10" height="10" x="-5" y="1" patternUnits="userSpaceOnUse">'
-             '<rect class="bb-hole" x="3.3" y="3.3" width="3.4" height="3.4" rx="0.6"/></pattern>'
+             '<rect class="fill-board-deep" x="3.3" y="3.3" width="3.4" height="3.4" rx="0.6"/></pattern>'
              '<pattern id="bb-rail-holes" width="60" height="10" x="35" y="1" patternUnits="userSpaceOnUse">'
-             + ''.join(f'<rect class="bb-hole" x="{3.3 + 10 * i}" y="3.3" width="3.4" height="3.4" rx="0.6"/>' for i in range(5)) +
+             + ''.join(f'<rect class="fill-board-deep" x="{3.3 + 10 * i}" y="3.3" width="3.4" height="3.4" rx="0.6"/>' for i in range(5)) +
              '</pattern>'
              '<radialGradient id="bb-glow"><stop offset="0" class="bb-glow-in"/><stop offset="1" class="bb-glow-out"/></radialGradient>'
              '<linearGradient id="bb-cable-fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="150">'
@@ -42,12 +42,12 @@ def board():
                      for c in (1, 5, 10, 15, 20, 25, 30, 35, 40))
     letters = ''.join(f'<text class="bb-label" x="25" y="{y + 1.8}" text-anchor="middle">{ch}</text>'
                       for ch, y in zip('abcdefghij', ROWS_TOP + ROWS_BOTTOM))
-    signs = ''.join(f'<text class="bb-sign bb-sign--{cls}" x="{x}" y="{y}" text-anchor="middle">{g}</text>'
-                    for x in (26, 454) for y, g, cls in ((83, '−', 'neg'), (105, '+', 'pos'), (233, '+', 'pos'), (255, '−', 'neg')))
+    signs = ''.join(f'<text class="bb-sign {cls}" x="{x}" y="{y}" text-anchor="middle">{g}</text>'
+                    for x in (26, 454) for y, g, cls in ((83, '−', 'fill-blue'), (105, '+', 'fill-gold'), (233, '+', 'fill-gold'), (255, '−', 'fill-blue')))
     o.append(group(
         '<rect class="bb" x="20" y="74" width="440" height="184" rx="5"/>'
         '<path class="bb-rail" d="M38 80 H442 M38 252 H442"/>'
-        '<path class="bb-rail bb-rail--pos" d="M38 102 H442 M38 230 H442"/>'
+        '<path class="bb-rail stroke-gold" d="M38 102 H442 M38 230 H442"/>'
         '<rect fill="url(#bb-rail-holes)" x="35" y="81" width="410" height="20"/>'
         '<rect fill="url(#bb-rail-holes)" x="35" y="231" width="410" height="20"/>'
         '<rect fill="url(#bb-holes)" x="25" y="111" width="430" height="50"/>'
@@ -69,20 +69,20 @@ def board():
         '<g class="op-green">'
         '<rect class="op-mask bb-pico" x="44.5" y="119.5" width="201" height="83" rx="2"/>'
         f'<path class="op-trace" d="{traces}"/>'
-        f'<path class="op-gold" d="{castles}"/>'
-        '<rect class="op-gold" x="47" y="123" width="6" height="6" rx="0.5"/>'
-        f'<path class="op-gold" d="{" ".join(ring(x, y, 3) for x, y in pins_top[1:] + pins_bottom)}"/>'
-        f'<path class="op-hole" d="{" ".join(ring(x, y, 1.4) for x, y in pins_top + pins_bottom)}"/>'
+        f'<path class="fill-gold" d="{castles}"/>'
+        '<rect class="fill-gold" x="47" y="123" width="6" height="6" rx="0.5"/>'
+        f'<path class="fill-gold" d="{" ".join(ring(x, y, 3) for x, y in pins_top[1:] + pins_bottom)}"/>'
+        f'<path class="fill-board-deep" d="{" ".join(ring(x, y, 1.4) for x, y in pins_top + pins_bottom)}"/>'
         '<rect class="op-ic" x="136" y="147" width="28" height="28" rx="1"/>'
-        f'<path class="op-tin" d="{qfn}"/>'
+        f'<path class="fill-silk-dim" d="{qfn}"/>'
         '<image href="/images/python-mark.svg" x="141.5" y="152.5" width="17" height="17"/>'
         '<rect class="op-ic" x="184" y="154" width="12" height="15" rx="1"/>'
-        '<path class="op-tin" d="M181 156h3v1.6h-3z M181 160h3v1.6h-3z M181 164h3v1.6h-3z M196 156h3v1.6h-3z M196 160h3v1.6h-3z M196 164h3v1.6h-3z"/>'
+        '<path class="fill-silk-dim" d="M181 156h3v1.6h-3z M181 160h3v1.6h-3z M181 164h3v1.6h-3z M196 156h3v1.6h-3z M196 160h3v1.6h-3z M196 164h3v1.6h-3z"/>'
         '<rect class="op-metal" x="113" y="178" width="11" height="8" rx="1.2"/>'
-        '<rect class="op-tin" x="82" y="140" width="12" height="12" rx="1"/><circle class="bb-key" cx="88" cy="146" r="3.6"/>'
+        '<rect class="fill-silk-dim" x="82" y="140" width="12" height="12" rx="1"/><circle class="fill-silk" cx="88" cy="146" r="3.6"/>'
         '<rect class="bb-onboard-led" x="64" y="138" width="4" height="2.4" rx="0.4"/>'
         '<rect class="op-ic" x="214" y="176" width="8" height="10" rx="0.8"/>'
-        '<path class="op-gold" d="' + ' '.join(ring(238, y, 2.2) for y in (150, 160, 170)) + '"/>'
+        '<path class="fill-gold" d="' + ' '.join(ring(238, y, 2.2) for y in (150, 160, 170)) + '"/>'
         '<rect class="op-metal" x="37" y="150" width="16" height="22" rx="1.5"/>'
         '<rect class="op-metal-top" x="39" y="152" width="12" height="18" rx="1"/>'
         '<rect class="op-usb-mouth" x="36.5" y="155" width="2.5" height="12" rx="1"/>'
@@ -104,7 +104,7 @@ def board():
                    '<rect class="bb-res" x="324.5" y="183" width="11" height="30" rx="4.5"/>'
                    '<path class="bb-band bb-band--red" d="M324.5 189 H335.5 M324.5 195 H335.5"/>'
                    '<path class="bb-band bb-band--brown" d="M324.5 201 H335.5"/>'
-                   '<path class="bb-band bb-band--gold" d="M324.5 208 H335.5"/>'))
+                   '<path class="bb-band stroke-gold" d="M324.5 208 H335.5"/>'))
 
     # The LED, standing on its legs in row c.
     o.append(group('<path class="bb-lead" d="M320 136 V127 M330 136 V127"/>'

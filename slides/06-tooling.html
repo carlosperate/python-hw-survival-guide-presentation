@@ -22,7 +22,7 @@
       <figure class="fragment grow-current" data-fragment-index="7"><img class="part-shot" src="/images/tools/soldering-iron.webp" alt="A soldering station with its iron in the stand" /><figcaption>Soldering iron</figcaption></figure>
     </div>
 
-    <p class="text--wide qr-clear fragment" data-fragment-index="8">Tools can be expensive, but we'll focus on good value options.</p>
+    <p class="qr-clear fragment" data-fragment-index="8">Tools can be expensive, but we'll focus on good value options.</p>
 
     <aside class="notes">
     </aside>
@@ -161,7 +161,7 @@
       <div class="panel chain__node" data-label="Board">Microcontroller</div>
     </div>
 
-    <ul class="list--wide">
+    <ul>
       <li><b>The probe only moves bits</b> between USB and the chip's debug port.</li>
       <li><b>The tool knows your chip:</b> its memory, its cores, and a small program it loads into RAM to write the flash.</li>
       <li><b>It serves GDB and VS Code:</b> breakpoints, single steps, registers.</li>
@@ -219,7 +219,7 @@
         <div class="panel" data-label="About €35">
           <p><b>Aneng AN8008</b> or similar: auto-ranging, with a continuity beep. For low-voltage electronics, not mains.</p>
         </div>
-        <p class="caption"><a href="https://www.markhennessy.co.uk/budget_multimeters/" target="_blank" rel="noopener">Mark Hennessy: budget multimeters, reviewed</a></p>
+        <p class="caption" style="text-align: left"><a href="https://www.markhennessy.co.uk/budget_multimeters/" target="_blank" rel="noopener">Mark Hennessy: budget multimeters, reviewed</a></p>
       </div>
     </div>
 
@@ -233,14 +233,14 @@
     </header>
 
     <div class="cols cols--wide-left">
-      <div class="meter-checks">
-        <ol class="list--dense">
+      <div>
+        <ol class="list--dense" style="font-size: 24px">
           <li><b>Voltage,</b> power on: black on GND, red on 3V3. Expect 3.3 V.</li>
           <li><b>Continuity,</b> power off: a beep means connected. 3V3 to GND must not beep.</li>
           <li><b>Current:</b> the meter goes in the circuit, red lead in the mA jack.</li>
         </ol>
-        <aside class="callout callout--warn" data-label="Careful!">
-          <p>Measure a voltage with the red lead still in the mA jack, and the meter shorts the supply and blows its internal fuse. Current reads 0.00 from then on.<br /><b>Move it back to V.</b></p>
+        <aside class="callout callout--warn" data-label="Careful!" style="font-size: var(--pcb-text-dense)">
+          <p class="measure">Measure a voltage with the red lead still in the mA jack, and the meter shorts the supply and blows its internal fuse. Current reads 0.00 from then on.<br /><b>Move it back to V.</b></p>
         </aside>
       </div>
       <div class="panel learn" data-label="Learn more">
@@ -343,7 +343,7 @@
       <h2>Logic analyser: a real view into the signals</h2>
     </header>
 
-    <div class="tool tool--screenshot">
+    <div class="tool tool--screenshot" style="--panel-pad: 22px 32px">
       <div class="tool-shots">
         <img class="part-shot" src="/images/tools/logic-analyser.webp" style="--h: 88px" alt="A small USB logic analyser with its wires" />
         <img class="tool-screenshot" src="/images/tools/pulseview-i2c.png" alt="PulseView decoding an I2C capture: SCL and SDA lanes, then the bits, an address write to 0x68 and a data write of 00" />
@@ -372,7 +372,7 @@
       <svg class="diagram" viewBox="0 0 1050 130" width="1050" height="130" role="img">
         <title>Decoded capture: start, address write 76, ACK, data write D0, ACK, start repeat, address read 76, ACK, data read 60, NACK, stop</title>
 <text class="lane-label" x="0" y="23">D1 SCL</text>
-<text class="lane-label lane-label--data" x="0" y="73">D0 SDA</text>
+<text class="lane-label fill-gold" x="0" y="73">D0 SDA</text>
 <path class="lane lane--clk" d="M0 0 H112 V30 H124 V0 H136 V30 H148 V0 H160 V30 H172 V0 H184 V30 H196 V0 H208 V30 H220 V0 H232 V30 H244 V0 H256 V30 H268 V0 H280 V30 H292 V0 H304 V30 H316 V0 H328 V30 H340 V0 H352 V30 H364 V0 H376 V30 H388 V0 H400 V30 H412 V0 H424 V30 H436 V0 H448 V30 H460 V0 H472 V30 H484 V0 H496 V30 H508 V0 H520 V30 H532 V0 H544 V30 H550 V0 H568 V30 H580 V0 H592 V30 H604 V0 H616 V30 H628 V0 H640 V30 H652 V0 H664 V30 H676 V0 H688 V30 H700 V0 H712 V30 H724 V0 H736 V30 H748 V0 H760 V30 H772 V0 H784 V30 H796 V0 H808 V30 H820 V0 H832 V30 H844 V0 H856 V30 H868 V0 H880 V30 H892 V0 H904 V30 H916 V0 H928 V30 H940 V0 H952 V30 H964 V0 H976 V30 H988 V0 H1000 V30 H1006 V0 H1048"/>
 <path class="lane lane--data" d="M0 50 H100 V80 H115 V50 H187 V80 H211 V50 H259 V80 H331 V50 H379 V80 H403 V50 H427 V80 H547 V50 H559 V80 H571 V50 H643 V80 H667 V50 H715 V80 H739 V50 H763 V80 H811 V50 H859 V80 H979 V50 H1003 V80 H1015 V50 H1048"/>
 <g class="ann ann--ctl"><rect x="89" y="96" width="22" height="26" rx="3"/><text x="100" y="114">S</text></g>
@@ -392,7 +392,7 @@
       <svg class="diagram" viewBox="0 0 600 130" width="600" height="130" role="img">
         <title>Decoded capture: start, address write 77, NACK, stop</title>
 <text class="lane-label" x="0" y="23">D1 SCL</text>
-<text class="lane-label lane-label--data" x="0" y="73">D0 SDA</text>
+<text class="lane-label fill-gold" x="0" y="73">D0 SDA</text>
 <path class="lane lane--clk" d="M0 0 H144 V30 H164 V0 H184 V30 H204 V0 H224 V30 H244 V0 H264 V30 H284 V0 H304 V30 H324 V0 H344 V30 H364 V0 H384 V30 H404 V0 H424 V30 H444 V0 H464 V30 H484 V0 H504 V30 H514 V0 H584"/>
 <path class="lane lane--data" d="M0 50 H124 V80 H149 V50 H269 V80 H309 V50 H429 V80 H469 V50 H509 V80 H529 V50 H584"/>
 <g class="ann ann--ctl"><rect x="105" y="96" width="38" height="26" rx="3"/><text x="124" y="114">S</text></g>
@@ -412,7 +412,7 @@
       <h2>Logic analyser: getting started</h2>
     </header>
 
-    <div class="cols learn-wide">
+    <div class="cols">
       <ul>
         <li><b>GND first,</b> then a channel per signal: SDA, SCL.</li>
         <li><b>Sample at least 4× faster</b> than the signal: 24 MHz is plenty for I²C and UART.</li>
