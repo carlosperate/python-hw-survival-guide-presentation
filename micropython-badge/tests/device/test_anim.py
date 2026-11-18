@@ -71,7 +71,7 @@ class TestPlayer(unittest.TestCase):
                 pass
             # A still picture lets the idle power-off turn the high voltage off.
             self.assertFalse(panel._powered)
-            await display.sleep()
+            await display.sleep_async()
 
         asyncio.run(main())
         # Full for a new scene (0 partials since), partial for a new step.

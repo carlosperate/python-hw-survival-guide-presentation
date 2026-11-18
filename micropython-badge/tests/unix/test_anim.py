@@ -424,11 +424,11 @@ class TestGrey(PlayerCase):
         calls = []
 
         class Recording(Display):
-            async def show(self, full=False):
+            async def show_async(self, full=False):
                 calls.append(("show", full))
                 await asyncio.sleep_ms(0)
 
-            async def show_grey(self, frame, clean=False):
+            async def show_grey_async(self, frame, clean=False):
                 calls.append(("grey", clean))
                 await asyncio.sleep_ms(0)
 
@@ -439,14 +439,14 @@ class TestGrey(PlayerCase):
         self.assertEqual(after[0], ("show", True))
         self.assertEqual(after[1], ("show", False))
 
-    # Firmware before show_grey(): Up shows nothing, and the character carries on.
+    # Firmware without grey refreshes: Up shows nothing, and the character carries on.
     def test_a_display_without_grey(self):
         class NoGrey:
             def __init__(self, display):
                 self.inner = display
 
             def __getattr__(self, name):
-                if name == "show_grey":
+                if name == "show_grey_async":
                     raise AttributeError(name)
                 return getattr(self.inner, name)
 

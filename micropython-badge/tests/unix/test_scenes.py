@@ -94,6 +94,12 @@ class TestSkipped(unittest.TestCase):
         self.assertEqual(panel.glass, blank)
         self.assertTrue(panel.powered_off)
 
+    # A refresh that times out still leaves the high voltage off.
+    def test_timeout_turns_the_supply_off(self):
+        panel = SimPanel(refresh_ms=1000, timeout_ms=10)
+        skipped(Display(panel))
+        self.assertFalse(panel.powered)
+
     # The REPL must stay free whatever happens: the unix port has no panel to make.
     def test_fails_quietly(self):
         skipped()

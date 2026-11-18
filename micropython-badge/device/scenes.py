@@ -2,7 +2,7 @@
 # from the deck (triggers.json) into a scene and its step. The scenes are placeholders for now,
 # rough on purpose: numbered cards, eyes, an LED, a heap strip and title cards. Sizes follow the
 # research's e-paper guidance: shapes at least 30 px, flat black on white.
-import asyncio
+import time
 
 import framebuf
 from deck.anim import Keyframes, Scene
@@ -170,20 +170,19 @@ def skipped(display=None):
             from sticky.display import Display
 
             display = Display(reterminal_sticky.panel())
-        asyncio.run(_skipped(display))
+        _skipped(display)
     except Exception as e:
         print("main: couldn't clear the glass", repr(e))
 
 
-async def _skipped(display):
+# Plain calls: each leaves the high voltage off however it ends, with no event loop to rely on.
+def _skipped(display):
     display.fill(1)
     big_text(display, "Up held at start: programme skipped", 24, H - 48, 2)
-    await display.show(True)
-    await display.wait()
-    await asyncio.sleep_ms(SKIPPED_MS)
+    display.show(True)
+    time.sleep_ms(SKIPPED_MS)
     display.fill(1)
-    await display.show(True)
-    await display.power_off()
+    display.show(True)
 
 
 SCENES = [Eyes(), Led(), Heap(), Title(), Trigger()]

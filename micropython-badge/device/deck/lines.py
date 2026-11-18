@@ -34,7 +34,7 @@ class Lines:
 
     @property
     def connected(self):
-        return self.uart.connected
+        return self.uart.is_connected()
 
     async def changed(self):
         await self._new.wait()

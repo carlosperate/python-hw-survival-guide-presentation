@@ -1,5 +1,6 @@
-# micropython-badge: the port checkout its tests run against (STICKY by default), previews and
-# test copies (build/), Python caches and the BLE bonds aioble writes under mpremote mount
-micropython-reterminal-sticky
 build/
+uv.lock
+# The MicroPython port is checked out its tests run against the board and code.
+micropython-reterminal-sticky
+# BLE bonds aioble writes under mpremote mount
 ble_secrets.json

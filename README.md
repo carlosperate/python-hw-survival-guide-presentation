@@ -2,6 +2,8 @@
 
 Presentation for the PyCon ES 2026 talk.
 
+![Screenshot of first slide](public/images/social-card.jpg)
+
 ## Launch the slides
 
 ```sh

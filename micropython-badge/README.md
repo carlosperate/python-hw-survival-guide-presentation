@@ -77,7 +77,7 @@ uv run python character/badge.py    # the badge, in build/previews/
 
 The badge uses `character/images/profile-background-halfway.png`, halfway between the original
 photo and 37.1's lighter background. The presentation keeps its original photo. The QR code and
-fonts come from the deck: run `npm ci` there first. Four greys need the port's `Display.show_grey()`.
+fonts come from the deck: run `npm ci` there first. Four greys need the port's `Display.show_grey_async()`.
 
 Then load `device/` again.
 
@@ -85,7 +85,7 @@ Then load `device/` again.
 
 They need a checkout of
 [micropython-reterminal-sticky](https://github.com/carlosperate/micropython-reterminal-sticky),
-built there with `make submodules unix`.
+built there with `python make.py submodules`, then `python make.py unix`.
 
 - `STICKY` points at it. By default it's `micropython-reterminal-sticky/` in this folder.
 - Unix tests run in Docker.

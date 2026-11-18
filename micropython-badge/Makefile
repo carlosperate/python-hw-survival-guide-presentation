@@ -1,6 +1,6 @@
 # Loads the programme and runs its tests. Tests run against a checkout of
 # micropython-reterminal-sticky: its test runner, fakes and simulator, and its unix port (built
-# there with `make submodules unix`).
+# there with `python make.py submodules`, then `python make.py unix`).
 STICKY ?= micropython-reterminal-sticky
 IMAGE ?= espressif/idf:v5.5.2
 MPREMOTE ?= uv run mpremote

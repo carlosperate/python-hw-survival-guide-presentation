@@ -56,7 +56,7 @@ class Player:
         self.display = display
         self.scenes = {scene.name: scene for scene in scenes}
         # Told before anything plays, so a scene never asks for what this display can't show.
-        greys = hasattr(display, "show_grey")
+        greys = hasattr(display, "show_grey_async")
         for scene in list(self.scenes.values()) + [background]:
             if scene is not None:
                 scene.greys = greys
@@ -132,7 +132,7 @@ class Player:
         return False
 
     async def _frame(self, scene, step, pose):
-        # A grey frame is held: no overlay or show(), which would bring black and white back.
+        # A grey frame is held: no overlay or show_async(), which would bring black and white back.
         # None marks it, where a drawn frame has link.connected.
         grey_shown = (scene.name, step, pose, None)
         if self._shown == grey_shown:
@@ -140,7 +140,7 @@ class Player:
         try:
             grey = scene.grey(step, pose)
             if grey is not None:
-                show_grey = self.display.show_grey  # before anything changes, if it can't
+                show_grey = self.display.show_grey_async  # before anything changes, if it can't
                 self._shown = None
                 # Cleaned first: a picture held for long (the character's eyes) shows through less.
                 await show_grey(grey, clean=True)
@@ -155,12 +155,12 @@ class Player:
         # So does a frame after greys: only a full refresh clears them.
         full = not self._shown or self._shown[0] != scene.name or self._shown[3] is None
         # A pose repeated to watch the buttons is in the buffer already, unless the icon changed.
-        # show() still runs: only the display knows what the glass holds.
+        # show_async() still runs: only the display knows what the glass holds.
         if shown != self._shown:
             self._shown = None  # a draw that fails or is cancelled leaves the buffer unknown
             scene.draw(self.display, step, pose)
             if self.overlay:
                 self.overlay(self.display, self.link)
-        await self.display.show(full)
+        await self.display.show_async(full)
         # Only once shown: a scene change cancelled before this still gets its full refresh.
         self._shown = shown
