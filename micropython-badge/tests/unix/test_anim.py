@@ -188,13 +188,19 @@ class TestPlayer(PlayerCase):
     def test_still_scene_then_step(self):
         self.session((b"still 1", 60), (b"still 2", 60))
         self.assertEqual(self.still.drawn, [(1, None), (2, None)])
-        # The first scene is a full refresh; a new step in it is a partial.
+        # The first frame is full, on a glass the display doesn't know; a new step is a partial.
         self.assertEqual(self.counts(), (1, 1))
         self.assertEqual(self.panel.glass, self.display.buffer)
 
-    def test_scene_change_is_full(self):
-        self.session((b"still 1", 60), (b"blink 0", 50), (b"still 1", 60))
-        self.assertEqual(self.panel.full, 3)
+    # A full refresh at each scene change would push unchanged pixels the same way each time.
+    def test_scene_changes_are_partials_and_balanced(self):
+        self.panel = SimPanel(count_drive=True)
+        self.display = Display(self.panel, idle_ms=50)
+        self.player = self.make()
+        self.session(*[(s, 60) for s in (b"still 1", b"blink 0", b"still 1", b"blink 0")])
+        self.assertEqual(self.panel.full, 1)
+        drive = self.panel.drive
+        self.assertTrue(-1 <= min(drive) and max(drive) <= 1, (min(drive), max(drive)))
 
     def test_a_trigger_plays_at_once(self):
         self.session((b"still 1", 5))
@@ -260,10 +266,10 @@ class TestPlayer(PlayerCase):
         # The background never cuts in while the trigger plays.
         self.assertEqual(self.names(), ["background", "blink", "background"])
         self.assertEqual(self.blink.drawn, ["open", "shut"])
-        # It starts again from its first pose, after a full refresh: a new scene each time.
+        # It starts again from its first pose: a new scene each time.
         last = max(i for i, (name, _, _) in enumerate(self.log) if name == "blink")
         self.assertEqual(self.log[last + 1][:2], ("background", 0))
-        self.assertEqual(self.panel.full, 3)
+        self.assertEqual(self.panel.full, 1)
 
     def test_still_trigger_holds_then_the_background(self):
         self.player = self.make(background=self.background)
@@ -419,8 +425,8 @@ class TestGrey(PlayerCase):
         self.assertEqual(self.panel.grey, 1)
         self.assertIsNone(self.panel.greys)
 
-    # The player's own rule, whatever the display does: leaving grey is a full refresh.
-    def test_leaving_is_full_on_any_display(self):
+    # The display knows its glass is unknown after greys, and picks the refresh itself.
+    def test_leaving_grey_asks_for_no_full_refresh(self):
         calls = []
 
         class Recording(Display):
@@ -434,10 +440,9 @@ class TestGrey(PlayerCase):
 
         self.player.display = Recording(SimPanel())
         self.session((None, 60), (self.on, 60), (self.off, 60))
-        # Cleaned first, then black and white again in full.
         after = calls[calls.index(("grey", True)) + 1 :]
-        self.assertEqual(after[0], ("show", True))
-        self.assertEqual(after[1], ("show", False))
+        self.assertEqual(after[:2], [("show", False)] * 2)
+        self.assertFalse(("show", True) in calls, calls)
 
     # Firmware without grey refreshes: Up shows nothing, and the character carries on.
     def test_a_display_without_grey(self):

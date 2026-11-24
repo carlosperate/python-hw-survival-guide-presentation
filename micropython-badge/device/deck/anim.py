@@ -151,9 +151,8 @@ class Player:
             scene.grey_failed(e)
             return
         shown = (scene.name, step, pose, self.link.connected)
-        # A new scene gets a full refresh: it clears ghosting where the picture changes anyway.
-        # So does a frame after greys: only a full refresh clears them.
-        full = not self._shown or self._shown[0] != scene.name or self._shown[3] is None
+        # Partials only, even at a new scene: repeated full refreshes charge the glass. After
+        # greys the display no longer knows the glass, and drives every pixel itself.
         # A pose repeated to watch the buttons is in the buffer already, unless the icon changed.
         # show_async() still runs: only the display knows what the glass holds.
         if shown != self._shown:
@@ -161,6 +160,5 @@ class Player:
             scene.draw(self.display, step, pose)
             if self.overlay:
                 self.overlay(self.display, self.link)
-        await self.display.show_async(full)
-        # Only once shown: a scene change cancelled before this still gets its full refresh.
+        await self.display.show_async()
         self._shown = shown

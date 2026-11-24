@@ -1,7 +1,7 @@
 # The character between the deck's triggers, as the player's background: rests, random blinks
 # and behaviours, or the badge in four greys. A frame has the same number in every style, so a
-# style switch keeps the place. As a scene too, it plays a named animation for a trigger: the same
-# scene, so with no full refresh. The slides' animations play only so, never in the rotation.
+# style switch keeps the place. As a scene too, it plays a named animation for a trigger. The
+# slides' animations play only so, never in the rotation.
 import json
 import random
 import time

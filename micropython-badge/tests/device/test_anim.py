@@ -74,8 +74,9 @@ class TestPlayer(unittest.TestCase):
             await display.sleep_async()
 
         asyncio.run(main())
-        # Full for a new scene (0 partials since), partial for a new step.
-        self.assertEqual((seen[0], seen[1], seen[3]), (0, 1, 0))
+        # Full only first, while the glass is unknown; then partials, a new scene too.
+        self.assertEqual((seen[0], seen[1]), (0, 1))
+        self.assertTrue(seen[3] > seen[2], seen)
 
     # Standing in for a Ctrl-C: run() must leave the high voltage off and the link closed.
     def test_run_interrupted(self):
