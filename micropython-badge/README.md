@@ -64,7 +64,6 @@ group. Web Bluetooth needs Chrome.
 - `web/`: `link.js`, the slides' side of the link, and the test page.
 - `tests/`: unix and device tests.
 - `docs/`: [animation.md](docs/animation.md) and [character.md](docs/character.md).
-- `prototypes/`: how the character was chosen.
 
 ## Change the art
 
@@ -76,8 +75,7 @@ uv run python character/badge.py    # the badge, in build/previews/
 ```
 
 The badge uses `character/images/profile-background-halfway.png`, halfway between the original
-photo and 37.1's lighter background. The presentation keeps its original photo. The QR code and
-fonts come from the deck: run `npm ci` there first. Four greys need the port's `Display.show_grey_async()`.
+photo and `profile-light-background.png`. The presentation keeps its original photo.
 
 Then load `device/` again.
 

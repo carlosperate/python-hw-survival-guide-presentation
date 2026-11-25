@@ -13,7 +13,7 @@ dev = [
   "ruff==0.11.6",
 ]
 
-# prototypes/ is a record of the design rounds, left as it was written.
+# prototypes/ is scratch for design options, ignored by git.
 [tool.ruff]
 extend-exclude = ["micropython-reterminal-sticky", "prototypes"]
 line-length = 99

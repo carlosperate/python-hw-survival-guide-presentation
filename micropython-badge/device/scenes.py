@@ -4,26 +4,15 @@
 # research's e-paper guidance: shapes at least 30 px, flat black on white.
 import time
 
-import framebuf
 from deck.anim import Keyframes, Scene
 from deck.idle import TRIGGERS
 from sticky.display import HEIGHT as H
 from sticky.display import WIDTH as W
 
 
-def big_text(display, text, x, y, scale, c=0):
-    """The built-in 8 px font, scaled up."""
-    small = framebuf.FrameBuffer(bytearray(len(text) * 8), len(text) * 8, 8, framebuf.MONO_HLSB)
-    small.fill(1)
-    small.text(text, 0, 0, 0)
-    for gy in range(8):
-        for gx in range(len(text) * 8):
-            if not small.pixel(gx, gy):
-                display.fill_rect(x + gx * scale, y + gy * scale, scale, scale, c)
-
-
 def centred_text(display, text, y, scale, c=0):
-    big_text(display, text, (W - len(text) * 8 * scale) // 2, y, scale, c)
+    x = (W - display.text_width(text, scale=scale)) // 2
+    display.text(text, x, y, c, scale=scale)
 
 
 def ring(display, x, y, rx, ry, width):
@@ -70,8 +59,8 @@ class Led(Scene):
     def draw(self, display, step, pose):
         on = pose if step == 2 else step == 1
         display.fill(1)
-        big_text(display, "Pin(25)", 40, 40, 5)
-        big_text(display, "ON" if on else "OFF", 40, 380, 6)
+        display.text("Pin(25)", 40, 40, scale=5)
+        display.text("ON" if on else "OFF", 40, 380, scale=6)
         x, y, r = 580, 260, 130
         if on:
             display.ellipse(x, y, r, r, 0, True)
@@ -100,7 +89,7 @@ class Heap(Scene):
             else:
                 display.rect(x, y0, size, 120, 0)
                 display.rect(x + 1, y0 + 1, size - 2, 118, 0)
-        big_text(display, "%d/%d" % (min(step, self.BLOCKS), self.BLOCKS), 40, 410, 4)
+        display.text("%d/%d" % (min(step, self.BLOCKS), self.BLOCKS), 40, 410, scale=4)
 
 
 class Title(Scene):
@@ -178,7 +167,7 @@ def skipped(display=None):
 # Plain calls: each leaves the high voltage off however it ends, with no event loop to rely on.
 def _skipped(display):
     display.fill(1)
-    big_text(display, "Up held at start: programme skipped", 24, H - 48, 2)
+    display.text("Up held at start: programme skipped", 24, H - 48, scale=2)
     display.show(True)
     time.sleep_ms(SKIPPED_MS)
     display.fill(1)

@@ -1,6 +1,6 @@
 # The slides' animations: each plays once when its slide sends "slide <name>", never in the idle
-# rotation. A step is (pose, ms), or (card, ms) for a picture in no style (cards.py). Designed in
-# ../prototypes/ (rounds 30 to 34). Run it to preview them as GIFs.
+# rotation. A step is (pose, ms), or (card, ms) for a picture in no style (cards.py). Run it to
+# preview them as GIFs.
 import sys
 
 import idle

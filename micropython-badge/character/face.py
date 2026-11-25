@@ -8,7 +8,7 @@ W, H = 800, 480
 FX, FY = 400, 232  # the face's centre at rest
 
 STYLES = {
-    # Outlined eyes with big pupils (B1 in ../prototypes/).
+    # Outlined eyes with big pupils.
     "outlined": dict(
         kind="outlined",
         sep=145,
